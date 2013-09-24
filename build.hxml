@@ -1,0 +1,10 @@
+-cp hx2dart
+-cp hx2dart/dart/_std
+-cp src
+-main Main
+-js bin/hxdart.dart
+--macro haxe.macro.DartGenerator.use()
+-dce full
+
+--next
+-cmd PARTH_TO_DART/dart-sdk/bin/dart -c bin/hxdart.dart
