@@ -82,34 +82,8 @@ class DartGenerator
 //        return api.isKeyword(p) ? '$' + p : "" + p;
     }
 
-//    function genPackage( p : Array<String> ) {
-//        var full = null;
-//        for( x in p ) {
-//            var prev = full;
-//            if( full == null ) full = x else full += "." + x;
-//            if( packages.exists(full) )
-//                continue;
-//            packages.set(full, true);
-//            if( prev == null )
-//                print('if(typeof $x==\'undefined\') $x = {}');
-//            else {
-//                var p = prev + field(x);
-//                print('if(!$p) $p = {}');
-//            }
-//            newline();
-//        }
-//    }
-
-    function classNameHack(name)
-    {
-        if(Lambda.indexOf(DartPrinter.ClassNames, name) == -1)
-            DartPrinter.ClassNames.push(name);
-    }
-
     function getPath(t : BaseType)
     {
-        classNameHack(t.name);
-
         return (t.pack.length == 0) ? t.name : t.pack.join("_") + "_" + t.name;
     }
 
@@ -192,7 +166,6 @@ class DartGenerator
             }
         }
 
-//        genPackage(c.pack);
         api.setCurrentClass(c);
         var p = getPath(c);
 
@@ -223,9 +196,7 @@ class DartGenerator
         {
             newline();
             print('$p');
-//            openBlock();
             genExpr(c.constructor.get().expr());
-//            closeBlock();
             newline();
         }
 
@@ -256,7 +227,6 @@ class DartGenerator
             firstEnum = false;
         }
 
-//        genPackage(e.pack);
         var p = getPath(e);
         print('class $p extends Enum {');
         newline();
@@ -336,7 +306,7 @@ class DartGenerator
         for(t in api.types)
             genType(t);
 
-        var importsBuf = new StringBuf();
+        var importsBuf = new StringBuf();    //currently only works within a single output file. Needs to be handled module by module
 
         for(mpt in imports)
             importsBuf.add("import '" + mpt + "';\n");

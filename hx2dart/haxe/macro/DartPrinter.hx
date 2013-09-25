@@ -58,9 +58,6 @@ class DartPrinter {
         return name;
     }
 
-    public static var ClassNames = [];  //HACK
-
-
 	public function new(?tabString = "\t") {
 		tabs = "\t";
 		this.tabString = tabString;
@@ -269,17 +266,9 @@ class DartPrinter {
         {
             var parts = expr.split(".");
             expr = "";
-            var lastIndex = parts.length - 2;
             var lastPart = handleKeywords(parts.pop());
 
-            if(Lambda.indexOf(ClassNames, lastPart) == -1)
-            {
-                parts[lastIndex] += "." + lastPart;
-            }
-            else
-            {
-                parts[lastIndex] += "_" + lastPart;
-            }
+            parts[parts.length - 1] += "." + lastPart;
 
             for(i in 0 ... parts.length)
             {
