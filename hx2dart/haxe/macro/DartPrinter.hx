@@ -45,6 +45,8 @@ class DartPrinter {
         "Float" => "double"
     ];
 
+    public static var pathHack = new StringMap();
+
     public static function mapStandardTypes(typeName)
     {
         var mappedType = standardTypes.get(typeName);
@@ -114,11 +116,14 @@ class DartPrinter {
 		case TPExpr(e): printExpr(e);
 	}
 
-	public function printTypePath(tp:TypePath) return
-		(tp.pack.length > 0 ? tp.pack.join("_") + "_" : "")
-		+ tp.name
+	public function printTypePath(tp:TypePath){
+        if(tp.sub != null) return tp.sub ;
+        return
+        (tp.pack.length > 0 ? tp.pack.join("_") + "_" : "")
+        + tp.name
 		+ (tp.sub != null ? '.${tp.sub}' : "")
 		+ (tp.params.length > 0 ? "<" + tp.params.map(printTypeParam).join(", ") + ">" : "");
+    }
 
 	// TODO: check if this can cause loops
 	public function printComplexType(ct:ComplexType) return switch(ct) {
@@ -179,16 +184,16 @@ class DartPrinter {
         + opt(v.expr, printExpr, " = ");
     }
 
-    function justPath(expr)
-    {
-        return switch(expr.expr)
-        {
-            case EConst(CIdent(s)):s;
-            case EField(e, field): justPath(e) + "_" + field;
-            default:"";
-        }
-       // return printExpr(expr);
-    }
+//    function justPath(expr)
+//    {
+//        return switch(expr.expr)
+//        {
+//            case EConst(CIdent(s)):s;
+//            case EField(e, field): justPath(e) + "_" + field;
+//            default:"";
+//        }
+//       // return printExpr(expr);
+//    }
 
     function printCall(e1, el)
     {
@@ -198,8 +203,12 @@ class DartPrinter {
         {
             case "trace" :
                 formatPrintCall(el);
-            case "__dart__":
-                'TODO print string';
+            case "__dart__":   switch(el[0].expr)
+            {
+                case EConst(CString(s)): s;
+                default:"";
+            };
+
             case "__call__":
                 '${printExpr(el.shift())}(${printExprs(el,", ")})';
             case "__assert__":
@@ -207,9 +216,9 @@ class DartPrinter {
             case "__new_named__":
                 'new ${printExpr(el.shift())}(${printExprs(el,", ")})';
             case "__is__":
-                '(${printExpr(el[0])} is ${justPath(el[1])})';
+                '(${printExpr(el[0])} is ${printExpr(el[1])})';
             case "__as__":
-                '(${printExpr(el[0])} as ${justPath(el[1])})';
+                '(${printExpr(el[0])} as ${printExpr(el[1])})';
             case "__int_parse__":
                 'int.parse(${printExpr(el[0])})';
             case "__double_parse__":
@@ -262,31 +271,8 @@ class DartPrinter {
     {
         var expr = '${printExpr(e1)}.$name';
 
-        if(expr.indexOf(".") != expr.lastIndexOf("."))
-        {
-            var parts = expr.split(".");
-            expr = "";
-            var lastPart = handleKeywords(parts.pop());
-
-            parts[parts.length - 1] += "." + lastPart;
-
-            for(i in 0 ... parts.length)
-            {
-                expr += parts[i];
-
-                if(i < parts.length - 1 )
-                {
-                    if(parts[i +1].indexOf("(") == -1)
-                    {
-                        expr += "_";
-                    }
-                    else
-                    {
-                        expr += ".";
-                    }
-                }
-            }
-        }
+        if(pathHack.exists(expr))
+            expr = pathHack.get(expr);
 
         return expr;
     }
@@ -302,11 +288,18 @@ class DartPrinter {
        return 'if(${printExpr(econd)}) $ifExpr  ${opt(eelse,printExpr,"else ")}';
     }
 
-	public function printExpr(e:Expr) return e == null ? "#NULL" : switch(e.expr) {
+//    public function enterExpr(e:Expr)
+//    {
+//
+//    }
+
+	public function printExpr(e:Expr){
+//        trace(e);
+        return e == null ? "#NULL" : switch(e.expr) {
 		case EConst(c): printConstant(c);
 		case EArray(e1, e2): '${printExpr(e1)}[${printExpr(e2)}]';
 		case EBinop(op, e1, e2): '${printExpr(e1)} ${printBinop(op)} ${printExpr(e2)}';
-		case EField(e1, n): print_field(e1, n);
+		case EField(e1, n):/* trace(e);*/ print_field(e1, n);
 		case EParenthesis(e1): '(${printExpr(e1)})';
 		case EObjectDecl(fl):
 			"{ " + fl.map(function(fld) return '${fld.field} : ${printExpr(fld.expr)} ').join(",") + "}";
@@ -330,19 +323,7 @@ class DartPrinter {
 		case EIf(econd, eif, eelse): printIfElse(econd, eif, eelse); // 'if(${printExpr(econd)}) ${printExpr(eif)}  ${opt(eelse,printExpr,"else ")}';
 		case EWhile(econd, e1, true): 'while(${printExpr(econd)}) ${printExpr(e1)}';
 		case EWhile(econd, e1, false): 'do ${printExpr(e1)} while(${printExpr(econd)})';
-		case ESwitch(e1, cl, edef):
-			var old = tabs;
-			tabs += tabString;
-			var s = 'switch ${printExpr(e1)} {\n$tabs' +
-				cl.map(function(c)
-					return 'case ${printExprs(c.values, ", ")}'
-						+ (c.guard != null ? ' if(${printExpr(c.guard)}): ' : ":")
-						+ (c.expr != null ? (opt(c.expr, printExpr)) + "; break;" : ""))
-				.join('\n$tabs');
-			if (edef != null)
-				s += '\n${tabs}default: ' + (edef.expr == null ? "" : printExpr(edef) + ";");
-			tabs = old;
-			s + '\n$tabs}';
+		case ESwitch(e1, cl, edef): trace(e);  printSwitch(e1, cl, edef);
 		case ETry(e1, cl):
 			'try ${printExpr(e1)}'
 			+ cl.map(function(c) return ' catch(${c.name} ) ${printExpr(c.expr)}').join("");   //: ${printComplexType(c.type)}
@@ -353,13 +334,40 @@ class DartPrinter {
 		case EUntyped(e1): "untyped " +printExpr(e1);
 		case EThrow(e1): "throw " +printExpr(e1);
 		case ECast(e1, cto) if (cto != null): 'cast(${printExpr(e1)}, ${printComplexType(cto)})';
-		case ECast(e1, _): "cast " +printExpr(e1);
+		case ECast(e1, _): /*"cast " +*/printExpr(e1);
 		case EDisplay(e1, _): '#DISPLAY(${printExpr(e1)})';
 		case EDisplayNew(tp): '#DISPLAY(${printTypePath(tp)})';
 		case ETernary(econd, eif, eelse): '${printExpr(econd)} ? ${printExpr(eif)} : ${printExpr(eelse)}';
 		case ECheckType(e1, ct): '#CHECK_TYPE(${printExpr(e1)}, ${printComplexType(ct)})';
 		case EMeta(meta, e1): printMetadata(meta) + " " +printExpr(e1);
-	}
+	};
+    }
+
+    function printSwitch(e1, cl, edef)
+    {
+        trace(e1);
+        trace(cl);
+        trace(edef);
+
+        var old = tabs;
+        tabs += tabString;
+        var s = 'switch ${printExpr(e1)} {\n$tabs' +
+                    cl.map(printSwitchCase).join('\n$tabs');
+        if (edef != null)
+            s += '\n${tabs}default: ' + (edef.expr == null ? "" : printExpr(edef) + ";");
+
+        tabs = old;
+        s += '\n$tabs}';
+
+        return s;
+    }
+
+    function printSwitchCase(c)
+    {
+        return 'case ${printExprs(c.values, ", ")}'
+               + (c.guard != null ? ' if(${printExpr(c.guard)}): ' : ":")
+               + (c.expr != null ? (opt(c.expr, printExpr)) + "; break;" : "");
+    }
 
 	public function printExprs(el:Array<Expr>, sep:String) {
 		return el.map(printExpr).join(sep);

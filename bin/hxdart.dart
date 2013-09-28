@@ -6,6 +6,7 @@ class Main
 		new demo_StringDemo();
 		new demo_ControlFlowDemo();
 		new demo_StdDemo();
+		new demo_ArrayDemo();
 	}
 	
 }
@@ -26,6 +27,20 @@ class dart_Lib
 	static random ( max ) {
 		var r = new Random();
 		return r.nextInt(max);
+	}
+	
+}
+
+class demo_ArrayDemo
+{
+	
+	demo_ArrayDemo(  ) {
+		print("ArrayDemo");
+		new List();
+		var a1 = [1, 2, 3];
+		print(a1.toString());
+		a1.add(4);
+		print(a1.toString());
 	}
 	
 }

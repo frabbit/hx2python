@@ -18,6 +18,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ *
+ *
  */
 package haxe.macro;
 
@@ -82,9 +84,36 @@ class DartGenerator
 //        return api.isKeyword(p) ? '$' + p : "" + p;
     }
 
+    function genPathHacks(t:Type)
+    {
+        switch( t ) {
+            case TInst(c, _):
+                var c = c.get();
+                getPath(c);
+            case TEnum(r, _):
+                var e = r.get();
+                getPath(e);
+            default:
+//                trace(t);
+        }
+    }
+
+
+
     function getPath(t : BaseType)
     {
-        return (t.pack.length == 0) ? t.name : t.pack.join("_") + "_" + t.name;
+        var fullPath = t.name;
+
+       if(t.pack.length > 0)
+       {
+           var dotPath = t.pack.join(".") + "." + t.name;
+           fullPath =  t.pack.join("_") + "_" + t.name;
+
+           if(!DartPrinter.pathHack.exists(dotPath))
+               DartPrinter.pathHack.set(dotPath, fullPath);
+       }
+
+        return fullPath;
     }
 
     function checkFieldName(c : ClassType, f : ClassField)
@@ -143,11 +172,11 @@ class DartGenerator
 
     function genClass(c : ClassType)
     {
-
         for(meta in c.meta.get())
         {
-            if(meta.name == ":library")
+            if(meta.name == ":library" || meta.name == ":feature")
             {
+
                 for(param in meta.params)
                 {
                     switch(param.expr){
@@ -228,6 +257,7 @@ class DartGenerator
         }
 
         var p = getPath(e);
+
         print('class $p extends Enum {');
         newline();
         print('$p(t, i, [p]):super(t, i, p);');
@@ -298,10 +328,14 @@ class DartGenerator
         if(api.main != null)
         {
             print("main()=>");
+
             genExpr(api.main);
             print(";");
             newline();
         }
+
+        for(t in api.types)
+            genPathHacks(t);
 
         for(t in api.types)
             genType(t);
