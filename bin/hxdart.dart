@@ -1,40 +1,9 @@
 import 'dart:math';
 main()=>Main.main();
-class Main
-{
-	static main (  ) {
-		new demo_StringDemo();
-		new demo_ControlFlowDemo();
-		new demo_StdDemo();
-		new demo_ArrayDemo();
-	}
-	
-}
-
-class Std
-{
-	static int ( x ) {
-		return x.toInt();
-	}
-	static parseInt ( x ) {
-		return int.parse(x);
-	}
-	
-}
-
-class dart_Lib
-{
-	static random ( max ) {
-		var r = new Random();
-		return r.nextInt(max);
-	}
-	
-}
-
-class demo_ArrayDemo
+class ArrayDemo
 {
 	
-	demo_ArrayDemo(  ) {
+	ArrayDemo(  ) {
 		print("ArrayDemo");
 		new List();
 		var a1 = [1, 2, 3];
@@ -45,14 +14,14 @@ class demo_ArrayDemo
 	
 }
 
-class demo_ControlFlowDemo
+class ControlFlowDemo
 {
 	
-	demo_ControlFlowDemo(  ) {
+	ControlFlowDemo(  ) {
 		this.NAMED_FUNCTION();
 		var jimmy = 22;
 		print("\n\n-------------CONDITIONAL---------------\n");
-		if((demo_ControlFlowDemo.STATIC_VAR == "staticVar")) print("STATIC_VAR == \"staticVar\" is true");  else {
+		if((ControlFlowDemo.STATIC_VAR == "staticVar")) print("STATIC_VAR == \"staticVar\" is true");  else {
 			print("STATIC_VAR == \"staticVar\" is false");
 			print("STATIC_VAR == \"staticVar\" is false");
 		};
@@ -118,20 +87,42 @@ class demo_ControlFlowDemo
 	
 }
 
-class demo_StdDemo
+class Main
+{
+	static main (  ) {
+		new StringDemo();
+		new ControlFlowDemo();
+		new StdDemo();
+		new ArrayDemo();
+	}
+	
+}
+
+class Std
+{
+	static int ( x ) {
+		return x.toInt();
+	}
+	static parseInt ( x ) {
+		return int.parse(x);
+	}
+	
+}
+
+class StdDemo
 {
 	
-	demo_StdDemo(  ) {
+	StdDemo(  ) {
 		print("\n\n-------------Std.is---------------\n");
 		var isIt = ("someString" is String);
 		print("Std.is(\'someString\', String\') = " + isIt.toString());
 		print("Std.is(12, String\') = " + (12 is String).toString());
-		var baseClass = new demo_bits_BaseClass();
-		var aClass = new demo_bits_AClass();
-		var bClass = new demo_bits_BClass();
-		print("Std.is(baseClass, BaseClass) = " + (baseClass is demo_bits_BaseClass).toString());
-		print("Std.is(aClass, BaseClass) = " + (aClass is demo_bits_BaseClass).toString());
-		print("Std.is(bClass, InterfaceDemo) = " + (bClass is demo_bits_InterfaceDemo).toString());
+		var baseClass = new bits_BaseClass();
+		var aClass = new bits_AClass();
+		var bClass = new bits_BClass();
+		print("Std.is(baseClass, BaseClass) = " + (baseClass is bits_BaseClass).toString());
+		print("Std.is(aClass, BaseClass) = " + (aClass is bits_BaseClass).toString());
+		print("Std.is(bClass, InterfaceDemo) = " + (bClass is bits_InterfaceDemo).toString());
 		print("Std.is(baseClass, String) = " + (baseClass is String).toString());
 		print("\n\n-------------Std.int----4.12345-----------\n");
 		var float = 4.12345;
@@ -177,10 +168,10 @@ class demo_StdDemo
 	
 }
 
-class demo_StringDemo
+class StringDemo
 {
 	
-	demo_StringDemo(  ) {
+	StringDemo(  ) {
 		var someString = "someString";
 		var inferredString = "inferredString";
 		var nullString = null;
@@ -198,15 +189,15 @@ class demo_StringDemo
 	
 }
 
-class demo_bits_BaseClass
+class bits_BaseClass
 {
 	
-	demo_bits_BaseClass(  ) {
+	bits_BaseClass(  ) {
 		print("BaseClass::new");
-		if((demo_bits_BaseClass._instances == null)) demo_bits_BaseClass._instances = 0;  ;
-		demo_bits_BaseClass._instances++;
+		if((bits_BaseClass._instances == null)) bits_BaseClass._instances = 0;  ;
+		bits_BaseClass._instances++;
 		this._count = 0;
-		demo_bits_BaseClass.UninitialisedStaticVar = 1.234;
+		bits_BaseClass.UninitialisedStaticVar = 1.234;
 	}
 	static var UninitialisedStaticVar;
 	static var _instances;
@@ -214,29 +205,38 @@ class demo_bits_BaseClass
 	
 }
 
-class demo_bits_AClass extends demo_bits_BaseClass
+class bits_AClass extends bits_BaseClass
 {
 	
-	demo_bits_AClass(  ) {
+	bits_AClass(  ) {
 		;
 	}
 	
 }
 
-abstract class demo_bits_InterfaceDemo
+abstract class bits_InterfaceDemo
 {
 	
 }
 
-class demo_bits_BClass extends demo_bits_AClass implements demo_bits_InterfaceDemo
+class bits_BClass extends bits_AClass implements bits_InterfaceDemo
 {
 	
-	demo_bits_BClass(  ) {
+	bits_BClass(  ) {
 		;
 		print("BClass::new");
 		this.apiVar = true;
 	}
 	var apiVar;
+	
+}
+
+class dart_Lib
+{
+	static random ( max ) {
+		var r = new Random();
+		return r.nextInt(max);
+	}
 	
 }
 

@@ -1,8 +1,8 @@
-package demo;
-import demo.bits.InterfaceDemo;
-import demo.bits.BClass;
-import demo.bits.AClass;
-import demo.bits.BaseClass;
+package ;
+import bits.InterfaceDemo;
+import bits.BClass;
+import bits.AClass;
+import bits.BaseClass;
 class StdDemo
 {
     public function new()

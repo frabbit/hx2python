@@ -1,4 +1,4 @@
-package demo.bits;
+package bits;
 class BaseClass
 {
     public static inline var SOME_CONSTANT = "someConstant";  //final or inlined at compile time

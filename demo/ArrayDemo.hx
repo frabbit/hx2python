@@ -1,4 +1,4 @@
-package demo;
+package ;
 class ArrayDemo
 {
     public function new()

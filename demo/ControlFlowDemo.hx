@@ -1,4 +1,4 @@
-package demo;
+package ;
 class ControlFlowDemo
 {
     public static var STATIC_VAR = "staticVar";

@@ -1,4 +1,4 @@
-package demo.bits;
+package bits;
 enum EnumDemo
 {
     One;

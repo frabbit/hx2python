@@ -1,6 +1,6 @@
--cp hx2dart
--cp hx2dart/dart/_std
 -cp src
+-cp src/dart/_std
+-cp demo
 -main Main
 -js bin/hxdart.dart
 --macro haxe.macro.DartGenerator.use()
