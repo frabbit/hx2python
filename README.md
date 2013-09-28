@@ -1,5 +1,7 @@
-#[Haxe2Dart Generator] [1]
+#[hx2dart] [1]
 #####A proof of concept [dart][2] target for [haxe][3].
+
+*see also: [hxjs2dart][5]*
 
 
 ## Quick Start Guide
@@ -13,13 +15,13 @@
 ## More Info
 
 ###Folder Structure
-#####hx2dart/ 
+#####src/ 
 -contains files required for dart generation along with standard haxe classes. Contents of this file intended to end up in "std" folder of haxe install.
-######hx2dart/haxe/macro/
+######src/haxe/macro/
 Contains macro classes required for [Custom JS Generation][4].
-######hx2dart/dart/_std/
+######src/dart/_std/
 Contains versions of haxe standard files required for dart target
-#####src/
+#####demo/
 Contains the demo application code.
 #####bin/
 Where the generated dart file will be once the project is compiled.
@@ -53,7 +55,7 @@ Anyone can change this by editing the DartGenerator.hx code and it would be grea
 ####What will be involved in getting a current haxe project to run in dart?
 1. First we need stable haxe2dart generation for the core haxe language features and standard libraries.
 2. Externs will be needed for the core dart libraries such as "dart:html".
-3. Next it will depend on how much platform specific code the project uses. For haxe projects currently targeting js and manipulating a the browsers DOM via the js DOM API the differences should not be majore. Dart does have a different API for manipulating the DOM than js however I think it should be possible to write a js2Dart library for haxe which handles most of these differens at compile time using macros or externs with inlined methods and some utility classes. 
+3. Next it will depend on how much platform specific code the project uses. For current projects targeting js there is another proof of concept [hxjs2dart][5] which is intended to abstract any differences between the js and dart API's without needing to manually port an code. 
 
 
 
@@ -65,7 +67,8 @@ Anyone can change this by editing the DartGenerator.hx code and it would be grea
 
 
 
-[1]:https://bitbucket.org/AndrewVernon/haxe2dart-generator
+[1]:https://bitbucket.org/AndrewVernon/hx2dart
 [2]:https://www.dartlang.org/
 [3]:http://haxe.org/
 [4]:http://haxe.org/manual/macros_compiler#custom-js-generator
+[5]:https://bitbucket.org/AndrewVernon/hxjs2dart
