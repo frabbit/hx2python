@@ -58,7 +58,7 @@ class ControlFlowDemo
 		print("\n\n-------------TRY CATCH: SUCCESS---------------\n");
 		var str = "string";
 		var x = "anotherString";
-		var noError = ( a, b ) {
+		var noError = ( a,b ) {
 			return a + b;
 		};
 		try {
@@ -70,7 +70,7 @@ class ControlFlowDemo
 		print("\n\n-------------TRY CATCH: ERROR---------------\n");
 		var str1 = "string";
 		var x1 = 0;
-		var causeError = ( a, b ) {
+		var causeError = ( a,b ) {
 			return a + b;
 		};
 		try {
@@ -176,6 +176,7 @@ class StringDemo
 		var inferredString = "inferredString";
 		var nullString = null;
 		print("\n\n-------------String-----------\n");
+		print("someString.length = " + someString.length.toString());
 		print("someString.charAt(2) = " + someString[2].toString());
 		assert(someString[2] == "m");
 		var charCode = someString.codeUnitAt(5);
@@ -183,8 +184,9 @@ class StringDemo
 		print("inferredString.substr(3, 3) = " + inferredString.substring(3, 6).toString());
 		print("inferredString.substr(3) = " + inferredString.substring(3, inferredString.length - 3).toString());
 		print("inferredString.substring(3, 7) = " + inferredString.substring(3, 7).toString());
-		print("inferredString.substring(6) = " + inferredString.substring(6, null).toString());
-		print("String.fromCharChode   NOT IMPLEMENTED YET !!!!! ");
+		print("inferredString.substring(6) = " + inferredString.substring(6).toString());
+		var charCode1 = 65;
+		print("String.fromCharChode " + new String.fromCharCode(charCode1).toString());
 	}
 	
 }

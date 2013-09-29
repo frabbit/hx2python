@@ -42,7 +42,7 @@ class DartPrinter {
     static var standardTypes:Map<String, String> = [
         "Array" => "List",
         "Int" => "int",
-        "Float" => "double"
+        "Float" => "double",
     ];
 
     public static var pathHack = new StringMap();
@@ -164,15 +164,41 @@ class DartPrinter {
 		+ (tpd.params != null && tpd.params.length > 0 ? "<" + tpd.params.map(printTypeParamDecl).join(", ") + ">" : "")
 		+ (tpd.constraints != null && tpd.constraints.length > 0 ? ":(" + tpd.constraints.map(printComplexType).join(", ") + ")" : "");
 
-	public function printFunctionArg(arg:FunctionArg) return
-		(arg.opt ? "?" : "")
-		+ arg.name
-//		+ opt(arg.type, printComplexType, " : ")
-		+ opt(arg.value, printExpr, " = ");
+    public function printArgs(args:Array<FunctionArg>)
+    {
+        var argString = "";
+        var optional = false;
+
+        for(i in 0 ... args.length)
+        {
+            var arg = args[i];
+            var argValue = printExpr(arg.value);
+
+            trace(argValue);
+
+            if((arg.opt || argValue != "#NULL") && !optional)
+            {
+                optional = true;
+                argString += "[";
+            }
+            argString += arg.name;
+
+            if(argValue != null && argValue != "#NULL")
+                argString += '= $argValue';
+
+            if(i < args.length - 1)
+                argString += ",";
+        }
+
+        if(optional) argString += "]";
+
+        return argString;
+    }
 
 	public function printFunction(func:Function) return
 		(func.params.length > 0 ? "<" + func.params.map(printTypeParamDecl).join(", ") + ">" : "")
-		+ "( " + func.args.map(printFunctionArg).join(", ") + " )"
+		+ "( " + printArgs(func.args) + " )"
+//		+ "( " + func.args.map(printFunctionArg).join(", ") + " )"
 //		+ opt(func.ret, printComplexType, " : ")
 		+ opt(func.expr, printExpr, " ");
 
@@ -213,8 +239,8 @@ class DartPrinter {
                 '${printExpr(el.shift())}(${printExprs(el,", ")})';
             case "__assert__":
                 'assert(${printExprs(el,", ")})';
-            case "__new_named__":
-                'new ${printExpr(el.shift())}(${printExprs(el,", ")})';
+            case "__new_named__":   trace("__new_named__");
+                'new ${extractString(el.shift())}(${printExprs(el,", ")})';
             case "__is__":
                 '(${printExpr(el[0])} is ${printExpr(el[1])})';
             case "__as__":
@@ -233,6 +259,15 @@ class DartPrinter {
             result = "";
 
         return result;
+    }
+
+    function extractString(e)
+    {
+        return switch(e.expr)
+        {
+            case EConst(CString(s)):s;
+            default:"####";
+        }
     }
 
     function formatPrintCall(el:Array<Expr>)

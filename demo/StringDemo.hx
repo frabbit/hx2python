@@ -12,6 +12,8 @@ class StringDemo
 
         trace("\n\n-------------String-----------\n");
 
+        trace("someString.length = " + someString.length);
+
         trace("someString.charAt(2) = " + someString.charAt(2));
 
         Lib.assert(someString.charAt(2) == 'm');
@@ -28,6 +30,7 @@ class StringDemo
 
         trace("inferredString.substring(6) = " + inferredString.substring(6));
 
-        trace("String.fromCharChode   NOT IMPLEMENTED YET !!!!! ");
+        var charCode = 65;
+        trace("String.fromCharChode " + (String.fromCharCode(charCode)));
     }
 }

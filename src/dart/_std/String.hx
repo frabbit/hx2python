@@ -48,14 +48,14 @@ extern class String {
 		
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
-	function toUpperCase() : String;
+    function toUpperCase() : String;
 
 	/**
 		Returns a String where all characters of [this] String are lower case.
 		
 		Affects the characters [A-Z]. Other characters remain unchanged.
 	**/
-	function toLowerCase() : String;
+	function toLowerCase() : String return;
 
 	/**
 		Returns the character at position [index] of [this] String.
@@ -63,7 +63,7 @@ extern class String {
 		If [index] is negative or exceeds [this].length, the empty String ""
 		is returned.
 	**/
-	inline function charAt(index : Int) : String
+	inline public function charAt(index : Int) : String
     {
         return untyped this[index];
     }
@@ -77,7 +77,7 @@ extern class String {
 		instead to inline the character code at compile time. Note that this
 		only works on String literals of length 1.
 	**/
-	inline function charCodeAt( index : Int) : Null<Int>
+	inline public function charCodeAt( index : Int) : Null<Int>
     {
         return untyped this.codeUnitAt(index);
     }
@@ -93,7 +93,7 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-	function indexOf( str : String, ?startIndex : Int ) : Int;
+	function indexOf( str : String, ?startIndex : Int ) : Int return;
 
 	/**
 		Returns the position of the rightmost occurence of [str] within [this]
@@ -106,7 +106,7 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-	function lastIndexOf( str : String, ?startIndex : Int ) : Int;
+    function lastIndexOf( str : String, ?startIndex : Int ) : Int return;
 
 	/**
 		Splits [this] String at each occurence of [delimiter].
@@ -142,7 +142,7 @@ extern class String {
 		
 		If [len] is negative, the result is unspecified.
 	**/
-	inline function substr( pos : Int, ?len : Int ) : String
+	inline public function substr( pos : Int, ?len : Int ) : String
     {
         return untyped this.substring(pos, (len == null ? this.length - pos : pos + len));
     }
@@ -160,10 +160,7 @@ extern class String {
 		If the (possibly swapped) [startIndex] exceeds [this].length, the empty
 		String "" is returned.
 	**/
-	inline function substring( startIndex : Int, ?endIndex : Int ) : String
-    {
-        return untyped this.substring(startIndex, endIndex);
-    }
+	function substring( startIndex : Int, ?endIndex : Int ) : String;
 
 	/**
 		Returns the String itself.
@@ -176,8 +173,8 @@ extern class String {
 		If [code] is negative or has another invalid value, the result is
 		unspecified.
 	**/
-	inline static function fromCharCode( code : Int ) : String
+	inline public static function fromCharCode( code : Int ) : String
     {
-        return "!!!NOT IMPLEMENTED YET!!!!!!"; //untyped __new_named__(String.fromCharCode, code);
+        return untyped __new_named__('String.fromCharCode', code);
     }
 }

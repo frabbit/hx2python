@@ -9,6 +9,5 @@ class Main
         new StdDemo();
         new ArrayDemo();
     }
-
 }
 
