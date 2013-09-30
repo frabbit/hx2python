@@ -6,24 +6,28 @@
 
 ## Quick Start Guide
 1. follow [Haxe2Dart Generator - Quick Start Guide](https://bitbucket.org/AndrewVernon/haxe2dart-generator/overview)
-2. ensure hxjs2dart project in the same folder as the haxe2dart project.
-3. compile demo :    haxe build.hxml
-4. open **bin/dart.html** in chromium browser from dart sdk download.
+2. compile and view samples in the samples folder.
 
-*As long as everything worked there should be html content visible in the chromium browser tab.*
 
 
 ## More Info
 
 ###Folder Structure
-#####src/js
-Contains versions of the std/js haxe externs and utilities that produce valid dart code instead of the original js. 
-#####demo/
+**src/js**
+
+Contains versions of the std/js haxe externs and utilities that produce valid dart code instead of the original j.
+
+**demo**
+
 Contains the demo application code.
-#####bin/
+
+**bin**
+
 Contains an html file for both dart and js versions of the demo to be viewed in the chromium browser.
-#####dartsamples/
-Haxe versions of [dart samples](https://www.dartlang.org/samples/) including hxjs2dart, hxdart, hxjs and original dart source for comparision.
+
+**samples/**
+
+Haxe versions of [dart samples](https://www.dartlang.org/samples/) including hxjs2dart, hxdart, hxjs, dart2js and original dart source for comparision.
 
 ####What's the point?
 If successful this library will allow any haxe3 projects targeting js to also target dart without the need to manually port any code.
