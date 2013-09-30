@@ -239,8 +239,10 @@ class DartPrinter {
                 '${printExpr(el.shift())}(${printExprs(el,", ")})';
             case "__assert__":
                 'assert(${printExprs(el,", ")})';
-            case "__new_named__":   trace("__new_named__");
+            case "__new_named__":
                 'new ${extractString(el.shift())}(${printExprs(el,", ")})';
+            case "__call_global__":
+                '${extractString(el.shift())}(${printExprs(el,", ")})';
             case "__is__":
                 '(${printExpr(el[0])} is ${printExpr(el[1])})';
             case "__as__":

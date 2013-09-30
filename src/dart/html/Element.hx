@@ -3,9 +3,11 @@ package dart.html;
 
 @:library("dart:html")
 @:remove
-class Element
+extern class Element
 {
-    public function new()
-    {
-    }
+    function new();
+
+    var text:String;
+
+    var onClick:Dynamic;
 }

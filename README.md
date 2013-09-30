@@ -47,9 +47,11 @@ Not really. Both languages do compile to javascript but that's about the only ar
 This is just a proof of concept and at the moment the only thing I'm really concerned with is getting dart code generated in haxe to run in the dartVM. 
 
 ######Why is there only one .dart file?
-Dart has a slightly different system for handling importing code from different modules or libraries while avoiding namespace clashes. The current haxe2dart implementation which joins the parts of a path using "_" ensures there are no namespace classes for Classes, Enums or Interfaces of the same name without having to worry about importing from multiple modules. 
+Dart has a slightly different system for handling importing code from different modules or libraries while avoiding namespace clashes. The current hx2dart implementation which joins the parts of a path using "_" ensures there are no namespace classes for Classes, Enums or Interfaces of the same name without having to worry about importing from multiple modules.
 
 Anyone can change this by editing the DartGenerator.hx code and it would be great compare some different solutions to this and potentially offer different options at compile time depending on the intended use of the generated dart. At the very least I think any final dart target should have a similar [Custom Generator][4] option to the JS target to allow anyone to customise this type of thing.
+
+The [dart2js](https://www.dartlang.org/docs/dart-up-and-running/contents/ch04-tools-dart2js.html) compiler includes the option to merge all dart source files into one before deployment and can minify the class names anyway so there is little difference in the final on this issue if the hx2dart output is also minified. 
 
 
 ####What will be involved in getting a current haxe project to run in dart?
