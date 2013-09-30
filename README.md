@@ -1,8 +1,6 @@
 #[hx2dart] [1]
 #####A proof of concept [dart][2] target for [haxe][3].
 
-*see also: [hxjs2dart][5]*
-
 
 ## Quick Start Guide
 1. Download and extract [dart](https://www.dartlang.org/#get-started).
@@ -11,6 +9,9 @@
 
 *As long as everything worked there should be a file named "hxdart.dart" in the bin folder with output from the file traced to the terminal. Please note this is a very early proof of concept that has not been tested widely so may not work on all environments at this stage.*
 
+To view a sample dart web app see [samples/helloworld]("samples/helloworld")
+
+*see also: [hxjs2dart][5]*
 
 ## More Info
 
