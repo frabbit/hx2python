@@ -15,16 +15,34 @@
 ## More Info
 
 ###Folder Structure
-#####src/ 
+
+**src/**
+
 -contains files required for dart generation along with standard haxe classes. Contents of this file intended to end up in "std" folder of haxe install.
-######src/haxe/macro/
+
+**src/haxe/macro/**
+
 Contains macro classes required for [Custom JS Generation][4].
-######src/dart/_std/
+
+**src/dart/_std/**
+
 Contains versions of haxe standard files required for dart target
-#####demo/
+
+**demo/**
+
 Contains the demo application code.
-#####bin/
+
+**bin/**
+
 Where the generated dart file will be once the project is compiled.
+
+**hxjs2dart**
+
+Another proof of concept intended to be an external haxelib which cross compiles projects using the haxejs API's to the equivalent for dart.
+
+**hxdart2js**
+
+The opposite of hxjs2dart, hxdart2js is also intended to be an external haxelib which cross compiles haxe projects using the dart API to the equivalent for javascript. 
 
 ####Why target dart?
 1. [Perfomance](https://www.dartlang.org/performance/) - Althoughit hasn't been officially released yet there should be major performance improvements for web apps running in the dart vm compared to the equivalent javascript project. Apparently the VM has also been architected to allow it to increasingly improve in perfomance at a rate which the same engineers believe they will no longer be able to achieve for the V8 javascript envine.
@@ -73,4 +91,4 @@ The [dart2js](https://www.dartlang.org/docs/dart-up-and-running/contents/ch04-to
 [2]:https://www.dartlang.org/
 [3]:http://haxe.org/
 [4]:http://haxe.org/manual/macros_compiler#custom-js-generator
-[5]:https://bitbucket.org/AndrewVernon/hxjs2dart
+[5]:https://bitbucket.org/AndrewVernon/hx2dart/src/deb246ff7c0c1bf35577e500c855f63dc90c9c56/hxjs2dart?at=development
