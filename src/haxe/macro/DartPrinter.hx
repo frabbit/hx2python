@@ -174,8 +174,6 @@ class DartPrinter {
             var arg = args[i];
             var argValue = printExpr(arg.value);
 
-            trace(argValue);
-
             if((arg.opt || argValue != "#NULL") && !optional)
             {
                 optional = true;
