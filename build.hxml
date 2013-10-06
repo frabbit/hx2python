@@ -1,10 +1,9 @@
 -cp src
--cp src/dart/_std
+-cp src/python/_std
 -cp demo
 -main Main
--js bin/hxdart.dart
---macro haxe.macro.DartGenerator.use()
+-js bin/hxpython.py
+--macro haxe.macro.PythonGenerator.use()
 -dce full
 
---next
--cmd PARTH_TO_DART/dart-sdk/bin/dart -c bin/hxdart.dart
+-cmd python3 bin/hxpython.py

@@ -101,8 +101,10 @@ class ControlFlowDemo
         }
         catch(e:Dynamic)
         {
-            trace("error = " + Std.string(e));
+            trace("Success: error = " + Std.string(e));
         }
+
+        trace("\n\n--------------------------------------------\n");
     }
 
     function NAMED_FUNCTION()

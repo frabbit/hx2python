@@ -1,0 +1,4 @@
+package js;
+class Boot {
+
+}

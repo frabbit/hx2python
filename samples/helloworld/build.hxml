@@ -1,8 +1,0 @@
-# hxdart
--cp ../../src/dart/_std
--cp ../../src
--cp src
--main Main
--js bin/hxdart.dart
---macro haxe.macro.DartGenerator.use()
--dce full
