@@ -7,18 +7,22 @@ import haxe.macro.Expr;
 import haxe.macro.Expr.Binop.OpAdd;
 import haxe.macro.Expr.Binop.OpAssignOp;
 
+
+
 typedef FlattenedExpr = {
 	expr: Expr,
 	blocks : Array<Expr>,
+	// returns the next free local identifier
 	nextId: Void->String,
-	inAssignment : Bool,
-	isNested:Bool
+	// it is important to distinguish between statements and expressions to generate valid python code
+	isExpression:Bool
 
 }
 
 class PythonTransformer {
 
-	public static function unflatten (e:FlattenedExpr):Expr {
+	public static function unflatten (e:FlattenedExpr):Expr 
+	{
 		return if (e.blocks.length > 0) {
 			switch (e.expr.expr) {
 				case EBlock(exprs):
@@ -42,21 +46,12 @@ class PythonTransformer {
 		return flatten({
 			expr : e,
 			blocks : base.blocks.copy(),
-			isNested : base.isNested,
-			inAssignment : base.inAssignment,
+			isExpression : base.isExpression,
 			nextId : base.nextId
 		});
 	} 
 
-	public static function combineBlocks (a:Array<FlattenedExpr>):Array<Expr> {
-		var b = [];
-		for (e in a) {
-			b = b.concat(e.blocks);
-		}
-		return b;
-	} 
-
-	public static function toFlattened (e:Expr,?isNested:Bool = false, ?inAssignment:Bool = false, ?nextId:Void->String, ?blocks:Array<Expr>) 
+	public static function toFlattened (e:Expr,?isExpression:Bool = false, ?nextId:Void->String, ?blocks:Array<Expr>) 
 	{
 		blocks = if (blocks == null) [] else blocks;
 
@@ -65,32 +60,31 @@ class PythonTransformer {
 		return {
 			expr : e,
 			blocks : blocks,
-			isNested : isNested,
-			inAssignment : inAssignment,
+			isExpression : isExpression,
 			nextId : next
 		}
 	}
 
 	public static function transform (e:Expr):Expr {
 		
-		return unflatten(flatten(toFlattened(e), true));
+		return unflatten(flatten(toFlattened(e)));
 	}
 
-	public static function flattenExpr (e:Expr, ?isNested, ?inAssignment, ?next : Void->String, ?blocks:Array<Expr>):FlattenedExpr {
-		return flatten(toFlattened(e,isNested,inAssignment,next, blocks));
+	public static function flattenExpr (e:Expr, ?isExpression, ?next : Void->String, ?blocks:Array<Expr>):FlattenedExpr {
+		return flatten(toFlattened(e,isExpression,next, blocks));
 	}
 
 	
-	public static function flattenExprs (exprs:Array<Expr>, nested, assign, pos:haxe.macro.Expr.Position, next:Void->String):FlattenedExpr	
+	public static function flattenExprs (exprs:Array<Expr>, nested, pos:haxe.macro.Expr.Position, next:Void->String):FlattenedExpr	
 	{
 		if (exprs.length == 1) {
-			return flattenExpr(exprs[0], nested, assign,next);
+			return flattenExpr(exprs[0], nested, next);
 		}
 		var res = [];
 		
 		for (e in exprs) {
 			
-			var f = flattenExpr(e,nested, assign, next);
+			var f = flattenExpr(e,nested, next);
 
 			res = res.concat(f.blocks);
 			res.push(f.expr);
@@ -98,7 +92,7 @@ class PythonTransformer {
 		return toFlattened({ expr : EBlock(res), pos : pos});
 	}
 
-	static function addLocalAssigns (e:Expr) 
+	static function addNonLocalsToFunc (e:Expr) 
 	{
 		return switch (e.expr) {
 			case EFunction(n,f):
@@ -156,7 +150,7 @@ class PythonTransformer {
 				case EFunction(name, f) if (name != null && f.args.length == 0): 
 					
 					var substitute = macro $i{name}();
-					return toFlattened(substitute, false, false, [exprs[0]]);
+					return toFlattened(substitute, [exprs[0]]);
 					
 				case _ : 
 			}
@@ -166,7 +160,10 @@ class PythonTransformer {
 			return switch (expr.expr) {
 				case EFunction(name, f) if (name == null): throw "assert";
 				case EFunction(name, f): [expr, macro return $i{name}];
-				case EBinop(OpAssign,l,r): [expr, macro return $l];
+				case EBinop(OpAssign,l,r): 
+					var id = base.nextId();
+					var e1 = { expr : EVars([{ name : id, type : null, expr : expr }]), pos : expr.pos};
+					[e1, macro @:pos(expr.pos) return $i{id}];
 				case x: [macro return $expr];
 
 			}
@@ -194,33 +191,33 @@ class PythonTransformer {
 		}
 
 
-		var f = addLocalAssigns(macro function $name () ${ex});
+		var f = addNonLocalsToFunc(macro function $name () ${ex});
 
 		var substitute = macro $i{name}();
 
 		
 		
 		
-		return toFlattened(substitute, false, false, [f]);
+		return toFlattened(substitute,  [f]);
 	}
 
-	public static function flatten (e:FlattenedExpr, top = false):FlattenedExpr
+	public static function flatten (e:FlattenedExpr):FlattenedExpr
 	{
-		return switch [e.inAssignment, e.isNested, e.expr.expr] 
+		return switch [e.isExpression, e.expr.expr] 
 		{
-			case [assign, nested, EBlock([x])]:
+			case [nested, EBlock([x])]:
 
-				flattenExpr(x,nested, assign, e.nextId);
+				flattenExpr(x,nested, e.nextId);
 
 
-			case [assign, _, EBlock([])]:
+			case [_, EBlock([])]:
 				toFlattened(macro null);
 
-			case [assign, false, EBlock(exprs)]: 
-				flattenExprs(exprs, false, assign, e.expr.pos, e.nextId);
+			case [false, EBlock(exprs)]: 
+				flattenExprs(exprs, false, e.expr.pos, e.nextId);
 			
 
-			case [assign, true, EBlock(exprs)]:// transform block to function and call it
+			case [true, EBlock(exprs)]:// transform block to function and call it
 				var name = e.nextId();
 
 				var exprs = exprs.copy();
@@ -231,55 +228,50 @@ class PythonTransformer {
 
 
 
-				var myBlock = flattenExprs(block, false, false, e.expr.pos, e.nextId);
+				var myBlock = flattenExprs(block, false, e.expr.pos, e.nextId);
 
 				//trace(ExprTools.toString(myBlock.expr));
 
-				var f = addLocalAssigns(macro function $name () ${myBlock.expr});
+				var f = addNonLocalsToFunc(macro function $name () ${myBlock.expr});
 
 				var substitute = macro $i{name}();
 
 				
 				
 				//blockToFunc(exprs, e);
-				toFlattened(substitute, false, false, [f]);
+				toFlattened(substitute, [f]);
 
-			case [_, _, EFunction(n, f)] if (top):
-
-				var e1 = unflatten(flattenExpr(f.expr,false, false, e.nextId));
+			case [false, EFunction(n, f)]:
+				// top level function = instance or static functions
+				var e1 = unflatten(flattenExpr(f.expr, false, e.nextId));
 				
-
-				toFlattened({ expr : EFunction(n, { expr : e1, params : f.params, ret : f.ret, args : f.args}), pos : e.expr.pos });
+				var newName = if (n == null) e.nextId() else n;
+				var f = { expr : EFunction(newName, { expr : e1, params : f.params, ret : f.ret, args : f.args}), pos : e.expr.pos };
+				toFlattened(f);
 			
-			case [_, _, EFunction(name, f)] if (!top):
+			case [true, EFunction(name, f)]:
 				//trace("here we go: " + name);
 				
 
-				var newExpr = switch (addLocalAssigns(e.expr).expr) {
+				var newExpr = switch (addNonLocalsToFunc(e.expr).expr) {
 					case EFunction(name, f): f.expr;
 					case _: throw "unexpected";
 				}
 
 				var newName = if (name == null) e.nextId() else name;
 				//trace(newName);
-				var e1 = unflatten(flattenExpr(newExpr,false, false, e.nextId, []));
+				var e1 = unflatten(flattenExpr(newExpr, false, e.nextId, []));
 
 
 
 				var f = { expr : EFunction(newName, { expr : e1, args : f.args, params:f.params, ret:f.ret }), pos : e.expr.pos };
 				
 				
-				toFlattened( macro $i{newName}, false, false, e.nextId, [f]);
+				toFlattened( macro $i{newName}, false, e.nextId, [f]);
 				
-				//var r = [f, macro $i{newName}];
-				//trace("exprToFunc1");
-				//exprsToFunc(r, e.nextId(), e);
-
-				
-
 
 			
-			case [_,_, EVars(vars)]:
+			case [_, EVars(vars)]:
 				
 				var b = [];
 				var newVars = [];
@@ -289,7 +281,7 @@ class PythonTransformer {
 						null;
 					} else {
 						//trace("var decl : " + ExprTools.toString(v.expr));
-						var f = flattenExpr(v.expr, true, true, e.nextId);
+						var f = flattenExpr(v.expr, true, e.nextId);
 						
 						b = b.concat(f.blocks);
 						
@@ -298,23 +290,23 @@ class PythonTransformer {
 					newVars.push({ name : v.name, type : v.type, expr : newExpr});
 				}
 
-				toFlattened({ expr : EVars(newVars), pos:e.expr.pos}, false,false, e.nextId, b);
+				toFlattened({ expr : EVars(newVars), pos:e.expr.pos}, false, e.nextId, b);
 
-			case [_,_,EReturn(x)] if (x == null):e;
-			case [_,_,EReturn({ expr : EFunction(name, f)})]:
+			case [_,EReturn(x)] if (x == null):e;
+			case [_,EReturn({ expr : EFunction(name, f)})]:
 				var n = if (name == null) e.nextId() else name;
 				
-				var e1 = unflatten(flattenExpr(f.expr,false, true, e.nextId));
+				var e1 = unflatten(flattenExpr(f.expr,true, e.nextId));
 				
 				var f1 = { expr : EFunction(n, { expr : e1, params : f.params, ret : f.ret, args : f.args}), pos : e.expr.pos };
 				
 
 
 
-				toFlattened({ expr : EReturn(macro $i{n}), pos : e.expr.pos}, false, true, e.nextId, [f1]);				
-			case [_,_,EReturn(x)]:
+				toFlattened({ expr : EReturn(macro $i{n}), pos : e.expr.pos}, true, e.nextId, [f1]);				
+			case [_,EReturn(x)]:
 
-				var x1 = flattenExpr(x,true, true, e.nextId, []);
+				var x1 = flattenExpr(x,true, e.nextId, []);
 
 
 				
@@ -324,9 +316,9 @@ class PythonTransformer {
 				var res = if (x1.blocks.length > 0) {
 					var f = exprsToFunc(x1.blocks.concat([x1.expr]), e.nextId(), e);
 					//trace(ExprTools.toString(f.expr));
-					toFlattened({ expr : EReturn(f.expr), pos : e.expr.pos}, false, true, e.nextId, f.blocks);
+					toFlattened({ expr : EReturn(f.expr), pos : e.expr.pos}, true, e.nextId, f.blocks);
 				} else {
-					toFlattened({ expr : EReturn(x1.expr), pos : e.expr.pos}, false, true, e.nextId, []);
+					toFlattened({ expr : EReturn(x1.expr), pos : e.expr.pos}, true, e.nextId, []);
 				}
 				res;
 				
@@ -344,15 +336,15 @@ class PythonTransformer {
 
 				// }
 			
-			case [_,false,EParenthesis(e1)]:
+			case [false,EParenthesis(e1)]:
 				//trace(e1);
-				var newE1 = flattenExpr(e1,true,false,e.nextId);
+				var newE1 = flattenExpr(e1,false,e.nextId);
 				//trace(newE1);
 				var newP = { expr : EParenthesis(newE1.expr), pos : e.expr.pos};
 
-				toFlattened(newP, false, true, e.nextId, newE1.blocks);
+				toFlattened(newP, true, e.nextId, newE1.blocks);
 
-			case [_,true,EParenthesis(e1)]:
+			case [true,EParenthesis(e1)]:
 				forwardFlatten(e1, e);
 				// trace(e1);
 				// var newE1 = flattenExpr(e1,true,false,e.nextId);
@@ -361,15 +353,15 @@ class PythonTransformer {
 
 				// toFlattened(newP, false, true, e.nextId, newE1.blocks);
 
-			case [_,true, EIf(econd, eif, eelse)]:
+			case [true, EIf(econd, eif, eelse)]:
 				// eif in assignment
 				//trace(ExprTools.toString(eif));
-				var econd1 = flattenExpr(econd, true, true, e.nextId);
+				var econd1 = flattenExpr(econd, true, e.nextId);
 				
-				var eif1 = flattenExpr(eif, true, false, e.nextId);
+				var eif1 = flattenExpr(eif, true, e.nextId);
 
 				var eelse1 = if (eelse != null) {
-					flattenExpr(eelse, true, false, e.nextId);
+					flattenExpr(eelse, true, e.nextId);
 				} else {
 					null;
 				}
@@ -428,18 +420,18 @@ class PythonTransformer {
 				//trace(ExprTools.toString(newIf));
 				
 				var f = exprsToFunc(econd1.blocks.concat(blocks).concat([newIf]), e.nextId(), e);
-				toFlattened(f.expr, true, true, e.nextId, f.blocks);
+				toFlattened(f.expr, true, e.nextId, f.blocks);
 				//toFlattened(newIf, true, true, e.nextId, econd1.blocks.concat(blocks));
 				
 
-			case [_,false, EIf(econd, eif, eelse)]:
+			case [false, EIf(econd, eif, eelse)]:
 
 				
-				var econd1 = flattenExpr(econd, true, false, e.nextId);
+				var econd1 = flattenExpr(econd, true, e.nextId);
 				
-				var eif1 = unflatten(flattenExpr(eif, false, false, e.nextId));
+				var eif1 = unflatten(flattenExpr(eif, false, e.nextId));
 				var eelse1 = if (eelse != null) {
-					unflatten(flattenExpr(eelse, false, false, e.nextId));
+					unflatten(flattenExpr(eelse, false, e.nextId));
 				} else {
 					null;
 				}
@@ -447,28 +439,28 @@ class PythonTransformer {
 
 				var newIf = { expr : EIf(econd1.expr, eif1, eelse1), pos : e.expr.pos };
 				//trace(ExprTools.toString(newIf));
-				toFlattened(newIf, true, false, e.nextId, econd1.blocks);
+				toFlattened(newIf, false, e.nextId, econd1.blocks);
 
 
-			case [_,false, EWhile(econd, e1, true)]:
-				var econd1 = flattenExpr(econd, true, false, e.nextId);
+			case [false, EWhile(econd, e1, true)]:
+				var econd1 = flattenExpr(econd, true, e.nextId);
 
-				var e11 = unflatten(flattenExpr(e1, false, false, e.nextId));
+				var e11 = unflatten(flattenExpr(e1, false, e.nextId));
 
 				var newWhile = macro while(${econd1.expr}) $e11;
-				toFlattened(newWhile, true, false, e.nextId, econd1.blocks);
+				toFlattened(newWhile, false, e.nextId, econd1.blocks);
 
-			case [_,true, EWhile(econd, e1, true)]:
-				var econd1 = flattenExpr(econd, true, false, e.nextId);
+			case [true, EWhile(econd, e1, true)]:
+				var econd1 = flattenExpr(econd, true, e.nextId);
 
-				var e11 = unflatten(flattenExpr(e1, false, false, e.nextId));
+				var e11 = unflatten(flattenExpr(e1, false, e.nextId));
 
 
 				var newWhile = macro while(${econd1.expr}) $e11;
 				var newRet = macro null;
 
 				var f = exprsToFunc(econd1.blocks.concat([newWhile, newRet]), e.nextId(), e);
-				toFlattened(f.expr, true, true, e.nextId, f.blocks);
+				toFlattened(f.expr, true, e.nextId, f.blocks);
 
 				//toFlattened(newWhile, true, false, e.nextId, econd1.blocks);
 
@@ -477,7 +469,7 @@ class PythonTransformer {
 				// assignment while promote to function with null return
 
 
-			case [_,_, ESwitch(e1, cases,edef)]:
+			case [_, ESwitch(e1, cases,edef)]:
 				// transform eswitch into if/else
 				//trace(e.expr.toString());
 				function caseToIf (c:Case, ?eelse:Expr) {
@@ -577,7 +569,7 @@ class PythonTransformer {
 				//trace(ExprTools.toString(res));
 				forwardFlatten(res, e);
 
-			case [_,_, EWhile(econd, e1, false)]:
+			case [_, EWhile(econd, e1, false)]:
 				//trace("transform do while");
 				var newE1 = switch (e1.expr) {
 					case EBlock(exprs):
@@ -589,24 +581,26 @@ class PythonTransformer {
 				//trace(ExprTools.toString(newExpr));
 				forwardFlatten(newExpr, e);
 
-			case [_,_, EUnop(OpIncrement, false, e1)]:
+			
+			case [_, EUnop(OpIncrement, false, e1)]:
 				
 				forwardFlatten(macro $e1 = $e1 + 1,e);				
-			case [_,_, EUnop(OpDecrement,false, e1)]:
+			case [_, EUnop(OpDecrement,false, e1)]:
 				
 				forwardFlatten(macro $e1 = $e1 - 1,e);
-			case [_,_, EUnop(OpIncrement, true, e1)]:
+			
+			case [_, EUnop(OpIncrement, true, e1)]:
 				
 				forwardFlatten(macro { var _hx_r = $e1; $e1 = $e1 + 1; _hx_r;},e);				
-			case [_,_, EUnop(OpDecrement,true, e1)]:
+			case [_, EUnop(OpDecrement,true, e1)]:
 				
 				forwardFlatten(macro { var _hx_r = $e1; $e1 = $e1 - 1; _hx_r;},e);
 
-			case [_,true, EBinop(OpAssign,left,right)]:
+			case [true, EBinop(OpAssign,left,right)]:
 				trace(ExprTools.toString(e.expr));
 				var ex = e.expr;
-				var right1 = flattenExpr(right, true, true, e.nextId);
-				var left1 = flattenExpr(left, true, true, e.nextId);
+				var right1 = flattenExpr(right, true, e.nextId);
+				var left1 = flattenExpr(left, true, e.nextId);
 
 				var newEx = macro @:pos(e.expr.pos) ${left1.expr} = ${right1.expr};
 
@@ -616,21 +610,21 @@ class PythonTransformer {
 
 				
 				
-			case [_,_, EBinop(OpAssign,left,right)]:
+			case [_, EBinop(OpAssign,left,right)]:
+				var left1 = flattenExpr(left, true, e.nextId);
+				var right1 = flattenExpr(right, true, e.nextId);
+				var newEx = { expr : EBinop(OpAssign, left1.expr, right1.expr), pos : e.expr.pos };
 
-				var right1 = flattenExpr(right, true, true, e.nextId);
-				var newEx = { expr : EBinop(OpAssign, left, right1.expr), pos : e.expr.pos };
+				toFlattened(newEx, false, e.nextId, left1.blocks.concat(right1.blocks));				
 
-				toFlattened(newEx, true, false, e.nextId, right1.blocks);				
-
-			case [_,_, EBinop( OpAssignOp(x),left,right)]:
+			case [_, EBinop( OpAssignOp(x),left,right)]:
 				forwardFlatten({ expr : EBinop(OpAssign, left, { expr : EBinop(x, left, right), pos:e.expr.pos }), pos : e.expr.pos}, e);
 
-			case [_,true, EBinop(op,left,right)]:
+			case [true, EBinop(op,left,right)]:
 				trace(ExprTools.toString(e.expr));
 				var ex = e.expr;
-				var right1 = flattenExpr(right, true, true, e.nextId);
-				var left1 = flattenExpr(left, true, true, e.nextId);
+				var right1 = flattenExpr(right, true, e.nextId);
+				var left1 = flattenExpr(left, true, e.nextId);
 
 				var newEx = { expr : EBinop(op, left1.expr, right1.expr), pos : e.expr.pos };
 
@@ -639,22 +633,22 @@ class PythonTransformer {
 
 					exprsToFunc(blocks, e.nextId(),e);
 				} else {
-					toFlattened(newEx, false, false, e.nextId,[]);
+					toFlattened(newEx, false, e.nextId,[]);
 				}
 				
 
 				
 
-			case [_,_, EBinop( op,left,right)]:
-				var right1 = flattenExpr(right, true, true, e.nextId);
-				var left1 = flattenExpr(left, true, true, e.nextId);
+			case [_, EBinop( op,left,right)]:
+				var right1 = flattenExpr(right, true, e.nextId);
+				var left1 = flattenExpr(left, true, e.nextId);
 
 				var ex = { expr : EBinop(op, left1.expr, right1.expr) , pos : e.expr.pos };
-				toFlattened(ex, true, false, e.nextId, left1.blocks.concat(right1.blocks));
+				toFlattened(ex, false, e.nextId, left1.blocks.concat(right1.blocks));
 
-			case [_,false, ETry( etry,catches)]:
-				var try1 = flattenExpr(etry, false, false, e.nextId);
-				var catches1 = [for (c in catches) flattenExpr(c.expr, false, false, e.nextId)];
+			case [false, ETry( etry,catches)]:
+				var try1 = flattenExpr(etry, false, e.nextId);
+				var catches1 = [for (c in catches) flattenExpr(c.expr, false, e.nextId)];
 
 				var blocks = try1.blocks.concat([for (c in catches1) for (b in c.blocks) b]);
 
@@ -662,27 +656,26 @@ class PythonTransformer {
 
 				var ex = { expr : ETry(try1.expr, newCatches), pos : e.expr.pos};
 				
-				//trace(ExprTools.toString(ex));
-				toFlattened(ex, false, false, e.nextId, try1.blocks.concat(blocks));
-			case [_, true, EThrow(x)]:
+				toFlattened(ex, false, e.nextId, try1.blocks.concat(blocks));
+			case [true, EThrow(x)]:
 				var block = macro @:pos(e.expr.pos) {
 					throw $x;
 					null;
 				}
 				forwardFlatten(block, e);				
-			case [_, _, ECall(e1,params)]:
-				var e1_ = flattenExpr(e1, true, true, e.nextId);
+			case [_, ECall(e1,params)]:
+				var e1_ = flattenExpr(e1, true, e.nextId);
 				
-				var params1 = [for (p in params) flattenExpr(p, true, true, e.nextId)];
+				var params1 = [for (p in params) flattenExpr(p, true, e.nextId)];
 
 				var blocks = e1_.blocks.concat([for (p in params1) for (b in p.blocks) b]);
 
 				var params2 = [for (p in params1) p.expr];
 
 				var ex = { expr : ECall(e1_.expr, params2), pos : e.expr.pos };
-				toFlattened(ex, false, false, e.nextId, blocks);
+				toFlattened(ex, false, e.nextId, blocks);
 				
-			case [_,true, ETry( etry,catches)]:
+			case [true, ETry( etry,catches)]:
 				
 				var pos = e.expr.pos;
 				var etry1 = macro @:pos(pos) _hx_t = $etry;
@@ -699,8 +692,8 @@ class PythonTransformer {
 
 				forwardFlatten(block, e);				
 
-			case [_,true, EObjectDecl( fields)]:
-				var newFields = [for (f in fields) { field : f.field, ex: flattenExpr(f.expr, true, true, e.nextId, [])}];
+			case [true, EObjectDecl( fields)]:
+				var newFields = [for (f in fields) { field : f.field, ex: flattenExpr(f.expr, true, e.nextId, [])}];
 				var newFields1 = [for (f in newFields) { field : f.field, expr : f.ex.expr}];
 
 				var blocks = [];
@@ -710,7 +703,7 @@ class PythonTransformer {
 
 				var ex = { expr : EObjectDecl(newFields1), pos : e.expr.pos };
 
-				toFlattened(ex, false, false, e.nextId, blocks);
+				toFlattened(ex, false, e.nextId, blocks);
 
 
 			case _ : toFlattened(e.expr);
