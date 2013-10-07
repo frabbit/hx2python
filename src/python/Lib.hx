@@ -30,6 +30,52 @@ class Lib
        
     }
 
-    
+    public static function toPythonIterable <T>(it:Iterable<T>):python.lib.Types.Iterable<T> 
+    {
+      return {
+        __iter__ : function () {
+          var it1 = it.iterator();
+          return {
+            next : function () {
+              if (it1.hasNext()) {
+                return it1.next();
+              } else {
+                throw new python.lib.Types.StopIteration();
+              }
+            }
+          }
+        }
+      }
+    }
+
+    public static function toHaxeIterable <T>(it:python.lib.Types.Iterable<T>):Iterable<T> 
+    {
+      return {
+        iterator : function () {
+          var it1 = it.__iter__();
+          var x:Null<T> = null;
+          var checked = false;
+          return {
+            next : function () {
+              return x;
+            },
+            hasNext : function () {
+              if (!checked) {
+                return x != null;
+              }
+              try {
+                x = it1.next();
+              } catch (s:python.lib.Types.StopIteration) {
+                x = null;
+              }
+              checked = true;
+              return x != null;
+            }
+          }
+        }
+      }
+    }
+
+
     
 }

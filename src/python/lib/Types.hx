@@ -1,8 +1,13 @@
 
 package python.lib;
 
-extern class Iterable<T> {
-	public function next ():T;
+typedef Iterator<T> = {
+	function next ():T;
+}
+
+typedef Iterable<T> = {
+	function __iter__():Iterator<T>;
+	
 }
 
 
@@ -103,7 +108,7 @@ extern class Tup4<A,B,C,D>
 @:native("BaseException")
 extern class BaseException 
 {
-
+	public function new ():Void;
 }
 
 
