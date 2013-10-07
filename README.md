@@ -1,7 +1,7 @@
 #[hx2python] [1]
 #####A proof of concept [python][2] target for [haxe][3].
 
-First of all thank to AndrewVernon who created the [dart target][4] for haxe using the same technique as i'm using now for the python target.
+First of all thank to Andrew Vernon who created the [dart target][4] for haxe using the same technique as i'm using now for the python target.
 
 ## Quick Start Guide
 1. Download and install [python][2] (currently only python 3 is supported).
