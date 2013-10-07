@@ -145,7 +145,8 @@ class PythonTransformer {
 	public static function exprsToFunc (exprs:Array<Expr>, name:String, base:FlattenedExpr) 
 	{
 		
-		if (exprs.length == 1) {
+		if (exprs.length == 1) 
+		{
 			switch (exprs[0].expr) {
 				case EFunction(name, f) if (name != null && f.args.length == 0): 
 					
@@ -156,7 +157,8 @@ class PythonTransformer {
 			}
 		}
 
-		function convertReturnExpr (expr:Expr):Array<Expr> {
+		function convertReturnExpr (expr:Expr):Array<Expr> 
+		{
 			return switch (expr.expr) {
 				case EFunction(name, f) if (name == null): throw "assert";
 				case EFunction(name, f): [expr, macro return $i{name}];
@@ -573,9 +575,9 @@ class PythonTransformer {
 				//trace("transform do while");
 				var newE1 = switch (e1.expr) {
 					case EBlock(exprs):
-						{ expr : EBlock(exprs.concat([macro if (!$econd) break])), pos : e.expr.pos};
+						{ expr : EBlock(exprs.concat([macro @:pos(e1.pos) if (!$econd) break])), pos : e.expr.pos};
 					case _: 
-						{ expr : EBlock([e1].concat([macro if (!$econd) break])), pos : e.expr.pos};
+						{ expr : EBlock([e1].concat([macro @:pos(e1.pos) if (!$econd) break])), pos : e.expr.pos};
 				}
 				var newExpr = { expr : EWhile(macro true, newE1, true), pos : e.expr.pos};
 				//trace(ExprTools.toString(newExpr));
@@ -584,17 +586,17 @@ class PythonTransformer {
 			
 			case [_, EUnop(OpIncrement, false, e1)]:
 				
-				forwardFlatten(macro $e1 = $e1 + 1,e);				
+				forwardFlatten(macro @:pos(e.expr.pos) $e1 = $e1 + 1,e);				
 			case [_, EUnop(OpDecrement,false, e1)]:
 				
-				forwardFlatten(macro $e1 = $e1 - 1,e);
+				forwardFlatten(macro @:pos(e.expr.pos) $e1 = $e1 - 1,e);
 			
 			case [_, EUnop(OpIncrement, true, e1)]:
 				
-				forwardFlatten(macro { var _hx_r = $e1; $e1 = $e1 + 1; _hx_r;},e);				
+				forwardFlatten(macro @:pos(e.expr.pos) { var _hx_r = $e1; $e1 = $e1 + 1; _hx_r;},e);				
 			case [_, EUnop(OpDecrement,true, e1)]:
 				
-				forwardFlatten(macro { var _hx_r = $e1; $e1 = $e1 - 1; _hx_r;},e);
+				forwardFlatten(macro @:pos(e.expr.pos) { var _hx_r = $e1; $e1 = $e1 - 1; _hx_r;},e);
 
 			case [true, EBinop(OpAssign,left,right)]:
 				trace(ExprTools.toString(e.expr));
