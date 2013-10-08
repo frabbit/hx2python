@@ -1,4 +1,6 @@
 import python.lib.Builtin;
+import python.lib.Inspect;
+import python.lib.Types;
 
 /*
  * Copyright (C)2005-2012 Haxe Foundation
@@ -23,7 +25,7 @@ import python.lib.Builtin;
  */
 @:coreApi class Reflect {
 
-	public static function hasField( o : Dynamic, field : String ) : Bool {
+	public static inline function hasField( o : Dynamic, field : String ) : Bool {
 		//return untyped __js__('Object').prototype.hasOwnProperty.call(o, field);
 		return Builtin.hasattr(o, field);
 		
@@ -39,7 +41,7 @@ import python.lib.Builtin;
 	}
 
 	public inline static function setField( o : Dynamic, field : String, value : Dynamic ) : Void untyped {
-		return __define_feature__("Reflect.setField",setattr(o,field,value));
+		return __define_feature__("Reflect.setField",Builtin.setattr(o,field,value));
 	}
 
 	public static inline function getProperty( o : Dynamic, field : String ) : Dynamic {
@@ -77,6 +79,17 @@ import python.lib.Builtin;
 	}
 
 	public static function fields( o : Dynamic ) : Array<String> {
+		var a = [];
+		if (o != null) {
+			if (Builtin.hasattr(o, "__dict__")) {
+				var d:Dict<String, Dynamic> = Builtin.getattr(o, "__dict__");
+				var keys  = untyped d.keys();
+				untyped __python__("for k in keys:");
+				untyped __python__("	a.append(k)");
+
+			}
+		}
+		return a;
 		// var a = [];
 		// if (o != null) untyped {
 		// 	var hasOwnProperty = __js__('Object').prototype.hasOwnProperty;

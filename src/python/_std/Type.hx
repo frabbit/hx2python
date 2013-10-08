@@ -1,3 +1,5 @@
+import python.lib.Builtin;
+
 /*
  * Copyright (C)2005-2012 Haxe Foundation
  *
@@ -34,7 +36,7 @@ enum ValueType {
 @:coreApi class Type {
 
 	public static function getClass<T>( o : T ) : Class<T> untyped {
-		return throw "not implemented";
+		return throw "getClass not implemented";
 	}
 
 	public static function getEnum( o : EnumValue ) : Enum<Dynamic> untyped {
@@ -57,23 +59,32 @@ enum ValueType {
 	public static function getClassName( c : Class<Dynamic> ) : String 
 	{
 		var res = null;
+		trace(c);
 		try {
 			var s :String = untyped c.__name__;
+			
 			res = s.split("_").join(".");
-		} catch (e:Dynamic) {}
+			
+			trace(res);
+		} catch (e:Dynamic) {
+			trace(e);
+		}
 		return res;
 	}
 
 	public static function getEnumName( e : Enum<Dynamic> ) : String {
-		return getClassName(untyped e.__class__);
+		return getClassName(untyped e._hx_class);
 	}
 
 	public static function resolveClass( name : String ) : Class<Dynamic> untyped {
-		return throw "not implemented";
+		var name1 = name.split(".").join("_");
+		return untyped globals()[name1];
+
+		//return throw "resolveClass not implemented";
 	}
 
 	public static function resolveEnum( name : String ) : Enum<Dynamic> untyped {
-		return throw "not implemented";
+		return resolveClass(name);
 	}
 
 	public static function createInstance<T>( cl : Class<T>, args : Array<Dynamic> ) : T untyped 
@@ -130,39 +141,72 @@ enum ValueType {
 
 	public static function getInstanceFields( c : Class<Dynamic> ) : Array<String> {
 		// dict((name, getattr(f, name)) for name in dir(c) if not name.startswith('__'))
-		return throw "not implemented";
+		return throw "getInstanceFields not implemented";
 	}
 
 	public static function getClassFields( c : Class<Dynamic> ) : Array<String> {
-		return throw "not implemented";
+		return throw "getClassFields not implemented";
 	}
 
 	public static function getEnumConstructs( e : Enum<Dynamic> ) : Array<String> {
-		return throw "not implemented";
+		return throw "getEnumConstructs not implemented";
 	}
 
+	/*
+	enum ValueType {
+	TNull;
+	TInt;
+	TFloat;
+	TBool;
+	TObject;
+	TFunction;
+	TClass( c : Class<Dynamic> );
+	TEnum( e : Enum<Dynamic> );
+	TUnknown;
+}*/
+
 	public static function typeof( v : Dynamic ) : ValueType {
-		return throw "not implemented";
+		if (v == null) {
+			return TNull;
+		} else if (Builtin.isinstance(v, untyped bool)) {
+			return TBool;
+		} else if (Builtin.isinstance(v, untyped int)) {
+			return TInt;
+		} else if (Builtin.isinstance(v, untyped float)) {
+			return TFloat;
+		} else if (Builtin.hasattr(v, "__class__")) {
+			if (Builtin.isinstance(v, untyped __python__("AnonObject"))) {
+				return TObject;
+			}
+			if (Builtin.isinstance(v, untyped __python__("Enum"))) {
+				return TEnum(untyped v.__class__);	
+			}
+			return TClass(untyped v.__class__);
+		} else if (Builtin.callable(v)) {
+			return TFunction;
+		} else {
+			return TUnknown;
+		}
 	}
 
 	public static function enumEq<T>( a : T, b : T ) : Bool {
-		return throw "not implemented";
+		return throw "enumEq not implemented";
 	}
 
 	public inline static function enumConstructor( e : EnumValue ) : String {
-		return throw "not implemented";
+		return throw "enumConstructor not implemented";
 	}
 
 	public inline static function enumParameters( e : EnumValue ) : Array<Dynamic> {
-		return throw "not implemented";
+		return throw "enumParameters not implemented";
 	}
 
 	public inline static function enumIndex( e : EnumValue ) : Int {
-		return throw "not implemented";
+		return throw "enumIndex not implemented";
 	}
 
 	public static function allEnums<T>( e : Enum<T> ) : Array<T> {
-		return throw "not implemented";
+		return throw "allEnums not implemented";
 	}
 
 }

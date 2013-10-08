@@ -90,22 +90,13 @@ class PythonGenerator
                 { expr : EFunction(cl.name + "_statics_" + name, f), pos : expr.pos };
             case _ : expr;
         }
-        var expr2 = PythonTransformer.transform(expr);
-        var exprString = new PythonPrinter().printExpr(expr,context);
+        var expr1 = PythonTransformer.transform(expr);
+        //var exprString = new PythonPrinter().printExpr(expr,context);
 
-        var exprString2 = new PythonPrinter().printExpr(expr2,context);
-        //print('"""\n');
-        //print(ExprTools.toString(expr));
-        //print('\n"""\n');
-        //print('"""\n');
-        //print(ExprTools.toString(expr2));
-        //print('\n"""\n');
+        var exprString = new PythonPrinter().printExpr(expr1,context);
 
-        //print("\t");
-        //print(exprString);
-        //print("\n\t#transformed\n");
         print(indent);
-        print(exprString2); 
+        print(exprString); 
 
         print("\n");
         print(getPath(cl) + "." + name + " = " + cl.name + "_statics_" + name);
@@ -117,27 +108,16 @@ class PythonGenerator
         var expr = haxe.macro.Context.getTypedExpr(e);
         var expr = switch (expr.expr) {
             case EFunction(_,f):
-
                 f.args = extraArgs.map(function (s) return { value : null, name : s, opt : false, type:null}).concat(f.args);
                 { expr : EFunction(name, f), pos : expr.pos };
             case _ : expr;
         }
-        var expr2 = PythonTransformer.transform(expr);
-        var exprString = new PythonPrinter().printExpr(expr,context);
+        var expr1 = PythonTransformer.transform(expr);
 
-        var exprString2 = new PythonPrinter().printExpr(expr2,context);
-       // print('"""\n');
-       // print(ExprTools.toString(expr));
-       // print('\n"""\n');
-        //print('"""\n');
-        //print(ExprTools.toString(expr2));
-        //print('\n"""\n');
+        var exprString = new PythonPrinter().printExpr(expr1,context);
 
-        //print("\t");
-        //print(exprString);
-        //print("\n\t#transformed\n");
         print(indent);
-        print(exprString2); 
+        print(exprString); 
     }
 
     inline function genExpr(e)
@@ -235,11 +215,7 @@ class PythonGenerator
            }
            
            dotPath = dotPath.split("_" + moduleName + ".").join("");
-           if (nativeName == "__builtin__") {
-             trace(t);
-             trace(pack1);
-           trace(dotPath);
-           }
+           
            
            //trace(dotPath);
            //trace(fullPath);
@@ -318,6 +294,7 @@ class PythonGenerator
                 //print(g);
                 //print('\n"""\n');
                 //print('\tdef $field(');
+
                 genStaticFuncExpr(e, field, c, [], "");
                 newline();
             default:
@@ -361,23 +338,27 @@ class PythonGenerator
             }
 
             api.setCurrentClass(c);
+
             var p = getPath(c);
             print('class $p');
-            trace(p);
+            //trace(p);
 
             var bases = [];
+            var superClass = null;
             if(c.superClass != null)
             {
                 var psup = getPath(c.superClass.t.get());
                 bases.push(psup);
+                superClass = psup;
                 
             }
-
+            var interfaces = [];
             if(c.interfaces.length > 0)
             {
                 var me = this;
                 var inter = c.interfaces.map(function(i) return me.getPath(i.t.get())).join(",");
-                bases.push(inter);
+                //bases.push(inter);
+                interfaces.push(inter);
                 //print(' implements $inter');
             }
 
@@ -414,19 +395,40 @@ class PythonGenerator
             }
 
             
+            var fields = [];
+            var props = [];
+            var methods = [];
 
             for(f in c.fields.get())
             {
+                
+                //trace(f);    
+                
+                
                 switch( f.kind ) {
+
                     case FVar(r, _):
+
                         if(r == AccResolve) continue;
+                        switch (r) {
+                            case AccCall: props.push(f.name);
+                            default: fields.push(f.name);
+                        }
+                    
                     default:
+                        methods.push(f.name);
                         usePass = false;
                 }
                 genClassField(c, p, f);
             }
+            
+            if (usePass) print("\tpass\n");
 
-            if (usePass) print("\tpass");
+            var statics = [];
+            for(f in c.statics.get()) {
+                statics.push(f.name);
+            }
+            
 
             closeBlock();
 
@@ -436,10 +438,26 @@ class PythonGenerator
                 //trace(c.name + "::" +f.name);
                 genStaticField(c, p, f);
             }
+            var fieldChar = fields.length > 0 ? '"' : '';
+            var propsChar = props.length > 0 ? '"' : '';
+            var methodsChar = methods.length > 0 ? '"' : '';
+            print("\n\n" + p + "._hx_class = " + p + "\n");
+            //print("\n\n" + p + "._hx_name = " + p + "\n");
+            print(p + "._hx_fields = [" + fieldChar + fields.join('","') + fieldChar + "]\n");
+            print(p + "._hx_props = [" + propsChar + props.join('","') + propsChar + "]\n");
+            print(p + "._hx_methods = [" + methodsChar + methods.join('","') + methodsChar + "]\n");
+            var staticsChar = statics.length > 0 ? '"' : '';
+            print(p + "._hx_statics = [" + staticsChar + statics.join('","') + staticsChar + "]\n");
+            print(p + "._hx_interfaces = [" + interfaces.join(',') + "]\n");
+            if (superClass != null) {
+                print(p + "._hx_super = " + superClass + "\n");
+            }
+            print("\n");
         }
         if (c.init != null) {
             var t = haxe.macro.Context.getTypedExpr(c.init);
-            print(new PythonPrinter().printExpr(t,PrintContexts.create("")));
+            var trans = PythonTransformer.transform(t);
+            print(new PythonPrinter().printExpr(trans,PrintContexts.create("")));
             print("\n");
         }
 
@@ -567,6 +585,19 @@ class _HxException(Exception):
 
     public function generate()
     {
+        print("class Int:
+    pass\n");
+        print("class Float:
+    pass\n");
+        print("class Dynamic:
+    pass\n");
+
+        print("import math as _hx_math\n");
+
+        PythonPrinter.pathHack.set("StdTypes.Int", "Int");
+        PythonPrinter.pathHack.set("StdTypes.Float", "Float");
+        PythonPrinter.pathHack.set("StdTypes.Dynamic", "Dynamic");
+
         generateBaseException();
         generateBaseAnon();
 

@@ -30,7 +30,7 @@
 	it can be passed as argument to functions which modify it by appending more
 	values. However, the internal buffer cannot be modified.
 **/
-@:native("StringBuffer")
+@:native("_hx_StringIO")
 extern class StringBuf {
 
 /**
@@ -50,7 +50,11 @@ extern class StringBuf {
 		If [x] is null, the String "null" is appended.
 	**/
     public inline function add( x : Dynamic ) : Void {
-        untyped this.write(x);
+        add1(Std.string(x));
+    }
+
+    inline function add1(s:String):Void {
+    	untyped this.write(s);	
     }
 
 /**
@@ -60,7 +64,7 @@ extern class StringBuf {
 		unspecified.
 	**/
     public inline function addChar( c : Int ) : Void {
-        add(String.fromCharCode(c));
+        add1(String.fromCharCode(c));
     }
 
 /**
@@ -76,7 +80,7 @@ extern class StringBuf {
 		of [s].
 	**/
     public inline function addSub( s : String, pos : Int, ?len : Int) : Void {
-        add((len == null ? s.substr(pos) : s.substr(pos, len)));
+        add1((len == null ? s.substr(pos) : s.substr(pos, len)));
     }
 
 /**
@@ -84,6 +88,11 @@ extern class StringBuf {
 		
 		The buffer is not emptied by this operation.
 	**/
-    function toString() : String;
+    inline function toString() : String {
+    	return untyped this.getvalue();
+    }
 
+    static function __init__():Void {
+    	untyped __python__("from io import StringIO as _hx_StringIO");
+    }
 }

@@ -37,7 +37,11 @@ extern class String {
 	/**
 		The number of characters in [this] String.
 	**/
-	var length(default,null) : Int;
+	var length(get,null) : Int;
+
+	private inline function get_length ():Int {
+		return python.lib.Builtin.len(this);
+	}
 
 	/**
 		Creates a copy from a given String.
@@ -49,14 +53,18 @@ extern class String {
 		
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
-    function toUpperCase() : String;
+    inline function toUpperCase() : String {
+    	return untyped this.toupper();
+    }
 
 	/**
 		Returns a String where all characters of [this] String are lower case.
 		
 		Affects the characters [A-Z]. Other characters remain unchanged.
 	**/
-	function toLowerCase() : String return;
+	inline function toLowerCase() : String {
+		return untyped this.tolower();
+	}
 
 	/**
 		Returns the character at position [index] of [this] String.
@@ -80,7 +88,7 @@ extern class String {
 	**/
 	inline public function charCodeAt( index : Int) : Null<Int>
     {
-        return untyped this.codeUnitAt(index);
+        return untyped ord(untyped __python_array_get__(this, index));
     }
 
 	/**
@@ -94,7 +102,7 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-	function indexOf( str : String, ?startIndex : Int ) : Int return;
+	inline function indexOf( str : String, ?startIndex : Int ) : Int return untyped this.lfind(str, startIndex);
 
 	/**
 		Returns the position of the rightmost occurence of [str] within [this]
@@ -107,7 +115,7 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-    function lastIndexOf( str : String, ?startIndex : Int ) : Int return;
+    inline function lastIndexOf( str : String, ?startIndex : Int ) : Int return untyped this.rfind(str, startIndex);
 
 	/**
 		Splits [this] String at each occurence of [delimiter].
@@ -161,12 +169,14 @@ extern class String {
 		If the (possibly swapped) [startIndex] exceeds [this].length, the empty
 		String "" is returned.
 	**/
-	function substring( startIndex : Int, ?endIndex : Int ) : String;
+	inline function substring( startIndex : Int, ?endIndex : Int ) : String {
+		return python.Tools.substring(this, startIndex, endIndex);
+	}
 
 	/**
 		Returns the String itself.
 	**/
-	function toString() : String;
+	inline function toString() : String return this;
 
 	/**
 		Returns the String corresponding to the character code [code].
@@ -174,8 +184,10 @@ extern class String {
 		If [code] is negative or has another invalid value, the result is
 		unspecified.
 	**/
-	inline public static function fromCharCode( code : Int ) : String
-    {
-        return untyped __new_named__('String.fromCharCode', code);
-    }
+	public static inline function fromCharCode( code : Int ) : String {
+		var c = code;
+		return untyped (''.join)(untyped map(untyped chr, [c]));
+	}
+
+    
 }

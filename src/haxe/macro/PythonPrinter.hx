@@ -56,13 +56,13 @@ class PythonPrinter {
 	var tabString:String;
 
 	static var keywords = [
-"and",       "del",       "from",      "not",       "while",
-"as",        "elif",      "global",    "or",        "with",
-"assert",    "else",      "if",        "pass",      "yield",
-"break",     "except",    "import",    "print",
-"class",     "exec",      "in",        "raise",
-"continue",  "finally",   "is",        "return",
-"def",       "for",       "lambda",    "try"
+		"and",       "del",       "from",      "not",       "while",
+		"as",        "elif",      "global",    "or",        "with",
+		"assert",    "else",      "if",        "pass",      "yield",
+		"break",     "except",    "import",    "print",
+		"class",     "exec",      "in",        "raise",
+		"continue",  "finally",   "is",        "return",
+		"def",       "for",       "lambda",    "try"
 ];
 
  
@@ -94,8 +94,8 @@ class PythonPrinter {
 	}
 
 	public function printUnop(op:Unop) return switch(op) {
-		case OpIncrement: "++";
-		case OpDecrement: "--";
+		case OpIncrement: throw "unexpected operator ++";
+		case OpDecrement: throw "unexpected operator --";
 		case OpNot: "not ";
 		case OpNeg: "-";
 		case OpNegBits: "~";
@@ -122,11 +122,10 @@ class PythonPrinter {
 		case OpShr: ">>";
 		case OpUShr: ">>>";
 		case OpMod: "%";
-		case OpInterval: "...";
-		case OpArrow: "=>";
-		case OpAssignOp(op):
-			printBinop(op)
-			+ "=";
+		case OpInterval: "..."; throw "unexpected operator ... (OpInterval)";
+		case OpArrow: "=>"; throw "unexpected operator =>";
+		case OpAssignOp(op): throw "unexpected assign operator " + printBinop(op);
+			
 	}
 	public function printString(s:String) {
 		return '"' + s.split("\n").join("\\n").split("\t").join("\\t").split("'").join("\\'").split('"').join("\\\"") #if sys .split("\x00").join("\\x00") #end + '"';
@@ -423,22 +422,25 @@ class PythonPrinter {
 		function printExprIndented (e) return printExpr(e, context.incIndent());
 //        trace(e);
 		//if (e == null) trace("WARNING: #NULL");
-        return e == null ? "None" : switch(e.expr) {
+        return try e == null ? "None" : switch(e.expr) {
 		case EConst(c): printConstant(c);
-		case EArray(e1, e2): '${printExpr1(e1)}._hx_a[${printExpr1(e2)}]';
+		case EArray(e1, e2): '${printExpr1(e1)}[${printExpr1(e2)}]';
 		case EBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case EBinop(OpEq, e1, e2 = { expr : EConst(CIdent("null"))}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
 		case EBinop(OpNotEq, e1, e2 = { expr : EConst(CIdent("null"))}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
 		case EBinop(op, e1, e2): 
+			trace(ExprTools.toString(e));
 			//trace(ExprTools.toString(e));
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
+		
+		
 		case EField(e1, n):/* trace(e);*/ print_field(e1, n, context);
 		case EParenthesis(e1): '(${printExpr1(e1)})';
 		case EObjectDecl(fl):
 			"AnonObject(" + fl.map(function(fld) return '${fld.field} = ${printExpr1(fld.expr)} ').join(",") + ")";
-		case EArrayDecl(el): 'Array.new1([${printExprs(el, ", ",context)}], ${el.length})';
+		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall(e1, el): printCall(e1, el.copy(),context);
 		case ENew(tp, el): 
 			var id = printTypePath(tp,context);
@@ -468,6 +470,9 @@ class PythonPrinter {
 			// here we could print pythons elif
 			printIfElse(econd, eif, eelse,context, true);
 		case EIf(econd, eif, eelse): printIfElse(econd, eif, eelse,context);
+		// revert length property access in generated whiles from for (dirty hack)
+		case EWhile({ expr : EBinop(OpLt, eleft = { expr : EConst(CIdent(g1))}, { expr : EField( eright={ expr:EConst(CIdent(g2))}, "length")})}, e1, true) if (g1.substr(0,2) == "_g"):
+			printExpr1(macro while ($eleft < len($eright)) $e1);
 		case EWhile(econd, e1, true): 'while ${printExpr1(econd)}:\n$indent\t${printExprIndented(e1)}';
 		case EWhile(econd, e1, false): "not supported for python target";
 		case ESwitch(e1, cl, edef): /*trace(e); */ printSwitch(e1, cl, edef,context);
@@ -487,7 +492,7 @@ class PythonPrinter {
 		case ETernary(econd, eif, eelse): '${printExpr1(econd)} ? ${printExpr1(eif)} : ${printExpr1(eelse)}';
 		case ECheckType(e1, ct): '#CHECK_TYPE(${printExpr1(e1)}, ${printComplexType(ct,context)})';
 		case EMeta(meta, e1): printMetadata(meta,context) + " " +printExpr1(e1);
-	};
+	} catch (ex:Dynamic) { trace("error for Expr:" + ExprTools.toString(e)); throw "error";};
     }
 
     function printTry (e1:Expr, cl:Array<Catch>, context:PrintContext) 

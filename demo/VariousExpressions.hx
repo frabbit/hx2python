@@ -41,6 +41,13 @@ class Child extends Sub implements Hui {
     }
 }
 
+class Whatever {
+    public function new () {}
+    public var hello(get, null):Int;
+
+    function get_hello ():Int return 1;
+}
+
 class VariousExpressions
 {
 
@@ -56,6 +63,11 @@ class VariousExpressions
 
     public static function main()
     {
+        trace(new Whatever().hello);
+        var x = 2;
+        var z = 3 + x;
+        trace(String.fromCharCode(z));
+        trace("hello world".length);
         trace(Sum.jup);
         var umlaut = "UMLAUTE: äöüÄÖÜß";
         var gurki = 511111;
@@ -168,7 +180,9 @@ class VariousExpressions
         
         trace("x from tryCatch:" + x);
 
+        var x = ((function () return { x : 5})().x = 10);
 
+        trace("new X : " + x);
 
         var z = {
             x : 5,
@@ -178,6 +192,8 @@ class VariousExpressions
             }
         }
 
+        var z11 = (z.x > 10) ? 1 : (z.x < 0) ? 2 : 17;
+        trace("z11:" + z11);
         z.x += 10;
         trace("z.z(2): " + z.z(2));
         trace("z:" + z.x);
@@ -196,6 +212,14 @@ class VariousExpressions
             
             1;
 
+        }
+
+        try {
+            throw "s";
+        } catch (e:Dynamic) {
+            trace("except dynamic");
+        } catch (s:String) {
+            trace("except string");
         }
 
         do {

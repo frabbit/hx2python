@@ -21,128 +21,117 @@
  */
 
 
-
-@:coreApi @:final class Array<T> implements ArrayAccess<T> {
-
-	private var _hx_a : python.NativeList<T>;
-	public var length(default,null) : Int;
+@:native("list")
+extern class Array<T> implements ArrayAccess<T> {
 
 	
 
-	public function new() : Void {
-		this._hx_a = untyped __python__("[]");
-		this.length = 0;
-	}
+	public var length(get,null) : Int;
 
-	@:keep private static function new1<T>(a:python.NativeList<T>,l:Int) : Array<T> {
-		var inst = new Array<T>();
-		inst._hx_a = a;
-		inst.length = l;
-		return inst;
-	}
+	private inline function get_length ():Int return python.lib.Builtin.len(cast this);
+	
+
+	public function new() : Void;
+
 
 	public inline function concat( a : Array<T>) : Array<T> {
 		
-		return new1(cast ((cast(_hx_a)) + (cast a._hx_a)), length + a.length);
+		return untyped (untyped this) + (untyped a);
 	}
 
 	public inline function copy() : Array<T> {
-		return new1(untyped __call__(list, _hx_a), _hx_a.length);
+		return untyped list(this);
 	}
 
-	public function iterator() : Iterator<T> {
+	public inline function iterator() : Iterator<T> {
 		return throw "not implemented";
 	}
 
-	public function insert( pos : Int, x : T ) : Void {
+	public inline function insert( pos : Int, x : T ) : Void {
 		return throw "not implemented";
 	}
 
-	public function join( sep : String ) : String {
-		return throw "not implemented";
+	public inline function join( sep : String ) : String {
+		return untyped sep.join(this);
 	}
 
-	public function toString() : String {
-		return untyped str(_hx_a);
+	public inline function toString() : String {
+		return untyped str(this);
 	}
 
-	public function pop() : Null<T> {
-		return throw "not implemented";
+	public inline function pop() : Null<T> {
+		return if (this.length == 0) null else untyped(this).pop();
 	}
 
-	public function push(x:T) : Int {
-		_hx_a.append(x);
-		length+=1;
+	public inline function push(x:T) : Int {
+		untyped this.append(x);
+		
 		return length;
 	}
 
-	public function unshift(x : T) : Void {
+	public inline function unshift(x : T) : Void {
 		return throw "not implemented";
 	}
 
-	public function remove(x : T) : Bool {
+	public inline function remove(x : T) : Bool {
 		return throw "not implemented";
 	}
 
-	public function reverse() : Void {
+	public inline function reverse() : Void {
 		return throw "not implemented";
 	}
 
-	public function shift() : Null<T> {
+	public inline function shift() : Null<T> {
 		return throw "not implemented";
 	}
 
-	public function slice( pos : Int, ?end : Int ) : Array<T> {
+	public inline function slice( pos : Int, ?end : Int ) : Array<T> {
 		return throw "not implemented";
 	}
 
-	public function sort(f:T->T->Int) : Void {
+	public inline function sort(f:T->T->Int) : Void {
 		return throw "not implemented";
 	}
 
-	public function splice( pos : Int, len : Int ) : Array<T> {
+	public inline function splice( pos : Int, len : Int ) : Array<T> {
 		return throw "not implemented";
 	}
 
-	public function map<S>( f : T -> S ) : Array<S> {
-		return new1(untyped __python__("list(map(f,self._hx_a))"), length);
+	public inline function map<S>( f : T -> S ) : Array<S> {
+		return untyped list(untyped __python__("map")(f,this));
 	}
 
 	public function filter( f : T -> Bool ) : Array<T> {
-		return throw "not implemented";
+		return Builtin.filter(f, this);
 	}
 
 
-	/* NEKO INTERNAL */
-	@:keep private function __get(idx:Int):T
+	
+	@:keep private inline function __get(idx:Int):T
 	{
-		var _hx_a = _hx_a;
+		var _hx_a = this;
 		if (idx >= _hx_a.length || idx < 0)
 			return null;
 
-		return untyped __python__("self._hx_a[idx]");
+		return untyped this[idx];
 	}
 
-	@:keep private function __set(idx:Int, v:T):T
+	@:keep private inline function __set(idx:Int, v:T):T
 	{
-		var _hx_a = _hx_a;
-		
+		var _hx_a = this;
 
-		if (idx >= length)
-			this.length = idx + 1;
-
-		untyped __python_array_set__(_hx_a,idx,v);
+		untyped _hx_a[idx] = v;
 		return v;
 	}
 
 	@:keep private inline function __unsafe_get(idx:Int):T
 	{
-		return untyped __python__("self._hx_a[idx]");
+		return untyped this[idx];
 	}
 
 	@:keep private inline function __unsafe_set(idx:Int, val:T):T
 	{
-		untyped __python_array_set__(_hx_a,idx,val);
+		untyped this[idx] = val;
 		return val;
 	}
 

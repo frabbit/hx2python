@@ -1,4 +1,7 @@
 package;
+
+import python.lib.Builtin;
+import python.lib.Inspect;
 /*
  * Copyright (C)2005-2012 Haxe Foundation
  *
@@ -26,10 +29,54 @@ package;
 @:coreApi /*extern*/ class Std {
 
     public static function is( v : Dynamic, t : Dynamic ) : Bool {
-        untyped __python__("if t == str:");
-        untyped __python__("\treturn isinstance(v, str)");
-        
-        return untyped __call__(isinstance, v, t);
+        if (v == null) {
+            return false;
+        }
+        else if (t == null) {
+            return false;
+        }
+        else if (t == untyped __python__("Dynamic")) {
+            return true;
+        }
+        else if (t == untyped __python__("Int") && Builtin.isinstance(v, __python__("int"))) {
+            return true;
+        }
+        else if (t == untyped __python__("Float") && (Builtin.isinstance(v, __python__("(float,int)")) || Builtin.isinstance(v, __python__("int")))) {
+            return true;
+        }
+        else if (t == String) {
+            return Builtin.isinstance(v, String);
+        }
+        else if (Builtin.isinstance(v, t)) {
+            return true;
+        } 
+        else if (Inspect.isclass(t)) {
+            
+            function loop (intf) 
+            {
+                var f:Array<Dynamic> = Reflect.field(intf, "_hx_interfaces");
+                if (f != null) {
+                    for (i in f) {
+                        if ( i == t) {
+                            return true;
+                        } else {
+                            var l = loop(i);
+                            if (l) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                } else {
+                    return false;
+                }
+            }
+            return loop(untyped v.__class__);
+                
+            
+        } else {
+            return false;
+        }
         //return untyped __is__(v , t);  //TODO(av) macro to check t is a Type and not null as dart only perfomrs "is" at compile time despite having a runtime Type
     }
 
@@ -38,6 +85,9 @@ package;
 //    }
 
     @:keep public static function string( s : Dynamic ) : String {
+        if (is(s, Int)) {
+            return untyped str(s);
+        }
         if (is(s, String)) {
             return s;
         }
@@ -61,11 +111,13 @@ package;
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
-        return untyped __int_parse__(x);
+        
+        return untyped int(untyped float(x));
+        
     }
 
     public static inline function parseFloat( x : String ) : Float {
-        return untyped __double_parse__(x);
+        return untyped float(x);
     }
 
 

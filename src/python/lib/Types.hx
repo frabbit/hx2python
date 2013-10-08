@@ -55,7 +55,7 @@ extern class Set<T>
 
 
 @:native("dict")
-extern class Dict<K, V> 
+extern class Dict<K, V>
 {
 	public function new ():Void;
 

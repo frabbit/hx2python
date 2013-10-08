@@ -1,9 +1,22 @@
 -cp src
 -cp src/python/_std
 -cp demo
+-D python
 -main Main
 -js bin/hxpython.py
 --macro haxe.macro.PythonGenerator.use()
 -dce full
 
 -cmd python3 bin/hxpython.py
+
+#--next
+#
+#-cp src
+##-cp src/python/_std
+#-cp demo
+#-main Main
+#-js bin/hxpython.js
+##--macro haxe.macro.PythonGenerator.use()
+#-dce full
+
+#-cmd python3 bin/hxpython.py
