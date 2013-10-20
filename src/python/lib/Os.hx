@@ -50,7 +50,7 @@ extern class Os {
 
 	public static function fchdir (fd:FileDescriptor):Void;
 
-	
+	public static function listdir (path:String = "."):Array<String>;
 
 	public static function walk (top:String, topdown:Bool = true, onerror:OSError->Void = null, followlinks:Bool = false):Tup3<String, Array<String>, Array<String>>;
 
@@ -58,6 +58,7 @@ extern class Os {
 	
 	public static function makedirs (path:String, mode : Int = 511 /* Oktal 777 */, exist_ok:Bool = false):Void;
 
+	public static function mkdir (path:String, mode : Int = 511 /* Oktal 777 */):Void;
 
 	static function __init__ ():Void 
 	{

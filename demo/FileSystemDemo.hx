@@ -14,6 +14,9 @@ class FileSystemDemo {
 		}
 		trace(python.FileSystem.exists("bin/hello"));
 		trace(python.FileSystem.exists("bin/hello_not"));
+		trace(python.FileSystem.readDirectory("."));
+
+		trace(python.FileSystem.stat("."));
 	}
 
 }
