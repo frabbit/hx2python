@@ -3,6 +3,10 @@ class ControlFlowDemo
 {
     public static var STATIC_VAR = "staticVar";
 
+    public static function main() {
+        new ControlFlowDemo();
+    }
+
     public function new()
     {
         NAMED_FUNCTION();

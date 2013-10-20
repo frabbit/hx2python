@@ -31,7 +31,8 @@ class Main
         ReflectDemo.main();
         log(":::::ArrayDemo::::::");
         ArrayDemo.main();
-
+        log(":::::ControlFlowDemo::::::");
+        ControlFlowDemo.main();
         //var x = false;
         //switch (x) {
         //	case true: return "foo";

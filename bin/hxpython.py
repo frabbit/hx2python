@@ -67,6 +67,179 @@ ArrayDemo._hx_methods = []
 ArrayDemo._hx_statics = ["main"]
 ArrayDemo._hx_interfaces = []
 
+class ControlFlowDemo:
+
+
+	def __init__(self = None):
+		self.NAMED_FUNCTION()
+		jimmy = 22
+		def _hx_local_0():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 16 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------CONDITIONAL---------------\n"))
+		if ControlFlowDemo.STATIC_VAR == "staticVar":
+			def _hx_local_1():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 21 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("STATIC_VAR == \"staticVar\" is true"))
+		
+		else:
+			def _hx_local_2():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 25 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("STATIC_VAR == \"staticVar\" is false"))
+			def _hx_local_3():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 26 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("STATIC_VAR == \"staticVar\" is false"))
+		
+		def _hx_local_4():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 29 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------SWITCH---------------\n"))
+		jimmy = 33
+		if jimmy == 1:
+			def _hx_local_5():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 35 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("jimmy is 1"))
+		
+		elif jimmy == 3:
+			def _hx_local_6():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 36 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("jimmy is 3"))
+		
+		elif jimmy == 88:
+			def _hx_local_7():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 37 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("jimmy is 88"))
+		
+		elif jimmy == 33:
+			def _hx_local_8():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 38 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("jimmy is 33"))
+		
+		else:
+			def _hx_local_9():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 39 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("default: don\'t konw how old jimmy is"))
+		
+		def _hx_local_10():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 55 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------WHILE---------------\n"))
+		count = 0
+		def _hx_local_12():
+			def _hx_local_11():
+				nonlocal count
+				_hx_r = count
+				count = count + 1
+				return _hx_r
+				
+			
+			return _hx_local_11() < 3
+		
+		while _hx_local_12():
+			def _hx_local_13():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 60 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("count = ") + Std.string(count))
+		
+		def _hx_local_14():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 63 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------FOR---------------\n"))
+		_g = 0
+		while _g < 3:
+			def _hx_local_15():
+				nonlocal _g
+				_hx_r = _g
+				_g = _g + 1
+				return _hx_r
+				
+			
+			i = _hx_local_15()
+			def _hx_local_16():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 67 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("i = ") + Std.string(i))
+		
+		
+		def _hx_local_17():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 70 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("-------------FOR OVER ITERTOR---------------"))
+		it = [1, 2, 3, 4]
+		_g = 0
+		while _g < len(it):
+			i = it[_g]
+			_g = _g + 1
+			def _hx_local_18():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 76 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string(i))
+		
+		
+		def _hx_local_19():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 79 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------TRY CATCH: SUCCESS---------------\n"))
+		str = "string"
+		x = "anotherString"
+		def _hx_local_20(a = None,b = None):
+			return a + b
+		noError = _hx_local_20
+		def _hx_local_22():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 92 ,className = "ControlFlowDemo" ,methodName = "new" )
+		try:
+			noError(str, x)
+			def _hx_local_21():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 88 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("no error"))
+		
+		except Exception as _hx_e:
+			_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
+			if True:
+				e = _hx_e1
+				print(Std.string("error = ") + Std.string(e))
+			else:
+				raise _hx_e
+		def _hx_local_23():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 95 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n-------------TRY CATCH: ERROR---------------\n"))
+		str1 = "string"
+		x1 = 0
+		def _hx_local_24(a = None,b = None):
+			return a + b
+		causeError = _hx_local_24
+		def _hx_local_26():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 108 ,className = "ControlFlowDemo" ,methodName = "new" )
+		try:
+			causeError(str1, x1)
+			def _hx_local_25():
+				return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 104 ,className = "ControlFlowDemo" ,methodName = "new" )
+			print(Std.string("no error"))
+		
+		except Exception as _hx_e:
+			_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
+			if True:
+				e = _hx_e1
+				print(Std.string("Success: error = ") + Std.string(e))
+			else:
+				raise _hx_e
+		def _hx_local_27():
+			return AnonObject(fileName = "ControlFlowDemo.hx" ,lineNumber = 111 ,className = "ControlFlowDemo" ,methodName = "new" )
+		print(Std.string("\n\n--------------------------------------------\n"))
+	
+	def NAMED_FUNCTION(self = None):
+		None
+
+
+
+
+
+ControlFlowDemo.STATIC_VAR = "staticVar"#transformed"staticVar"
+def ControlFlowDemo_statics_main():
+	ControlFlowDemo()
+ControlFlowDemo.main = ControlFlowDemo_statics_main
+
+
+ControlFlowDemo._hx_class = ControlFlowDemo
+ControlFlowDemo._hx_class_name = "ControlFlowDemo"
+_hx_classes['ControlFlowDemo'] = ControlFlowDemo
+ControlFlowDemo._hx_fields = []
+ControlFlowDemo._hx_props = []
+ControlFlowDemo._hx_methods = ["NAMED_FUNCTION"]
+ControlFlowDemo._hx_statics = ["STATIC_VAR","main"]
+ControlFlowDemo._hx_interfaces = []
+
 class HxOverrides:
 
 	pass
@@ -167,6 +340,8 @@ def Main_statics_main():
 	ReflectDemo.main()
 	Tools.log(":::::ArrayDemo::::::")
 	ArrayDemo.main()
+	Tools.log(":::::ControlFlowDemo::::::")
+	ControlFlowDemo.main()
 	
 Main.main = Main_statics_main
 
