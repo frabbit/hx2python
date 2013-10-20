@@ -31,7 +31,8 @@ package;
 	String can be concatenated by using the + operator. If an operand is not a
 	String, it is passed through Std.string() first.
 **/
-@:native("str")
+import python.lib.Builtin;
+
 extern class String {
 
 	/**
@@ -187,6 +188,11 @@ extern class String {
 	public static inline function fromCharCode( code : Int ) : String {
 		var c = code;
 		return untyped (''.join)(untyped map(untyped chr, [c]));
+	}
+
+	static function __init__ ():Void {
+		Builtin;
+		untyped __python__("String = __builtin__.str");
 	}
 
     

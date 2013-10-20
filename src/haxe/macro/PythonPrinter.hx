@@ -461,7 +461,7 @@ class PythonPrinter {
 		case EField(e1, n):/* trace(e);*/ print_field(e1, n, context);
 		case EParenthesis(e1): '(${printExpr1(e1)})';
 		case EObjectDecl(fl):
-			"AnonObject(" + fl.map(function(fld) return '${fld.field} = ${printExpr1(fld.expr)} ').join(",") + ")";
+			"_Hx_AnonObject(" + fl.map(function(fld) return '${fld.field} = ${printExpr1(fld.expr)} ').join(",") + ")";
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall(e1, el): printCall(e1, el.copy(),context);
 		case ENew(tp, el): 

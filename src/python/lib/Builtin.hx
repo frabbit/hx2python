@@ -41,7 +41,7 @@ extern class Builtin {
 	//public static function int():Void;
 	//public static function ord():Void;
 	public static inline function str(o:Dynamic):String {
-		return untyped __python__("str")(o);
+		return untyped __python__("__builtin__.str")(o);
 	}
 	//public static function eval():Void;
 	
@@ -51,7 +51,7 @@ extern class Builtin {
 	//public static function execfile():Void;
 	
 	public static inline function print(o:Dynamic):Void {
-		untyped __python__("print")(o);
+		untyped __python__("__builtin__.print")(o);
 	}
 	
 	//public static function super():Void;

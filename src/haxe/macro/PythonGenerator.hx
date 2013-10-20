@@ -514,7 +514,7 @@ class PythonGenerator
         var p = getPath(e);
         var pName = getFullName(e);
 
-        print('class $p(Enum):');
+        print('class $p(_Hx_Enum):');
         newline();
         print('\tdef __init__(self, t, i, p): \n\t\tsuper($p,self).__init__(t, i, p)');
 
@@ -544,7 +544,7 @@ class PythonGenerator
         var fix = enumConstructs.length > 0 ? '"' : '';
         var enumConstructsStr = fix + enumConstructs.join('","') + fix;
 
-        print('$p.constructs = [$enumConstructsStr]');
+        print('$p._hx_constructs = [$enumConstructsStr]');
         newline();
         print(p + "._hx_class = " + p + "\n");
         print(p + "._hx_class_name = \"" + pName + "\"\n");
@@ -589,7 +589,7 @@ class PythonGenerator
 
     function generateBaseEnum()
     {
-        print("class Enum:
+        print("class _Hx_Enum:
     # String tag;
     # int index;
     # List params;
@@ -628,7 +628,7 @@ class _HxException(Exception):
     }
 
     function generateBaseAnon () {
-        print("class AnonObject(object):
+        print("class _Hx_AnonObject(object):
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)\n");
 
@@ -670,7 +670,7 @@ class _HxException(Exception):
             genType(t);
 
         if (firstEnum) {
-            print("class Enum:\n\tpass\n");   
+            print("class _Hx_Enum:\n\tpass\n");   
         }
 
         if(api.main != null)
