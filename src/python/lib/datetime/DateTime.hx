@@ -26,7 +26,8 @@ extern class DateTime {
 	public static function utcfromtimestamp (timestamp:Int):DateTime;
 	public static function fromordinal (ordinal:Int):DateTime;
 
-	public function replace (year:Int, month:Int, day:Int, hour:Int, minute:Int, second:Int, microsecond:Int, tzinfo:TzInfo):DateTime;
+
+	public function replace (?year:Int = 1970, ?month:Int = 1, ?day:Int = 1, ?hour:Int = 0, ?minute:Int = 0, ?second:Int, ?microsecond:Int, ?tzinfo:TzInfo):DateTime;
 
 	// python 3.3
 	public function timestamp ():Float;
