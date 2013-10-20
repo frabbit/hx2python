@@ -6,22 +6,26 @@ package ;
 
 import Tools.*;
 
+
+
+
 class Main
 {
 
-
+    @test
     public static function main()
     {
-
-        FileSystemDemo.main();
+        //DateDemo.main();
+        //FileSystemDemo.main();
 
         //haxe.Log;
         //log(":::::ReflectDemo::::::");
         //ReflectDemo.main();
+        //TypeDemo.main();
         //log(":::::TypeDemo::::::");
         //TypeDemo.main();
         //log(":::::StdDemo::::::");
-        //StdDemo.main();
+        StdDemo.main();
         //log(":::::PropertyDemo::::::");
         //PropertyDemo.main();
         //log(":::::VariousExpressionDemo::::::");
@@ -37,6 +41,7 @@ class Main
         //log(":::::ControlFlowDemo::::::");
         //ControlFlowDemo.main();
         //var x = false;
+
         //switch (x) {
         //	case true: return "foo";
         //	default:

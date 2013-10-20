@@ -3,9 +3,19 @@ import bits.InterfaceDemo;
 import bits.BClass;
 import bits.AClass;
 import bits.BaseClass;
+
+import Tools.highlight;
+
 class StdDemo
 {
+
     public static function main()
+    {
+        highlight(miscDemo, "miscDemo");
+        highlight(stdStringDemo, "Std.string Demo");
+    }
+
+    public static function miscDemo()
     {
         trace("\n\n-------------Std.is---------------\n");
 
@@ -122,5 +132,25 @@ class StdDemo
         trace("Std.random(3) = " + Std.random(3));
         trace("Std.random(3) = " + Std.random(3));
 
+    }
+
+    public static function stdStringDemo () {
+        var a = [1,2,3];
+
+        trace(Std.string(a));
+        var i = 1;
+        trace(Std.string(1));
+
+        var a = { name : "jimmy", age : 17 };
+        trace(Std.string(a));
+
+        var a = { name : "jimmy", luckyNumbers : [1,2,3], child : { name : "antony", age : 2} };
+        trace(Std.string(a));
+
+        var x = new BClass();
+
+        trace(Std.string(x));
+
+        trace(Std.string(BClass));
     }
 }

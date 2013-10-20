@@ -1,6 +1,15 @@
 
 package ;
 
+import Types;
+
+@:keep class MyClass {
+	public var foo : Int = 1;
+
+	static var bar : Int = 10;
+	public function new () {}
+}
+
 class ReflectDemo {
 
 	public static function main () {
@@ -30,6 +39,12 @@ class ReflectDemo {
 		} else {
 			trace("whatever");
 		}
+
+		var a = new MyClass();
+
+		trace(Reflect.fields(a));
+		
+
 	}
 
 }

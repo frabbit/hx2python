@@ -1,6 +1,6 @@
 package bits;
 
-class BClass extends AClass implements InterfaceDemo
+@:keep class BClass extends AClass implements InterfaceDemo
 {
     public static var WHOOT = "whoot";
 

@@ -4,6 +4,8 @@ package ;
 import python.lib.Os;
 import python.lib.Types.FileExistsError;
 
+import haxe.Constraints;
+
 class FileSystemDemo {
 
 	public static function main () {

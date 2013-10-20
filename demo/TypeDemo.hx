@@ -6,6 +6,17 @@ import Tools.*;
 import Types;
 
 
+@:keep private class MyClass {
+	public var foo : Int = 1;
+
+	@:isVar public var foo2(get, null) : Int = 1;
+
+	public function get_foo2() return foo2;
+
+	static var bar : Int = 10;
+	public function new () {}
+}
+
 class Foo {
 	public var z : Int = 5;
 
@@ -27,8 +38,21 @@ class TypeDemo {
 		highlight(typeOfEnum, "typeOfEnum");
 		highlight(typeOfClass, "typeOfClass");
 
+		highlight(getInstanceFields, "getInstanceFields");
+		highlight(getClassFields, "getClassFields");
 
 	}
+
+	public static function getInstanceFields () {
+		var a = new MyClass();
+
+		trace(Type.getInstanceFields(Type.getClass(a)));	
+	}
+	public static function getClassFields () {
+		var a = new MyClass();
+		trace(Type.getClassFields(Type.getClass(a)));
+	}
+		
 
 	public static function createInstance () 
 	{
