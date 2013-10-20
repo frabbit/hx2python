@@ -81,6 +81,10 @@ import python.lib.Types;
 	public static function fields( o : Dynamic ) : Array<String> {
 		var a = [];
 		if (o != null) {
+			if (Builtin.hasattr(o, "_hx_fields")) {
+				var fields:Array<String> = o._hx_fields;
+				return fields.copy();
+			}
 			if (Builtin.hasattr(o, "__dict__")) {
 				var d:Dict<String, Dynamic> = Builtin.getattr(o, "__dict__");
 				var keys  = untyped d.keys();
