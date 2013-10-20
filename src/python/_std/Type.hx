@@ -36,7 +36,13 @@ enum ValueType {
 @:coreApi class Type {
 
 	public static function getClass<T>( o : T ) : Class<T> untyped {
-		return throw "getClass not implemented";
+		if( o == null )
+			return null;
+		if (Builtin.hasattr(o, "__class__")) {	
+			return untyped o.__class__;
+		} else {
+			return null;
+		}
 	}
 
 	public static function getEnum( o : EnumValue ) : Enum<Dynamic> untyped {
@@ -146,29 +152,32 @@ enum ValueType {
 
 	public static function getInstanceFields( c : Class<Dynamic> ) : Array<String> {
 		// dict((name, getattr(f, name)) for name in dir(c) if not name.startswith('__'))
-		return throw "getInstanceFields not implemented";
+		if (Builtin.hasattr(c, "_hx_fields")) {
+			var x:Array<String> = untyped c._hx_fields;
+			return x.copy();
+		} else {
+			return [];
+		}
+		//return throw "getInstanceFields not implemented";
 	}
 
 	public static function getClassFields( c : Class<Dynamic> ) : Array<String> {
-		return throw "getClassFields not implemented";
+		if (Builtin.hasattr(c, "_hx_statics")) {
+			var x:Array<String> = untyped c._hx_statics;
+			return x.copy();
+		} else {
+			return [];
+		}
 	}
 
 	public static function getEnumConstructs( e : Enum<Dynamic> ) : Array<String> {
-		return throw "getEnumConstructs not implemented";
+		if (Builtin.hasattr(e, "_hx_constructs")) {
+			var x:Array<String> = untyped c._hx_constructs;
+			return x.copy();
+		} else {
+			return [];
+		}
 	}
-
-	/*
-	enum ValueType {
-	TNull;
-	TInt;
-	TFloat;
-	TBool;
-	TObject;
-	TFunction;
-	TClass( c : Class<Dynamic> );
-	TEnum( e : Enum<Dynamic> );
-	TUnknown;
-}*/
 
 	public static function typeof( v : Dynamic ) : ValueType {
 		if (v == null) {
@@ -180,10 +189,10 @@ enum ValueType {
 		} else if (Builtin.isinstance(v, untyped __python__("float"))) {
 			return TFloat;
 		} else if (Builtin.hasattr(v, "__class__")) {
-			if (Builtin.isinstance(v, untyped __python__("AnonObject"))) {
+			if (Builtin.isinstance(v, untyped __python__("_Hx_AnonObject"))) {
 				return TObject;
 			}
-			if (Builtin.isinstance(v, untyped __python__("Enum"))) {
+			if (Builtin.isinstance(v, untyped __python__("_Hx_Enum"))) {
 				return TEnum(untyped v.__class__);	
 			}
 			return TClass(untyped v.__class__);
@@ -210,8 +219,18 @@ enum ValueType {
 		return untyped e.index;
 	}
 
-	public static function allEnums<T>( e : Enum<T> ) : Array<T> {
-		return throw "allEnums not implemented";
-	}
+	public static function allEnums<T>( e : Enum<T> ) : Array<T>
+    {
+            var ctors = getEnumConstructs(e);
+            var ret = [];
+            for (ctor in ctors)
+            {
+                    var v = Reflect.field(e, ctor);
+                    if (Std.is(v, e))
+                            ret.push(v);
+            }
+
+            return ret;
+    }
 
 }
