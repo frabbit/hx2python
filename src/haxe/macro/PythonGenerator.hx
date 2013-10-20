@@ -714,6 +714,7 @@ class _HxException(Exception):
 
     #if macro
 	public static function use() {
+        Compiler.allowPackage("sys");
 		Compiler.setCustomJSGenerator(function(api) new PythonGenerator(api).generate());
 	}
 	#end

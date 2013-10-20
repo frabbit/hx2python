@@ -11,12 +11,12 @@
 
 #--next
 #
-#-cp src
+##-cp src
 ##-cp src/python/_std
 #-cp demo
 #-main Main
 #-js bin/hxpython.js
 ##--macro haxe.macro.PythonGenerator.use()
 #-dce full
-
-#-cmd python3 bin/hxpython.py
+#
+#-cmd nodejs bin/hxpython.js
