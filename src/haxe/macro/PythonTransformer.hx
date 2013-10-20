@@ -780,9 +780,9 @@ class PythonTransformer {
 
 				var ex = { expr : EObjectDecl(newFields1), pos : e.expr.pos };
 
-				
+				liftExpr(ex, false, e.nextId, blocks);
 
-				exprsToFunc(blocks.concat([ex]), e.nextId(), e);
+				//exprsToFunc(blocks.concat([ex]), e.nextId(), e);
 			case [false, EObjectDecl( fields)]:
 				var newFields = [for (f in fields) { field : f.field, ex: transformExpr(f.expr, true, e.nextId, [])}];
 				var newFields1 = [for (f in newFields) { field : f.field, expr : f.ex.expr}];

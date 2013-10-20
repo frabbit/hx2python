@@ -173,7 +173,7 @@ class PythonPrinter {
 	}
 
 	public function printMetadata(meta:MetadataEntry,context) return
-		'@${meta.name}'
+        '@${meta.name}'
 		+ (meta.params.length > 0 ? '(${printExprs(meta.params,", ",context)})' : "");
 
 	public function printAccess(access:Access) return switch(access) {
@@ -272,12 +272,34 @@ class PythonPrinter {
                 case EConst(CString(s)): s;
                 default:"";
             };
+            case "__named__":
+                	
+                trace(el);
+                for (e in el) {
+                    trace(ExprTools.toString(e));
+                }
+                var fields = switch (el[1].expr) {
+                    case EObjectDecl(fields): fields;
+                    case _ : throw "unexpected ERRRRRRORRRR";
+                }
+            	
+                trace(fields);
+                
+            	'${printExpr(el[0], context)}(${printExprsNamed(fields,", ", context)})';
             case "__define_feature__":
             	printExpr(el[1], context);
             case "__call__":
             	var params = el.copy();
             	var first = params[0];params.shift();
                 '${printExpr(first, context)}(${printExprs(params,", ", context)})';
+            case "__field__":
+                
+                var first = el[0];
+                var field = switch (el[1].expr) {
+                    case EConst(CString(id)):id;
+                    case _ : throw "unexpected";
+                }
+                '${printExpr(first, context)}.$field';
             case "__python_tuple__":
             	'(${printExprs(el, ", ", context)})';
             case "__python_array_get__":
@@ -492,8 +514,10 @@ class PythonPrinter {
 		case EDisplay(e1, _): '#DISPLAY(${printExpr1(e1)})';
 		case EDisplayNew(tp): '#DISPLAY(${printTypePath(tp,context)})';
 		case ETernary(econd, eif, eelse): '${printExpr1(econd)} ? ${printExpr1(eif)} : ${printExpr1(eelse)}';
-		case ECheckType(e1, ct): '#CHECK_TYPE(${printExpr1(e1)}, ${printComplexType(ct,context)})';
-		case EMeta(meta, e1): printMetadata(meta,context) + " " +printExpr1(e1);
+		case ECheckType(e1, ct): '${printExpr1(e1)}';
+		case EMeta(meta, e1): 
+            trace("it's an EMeta");
+            printMetadata(meta,context) + " " +printExpr1(e1);
 	} catch (ex:Dynamic) { trace("error for Expr:" + ExprTools.toString(e)); throw "error";};
     }
 
@@ -573,6 +597,10 @@ class PythonPrinter {
 	public function printExprs(el:Array<Expr>, sep:String,context) {
 		return el.map(printExpr.bind(_,context)).join(sep);
 	}
+
+    public function printExprsNamed(el:Array<{ field : String, expr : Expr}>, sep:String,context) {
+        return el.map(function (x) return x.field + " = " + printExpr(x.expr,context)).join(sep);
+    }
 
 	public function printClass(t:TypeDefinition, superClass, interfaces:Array<TypePath>, isInterface,context) 
 	{
