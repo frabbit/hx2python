@@ -252,6 +252,9 @@ class PythonGenerator
            if(!PythonPrinter.pathHack.exists(dotPath))
                PythonPrinter.pathHack.set(dotPath, fullPath);
 
+            if(nativeName != null && !PythonPrinter.pathHack.exists(moduleName + "." + nativeName))
+               PythonPrinter.pathHack.set(moduleName + "." + nativeName, fullPath);
+
             if (!t.isPrivate) {
                 
                var typePrefix3 = hasPack ? "." : "";
@@ -656,11 +659,19 @@ class _HxException(Exception):
 
         //print("String = str\n");
 
+
+
         for(t in api.types)
             genPathHacks(t);
 
+        trace(PythonPrinter.pathHack);
+
         for(t in api.types)
             genType(t);
+
+        if (firstEnum) {
+            print("class Enum:\n\tpass\n");   
+        }
 
         if(api.main != null)
         {

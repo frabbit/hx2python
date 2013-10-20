@@ -35,6 +35,11 @@ extern class FileObject {
 
 }
 
+extern class FileDescriptor {
+
+}
+
+
 //typedef DictKey<T> = {
 //	function __hash__():Int;
 //	function __eq__(other:Dynamic):Int;
