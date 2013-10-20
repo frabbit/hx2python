@@ -58,17 +58,19 @@ enum ValueType {
 
 	public static function getClassName( c : Class<Dynamic> ) : String 
 	{
-		var res = null;
-		trace(c);
-		try {
-			var s :String = untyped c.__name__;
+		if (Builtin.hasattr(c, "_hx_class_name")) {
+			return untyped c._hx_class_name;
+		} else {
+			// not a haxe class
+			try {
+				var s :String = untyped c.__name__;
+			} catch (e:Dynamic) {
 			
-			res = s.split("_").join(".");
-			
-			trace(res);
-		} catch (e:Dynamic) {
-			trace(e);
+			}
 		}
+		var res = null;
+		
+
 		return res;
 	}
 
@@ -197,15 +199,15 @@ enum ValueType {
 	}
 
 	public inline static function enumConstructor( e : EnumValue ) : String {
-		return throw "enumConstructor not implemented";
+		return untyped e.tag;
 	}
 
 	public inline static function enumParameters( e : EnumValue ) : Array<Dynamic> {
-		return throw "enumParameters not implemented";
+		return untyped e.params;
 	}
 
 	public inline static function enumIndex( e : EnumValue ) : Int {
-		return throw "enumIndex not implemented";
+		return untyped e.index;
 	}
 
 	public static function allEnums<T>( e : Enum<T> ) : Array<T> {

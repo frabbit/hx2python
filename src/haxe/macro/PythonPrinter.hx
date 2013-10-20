@@ -218,7 +218,7 @@ class PythonPrinter {
             }
             argString += arg.name;
 
-            if(argValue != null && argValue != "None")
+            if(argValue != null)
                 argString += ' = $argValue';
 
             if(i < args.length - 1)

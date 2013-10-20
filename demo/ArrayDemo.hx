@@ -1,7 +1,7 @@
 package ;
 class ArrayDemo
 {
-    public function new()
+    public static function main()
     {
         trace("ArrayDemo");
 

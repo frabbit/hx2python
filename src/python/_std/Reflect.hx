@@ -102,8 +102,9 @@ import python.lib.Types;
 	}
 
 	public static function isFunction( f : Dynamic ) : Bool untyped {
+		return Builtin.callable(f);
 		//return __js__("typeof(f)") == "function" && !(js.Boot.isClass(f) || js.Boot.isEnum(f));
-		return throw "not implemented";
+		
 	}
 
 	public static function compare<T>( a : T, b : T ) : Int {

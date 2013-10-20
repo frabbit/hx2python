@@ -260,14 +260,18 @@ class StringTools {
 		character.
 	**/
 	public static inline function fastCodeAt( s : String, index : Int ) : Int untyped {
-		return untyped(ord(untyped s[index]));
+		if (index < s.length) {
+			return untyped(ord(untyped s[index]));
+		} else {
+			return -1;
+		}
 	}
 
 	/*
 		Tells if `c` represents the end-of-file (EOF) character.
 	*/
 	@:noUsing public static inline function isEof( c : Int ) : Bool {
-		return c == null;
+		return c == -1;
 	}
 
 

@@ -451,7 +451,7 @@ class Serializer {
 				for( i in 0...l )
 					serialize(untyped __field__(v, __php__("params"), i));
 			}
-			#elseif (java || cs)
+			#elseif (java || cs || python)
 			if( useEnumIndex ) {
 				buf.add(":");
 				buf.add(Type.enumIndex(v));
@@ -459,15 +459,20 @@ class Serializer {
 				serializeString(Type.enumConstructor(v));
 			buf.add(":");
 			var arr:Array<Dynamic> = Type.enumParameters(v);
+			
+			trace(arr);
+			trace(arr != null);
 			if (arr != null)
 			{
 				buf.add(arr.length);
 				for (v in arr)
 					serialize(v);
 			} else {
+				
 				buf.add("0");
-			}
+				
 
+			}
 			#else
 			if( useEnumIndex ) {
 				buf.add(":");

@@ -1,9 +1,10 @@
 
 package ;
 
-
+#if python
 import python.Lib;
 import python.lib.Types;
+#end
 
 enum Color {
     RED;
@@ -65,18 +66,19 @@ class VariousExpressions
     {
         trace(new Whatever().hello);
         var x = 65;
-        
+
         var z = 3 + x;
-        trace("String.fromCharcode(" + z + ") = " + String.fromCharCode(z));
+        trace("String.fromCharcode(" + Std.string(z) + ") = " + String.fromCharCode(z));
         trace("hello world".length);
         trace(Sum.jup);
         var umlaut = "UMLAUTE: äöüÄÖÜß";
         var gurki = 511111;
+        #if python
         var t22 = Tup2.create(1, "tupleB");
         trace(t22._2);
         var t22 = Tup3.create(1, "tupleB", { x : function () { gurki = 121212121; return gurki;}});
         trace(t22._3.x());
-        
+        #end
 
 
         var mySub = new Sub(177);
@@ -89,11 +91,14 @@ class VariousExpressions
         trace(Std.is(child, Hui));
         trace(Std.is(child, HuiBu));
 
+        
+        #if python
         trace(Std.string(untyped __python__("type")(umlaut)));
         Lib.print("hey");
         Lib.println(["hey", "heyho"]);
-        new ControlFlowDemo();
-        new ArrayDemo();
+        #end
+        
+        
         try {
             trace([1,2].concat([3,4]).toString());
            

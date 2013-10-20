@@ -4,7 +4,7 @@ package ;
 class SimpleDemo {
 
 
-	public function new () {
+	public static function main () {
 		var z = 5 + 5;
 
 		var x = 0;

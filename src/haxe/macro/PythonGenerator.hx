@@ -178,8 +178,13 @@ class PythonGenerator
        
 
        var moduleStr = hasModule ? "_" + moduleName : "";
-
-       return pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
+       return if (!t.isPrivate) {
+            var typePrefix1 = hasPack ? "." : ""; 
+            pack1 + typePrefix1 + t.name;
+       } else {
+            pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
+       }
+       
     }
 
     function getPath(t : BaseType)
@@ -538,6 +543,7 @@ class PythonGenerator
 
         print('$p.constructs = [$enumConstructsStr]');
         newline();
+        print(p + "._hx_class = " + p + "\n");
         print(p + "._hx_class_name = \"" + pName + "\"\n");
 
         print("_hx_classes['" + pName + "'] = " + p);

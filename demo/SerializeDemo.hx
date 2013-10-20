@@ -44,8 +44,22 @@ class SerializeDemo {
 		var x = Euro;
 
 		var s = haxe.Serializer.run(x);
+		trace(s);
 		var u = haxe.Unserializer.run(s);
 		var s2 = haxe.Unserializer.run(s);
+
+		trace(s);
+		trace(s2);
+
+		trace(x);
+		trace(u);
+
+		var x = bits.EnumDemo.One;
+
+		var s = haxe.Serializer.run(x);
+		trace(s);
+		var u = haxe.Unserializer.run(s);
+		var s2 = haxe.Unserializer.run(s);		
 
 		trace(s);
 		trace(s2);
