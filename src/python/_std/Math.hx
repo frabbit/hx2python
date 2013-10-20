@@ -220,7 +220,7 @@ extern class Math
 		and less than 1.0.
 	**/
 	inline static function random() : Float {
-		return untyped __python__("random").random();
+		return python.lib.Random.random();
 	}
 	
 	

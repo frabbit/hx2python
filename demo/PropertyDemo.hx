@@ -1,7 +1,7 @@
 
 package ;
 
-class Foo {
+private class Foo {
 	public function new () {}
 	public var z(get, null) : Int = 5;
 
@@ -30,6 +30,7 @@ class PropertyDemo {
 
 		Std.is(x,A);
 		var f = new Foo();
+		
 
 		trace(Std.is(1, Int));
 		trace(Std.is(1, Float));

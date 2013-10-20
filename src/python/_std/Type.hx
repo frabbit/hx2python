@@ -73,12 +73,15 @@ enum ValueType {
 	}
 
 	public static function getEnumName( e : Enum<Dynamic> ) : String {
-		return getClassName(untyped e._hx_class);
+		return untyped e._hx_class_name;
 	}
 
 	public static function resolveClass( name : String ) : Class<Dynamic> untyped {
-		var name1 = name.split(".").join("_");
-		return untyped globals()[name1];
+		var cl : Class<Dynamic> = _hx_classes[name];
+        // ensure that this is a class
+        if( cl == null || !python.Boot.isClass(cl) )
+                return null;
+        return cl;
 
 		//return throw "resolveClass not implemented";
 	}
@@ -168,11 +171,11 @@ enum ValueType {
 	public static function typeof( v : Dynamic ) : ValueType {
 		if (v == null) {
 			return TNull;
-		} else if (Builtin.isinstance(v, untyped bool)) {
+		} else if (Builtin.isinstance(v, untyped __python__("bool") )) {
 			return TBool;
-		} else if (Builtin.isinstance(v, untyped int)) {
+		} else if (Builtin.isinstance(v, untyped __python__("int"))) {
 			return TInt;
-		} else if (Builtin.isinstance(v, untyped float)) {
+		} else if (Builtin.isinstance(v, untyped __python__("float"))) {
 			return TFloat;
 		} else if (Builtin.hasattr(v, "__class__")) {
 			if (Builtin.isinstance(v, untyped __python__("AnonObject"))) {

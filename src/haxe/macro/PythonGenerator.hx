@@ -38,6 +38,8 @@ class PythonGenerator
     var packages : haxe.ds.StringMap<Bool>;
     var forbidden : haxe.ds.StringMap<Bool>;
 
+    
+
     public function new(api)
     {
 
@@ -155,7 +157,30 @@ class PythonGenerator
         }
     }
 
+    function getFullName (t:BaseType) {
+       var hasPack = t.pack.length > 0;
+       var pack1 = t.pack.join(".");
+       var pack2 = t.pack.join("_");
 
+       var moduleName = { var p = t.module.split("."); p[p.length-1];};
+       
+       var hasModule = (moduleName != t.name);
+
+
+
+       var hasModulePrefix = (hasPack && hasModule);
+       var hasTypePrefix = (hasPack || hasModule);
+
+       var modulePrefix1 = hasModulePrefix ? "." : "";
+       
+
+       var typePrefix1 = hasTypePrefix ? "." : "";
+       
+
+       var moduleStr = hasModule ? "_" + moduleName : "";
+
+       return pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
+    }
 
     function getPath(t : BaseType)
     {
@@ -279,12 +304,14 @@ class PythonGenerator
     function genStaticField(c : ClassType, p : String, f : ClassField)
     {
         checkFieldName(c, f);
+
+        var p = getPath(c);
         //trace(f.name);
         var field = field(f.name);
         var e = f.expr();
         if(e == null)
         {
-            print('$field;\n\t'); //TODO(av) initialisation of static vars if needed
+            print('$p.$field = None;\n'); //TODO(av) initialisation of static vars if needed
             
         }
         else switch( f.kind ) {
@@ -298,7 +325,7 @@ class PythonGenerator
                 genStaticFuncExpr(e, field, c, [], "");
                 newline();
             default:
-                print('\t$field = ');
+                print('$p.$field = ');
                 genExpr(e);
                 
                 newline();
@@ -340,6 +367,7 @@ class PythonGenerator
             api.setCurrentClass(c);
 
             var p = getPath(c);
+            var pName = getFullName(c);
             print('class $p');
             //trace(p);
 
@@ -442,6 +470,8 @@ class PythonGenerator
             var propsChar = props.length > 0 ? '"' : '';
             var methodsChar = methods.length > 0 ? '"' : '';
             print("\n\n" + p + "._hx_class = " + p + "\n");
+            print(p + "._hx_class_name = \"" + pName + "\"\n");
+            print("_hx_classes['" + pName + "'] = " + p + "\n");
             //print("\n\n" + p + "._hx_name = " + p + "\n");
             print(p + "._hx_fields = [" + fieldChar + fields.join('","') + fieldChar + "]\n");
             print(p + "._hx_props = [" + propsChar + props.join('","') + propsChar + "]\n");
@@ -474,6 +504,7 @@ class PythonGenerator
         }
 
         var p = getPath(e);
+        var pName = getFullName(e);
 
         print('class $p(Enum):');
         newline();
@@ -482,10 +513,14 @@ class PythonGenerator
         
         newline();
         print('\n');
+        var enumConstructs = [];
         for(c in e.constructs.keys())
         {
             newline();
             var c = e.constructs.get(c);
+
+            enumConstructs.push(c.name);
+
             var f = field(c.name);
             
             switch( c.type ) {
@@ -498,7 +533,14 @@ class PythonGenerator
             }
             newline();
         }
-        
+        var fix = enumConstructs.length > 0 ? '"' : '';
+        var enumConstructsStr = fix + enumConstructs.join('","') + fix;
+
+        print('$p.constructs = [$enumConstructsStr]');
+        newline();
+        print(p + "._hx_class_name = \"" + pName + "\"\n");
+
+        print("_hx_classes['" + pName + "'] = " + p);
         newline();
 
 //        var meta = api.buildMetaData(e);
@@ -585,12 +627,17 @@ class _HxException(Exception):
 
     public function generate()
     {
+
+        print("_hx_classes = dict()\n");
         print("class Int:
     pass\n");
+        print("_hx_classes['Int'] = Int\n");
         print("class Float:
     pass\n");
+        print("_hx_classes['Float'] = Float\n");
         print("class Dynamic:
     pass\n");
+        print("_hx_classes['Dynamic'] = Dynamic\n");
 
         print("import math as _hx_math\n");
 

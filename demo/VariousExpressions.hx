@@ -64,9 +64,10 @@ class VariousExpressions
     public static function main()
     {
         trace(new Whatever().hello);
-        var x = 2;
+        var x = 65;
+        
         var z = 3 + x;
-        trace(String.fromCharCode(z));
+        trace("String.fromCharcode(" + z + ") = " + String.fromCharCode(z));
         trace("hello world".length);
         trace(Sum.jup);
         var umlaut = "UMLAUTE: äöüÄÖÜß";

@@ -5,7 +5,7 @@ import bits.AClass;
 import bits.BaseClass;
 class StdDemo
 {
-    public function new()
+    public static function main()
     {
         trace("\n\n-------------Std.is---------------\n");
 
@@ -93,11 +93,11 @@ class StdDemo
 
         trace("\n-------------Std.parseInt----dybamicBool-----------\n");
 
-        var dybamicBool:Dynamic = true;
+        var dynamicBool:Dynamic = true;
 
         try
         {
-            Std.parseInt(dybamicBool);
+            Std.parseInt(dynamicBool);
         }
         catch(e:Dynamic)
         {
@@ -115,6 +115,12 @@ class StdDemo
 
         var rand = Std.random(30);
         trace("Std.random(30) = " + Std.random(30));
+
+        trace("Std.random(3) = " + Std.random(3));
+        trace("Std.random(3) = " + Std.random(3));
+        trace("Std.random(3) = " + Std.random(3));
+        trace("Std.random(3) = " + Std.random(3));
+        trace("Std.random(3) = " + Std.random(3));
 
     }
 }

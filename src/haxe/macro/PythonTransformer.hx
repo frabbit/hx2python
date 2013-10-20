@@ -444,8 +444,7 @@ class PythonTransformer {
 				var econd1 = transformExpr(econd, true, e.nextId);
 				//trace(ExprTools.toString(eif));
 				var eif1 = toExpr(transformExpr(eif, false, e.nextId));
-				trace(ExprTools.toString(econd));
-				trace(ExprTools.toString(eif));
+				
 				var eelse1 = if (eelse != null) {
 					//trace("EERRROR"+ExprTools.toString(eelse));
 
@@ -709,6 +708,22 @@ class PythonTransformer {
 					null;
 				}
 				forwardTransform(block, e);				
+			
+
+			//  case [_, ECall(e1={ expr : EConst(CIdent("trace"))},params)]:
+			// TODO 
+			// at this point we have to make sure that each operand of each parameter which is a nested binary plus expression
+			// is surrounded with a Std.string otherwise we could run into some python trouble because python does not implicitly convert
+			// parameters into Strings when doing concatenations.	
+			// But this would only be a solution for the special trace case, it would be better to
+			// have access to the expr type to make sure that implicit casts are applied in binary expression during printing.
+			
+			
+			
+			
+
+
+				
 			case [_, ECall(e1,params)]:
 				//trace(ExprTools.toString(e.expr));
 				var e1_ = transformExpr(e1, true, e.nextId);

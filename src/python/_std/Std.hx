@@ -44,7 +44,7 @@ import python.lib.Inspect;
         else if (t == untyped __python__("Float") && (Builtin.isinstance(v, __python__("(float,int)")) || Builtin.isinstance(v, __python__("int")))) {
             return true;
         }
-        else if (t == String) {
+        else if (t == untyped __python__("str")) {
             return Builtin.isinstance(v, String);
         }
         else if (Builtin.isinstance(v, t)) {
@@ -84,7 +84,10 @@ import python.lib.Inspect;
 //        return untyped __as__(v, c);
 //    }
 
-    @:keep public static function string( s : Dynamic ) : String {
+    @:access(python.Boot) @:keep public static function string( s : Dynamic ) : String {
+        
+        return python.Boot.__string_rec(s, "");
+
         if (is(s, Int)) {
             return untyped str(s);
         }
@@ -107,22 +110,27 @@ import python.lib.Inspect;
     }
 
    public static inline function int( x : Float ) : Int {
-        return untyped x.toInt(); //x.toInt() prob not needed
+        return untyped __python__("int")(x);
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
         
-        return untyped int(untyped float(x));
+        return int(parseFloat(x));
         
     }
 
     public static inline function parseFloat( x : String ) : Float {
-        return untyped float(x);
+        return untyped __python__("float")(x);
     }
 
 
     public static inline function random( x : Int ) : Int {
-        return 1;
+        if (x <= 0) {
+            return 0;
+        } else {
+            return int(Math.random()*x);
+        }
+
         //return dart.Lib.random(x);
 //        return untyped __cascade__(new dartt.math.Random(), nextInt(x));// //untyped x <= 0 ? 0 : Math.floor(Math.random()*x);        import 'dart:marth'; new Random()..nextInt(x);
     }

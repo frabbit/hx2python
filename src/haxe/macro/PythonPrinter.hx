@@ -59,7 +59,7 @@ class PythonPrinter {
 		"and",       "del",       "from",      "not",       "while",
 		"as",        "elif",      "global",    "or",        "with",
 		"assert",    "else",      "if",        "pass",      "yield",
-		"break",     "except",    "import",    "print",
+		"break",     "except",    "import",    "print",		"float",
 		"class",     "exec",      "in",        "raise",
 		"continue",  "finally",   "is",        "return",
 		"def",       "for",       "lambda",    "try"
@@ -154,7 +154,7 @@ class PythonPrinter {
 	}
 
 	public function printTypePath(tp:TypePath,context:PrintContext){
-        if(tp.sub != null) return tp.sub ;
+        if(tp.sub != null) return tp.name + "." + tp.sub ;
         return
         (tp.pack.length > 0 ? tp.pack.join("_") + "_" : "")
         + tp.name
@@ -431,7 +431,7 @@ class PythonPrinter {
 		case EBinop(OpNotEq, e1, e2 = { expr : EConst(CIdent("null"))}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
 		case EBinop(op, e1, e2): 
-			trace(ExprTools.toString(e));
+			//trace(ExprTools.toString(e));
 			//trace(ExprTools.toString(e));
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
 		
@@ -443,7 +443,9 @@ class PythonPrinter {
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall(e1, el): printCall(e1, el.copy(),context);
 		case ENew(tp, el): 
+			trace(tp);
 			var id = printTypePath(tp,context);
+			trace(id);
 			var realId = if (pathHack.exists(id)) {
         		pathHack.get(id);
         	} else {
@@ -516,6 +518,12 @@ class PythonPrinter {
     	return switch (c.type) {
     		case ComplexType.TPath(p):
     			var type = printTypePath(p, context);
+    			var type = if (pathHack.exists(type)) {
+            		pathHack.get(type);
+            	} else {
+            		type;
+            	}
+    			trace(p);
     			var res = if (type == "String") {
     				'if isinstance(_hx_e1, str):\n$indent\t${c.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
     			}  else if (type == "Dynamic") {

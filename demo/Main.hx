@@ -4,7 +4,7 @@ package ;
 //import python.Lib;
 //import python.lib.Types;
 
-
+import Tools.*;
 
 class Main
 {
@@ -12,10 +12,18 @@ class Main
 
     public static function main()
     {
-        //ReflectDemo.main();
-        //TypeDemo.main();
-        //VariousExpressions.main();
-        SerializeDemo.main();
+        //haxe.Log;
+        log(":::::ReflectDemo::::::");
+        ReflectDemo.main();
+        log(":::::TypeDemo::::::");
+        TypeDemo.main();
+        log(":::::StdDemo::::::");
+        StdDemo.main();
+        log(":::::PropertyDemo::::::");
+        PropertyDemo.main();
+        log(":::::VariousExpressionDemo::::::");
+        VariousExpressions.main();
+        //SerializeDemo.main();
         //PropertyDemo.main();
 
         //var x = false;

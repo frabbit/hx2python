@@ -40,7 +40,9 @@ extern class Builtin {
 	//public static function enumerate():Void;
 	//public static function int():Void;
 	//public static function ord():Void;
-	//public static function str():Void;
+	public static inline function str(o:Dynamic):String {
+		return untyped __python__("str")(o);
+	}
 	//public static function eval():Void;
 	
 	//public static function pow():Void;
@@ -48,8 +50,10 @@ extern class Builtin {
 	//public static function basestring():Void;
 	//public static function execfile():Void;
 	
+	public static inline function print(o:Dynamic):Void {
+		untyped __python__("print")(o);
+	}
 	
-	//public static function print():Void;
 	//public static function super():Void;
 	//public static function bin():Void;
 	//public static function file():Void;
@@ -97,10 +101,10 @@ extern class Builtin {
 	//public static function min():Void;
 	//public static function set():Void;
 	//public static function apply():Void;
-	//public static function delattr():Void;
+	public static function delattr(o:Dynamic, attr:String):Void;
 	//public static function help():Void;
 	//public static function next():Void;
-	//public static function setattr():Void;
+	public static function setattr(o:Dynamic, attr:String, val:Dynamic):Void;
 	//public static function buffer():Void;
 	//public static function dict():Void;
 	//public static function hex():Void;
