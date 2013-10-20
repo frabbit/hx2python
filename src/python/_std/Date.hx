@@ -37,7 +37,8 @@ import python.lib.datetime.DateTime;
 
 	public function new(year : Int, month : Int, day : Int, hour : Int, min : Int, sec : Int ) : Void
 	{
-		
+		if (year < DateTime.min.year) year = DateTime.min.year;
+		if (day == 0) day = 1;
 		date = new DateTime(year, month+1, day, hour, min, sec);
 	}
 
@@ -84,17 +85,19 @@ import python.lib.datetime.DateTime;
 
 	public function toString():String
 	{
-		var m = getMonth();
+		inline function st (x) return Std.string(x);
+
+		var m = getMonth()+1;
 		var d = getDate();
 		var h = getHours();
 		var mi = getMinutes();
 		var s = getSeconds();
-		return (getFullYear() + 1900)
-			+"-"+(if( m < 10 ) "0"+m else ""+m)
-			+"-"+(if( d < 10 ) "0"+d else ""+d)
-			+" "+(if( h < 10 ) "0"+h else ""+h)
-			+":"+(if( mi < 10 ) "0"+mi else ""+mi)
-			+":"+(if( s < 10 ) "0"+s else ""+s);
+		return st(getFullYear())
+			+"-"+(if( m < 10 ) "0"+st(m) else ""+st(m))
+			+"-"+(if( d < 10 ) "0"+st(d) else ""+st(d))
+			+" "+(if( h < 10 ) "0"+st(h) else ""+st(h))
+			+":"+(if( mi < 10 ) "0"+st(mi) else ""+st(mi))
+			+":"+(if( s < 10 ) "0"+st(s) else ""+st(s));
 	}
 
 	static public function now() : Date
@@ -109,6 +112,11 @@ import python.lib.datetime.DateTime;
 		var d = new Date(1970, 0, 1, 0, 0, 0);
 		d.date = DateTime.fromtimestamp(t);
 		return d;
+	}
+
+	static function UTC( year : Int, month : Int, day : Int, hour : Int, min : Int, sec : Int ) : Float
+	{
+		return new DateTime(year, month+1, day, hour, min, sec, 0, python.lib.datetime.Timezone.utc).timestamp();
 	}
 
 	static public function fromString( s : String ) : Date
