@@ -3,7 +3,7 @@ package python.lib;
 
 
 import python.lib.Types;
-import python.NativeList;
+
 
 
 
@@ -29,7 +29,8 @@ extern class Builtin {
 	public static function hasattr(obj:Dynamic, attr:String):Bool;
 	public static function getattr(obj:Dynamic, attr:String):Dynamic;
 	@:overload(function (f:Set<Dynamic>):Int {})
-	@:overload(function (f:NativeList<Dynamic>):Int {})
+	@:overload(function (f:List<Dynamic>):Int {})
+	@:overload(function (f:Array<Dynamic>):Int {})
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	public static function len(x:String):Int;
 
@@ -83,7 +84,7 @@ extern class Builtin {
 	//public static function vars():Void;
 	//public static function classmethod():Void;
 	
-	//public static function map():Void;
+	public static function map<A,B>(fn:A->B, it:PyIterable<A>):PyIterator<B>;
 	//public static function repr():Void;
 	//public static function xrange():Void;
 	//public static function cmp():Void;

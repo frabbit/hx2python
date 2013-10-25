@@ -1,5 +1,52 @@
 package python;
 
+import python.lib.Types;
+
+
+
+class HaxeIterable<T> 
+{
+  var x :NativeIterable<T>;
+  public inline function new (x:NativeIterable<T>) {
+    this.x = x;
+  }
+
+  public inline function iterator ():HaxeIterator<T> return new HaxeIterator(x.__iter__());
+}
+
+class HaxeIterator<T> 
+{
+  var it :NativeIterator<T>;
+  var x:Null<T> = null;
+  var checked = false;
+
+  public function new (it:NativeIterator<T>) {
+    this.it = it;
+  }
+
+  public inline function next ():T
+  {
+    checked = false;
+    return x;
+  }
+
+  public function hasNext ():Bool
+  {
+    if (checked) {
+      return x != null;
+    } else {
+      try {
+        x = it.__next__();
+      } catch (s:StopIteration) {
+        x = null;
+      }
+      checked = true;
+      return x != null;  
+    }
+    
+  }
+}
+
 class Lib
 {
 	/*
@@ -24,56 +71,36 @@ class Lib
     public static function println(v:Array<Dynamic>)
     {
        for (e in v) {
-            
-            untyped __python__("print")(Std.string(e));
+          untyped __python__("print")(Std.string(e));
        }
-       
     }
 
-    public static function toPythonIterable <T>(it:Iterable<T>):python.lib.Types.Iterable<T> 
+    public static function toPythonIterable <T>(it:Iterable<T>):python.lib.Types.NativeIterable<T> 
     {
       return {
         __iter__ : function () {
           var it1 = it.iterator();
-          return {
-            next : function () {
+          return new PyIterator({
+            __next__ : function ():T {
               if (it1.hasNext()) {
                 return it1.next();
               } else {
                 throw new python.lib.Types.StopIteration();
               }
             }
-          }
+          });
         }
       }
     }
 
-    public static function toHaxeIterable <T>(it:python.lib.Types.Iterable<T>):Iterable<T> 
+    public static inline function toHaxeIterable <T>(it:NativeIterable<T>):HaxeIterable<T> 
     {
-      return {
-        iterator : function () {
-          var it1 = it.__iter__();
-          var x:Null<T> = null;
-          var checked = false;
-          return {
-            next : function () {
-              return x;
-            },
-            hasNext : function () {
-              if (!checked) {
-                return x != null;
-              }
-              try {
-                x = it1.next();
-              } catch (s:python.lib.Types.StopIteration) {
-                x = null;
-              }
-              checked = true;
-              return x != null;
-            }
-          }
-        }
-      }
+      return new HaxeIterable(it);
+    }
+
+    public static inline function toHaxeIterator <T>(it:NativeIterator<T>):HaxeIterator<T> 
+    {
+      return new HaxeIterator(it);
     }
 
 

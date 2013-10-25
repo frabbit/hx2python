@@ -1,16 +1,60 @@
 
 package python.lib;
 
-typedef Iterator<T> = {
-	function next ():T;
+
+import python.Lib;
+
+abstract Choice<A,B>(Dynamic) {
+	@:from public static inline function fromA <A,B>(x:A):Choice<A,B> return cast x;
+	@:from public static inline function fromB <A,B>(x:B):Choice<A,B> return cast x;
 }
 
-typedef Iterable<T> = {
-	function __iter__():Iterator<T>;
+
+typedef Variant<A,B> = Dynamic; 
+typedef Variant3<A,B,C> = Dynamic;
+typedef Variant4<A,B,C,D> = Dynamic;
+
+abstract PyIterator<T>(NativeIterator<T>) to NativeIterator<T> {
+	public inline function new (p:NativeIterator<T>) this = p;
+	@:to public static inline function toHaxeIterator <T>(p:NativeIterator<T>):HaxeIterator<T> return python.Lib.toHaxeIterator(p);
+}
+
+abstract PyIterable<T>(NativeIterable<T>) to NativeIterable<T> from NativeIterable<T> {
+	@:to public static inline function toHaxeIterable <T>(p:NativeIterable<T>):HaxeIterable<T> return python.Lib.toHaxeIterable(p);
+	@:from public static inline function fromArray <T>(p:Array<T>):PyIterable<T> return cast p;
+
+	public inline function iterator <T>() return IterHelper.iterableToIterator(this);
+}
+
+class IterHelper {
+	public static inline function iterableToIterator <T>(it:PyIterable<T>) 
+	{
+		return it.toHaxeIterable().iterator();
+	}
+}
+
+typedef NativeIterator<T> = {
+	function __next__ ():T;
+}
+
+typedef NativeIterable<T> = {
+	function __iter__():PyIterator<T>;
 	
 }
 
 
+
+extern class List<T> implements ArrayAccess<T> {
+
+	public var length (get_length, null):Int;
+
+	private inline function get_length ():Int return untyped len(this);
+
+	public function append (x:T):Void;
+
+	
+	
+}
 
 typedef Hashable = {
 	public function __hash__():Int;
@@ -50,7 +94,7 @@ extern class FileDescriptor {
 extern class Set<T> 
 {
 
-	public function new (?iterable:python.lib.Types.Iterable<T>):Void;
+	public function new (?iterable:python.lib.Types.PyIterable<T>):Void;
 
 	public inline function length ():Int 
 	{
@@ -69,6 +113,7 @@ extern class Dict<K, V>
 		return python.lib.Builtin.len(this);
 	}
 }
+
 
 
 extern class Tuple implements ArrayAccess<Dynamic> {

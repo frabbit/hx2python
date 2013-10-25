@@ -232,7 +232,7 @@ class PythonGenerator
 
             
 
-           var dotPath = if (nativeName != null) {
+           var dotPath = if (false || nativeName != null) {
             ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
            } else {
             pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
@@ -263,6 +263,7 @@ class PythonGenerator
                } else {
                 pack1 + typePrefix3 + t.name;
                }
+               //trace(dotPath3);
                
                //trace(dotPath3);
                if(!PythonPrinter.pathHack.exists(dotPath3))

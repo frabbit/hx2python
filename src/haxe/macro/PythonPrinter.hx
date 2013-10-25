@@ -88,6 +88,16 @@ class PythonPrinter {
         return name;
     }
 
+    public function applyPathHack (id:String) {
+        var realId = if (pathHack.exists(id)) {
+            pathHack.get(id);
+        } else {
+            id;
+        }
+        //trace(id + " => " + realId);
+        return realId;
+    }
+
 	public function new(?tabString = "\t") {
 		tabs = "\t";
 		this.tabString = tabString;
@@ -138,9 +148,7 @@ class PythonPrinter {
 		case CIdent("false"): "False";
 		case CString(s): printString(s);
 		case CIdent(s):
-			//if (pathHack.exists(s)) {
-			//	pathHack.get(s);
-			//} else 
+			
 			handleKeywords(s);
 		case CInt(s), CFloat(s):
 			s;
@@ -154,9 +162,10 @@ class PythonPrinter {
 	}
 
 	public function printTypePath(tp:TypePath,context:PrintContext){
-        if(tp.sub != null) return tp.name + "." + tp.sub ;
+        //trace(tp);
+        //if(tp.sub != null) return tp.name + "." + tp.sub ;
         return
-        (tp.pack.length > 0 ? tp.pack.join("_") + "_" : "")
+        (tp.pack.length > 0 ? tp.pack.join(".") + "." : "")
         + tp.name
 		+ (tp.sub != null ? '.${tp.sub}' : "");
 		//+ (tp.params.length > 0 ? "<" + tp.params.map(printTypeParam.bind(_,context)).join(", ") + ">" : "");
@@ -210,15 +219,15 @@ class PythonPrinter {
         {
             var arg = args[i];
             var argValue = printExpr(arg.value,context);
-
-            if((arg.opt || argValue != "None") && !optional)
+            var argIsNull = arg.value == null;
+            if((arg.opt || !argIsNull) && !optional)
             {
                 optional = true;
                 argString += "";
             }
             argString += arg.name;
 
-            if(argValue != null)
+            if(argValue != null && !argIsNull)
                 argString += ' = $argValue';
 
             if(i < args.length - 1)
@@ -326,11 +335,7 @@ class PythonPrinter {
                 'double.parse(${printExpr(el[0],context)})';
             default:
             	//trace(Lambda.array({ iterator : pathHack.keys}));
-            	var realId = if (pathHack.exists(id)) {
-            		pathHack.get(id);
-            	} else {
-            		id;
-            	}
+            	var realId = applyPathHack(id);
                '$realId(${printExprs(el,", ",context)})';
         }
 
@@ -391,8 +396,8 @@ class PythonPrinter {
     	}
         var expr = '$obj.${handleKeywords(name)}';
 
-        if(pathHack.exists(expr))
-            expr = pathHack.get(expr);
+        var expr = applyPathHack(expr);
+        
 
         return expr;
     }
@@ -465,14 +470,10 @@ class PythonPrinter {
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall(e1, el): printCall(e1, el.copy(),context);
 		case ENew(tp, el): 
-			trace(tp);
+			//trace(tp);
 			var id = printTypePath(tp,context);
-			trace(id);
-			var realId = if (pathHack.exists(id)) {
-        		pathHack.get(id);
-        	} else {
-        		id;
-        	}
+			//trace(id);
+			var realId = applyPathHack(id);
 			'${realId}(${printExprs(el,", ",context)})';
 		case EUnop(op, true, e1): printExpr1(e1) + printUnop(op);
 		case EUnop(op, false, e1): printUnop(op) + printExpr1(e1);
@@ -542,12 +543,8 @@ class PythonPrinter {
     	return switch (c.type) {
     		case ComplexType.TPath(p):
     			var type = printTypePath(p, context);
-    			var type = if (pathHack.exists(type)) {
-            		pathHack.get(type);
-            	} else {
-            		type;
-            	}
-    			trace(p);
+    			var type = applyPathHack(type);
+    			//trace(p);
     			var res = if (type == "String") {
     				'if isinstance(_hx_e1, str):\n$indent\t${c.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
     			}  else if (type == "Dynamic") {

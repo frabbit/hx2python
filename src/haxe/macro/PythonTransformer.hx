@@ -305,6 +305,18 @@ class PythonTransformer {
 				}
 
 				liftExpr({ expr : EVars(newVars), pos:e.expr.pos}, false, e.nextId, b);
+			case [_,EFor({ expr : EIn(e1={ expr : EConst(CIdent(id))}, e2)},body)]:
+				
+				var varDef = { expr : EVars([{ name : id, expr : macro _it.next(), type : null}]), pos : e1.pos};
+
+				var newExpr = macro @:pos(e.expr.pos) {
+					var _it = $e2;
+					while (_it.hasNext()) {
+						$varDef;
+						$body;
+					}
+				}
+				forwardTransform(newExpr, e);
 
 			case [_,EReturn(x)] if (x == null):e;
 			case [_,EReturn({ expr : EFunction(name, f)})]:
@@ -547,7 +559,7 @@ class PythonTransformer {
 									macro if ($cond) ${c.expr} else $eif;
 								}
 							case EConst(CIdent(x)): // enum constructor
-								trace(ExprTools.toString(e1));
+								//trace(ExprTools.toString(e1));
 								var cond = macro $e1.tag == $v{x};
 								if (c.guard != null) {
 									cond = macro $cond && ${c.guard}
