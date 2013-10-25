@@ -48,9 +48,15 @@ extern class List<T> implements ArrayAccess<T> {
 
 	public var length (get_length, null):Int;
 
+	public static inline function fromArray <T>(a:Array<T>):List<T> return cast a;
+	public static inline function toArray <T>(a:List<T>):Array<T> return cast a;
+
 	private inline function get_length ():Int return untyped len(this);
 
 	public function append (x:T):Void;
+
+	@:overload(function (x:Array<T>):Void {})
+	public function extend (x:List<T>):Void;
 
 	
 	
