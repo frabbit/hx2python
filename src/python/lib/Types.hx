@@ -9,6 +9,13 @@ abstract Choice<A,B>(Dynamic) {
 	@:from public static inline function fromB <A,B>(x:B):Choice<A,B> return cast x;
 }
 
+abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> {
+
+}
+abstract VarArgs(Array<Dynamic>) to Array<Dynamic> from Array<Dynamic> 
+{
+	
+}
 
 typedef Variant<A,B> = Dynamic; 
 typedef Variant3<A,B,C> = Dynamic;
