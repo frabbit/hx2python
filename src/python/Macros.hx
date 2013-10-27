@@ -30,7 +30,7 @@ class Macros {
 	    return macro untyped __python__($v{e});
     }
 
-    macro public static function callNamed (e:Expr, args:Expr):haxe.macro.Expr {
+    #if !macro macro #end public static function callNamed (e:Expr, args:Expr):haxe.macro.Expr {
         var fArgs = switch (Context.typeof(e)) {
             case TFun(args, ret): args;
             case _ : haxe.macro.Context.error("e must be of type function", e.pos);
@@ -52,5 +52,6 @@ class Macros {
         }
         return macro @:pos(e.pos) untyped __named__($e, $args);
     }
+
 
 }
