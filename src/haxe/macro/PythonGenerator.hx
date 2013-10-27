@@ -80,11 +80,14 @@ class PythonGenerator
         */
     }
 
-    inline function genStaticFuncExpr(e,name,cl:ClassType, extraArgs:Array<String>, indent:String = "\t") {
+    inline function genStaticFuncExpr(e,name,cl:ClassType, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") {
 
 
         var context = PrintContexts.create(indent);
         var expr = haxe.macro.Context.getTypedExpr(e);
+
+
+
         var expr = switch (expr.expr) {
             case EFunction(_,f):
 
@@ -98,13 +101,26 @@ class PythonGenerator
         var exprString = new PythonPrinter().printExpr(expr1,context);
 
         print(indent);
+
+        printPyMetas(metas, "");
+        
         print(exprString); 
 
         print("\n");
         print(getPath(cl) + "." + name + " = " + cl.name + "_statics_" + name);
     }
 
-    inline function genFuncExpr(e,name, extraArgs:Array<String>, indent:String = "\t") {
+    public function printPyMetas (metas:Array<MetadataEntry>, indent:String) {
+        for (m in metas) {
+            switch (m.params[0].expr) {
+                case EConst(CString(s)):
+                    print(indent + "@" + s + "\n");
+                case _ : throw "unexpected";
+            }
+        }
+    }
+
+    inline function genFuncExpr(e,name, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") {
 
         var context = PrintContexts.create(indent);
         var expr = haxe.macro.Context.getTypedExpr(e);
@@ -118,6 +134,7 @@ class PythonGenerator
 
         var exprString = new PythonPrinter().printExpr(expr1,context);
 
+        printPyMetas(metas, indent);
         print(indent);
         print(exprString); 
     }
@@ -298,8 +315,8 @@ class PythonGenerator
                 //print('\n"""\n');
 
                 //print('\tdef $field(self');
-
-                genFuncExpr(e, field, ["self"]);
+                var pyMetas = f.meta.get().filter(function (m) return m.name == ":python");
+                genFuncExpr(e, field, pyMetas, ["self"]);
                 newline();
             default:
                 print('\t# var $field = ');
@@ -330,8 +347,9 @@ class PythonGenerator
                 //print(g);
                 //print('\n"""\n');
                 //print('\tdef $field(');
-
-                genStaticFuncExpr(e, field, c, [], "");
+                
+                var pyMetas = f.meta.get().filter(function (m) return m.name == ":python");
+                genStaticFuncExpr(e, field, c, pyMetas, [], "");
                 newline();
             default:
                 print('$p.$field = ');
@@ -426,8 +444,8 @@ class PythonGenerator
 
                 //print('\tdef __init__(self');
 
-                
-                genFuncExpr(c.constructor.get().expr(),"__init__", ["self"]);
+                var pyMetas = c.constructor.get().meta.get().filter(function (m) return m.name == ":python");
+                genFuncExpr(c.constructor.get().expr(),"__init__", pyMetas, ["self"]);
                 newline();
             }
 
