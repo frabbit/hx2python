@@ -3,7 +3,6 @@ package python.lib;
 
 import python.Macros;
 
-@:native("_hx_inspect")
 extern class Inspect {
 
 	static function __init__ ():Void 
@@ -19,6 +18,6 @@ extern class Inspect {
 
 	
 	static function __init__ ():Void {
-		Macros.importAs("inspect", "_hx_inspect");
+		Macros.importAs("inspect", "python.lib.Inspect");
 	}
 }

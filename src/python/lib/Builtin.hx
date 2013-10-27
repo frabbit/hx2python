@@ -28,8 +28,8 @@ extern class Builtin {
 
 	public static function hasattr(obj:Dynamic, attr:String):Bool;
 	public static function getattr(obj:Dynamic, attr:String):Dynamic;
+	
 	@:overload(function (f:Set<Dynamic>):Int {})
-	@:overload(function (f:List<Dynamic>):Int {})
 	@:overload(function (f:Array<Dynamic>):Int {})
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	public static function len(x:String):Int;
@@ -63,13 +63,16 @@ extern class Builtin {
 	//public static function tuple():Void;
 
 	
-	//public static function filter():Void;
+	
 	
 	//public static function range():Void;
 	//public static function type():Void;
 	//public static function bytearray():Void;
 	//public static function float():Void;
-	//public static function list():Void;
+	
+	public static function list<T>(i:PyIterable<T>):Array<T>;
+
+	public static function filter<A>(f:A->Bool, i:Choice<Array<A>, PyIterable<A>>):PyIterator<A>;
 	//public static function raw_input():Void;
 	//public static function unichr():Void;
 	

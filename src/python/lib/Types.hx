@@ -22,14 +22,16 @@ typedef Variant<A,B> = Dynamic;
 typedef Variant3<A,B,C> = Dynamic;
 typedef Variant4<A,B,C,D> = Dynamic;
 
-abstract PyIterator<T>(NativeIterator<T>) to NativeIterator<T> {
+abstract PyIterator<T>(NativeIterator<T>) to NativeIterator<T> to PyIterable<T> {
 	public inline function new (p:NativeIterator<T>) this = p;
 	@:to public static inline function toHaxeIterator <T>(p:NativeIterator<T>):HaxeIterator<T> return python.Lib.toHaxeIterator(p);
+	@:to public static inline function toPyIterable <T>(p:NativeIterator<T>):PyIterable<T> return p;
 }
 
 abstract PyIterable<T>(NativeIterable<T>) to NativeIterable<T> from NativeIterable<T> {
 	@:to public static inline function toHaxeIterable <T>(p:NativeIterable<T>):HaxeIterable<T> return python.Lib.toHaxeIterable(p);
-	@:from public static inline function fromArray <T>(p:Array<T>):PyIterable<T> return cast p;
+	
+	//@:from public static inline function fromArray <T>(p:Array<T>):PyIterable<T> return cast p;
 
 	public inline function iterator <T>() return IterHelper.iterableToIterator(this);
 }
@@ -43,6 +45,7 @@ class IterHelper {
 
 typedef NativeIterator<T> = {
 	function __next__ ():T;
+	function __iter__ ():PyIterator<T>;
 }
 
 typedef NativeIterable<T> = {
