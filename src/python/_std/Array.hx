@@ -20,6 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+import python.lib.Builtin;
+import python.internal.ArrayImpl;
+import python.lib.Types;
 
 @:native("list")
 extern class Array<T> implements ArrayAccess<T> {
@@ -28,7 +31,7 @@ extern class Array<T> implements ArrayAccess<T> {
 
 	public var length(get,null) : Int;
 
-	private inline function get_length ():Int return python.lib.Builtin.len(cast this);
+	private inline function get_length ():Int return ArrayImpl.get_length(this);
 	
 
 	public function new() : Void;
@@ -36,104 +39,96 @@ extern class Array<T> implements ArrayAccess<T> {
 
 	public inline function concat( a : Array<T>) : Array<T> {
 		
-		return untyped (untyped this) + (untyped a);
+		return ArrayImpl.concat(this, a);
 	}
 
 	public inline function copy() : Array<T> {
-		return untyped list(this);
+		return ArrayImpl.copy(this);
 	}
 
 	public inline function iterator() : Iterator<T> {
-		return throw "not implemented";
+		return ArrayImpl.iterator(this);
 	}
 
-	public inline function insert( pos : Int, x : T ) : Void {
-		return throw "not implemented";
-	}
+	public function insert( pos : Int, x : T ) : Void;
+
 
 	public inline function join( sep : String ) : String {
-		return untyped sep.join(this);
+		return ArrayImpl.join(this, sep);
 	}
 
 	public inline function toString() : String {
-		return untyped str(this);
+		return ArrayImpl.toString(this);
 	}
 
 	public inline function pop() : Null<T> {
-		return if (this.length == 0) null else untyped(this).pop();
+		return ArrayImpl.pop(this);
 	}
 
 	public inline function push(x:T) : Int {
-		untyped this.append(x);
 		
-		return length;
+		
+		return ArrayImpl.push(this,x);
 	}
 
 	public inline function unshift(x : T) : Void {
-		return throw "not implemented";
+		return ArrayImpl.unshift(this,x);
 	}
 
 	public inline function remove(x : T) : Bool {
-		return throw "not implemented";
+		return ArrayImpl.remove(this,x);
+		
 	}
 
-	public inline function reverse() : Void {
-		return throw "not implemented";
-	}
+	public function reverse() : Void;
 
 	public inline function shift() : Null<T> {
-		return throw "not implemented";
+		return ArrayImpl.shift(this);
 	}
 
 	public inline function slice( pos : Int, ?end : Int ) : Array<T> {
-		return throw "not implemented";
+		return ArrayImpl.slice(this, pos, end);
 	}
 
 	public inline function sort(f:T->T->Int) : Void {
-		return throw "not implemented";
+		return ArrayImpl.sort(this, f);
 	}
 
 	public inline function splice( pos : Int, len : Int ) : Array<T> {
-		return throw "not implemented";
+		return ArrayImpl.splice(this, pos, len);
 	}
 
 	public inline function map<S>( f : T -> S ) : Array<S> {
-		return untyped list(untyped __python__("map")(f,this));
+		return ArrayImpl.map(this, f);
 	}
 
-	public function filter( f : T -> Bool ) : Array<T> {
-		return Builtin.filter(f, this);
+	public inline function filter( f : T -> Bool ) : Array<T> {
+		return ArrayImpl.filter(this,f);
 	}
 
 
 	
 	@:keep private inline function __get(idx:Int):T
 	{
-		var _hx_a = this;
-		if (idx >= _hx_a.length || idx < 0)
-			return null;
-
-		return untyped this[idx];
+		return ArrayImpl.__get(this, idx);
 	}
 
-	@:keep private inline function __set(idx:Int, v:T):T
+	@:keep private inline function __set(idx:Int, val:T):T
 	{
-		var _hx_a = this;
-
-		untyped _hx_a[idx] = v;
-		return v;
+		return ArrayImpl.__set(this, idx,val);
 	}
 
 	@:keep private inline function __unsafe_get(idx:Int):T
 	{
-		return untyped this[idx];
+		return ArrayImpl.__unsafe_get(this, idx);
 	}
 
 	@:keep private inline function __unsafe_set(idx:Int, val:T):T
 	{
-		untyped this[idx] = val;
-		return val;
+		return ArrayImpl.__unsafe_set(this, idx,val);
 	}
+
+	@:noCompletion public function __iter__ ():PyIterator<T>;
 
 	
 }

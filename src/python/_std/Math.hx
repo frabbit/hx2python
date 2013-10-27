@@ -263,8 +263,8 @@ extern class Math
 	**/
 	static inline function isNaN( f : Float ) : Bool return untyped _hx_math.isnan(f);
 
-	static inline function __init__():Void {
-		//python.Macros.importAs("math", "_hx_math");
+	static function __init__():Void {
+		python.Macros.importAs("math", "_hx_math");
 	}
 
 }

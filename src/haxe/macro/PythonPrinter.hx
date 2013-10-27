@@ -281,6 +281,13 @@ class PythonPrinter {
                 case EConst(CString(s)): s;
                 default:"";
             };
+            case "__named_arg__":
+                var name = switch(el[0].expr)
+                {
+                    case EConst(CString(s)): s;
+                    default: throw "unexpected";
+                };  
+                '$name=${printExpr(el[1], context)}';
             case "__named__":
                 	
                 trace(el);
@@ -312,7 +319,9 @@ class PythonPrinter {
             case "__python_tuple__":
             	'(${printExprs(el, ", ", context)})';
             case "__python_array_get__":
-                '${printExpr(el.shift(), context)}[${printExpr(el[0], context)}]';
+                '${printExpr(el.shift(), context)}[${printExprs(el,":", context)}]';
+            case "__python_del__":
+                'del ${printExpr(el[0], context)}';
             case "__python_binop__":
                 '${printExpr(el[0], context)}';
             case "__python_array_set__":
