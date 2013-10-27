@@ -80,15 +80,18 @@ class Lib
       return {
         __iter__ : function () {
           var it1 = it.iterator();
-          return new PyIterator({
+          var self:PyIterator<T> = null;
+          self = new PyIterator({
             __next__ : function ():T {
               if (it1.hasNext()) {
                 return it1.next();
               } else {
                 throw new python.lib.Types.StopIteration();
               }
-            }
+            },
+            __iter__ : function () return self
           });
+          return self;
         }
       }
     }
