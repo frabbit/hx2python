@@ -12,6 +12,7 @@ abstract Choice<A,B>(Dynamic) {
 abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> {
 
 }
+
 abstract VarArgs(Array<Dynamic>) to Array<Dynamic> from Array<Dynamic> 
 {
 	
@@ -49,19 +50,21 @@ typedef NativeIterable<T> = {
 	
 }
 
+typedef List<T> = Array<T>;
 
 
-extern class List<T> implements ArrayAccess<T> {
 
-	public var length (get_length, null):Int;
-
-	private inline function get_length ():Int return untyped len(this);
-
-	public function append (x:T):Void;
-
-	
-	
-}
+//extern class List<T> implements ArrayAccess<T> {
+//
+//	public var length (get_length, null):Int;
+//
+//	private inline function get_length ():Int return untyped len(this);
+//
+//	public function append (x:T):Void;
+//
+//	
+//	
+//}
 
 typedef Hashable = {
 	public function __hash__():Int;
