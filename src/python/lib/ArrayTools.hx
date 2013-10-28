@@ -11,4 +11,9 @@ class ArrayTools {
 		untyped __field__(a, "append")(x);
 	}
 
+	public static inline function contains <T>(a:Array<T>, x:T):Bool 
+	{
+		return untyped __python_in__(x,a);
+	}
+
 }
