@@ -18,6 +18,23 @@ abstract VarArgs(Array<Dynamic>) to Array<Dynamic> from Array<Dynamic>
 	
 }
 
+
+extern class ByteArray {
+	public function decode(encoding:String="utf-8", errors:String="strict"):String;
+}
+
+extern class Bytes {
+
+	public function decode(encoding:String="utf-8", errors:String="strict"):String;
+
+	static function __init__ ():Void 
+	{
+		Macros.importAs("builtins", "python.lib.Bytes");
+	}
+
+
+}
+
 typedef Variant<A,B> = Dynamic; 
 typedef Variant3<A,B,C> = Dynamic;
 typedef Variant4<A,B,C,D> = Dynamic;
@@ -112,6 +129,38 @@ extern class Dict<K, V>
 	public inline function length ():Int 
 	{
 		return python.lib.Builtin.len(this);
+	}
+
+	public inline function hasKey (k:K):Bool {
+		return DictImpl.hasKey(this,k);
+	}
+
+	public function clear ():Void;
+	public function copy ():Dict<K,V>;
+	public function get (key:K, def:V):V;
+
+	public inline function set (key:K, val:V):Void {
+		DictImpl.set(this, key, val);	
+	}
+	
+	public inline function remove (key:K):Void 
+	{
+		DictImpl.remove(this, key);
+	}
+
+}
+
+class DictImpl {
+	public static function hasKey <X>(d:Dict<X, Dynamic>, key:X) {
+		return untyped __python__("key in d");
+	}
+
+	public static function remove <X>(d:Dict<X, Dynamic>, key:X) {
+		untyped __python_del__(d[key]);
+	}
+
+	public static function set <K,V>(d:Dict<K, V>, key:K, val:V) {
+		untyped __python__("d[key] = val");
 	}
 }
 
