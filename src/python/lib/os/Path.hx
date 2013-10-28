@@ -33,6 +33,10 @@ extern class Path {
 
 	public static function isdir (path:String):Bool;
 
+	public static function dirname (path:String):String;
+
+	
+
 	public static function islink (path:String):Bool;
 
 	public static function ismount (path:String):Bool;
