@@ -138,7 +138,7 @@ class PythonPrinter {
 			
 	}
 	public function printString(s:String) {
-		return '"' + s.split("\n").join("\\n").split("\t").join("\\t").split("'").join("\\'").split('"').join("\\\"") #if sys .split("\x00").join("\\x00") #end + '"';
+		return '"' + s.split("\\").join("\\\\").split('"').join('\\"').split("\n").join("\\n").split("\r").join("\\r").split("\t").join("\\t") #if sys .split("\x00").join("\\x00") #end + '"';
 	}
 
 	public function printConstant(c:Constant) return switch(c) {
@@ -290,16 +290,16 @@ class PythonPrinter {
                 '$name=${printExpr(el[1], context)}';
             case "__named__":
                 	
-                trace(el);
-                for (e in el) {
-                    trace(ExprTools.toString(e));
-                }
+                //trace(el);
+                //for (e in el) {
+                //    trace(ExprTools.toString(e));
+                //}
                 var fields = switch (el[1].expr) {
                     case EObjectDecl(fields): fields;
                     case _ : throw "unexpected ERRRRRRORRRR";
                 }
             	
-                trace(fields);
+                //trace(fields);
                 
             	'${printExpr(el[0], context)}(${printExprsNamed(fields,", ", context)})';
             case "__define_feature__":
@@ -320,6 +320,8 @@ class PythonPrinter {
             	'(${printExprs(el, ", ", context)})';
             case "__python_array_get__":
                 '${printExpr(el.shift(), context)}[${printExprs(el,":", context)}]';
+            case "__python_in__":
+                '${printExpr(el[0], context)} in ${printExpr(el[1], context)}';
             case "__python_del__":
                 'del ${printExpr(el[0], context)}';
             case "__python_binop__":

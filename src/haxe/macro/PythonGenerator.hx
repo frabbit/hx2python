@@ -683,7 +683,7 @@ class _HxException(Exception):
         for(t in api.types)
             genPathHacks(t);
 
-        trace(PythonPrinter.pathHack);
+        //trace(PythonPrinter.pathHack);
 
         for(t in api.types)
             genType(t);
