@@ -91,6 +91,9 @@ extern class Re
 	public static var X:Int;
 	public static var VERBOSE:Int;
 
+	public static var U:Int;
+	public static var UNICODE:Int;
+
 	
 	
 	public static function compile (pattern:String, ?flags:Int = 0):Regex;
