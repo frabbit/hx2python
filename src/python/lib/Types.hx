@@ -139,6 +139,8 @@ extern class Dict<K, V>
 	public function copy ():Dict<K,V>;
 	public function get (key:K, def:V):V;
 
+	public function keys ():PyIterator<K>;
+
 	public inline function set (key:K, val:V):Void {
 		DictImpl.set(this, key, val);	
 	}

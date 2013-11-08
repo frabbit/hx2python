@@ -54,6 +54,7 @@ extern class Os {
 
 	public static function walk (top:String, topdown:Bool = true, onerror:OSError->Void = null, followlinks:Bool = false):Tup3<String, Array<String>, Array<String>>;
 
+	public static var sep(default, null) : String;
 	
 	
 	public static function makedirs (path:String, mode : Int = 511 /* Oktal 777 */, exist_ok:Bool = false):Void;

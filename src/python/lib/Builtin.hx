@@ -34,9 +34,11 @@ extern class Builtin {
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	public static function len(x:String):Int;
 
+	public static function open(file:String, mode:String, ?encoding:String = null, ?errors : String, ?newline:String, ?closefd:Bool, ?opener:String->Int->FileDescriptor):FileObject;
+
 	//public static function divmod():Void;
 	//public static function input():Void;
-	//public static function open():Void;
+	
 	//public static function staticmethod():Void;
 	//public static function enumerate():Void;
 	//public static function int():Void;
