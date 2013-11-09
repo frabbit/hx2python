@@ -36,11 +36,13 @@ class ArrayImpl {
 		return untyped (untyped a1) + (untyped a2);
 	}
 
-	public static inline function copy<T>(x:Array<T>) : Array<T> {
+	public static inline function copy<T>(x:Array<T>) : Array<T> 
+	{
 		return Builtin.list(x);
 	}
 
-	public static inline function iterator<T>(x:Array<T>) : Iterator<T> {
+	@:keep public static inline function iterator<T>(x:Array<T>) : Iterator<T> 
+	{
 		return python.Lib.toHaxeIterator(x.__iter__());
 	}
 
