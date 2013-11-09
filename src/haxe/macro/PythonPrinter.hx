@@ -88,7 +88,12 @@ class PythonPrinter {
         return name;
     }
 
-    public function applyPathHack (id:String) {
+    public function applyPathHack (id:String) 
+    {
+
+        //var newId = if (id.indexOf(".") > 0) id.replace(".", "_") else id;
+        
+
         var realId = if (pathHack.exists(id)) {
             pathHack.get(id);
         } else {
@@ -130,7 +135,7 @@ class PythonPrinter {
 		case OpBoolOr: "or";
 		case OpShl: "<<";
 		case OpShr: ">>";
-		case OpUShr: ">>>";
+		case OpUShr: ">>>"; // there is no unsigned right shift operator in python, use >> instad???
 		case OpMod: "%";
 		case OpInterval: "..."; throw "unexpected operator ... (OpInterval)";
 		case OpArrow: "=>"; throw "unexpected operator =>";
@@ -226,7 +231,9 @@ class PythonPrinter {
                 optional = true;
                 argString += "";
             }
-            argString += arg.name;
+            
+            
+            argString += handleKeywords(arg.name);
 
             if(argValue != null && !argIsNull)
                 argString += ' = $argValue';
@@ -278,9 +285,9 @@ class PythonPrinter {
             case "trace" :
                 formatPrintCall(el, context);
             case "__python_kwargs__":
-                '**${printExpr(el[0]}';
+                '**${printExpr(el[0],context)}';
             case "__python_varargs__":
-                '*${printExpr(el[0]}';
+                '*${printExpr(el[0],context)}';
             case "__python__":   switch(el[0].expr)
             {
                 case EConst(CString(s)): s;
@@ -293,6 +300,7 @@ class PythonPrinter {
                     default: throw "unexpected";
                 };  
                 '$name=${printExpr(el[1], context)}';
+            case "__feature__":'';
             case "__named__":
                 	
                 //trace(el);
@@ -412,6 +420,7 @@ class PythonPrinter {
     	}
         var expr = '$obj.${handleKeywords(name)}';
 
+
         var expr = applyPathHack(expr);
         
 
@@ -473,7 +482,10 @@ class PythonPrinter {
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
 		case EBinop(OpNotEq, e1, e2 = { expr : EConst(CIdent("null"))}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
-		case EBinop(op, e1, e2): 
+		
+        case EBinop(OpUShr, e1, e2): 
+            '_hx_rshift(${printExpr1(e1)}, ${printExpr1(e2)})';
+        case EBinop(op, e1, e2): 
 			//trace(ExprTools.toString(e));
 			//trace(ExprTools.toString(e));
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
@@ -484,7 +496,9 @@ class PythonPrinter {
 		case EObjectDecl(fl):
 			"_Hx_AnonObject(" + fl.map(function(fld) return '${fld.field} = ${printExpr1(fld.expr)} ').join(",") + ")";
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
-		case ECall(e1, el): printCall(e1, el.copy(),context);
+		case ECall({expr : EField(e1, "iterator")}, []): 
+            'HxOverrides_iterator(${printExpr1(e1)})';
+        case ECall(e1, el): printCall(e1, el.copy(),context);
 		case ENew(tp, el): 
 			//trace(tp);
 			var id = printTypePath(tp,context);

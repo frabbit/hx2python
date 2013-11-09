@@ -212,68 +212,99 @@ class PythonGenerator
         //trace(t.name);
         //trace(t.pack);
 
-       if(t.pack.length > 0 || t.module != t.name || t.isPrivate)
-       {
-
-           var hasPack = t.pack.length > 0;
-           var pack1 = t.pack.join(".");
-           var pack2 = t.pack.join("_");
-
-           var moduleName = { var p = t.module.split("."); p[p.length-1];};
+        if(t.pack.length > 0 || t.module != t.name || t.isPrivate)
+        {
            
-           var hasModule = (moduleName != t.name);
+            var tpack = t.pack;
+
+            var hasPack = t.pack.length > 0;
+           
 
 
 
-           var hasModulePrefix = (hasPack && hasModule);
-           var hasTypePrefix = (hasPack || hasModule);
+            var pack1 = t.pack.join(".");
+            var pack2 = t.pack.join("_");
 
-           var modulePrefix1 = hasModulePrefix ? "." : "";
-           var modulePrefix2 = hasModulePrefix ? "_" : "";
+            var moduleName = { var p = t.module.split("."); p[p.length-1];};
+           
+            var privateTypeInPack =  t.pack[t.pack.length-1] == "_" + moduleName;
 
-           var typePrefix1 = hasTypePrefix ? "." : "";
-           var typePrefix2 = hasTypePrefix ? "_" : "";
 
-           var moduleStr = hasModule ? moduleName : "";
+            var hasModule = (moduleName != t.name);
 
-           var native = t.meta.get().filter(function (e) return e.name == ":native");
-           var nativeName = if (native.length == 1 && native[0].params.length == 1) {
-            switch (native[0].params[0].expr) {
-                case EConst(CString(nativeName)): nativeName;
-                case _  : null;
+           
+
+           
+
+
+
+            var hasModulePrefix = (hasPack && hasModule);
+            var hasTypePrefix = (hasPack || hasModule);
+
+            var modulePrefix1 = hasModulePrefix ? "." : "";
+            var modulePrefix2 = hasModulePrefix ? "_" : "";
+
+            var typePrefix1 = hasTypePrefix ? "." : "";
+            var typePrefix2 = hasTypePrefix ? "_" : "";
+
+            var moduleStr = hasModule ? moduleName : "";
+
+
+            var native = t.meta.get().filter(function (e) return e.name == ":native");
+            var nativeName = if (native.length == 1 && native[0].params.length == 1) {
+                switch (native[0].params[0].expr) {
+                    case EConst(CString(nativeName)): nativeName;
+                    case _  : null;
+                }
+            } 
+            else 
+            {
+                null;
             }
-           } else {
-            null;
-           }
 
 
             
 
-           var dotPath = if (false || nativeName != null) {
-            ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
-           } else {
-            pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
-           }
+            var dotPath = if (false || nativeName != null) {
+                ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
+            } else {
+                pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
+            }
 
-           fullPath = if (nativeName != null) {
-             nativeName;
-           } else {
-              pack2 + modulePrefix2 + moduleStr + typePrefix2 + t.name; 
-           }
+            fullPath = if (nativeName != null) {
+                nativeName;
+            } else {
+                var p = pack2;
+                if (privateTypeInPack) {
+                    var x = tpack.copy();
+                    x.pop();
+                    p = x.join("_");
+                }
+                p + modulePrefix2 + moduleStr + typePrefix2 + t.name;       
+              
+            }
            
-           dotPath = dotPath.split("_" + moduleName + ".").join("");
+            dotPath = dotPath.split("_" + moduleName + ".").join("");
            
-           
-           //trace(dotPath);
-           //trace(fullPath);
-           if(!PythonPrinter.pathHack.exists(dotPath))
-               PythonPrinter.pathHack.set(dotPath, fullPath);
+            
+            //trace(dotPath);
+            //trace(fullPath);
+            if(!PythonPrinter.pathHack.exists(dotPath))
+                PythonPrinter.pathHack.set(dotPath, fullPath);
+                
+            
+            if(nativeName != null)
+            {
+                //trace(t.module + "." + nativeName + " - " + fullPath);
+                PythonPrinter.pathHack.set(t.module + "." + nativeName, fullPath);
+                PythonPrinter.pathHack.set(t.name + "." + nativeName, fullPath);
+            }
 
-            if(nativeName != null && !PythonPrinter.pathHack.exists(moduleName + "." + nativeName))
-               PythonPrinter.pathHack.set(moduleName + "." + nativeName, fullPath);
 
             if (!t.isPrivate) {
-                
+               if (privateTypeInPack) {
+
+               }
                var typePrefix3 = hasPack ? "." : "";
                var dotPath3 = if (nativeName != null) {
                  ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
@@ -285,8 +316,16 @@ class PythonGenerator
                //trace(dotPath3);
                if(!PythonPrinter.pathHack.exists(dotPath3))
                   PythonPrinter.pathHack.set(dotPath3, fullPath);
+            } else {
+                var typePrefix3 = hasPack ? "." : "";
+                var dotPath3 = if (nativeName != null) {
+                  ((t.module.length > 0) ? (t.module.split(".").join("_") + ".") : "") + nativeName;
+                } else {
+                  t.module.split(".").join("_") + typePrefix3 + t.name;
+                }
+                PythonPrinter.pathHack.set(dotPath3, fullPath);
             }
-       }
+        }
 
         return fullPath;
     }
@@ -362,6 +401,8 @@ class PythonGenerator
 
     function genClass(c : ClassType)
     {
+
+        if (c.pack.length > 0 && c.pack[0] == "js") return;
 
         if (!c.isExtern) 
         {
@@ -470,12 +511,14 @@ class PythonGenerator
                             default: fields.push(f.name);
                         }
                     
-                    default:
+                    case _:
+
                         methods.push(f.name);
                         usePass = false;
                 }
                 genClassField(c, p, f);
             }
+            if (c.isInterface) usePass = true;
             
             if (usePass) print("\tpass\n");
 
@@ -552,7 +595,7 @@ class PythonGenerator
             
             switch( c.type ) {
                 case TFun(args, _):
-                    var sargs = args.map(function(a) return a.name).join(",");
+                    var sargs = args.map(function(a) return PythonPrinter.handleKeywords(a.name) ).join(",");
                     print('def _${p}_statics_${f} ($sargs): \n\treturn $p("${c.name}", ${c.index}, [$sargs])\n');
                     print('$p.$f = _${p}_statics_${f}');
                 default:
@@ -667,12 +710,17 @@ class _HxException(Exception):
     pass\n");
         print("_hx_classes['Dynamic'] = Dynamic\n");
 
+        print("def _hx_rshift(val, n):\n\treturn (val % 0x100000000) >> n\n");
+        
         print("import math as _hx_math\n");
 
         PythonPrinter.pathHack.set("StdTypes.Int", "Int");
         PythonPrinter.pathHack.set("StdTypes.Float", "Float");
         PythonPrinter.pathHack.set("StdTypes.Dynamic", "Dynamic");
 
+
+
+        generateHxOverrides();
         generateBaseException();
         generateBaseAnon();
 
@@ -710,6 +758,15 @@ class _HxException(Exception):
         var combined = importsBuf.toString() + buf.toString();
 
         sys.io.File.saveContent(api.outputFile, combined);
+    }
+    function generateHxOverrides () 
+    {
+        var cl = "def HxOverrides_iterator(it):\n"
+               + "\tif isinstance(it, list):\n"
+               + "\t\treturn python_internal_ArrayImpl.iterator(it)\n"
+               + "\telse:\n"
+               + "\t\treturn it.iterator()\n";
+        print(cl);
     }
 
     static var indentCount : Int = 0;

@@ -734,8 +734,18 @@ class PythonTransformer {
 			
 			
 
-
+			case [_, ENew(tp,params)]:
+				//trace(ExprTools.toString(e.expr));
 				
+				var params1 = [for (p in params) transformExpr(p, true, e.nextId)];
+
+				var blocks = [for (p in params1) for (b in p.blocks) b];
+
+				var params2 = [for (p in params1) p.expr];
+
+				var ex = { expr : ENew(tp, params2), pos : e.expr.pos };
+				liftExpr(ex, false, e.nextId, blocks);
+			
 			case [_, ECall(e1,params)]:
 				//trace(ExprTools.toString(e.expr));
 				var e1_ = transformExpr(e1, true, e.nextId);
@@ -813,6 +823,10 @@ class PythonTransformer {
 
 
 				liftExpr({ expr : ECast(ex1.expr, t), pos : e.expr.pos}, ex1.blocks);
+
+			// case [_, EUntyped({ expr : ECall({ expr : EConst(CIdent("__feature__"))},params)})]:
+				
+			// 	liftExpr(e, false, e.nextId, []);
 
 			case [_, EUntyped(ex)]:
 				var ex1 = transformExpr(ex, true, e.nextId, []);
