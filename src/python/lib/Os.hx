@@ -54,6 +54,8 @@ extern class Os {
 
 	public static function walk (top:String, topdown:Bool = true, onerror:OSError->Void = null, followlinks:Bool = false):Tup3<String, Array<String>, Array<String>>;
 
+	public static inline function environ ():Dict<String, String>;
+
 	public static var sep(default, null) : String;
 	
 	

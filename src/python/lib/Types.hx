@@ -9,8 +9,13 @@ abstract Choice<A,B>(Dynamic) {
 	@:from public static inline function fromB <A,B>(x:B):Choice<A,B> return cast x;
 }
 
-abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> {
-
+abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> 
+{
+	
+	public function get <V>(key:String, def:V):V 
+	{
+		return this.get(key, def);
+	}
 }
 
 abstract VarArgs(Array<Dynamic>) to Array<Dynamic> from Array<Dynamic> 
@@ -29,7 +34,7 @@ extern class Bytes {
 
 	static function __init__ ():Void 
 	{
-		Macros.importAs("builtins", "python.lib.Bytes");
+		Macros.importFromAs("builtins", "bytes", "python.lib.Bytes");
 	}
 
 
@@ -108,7 +113,7 @@ extern class FileDescriptor {
 //	function __cmp__(other:Dynamic):Int;
 //}
 
-@:native("set")
+//@:native("set")
 extern class Set<T> 
 {
 
@@ -118,10 +123,15 @@ extern class Set<T>
 	{
 		return python.lib.Builtin.len(this);
 	}
+
+	static function __init__ ():Void 
+	{
+		Macros.importFromAs("builtins", "set", "python.lib.Set");
+	}
 }
 
 
-@:native("dict")
+//@:native("dict")
 extern class Dict<K, V>
 {
 	public function new ():Void;
@@ -139,6 +149,8 @@ extern class Dict<K, V>
 	public function copy ():Dict<K,V>;
 	public function get (key:K, def:V):V;
 
+	public function update (d:Dict<K,V>):Void;
+
 	public function keys ():PyIterator<K>;
 
 	public inline function set (key:K, val:V):Void {
@@ -148,6 +160,11 @@ extern class Dict<K, V>
 	public inline function remove (key:K):Void 
 	{
 		DictImpl.remove(this, key);
+	}
+
+	static function __init__ ():Void 
+	{
+		Macros.importFromAs("builtins", "dict", "python.lib.Dict");
 	}
 
 }

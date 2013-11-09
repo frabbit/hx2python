@@ -218,6 +218,7 @@ class PythonPrinter {
         for(i in 0 ... args.length)
         {
             var arg = args[i];
+            
             var argValue = printExpr(arg.value,context);
             var argIsNull = arg.value == null;
             if((arg.opt || !argIsNull) && !optional)
@@ -276,6 +277,10 @@ class PythonPrinter {
         		'super().__init__(${printExprs(params,", ", context)})';
             case "trace" :
                 formatPrintCall(el, context);
+            case "__python_kwargs__":
+                '**${printExpr(el[0]}';
+            case "__python_varargs__":
+                '*${printExpr(el[0]}';
             case "__python__":   switch(el[0].expr)
             {
                 case EConst(CString(s)): s;

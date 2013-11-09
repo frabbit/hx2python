@@ -33,6 +33,8 @@ extern class Popen {
 			universal_newlines=false, startupinfo=null, creationflags=0);
 
 
+	public function communicate (input:Bytes = null, timeout:Null<Int> = null):Tup2<Bytes, Bytes>;
+
 	static function __init__ ():Void 
 	{
 		python.Macros.importFromAs("subprocess", "Popen" "python.lib.subprocess.Popen");
