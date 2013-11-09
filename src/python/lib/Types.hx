@@ -164,7 +164,7 @@ extern class Dict<K, V>
 
 	static function __init__ ():Void 
 	{
-		Macros.importFromAs("builtins", "dict", "python.lib.Dict");
+		Macros.importFromAs("builtins", "dict", "python.lib.Types.Dict");
 	}
 
 }
@@ -227,7 +227,7 @@ extern class Tup4<A,B,C,D>
 @:native("BaseException")
 extern class BaseException 
 {
-	public function new ():Void;
+	public function new (msg:String):Void;
 }
 
 
@@ -265,7 +265,7 @@ extern class SyntaxError extends Exception
 @:native("StopIteration")
 extern class StopIteration extends Exception
 {
-	
+	public function new (?message:String);
 }
 
 @:native("RuntimeError")

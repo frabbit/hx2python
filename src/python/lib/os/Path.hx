@@ -5,6 +5,7 @@ import python.lib.Types;
 
 extern class Path {
 
+	public static var sep : String;
 	public static function exists (path:String):Bool;
 
 	public static function abspath (path:String):String;

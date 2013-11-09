@@ -10,9 +10,7 @@ import python.lib.Types;
 @:native("__builtin__")
 extern class Builtin {
 
-	static function __init__ ():Void {
-		python.Macros.importAs("builtins", "__builtin__");
-	}
+	
 
 	@:overload(function (f:Int):Int {})
 	public static function abs(x:Float):Float;
@@ -122,5 +120,8 @@ extern class Builtin {
 	//public static function oct():Void;
 	//public static function sorted():Void;
 	//public static function intern():Void;
+	static function __init__ ():Void {
+		python.Macros.importAs("builtins", "__builtin__");
+	}
 
 }
