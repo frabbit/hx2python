@@ -26,7 +26,7 @@ extern class MatchObject
 
 	public function expand(template:String):String;
 	public function group(?i:Int = 0):String;
-	
+	public function groups<T>(defaultVal:T = null):T;
 	public function groupdict(defaultVal:Dict<String, String> = null):Dict<String, String>;
 
 	public function start (?i:Int = 0):Int;

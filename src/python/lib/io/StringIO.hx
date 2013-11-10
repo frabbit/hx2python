@@ -1,11 +1,11 @@
 
 package python.lib.io;
 
-extern class StringIO {
+import python.lib.io.TextIOBase;
 
-	public function close():Void;
-	public function flush():Void;
-	public function readline(limit:Int = -1):String;
+extern class StringIO extends TextIOBase 
+{
+	public function new (s:String):Void;
 	public function getvalue():String;
 
 }

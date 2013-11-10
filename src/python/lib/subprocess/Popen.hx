@@ -1,15 +1,16 @@
 
 package python.lib.subprocess;
 
+import python.lib.io.TextIOBase;
 import python.lib.Subprocess.StartupInfo;
 import python.lib.Types;
 
 typedef PopenOptions = {
 	?bufsize : Int,
 	?executable  : String,
-	?stdin  : FileObject,
-	?stdout  : FileObject,
-	?stderr : FileObject,
+	?stdin  : TextIOBase,
+	?stdout  : TextIOBase,
+	?stderr : TextIOBase,
 	?preexec_fn : Void->Void,
 	?close_fds : Bool,
 	?shell : Bool,
@@ -33,7 +34,7 @@ extern class Popen {
 			universal_newlines:Bool=false, startupinfo:StartupInfo=null, creationflags:Int=0):Void;
 
 
-	public var stdin:FileObject;
+	public var stdin:TextIOBase;
 
 	public function kill ():Void;
 	public function wait (?timeout:Null<Int>):Null<Int>;

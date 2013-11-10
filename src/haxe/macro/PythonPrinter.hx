@@ -338,7 +338,11 @@ class PythonPrinter {
             case "__python_del__":
                 'del ${printExpr(el[0], context)}';
             case "__python_binop__":
-                '${printExpr(el[0], context)}';
+                var op = switch (el[1].expr) {
+                    case EConst(CString(id)):id;
+                    case _ : throw "unexpected";
+                }
+                '${printExpr(el[0], context)} $op ${printExpr(el[2], context)}';
             case "__python_array_set__":
                 '${printExpr(el[0], context)}[${printExpr(el[1], context)}] = ${printExpr(el[2], context)}';
             case "__assert__":

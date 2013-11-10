@@ -2,6 +2,7 @@
 package python.lib;
 
 
+import python.lib.io.TextIOBase;
 import python.lib.Types;
 
 
@@ -30,9 +31,10 @@ extern class Builtin {
 	@:overload(function (f:Set<Dynamic>):Int {})
 	@:overload(function (f:Array<Dynamic>):Int {})
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
+	@:overload(function (f:Bytes):Int {})
 	public static function len(x:String):Int;
 
-	public static function open(file:String, mode:String, ?encoding:String = null, ?errors : String, ?newline:String, ?closefd:Bool, ?opener:String->Int->FileDescriptor):FileObject;
+	public static function open(file:String, mode:String, ?encoding:String = null, ?errors : String, ?newline:String, ?closefd:Bool, ?opener:String->Int->FileDescriptor):TextIOBase;
 
 	//public static function divmod():Void;
 	//public static function input():Void;

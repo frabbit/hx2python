@@ -3,6 +3,8 @@ package python.lib;
 
 
 import python.Lib;
+import python.lib.Builtin;
+import python.lib.io.IOBase;
 
 abstract Choice <A,B>(Dynamic) {
 	@:from public static inline function fromA <A,B>(x:A):Choice<A,B> return cast x;
@@ -29,7 +31,8 @@ extern class ByteArray {
 }
 
 extern class Bytes {
-
+	public var length(get, null):Int;
+	public inline function get_length ():Int return Builtin.len(this);
 	public function decode(encoding:String="utf-8", errors:String="strict"):String;
 
 	static function __init__ ():Void 
@@ -92,15 +95,7 @@ typedef Comparable = {
 	public function __cmp__(other:Dynamic):Int;
 }
 
-extern class FileObject {
-	
-	public function write (s:String):Void;
-	public function flush ():Void;
-	public function close ():Void;
-	public function tell (offset:Int, whence:Int = 0):Void;
-
-
-}
+typedef FileObject = IOBase;
 
 extern class FileDescriptor {
 
@@ -117,6 +112,7 @@ extern class FileDescriptor {
 extern class Set <T> 
 {
 
+	@:overload(function (?array:Array<T>):Void {})
 	public function new (?iterable:python.lib.Types.PyIterable<T>):Void;
 
 	public inline function length ():Int 
@@ -124,9 +120,26 @@ extern class Set <T>
 		return python.lib.Builtin.len(this);
 	}
 
+
+	public inline function minus (other:Set<T>):Set<T>
+	{
+		return untyped __python_binop__(this, "-", other);
+	}
+	public inline function plus (other:Set<T>):Set<T>
+	{
+		return untyped __python_binop__(this, "+", other);
+	}
+
 	static function __init__ ():Void 
 	{
 		Macros.importFromAs("builtins", "set", "python.lib.Set");
+	}
+
+	function __iter__ ():PyIterator<T>;
+
+	public inline function iterator ():Iterator<T>
+	{
+		return __iter__();
 	}
 }
 
