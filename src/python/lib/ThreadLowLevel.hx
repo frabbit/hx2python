@@ -3,7 +3,7 @@ package python.lib;
 
 private typedef TODO = Dynamic;
 
-class ThreadLowLevel {
+extern class ThreadLowLevel {
 	
 	public static function start_new_thread(f:Void->Void, ?args:Dynamic):TODO;
 

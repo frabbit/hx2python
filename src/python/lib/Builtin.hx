@@ -92,7 +92,7 @@ extern class Builtin {
 	//public static function xrange():Void;
 	//public static function cmp():Void;
 	//public static function globals():Void;
-	//public static function max():Void;
+	public static function max(a1:Int, ?a2:Int, ?a3:Int, ?a4:Int, ?a5:Int, ?a6:Int, ?a7:Int, ?a8:Int, ?a9:Int):Int;
 	//public static function reversed():Void;
 	//public static function zip():Void;
 	//public static function compile():Void;

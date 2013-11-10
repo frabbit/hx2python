@@ -57,7 +57,7 @@ extern class Os {
 	//public static inline function environ ():Dict<String, String>;
 
 	public static var sep(default, null) : String;
-	
+	public static var pathsep(default, null):String;
 	
 	public static function makedirs (path:String, mode : Int = 511 /* Oktal 777 */, exist_ok:Bool = false):Void;
 

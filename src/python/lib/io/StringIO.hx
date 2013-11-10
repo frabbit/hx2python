@@ -1,7 +1,7 @@
 
 package python.lib.io;
 
-class StringIO {
+extern class StringIO {
 
 	public function close():Void;
 	public function flush():Void;

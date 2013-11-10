@@ -33,7 +33,12 @@ extern class Popen {
 			universal_newlines:Bool=false, startupinfo:StartupInfo=null, creationflags:Int=0):Void;
 
 
+	public var stdin:FileObject;
+
 	public function kill ():Void;
+	public function wait (?timeout:Null<Int>):Null<Int>;
+	public function poll ():Null<Int>;
+	public function terminate ():Void;
 
 	public function communicate (input:Bytes = null, timeout:Null<Int> = null):Tup2<Bytes, Bytes>;
 

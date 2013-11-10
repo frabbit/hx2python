@@ -4,12 +4,12 @@ package python.lib;
 
 import python.Lib;
 
-abstract Choice<A,B>(Dynamic) {
+abstract Choice <A,B>(Dynamic) {
 	@:from public static inline function fromA <A,B>(x:A):Choice<A,B> return cast x;
 	@:from public static inline function fromB <A,B>(x:B):Choice<A,B> return cast x;
 }
 
-abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> 
+abstract KwArgs (Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String, Dynamic> 
 {
 	
 	public function get <V>(key:String, def:V):V 
@@ -18,7 +18,7 @@ abstract KwArgs(Dict<String, Dynamic>) to Dict<String, Dynamic> from Dict<String
 	}
 }
 
-abstract VarArgs(Array<Dynamic>) to Array<Dynamic> from Array<Dynamic> 
+abstract VarArgs (Array<Dynamic>) to Array<Dynamic> from Array<Dynamic> 
 {
 	
 }
@@ -44,13 +44,13 @@ typedef Variant<A,B> = Dynamic;
 typedef Variant3<A,B,C> = Dynamic;
 typedef Variant4<A,B,C,D> = Dynamic;
 
-abstract PyIterator<T>(NativeIterator<T>) to NativeIterator<T> to PyIterable<T> {
+abstract PyIterator <T>(NativeIterator<T>) to NativeIterator<T> to PyIterable<T> {
 	public inline function new (p:NativeIterator<T>) this = p;
 	@:to public static inline function toHaxeIterator <T>(p:NativeIterator<T>):HaxeIterator<T> return python.Lib.toHaxeIterator(p);
 	@:to public static inline function toPyIterable <T>(p:NativeIterator<T>):PyIterable<T> return p;
 }
 
-abstract PyIterable<T>(NativeIterable<T>) to NativeIterable<T> from NativeIterable<T> {
+abstract PyIterable <T>(NativeIterable<T>) to NativeIterable<T> from NativeIterable<T> {
 	@:to public static inline function toHaxeIterable <T>(p:NativeIterable<T>):HaxeIterable<T> return python.Lib.toHaxeIterable(p);
 	
 	//@:from public static inline function fromArray <T>(p:Array<T>):PyIterable<T> return cast p;
@@ -114,7 +114,7 @@ extern class FileDescriptor {
 //}
 
 //@:native("set")
-extern class Set<T> 
+extern class Set <T> 
 {
 
 	public function new (?iterable:python.lib.Types.PyIterable<T>):Void;
@@ -132,7 +132,7 @@ extern class Set<T>
 
 
 //@:native("dict")
-extern class Dict<K, V>
+extern class Dict <K, V>
 {
 	public function new ():Void;
 
@@ -152,6 +152,7 @@ extern class Dict<K, V>
 	public function update (d:Dict<K,V>):Void;
 
 	public function keys ():PyIterator<K>;
+	public function items ():PyIterator<V>;
 
 	public inline function set (key:K, val:V):Void {
 		DictImpl.set(this, key, val);	
@@ -160,6 +161,11 @@ extern class Dict<K, V>
 	public inline function remove (key:K):Void 
 	{
 		DictImpl.remove(this, key);
+	}
+
+	public inline function iterator ():Iterator<V>
+	{
+		return items();
 	}
 
 	static function __init__ ():Void 
@@ -189,7 +195,7 @@ extern class Tuple implements ArrayAccess<Dynamic> {
 
 }
 
-extern class Tup2<A,B> 
+extern class Tup2 <A,B> 
 {
 	public static inline function create <A,B>(a:A, b:B):Tup2<A,B> return untyped __python_tuple__(a,b);
 	public var _1(get, null):A;
@@ -198,7 +204,7 @@ extern class Tup2<A,B>
 	public inline function get__2():B return untyped __python_array_get__(this, 1);
 }
 
-extern class Tup3<A,B,C> 
+extern class Tup3 <A,B,C> 
 {
 	public static inline function create <A,B,C>(a:A, b:B,c:C):Tup3<A,B,C> return untyped __python_tuple__(a,b,c);
 	public var _1(get, null):A;
@@ -209,7 +215,7 @@ extern class Tup3<A,B,C>
 	public inline function get__3():C return untyped __python_array_get__(this, 2);
 }
 
-extern class Tup4<A,B,C,D> 
+extern class Tup4 <A,B,C,D> 
 {
 	public static inline function create <A,B,C,D>(a:A, b:B,c:C,d:D):Tup4<A,B,C,D> return untyped __python_tuple__(a,b,c,d);
 	public var _1(get, null):A;
@@ -222,6 +228,20 @@ extern class Tup4<A,B,C,D>
 	public inline function get__4():D return untyped __python_array_get__(this, 3);
 }
 
+extern class Tup5 <A,B,C,D,E> 
+{
+	public static inline function create <A,B,C,D,E>(a:A, b:B,c:C,d:D,e:E):Tup5<A,B,C,D,E> return untyped __python_tuple__(a,b,c,d,e);
+	public var _1(get, null):A;
+	public inline function get__1():A return untyped __python_array_get__(this, 0);
+	public var _2(get, null):B;
+	public inline function get__2():B return untyped __python_array_get__(this, 1);
+	public var _3(get, null):C;
+	public inline function get__3():C return untyped __python_array_get__(this, 2);
+	public var _4(get, null):D;
+	public inline function get__4():D return untyped __python_array_get__(this, 3);
+	public var _5(get, null):E;
+	public inline function get__5():E return untyped __python_array_get__(this, 4);
+}
 
 
 @:native("BaseException")
