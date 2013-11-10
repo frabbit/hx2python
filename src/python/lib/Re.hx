@@ -57,7 +57,7 @@ extern class Regex
 	public function split(string:String, maxsplit:Int=0):Array<String>;
 
 	public function findall(string:String, ?pos:Int, ?endpos:Int):Array<Variant<String, Tuple>>;
-	public function finditer(string:String, ?pos:Int, ?endpos:Int):Iterator<MatchObject>;
+	public function finditer(string:String, ?pos:Int, ?endpos:Int):PyIterator<MatchObject>;
 	
 	public function sub(repl:Repl, string:String, count:Int=0):String;
 	public function subn(repl:Repl, string:String, count:Int=0):String;
