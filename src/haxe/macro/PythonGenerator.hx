@@ -139,17 +139,42 @@ class PythonGenerator
         print(exprString); 
     }
 
-    inline function genExpr(e)
+    inline function genExpr(e, ?field:String = "", ?indent:String = "")
     {
-        var context = PrintContexts.create("\t");
+        var context = PrintContexts.create("\t" + indent);
         var expr = haxe.macro.Context.getTypedExpr(e);
+        
         var expr2 = PythonTransformer.transform(expr);
-        var exprString = new PythonPrinter().printExpr(expr,context);
+        var name = "hui";
+        var r = switch (expr2.expr) {
 
-        var exprString2 = new PythonPrinter().printExpr(expr2,context);
-        print(exprString);
-        print("#transformed");
-        print(exprString2);
+            case EBlock(es) if (field != ""):
+                
+                
+                
+
+                { e1 : expr2, e2 : macro $i{name}() };
+
+            case _ : { e1 : null, e2 : expr2};
+        }
+        //var exprString = new PythonPrinter().printExpr(expr,context);
+
+        
+        //print(exprString);
+        //print("#transformed");
+
+        if (r.e1 != null) {
+            var exprString1 = new PythonPrinter().printExpr(r.e1,context);
+            var exprString2 = new PythonPrinter().printExpr(r.e2,context);
+
+            print(indent + "def " + name + "():\n\t" + exprString1 + "\n");
+            print(indent + field + exprString2);
+
+        } else {
+            var exprString2 = new PythonPrinter().printExpr(r.e2,context);
+            print(indent + field + exprString2);
+        }
+        
     }
 
     function field(p : String)
@@ -358,8 +383,8 @@ class PythonGenerator
                 genFuncExpr(e, field, pyMetas, ["self"]);
                 newline();
             default:
-                print('\t# var $field = ');
-                genExpr(e);
+                
+                genExpr(e, '# var $field = ', '\t');
                 
                 newline();
         }
@@ -391,8 +416,8 @@ class PythonGenerator
                 genStaticFuncExpr(e, field, c, pyMetas, [], "");
                 newline();
             default:
-                print('$p.$field = ');
-                genExpr(e);
+                
+                genExpr(e, '$p.$field = ');
                 
                 newline();
 //                statics.add( { c : c, f : f } );
@@ -401,6 +426,11 @@ class PythonGenerator
 
     function genClass(c : ClassType)
     {
+        
+        
+        var initApplied = false;
+
+        print("# print " + c.module + "." + c.name + "\n");
 
         if (c.pack.length > 0 && c.pack[0] == "js") return;
 
@@ -531,6 +561,14 @@ class PythonGenerator
             closeBlock();
 
             print("\n");
+            if (c.init != null) {
+                initApplied = true;
+                var t = haxe.macro.Context.getTypedExpr(c.init);
+                var trans = PythonTransformer.transform(t);
+                print(new PythonPrinter().printExpr(trans,PrintContexts.create("")));
+                print("\n");
+
+            }
             //trace("len statics:" + c.statics.get().length);
             for(f in c.statics.get()) {
                 //trace(c.name + "::" +f.name);
@@ -554,7 +592,9 @@ class PythonGenerator
             }
             print("\n");
         }
-        if (c.init != null) {
+
+        if (!initApplied && c.init != null) {
+            initApplied = true;
             var t = haxe.macro.Context.getTypedExpr(c.init);
             var trans = PythonTransformer.transform(t);
             print(new PythonPrinter().printExpr(trans,PrintContexts.create("")));
@@ -646,6 +686,7 @@ class PythonGenerator
                 var e = r.get();
                 if(! e.isExtern) genEnum(e);
             default:
+                //trace("not generated: " + t);
         }
     }
 

@@ -13,6 +13,8 @@ extern class Sys {
 
 	public static function exit (x:Int):Void;
 
+	public static function getfilesystemencoding():String;
+
 	public static var stdout(default, never):TextIOBase;
 
 	

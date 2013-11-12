@@ -38,6 +38,8 @@ extern class Os {
 	public static function unlink (path:String):Void;
 	public static function remove (path:String):Void;
 
+	public static function getcwdu():Bytes;
+
 	public static function removedirs (path:String):Void;
 
 	public static function rename (src:String, dest:String):Void;

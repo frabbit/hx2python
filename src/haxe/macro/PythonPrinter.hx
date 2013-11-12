@@ -473,6 +473,7 @@ class PythonPrinter {
 
 	public function printExpr(e:Expr, context:PrintContext, top = false)
 	{
+        //trace(ExprTools.toString(e));
 		var indent = context.indent;
 		function printExpr1 (e) return printExpr(e, context);
 		function printExprIndented (e) return printExpr(e, context.incIndent());
@@ -498,7 +499,7 @@ class PythonPrinter {
 		case EField(e1, n):/* trace(e);*/ print_field(e1, n, context);
 		case EParenthesis(e1): '(${printExpr1(e1)})';
 		case EObjectDecl(fl):
-			"_Hx_AnonObject(" + fl.map(function(fld) return '${fld.field} = ${printExpr1(fld.expr)} ').join(",") + ")";
+			"_Hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.field)} = ${printExpr1(fld.expr)} ').join(",") + ")";
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall({expr : EField(e1, "iterator")}, []): 
             'HxOverrides_iterator(${printExpr1(e1)})';
