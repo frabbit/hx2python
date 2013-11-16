@@ -716,7 +716,11 @@ class PythonTransformer {
 
 				var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
 
-				exprsToFunc(blocks, e.nextId(),e);
+				if (blocks.length == 0) {
+					liftExpr(newEx, false, e.nextId, blocks);
+				} else {
+					exprsToFunc(blocks, e.nextId(),e);
+				}
 
 				
 				
