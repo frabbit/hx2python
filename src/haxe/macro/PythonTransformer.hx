@@ -744,9 +744,13 @@ class PythonTransformer {
 				var newEx = { expr : EBinop(op, left1.expr, right1.expr), pos : e.expr.pos };
 
 				if (left1.blocks.length > 0 || right1.blocks.length > 0) {
-					var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
-
-					exprsToFunc(blocks, e.nextId(),e);
+					
+					// NEW CODE					
+					var blocks = left1.blocks.concat(right1.blocks);
+					liftExpr(newEx, false, e.nextId, blocks);
+					// OLD CODE
+					//var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
+					//exprsToFunc(blocks, e.nextId(),e);
 				} else {
 					liftExpr(newEx, false, e.nextId,[]);
 				}
