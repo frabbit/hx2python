@@ -101,6 +101,8 @@ class PythonTransformer {
 	{
 		return switch (e.expr) {
 			case EFunction(n,f):
+				// move default parameters into expr
+				
 				var first = true;
 				var localVars = [for (a in f.args) a.name];
 				var localAssigns = [];
@@ -256,8 +258,24 @@ class PythonTransformer {
 				liftExpr(substitute, [f]);
 
 			case [false, EFunction(n, f)]:
+				var assigns = [];
+				for (a in f.args) {
+					if (a.opt || a.value != null) {
+						assigns.push(macro if ($i{a.name} == null) $i{a.name} = ${a.value} );
+					}
+				}
+				
+				var body = switch [f.expr.expr, assigns] {
+					case [EBlock(exprs),_]:
+						{ expr : EBlock(assigns.concat(exprs)), pos : f.expr.pos};
+					case [_, []]:
+						f.expr;
+					case [_, _]:
+						{ expr : EBlock(assigns.concat([f.expr])), pos : f.expr.pos};
+
+				}
 				// top level function = instance or static functions
-				var e1 = toExpr(transformExpr(f.expr, false, e.nextId));
+				var e1 = toExpr(transformExpr(body, false, e.nextId));
 				
 				var newName = if (n == null) e.nextId() else n;
 				var f = { expr : EFunction(newName, { expr : e1, params : f.params, ret : f.ret, args : f.args}), pos : e.expr.pos };
@@ -270,6 +288,22 @@ class PythonTransformer {
 				var newExpr = switch (addNonLocalsToFunc(e.expr).expr) {
 					case EFunction(name, f): f.expr;
 					case _: throw "unexpected";
+				}
+
+				var assigns = [];
+				for (a in f.args) {
+					if (a.opt || a.value != null) {
+						assigns.push(macro if ($i{a.name} == null) $i{a.name} = a.value );
+					}
+				}
+				var newExpr = switch [newExpr.expr, assigns] {
+					case [EBlock(exprs),_]:
+						{ expr : EBlock(assigns.concat(exprs)), pos : newExpr.pos};
+					case [_, []]:
+						newExpr;
+					case [e, _]:
+						{ expr : EBlock(assigns.concat([newExpr])), pos : newExpr.pos};
+
 				}
 
 				var newName = if (name == null) e.nextId() else name;
@@ -361,17 +395,32 @@ class PythonTransformer {
 				// 	//liftExpr(macro $i{id}, false, false, e.nextId, x1);
 
 				// }
-			
-			case [false,EParenthesis(e1)]:
+
+			case [_,EParenthesis(e1)]:
 				//trace(e1);
-				var newE1 = transformExpr(e1,false,e.nextId);
+				var newE1 = transformExpr(e1,true,e.nextId);
 				//trace(newE1);
 				var newP = { expr : EParenthesis(newE1.expr), pos : e.expr.pos};
-
+//
 				liftExpr(newP, true, e.nextId, newE1.blocks);
 
-			case [true,EParenthesis(e1)]:
-				forwardTransform(e1, e);
+			//case [false,EParenthesis(e1)]:
+			//	//trace(e1);
+			//	var newE1 = transformExpr(e1,false,e.nextId);
+			//	//trace(newE1);
+			//	var newP = { expr : EParenthesis(newE1.expr), pos : e.expr.pos};
+//
+//			//	liftExpr(newP, true, e.nextId, newE1.blocks);
+//
+//			//case [true,EParenthesis(e1)]:
+			//	forwardTransform(e1,e);
+				//var newE1 = transformExpr(e1,true,e.nextId);
+				////trace(newE1);
+				//var newP = { expr : EParenthesis(newE1.expr), pos : e.expr.pos};
+//
+				//liftExpr(newP, true, e.nextId, newE1.blocks);
+
+				
 				// trace(e1);
 				// var newE1 = transformExpr(e1,true,false,e.nextId);
 				// trace(newE1);
@@ -470,7 +519,9 @@ class PythonTransformer {
 				//trace(ExprTools.toString(newIf));
 				liftExpr(newIf, false, e.nextId, econd1.blocks);
 
-
+			case [_,EWhile({ expr : EParenthesis(u)}, e1, flag)]:
+				var newE = { expr : EWhile(u, e1, flag), pos : e.expr.pos };
+				forwardTransform(newE, e);
 			case [false, EWhile(econd, e1, true)]:
 				var econd1 = transformExpr(econd, true, e.nextId);
 
@@ -746,6 +797,17 @@ class PythonTransformer {
 				var ex = { expr : ENew(tp, params2), pos : e.expr.pos };
 				liftExpr(ex, false, e.nextId, blocks);
 			
+			case [_, ECall({ expr : EConst(CIdent("__python_for__"))},params)]:
+			 	
+			 	var e1 = transformExpr(params[0], true, e.nextId, []);
+			 	var e2 = transformExpr(params[1], true, e.nextId, []);
+			 	var e3 = transformExpr(params[2], false, e.nextId, []);
+			 	
+			 	liftExpr(macro __python_for__(${e1.expr}, ${e2.expr}, ${e3.expr}), e1.blocks.concat(e2.blocks));
+				
+			// 	liftExpr(e, false, e.nextId, []);
+
+
 			case [_, ECall(e1,params)]:
 				//trace(ExprTools.toString(e.expr));
 				var e1_ = transformExpr(e1, true, e.nextId);
@@ -824,11 +886,11 @@ class PythonTransformer {
 
 				liftExpr({ expr : ECast(ex1.expr, t), pos : e.expr.pos}, ex1.blocks);
 
-			// case [_, EUntyped({ expr : ECall({ expr : EConst(CIdent("__feature__"))},params)})]:
-				
-			// 	liftExpr(e, false, e.nextId, []);
+
+
 
 			case [_, EUntyped(ex)]:
+				trace("untyped");
 				var ex1 = transformExpr(ex, true, e.nextId, []);
 
 
@@ -842,7 +904,9 @@ class PythonTransformer {
 				
 
 
-			case _ : liftExpr(e.expr);
+			case _ : 
+				//trace(ExprTools.toString(e.expr));
+				liftExpr(e.expr);
 		}
 	}
 }

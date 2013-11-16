@@ -73,7 +73,7 @@ class PythonPrinter {
         "Float" => "double",
     ];
 
-    public static var pathHack = new StringMap();
+    public static var pathHack= new StringMap();
 
     public static function mapStandardTypes(typeName)
     {
@@ -222,8 +222,16 @@ class PythonPrinter {
 
         for(i in 0 ... args.length)
         {
+
             var arg = args[i];
+
+            var isKwArgs = if (arg.type != null) switch (arg.type) {
+                case TPath(p) if (p.pack.join(".") == "python.lib" && p.name == "Types" && p.sub == "KwArgs"): true;
+                case _ : false;
+            } else false;
             
+            var prefix = isKwArgs ? "**" : "";
+
             var argValue = printExpr(arg.value,context);
             var argIsNull = arg.value == null;
             if((arg.opt || !argIsNull) && !optional)
@@ -233,10 +241,11 @@ class PythonPrinter {
             }
             
             
-            argString += handleKeywords(arg.name);
+            argString += prefix + handleKeywords(arg.name);
 
-            if(argValue != null && !argIsNull)
+            if(argValue != null && !argIsNull && !isKwArgs) {
                 argString += ' = $argValue';
+            }
 
             if(i < args.length - 1)
                 argString += ",";
@@ -259,7 +268,7 @@ class PythonPrinter {
         return
         handleKeywords(v.name)
         //		+ opt(v.type, printComplexType, " : ")
-        + opt(v.expr, printOpAssignRight.bind(_,context), " = ");
+        + if (v.expr != null) opt(v.expr, printOpAssignRight.bind(_,context), " = ") else " = None";
     }
 
 //    function justPath(expr)
@@ -302,19 +311,28 @@ class PythonPrinter {
                 '$name=${printExpr(el[1], context)}';
             case "__feature__":'';
             case "__named__":
-                	
+                var last = el[el.length-1];
+                var res = el.copy();
+                res.pop();
+                res.shift();
                 //trace(el);
                 //for (e in el) {
                 //    trace(ExprTools.toString(e));
                 //}
-                var fields = switch (el[1].expr) {
+                var fields = switch (last.expr) {
                     case EObjectDecl(fields): fields;
                     case _ : throw "unexpected ERRRRRRORRRR";
                 }
             	
                 //trace(fields);
                 
-            	'${printExpr(el[0], context)}(${printExprsNamed(fields,", ", context)})';
+                if (res.length > 0) {
+                    '${printExpr(el[0], context)}(${printExprs(res,", ", context)}, ${printExprsNamed(fields,", ", context)})';        
+                } else {
+                    '${printExpr(el[0], context)}(${printExprsNamed(fields,", ", context)})';        
+                }
+
+            	
             case "__define_feature__":
             	printExpr(el[1], context);
             case "__call__":
@@ -335,6 +353,12 @@ class PythonPrinter {
                 '${printExpr(el.shift(), context)}[${printExprs(el,":", context)}]';
             case "__python_in__":
                 '${printExpr(el[0], context)} in ${printExpr(el[1], context)}';
+            case "__python_for__":
+                var a1 = el[0];
+                var a2 = el[1];
+                var a3 = el[2];
+                var i = context.incIndent().indent;
+                'for ${printExpr(a1, context)} in ${printExpr(a2, context)}:\n$i${printExpr(a3, context.incIndent())}';
             case "__python_del__":
                 'del ${printExpr(el[0], context)}';
             case "__python_binop__":

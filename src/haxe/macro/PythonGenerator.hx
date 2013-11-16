@@ -145,15 +145,19 @@ class PythonGenerator
         var expr = haxe.macro.Context.getTypedExpr(e);
         
         var expr2 = PythonTransformer.transform(expr);
-        var name = "hui";
+        var name = "_hx_init_" + field.split(".").join("_");
         var r = switch (expr2.expr) {
 
             case EBlock(es) if (field != ""):
-                
+                var ex1 = es.copy();
+                var last = ex1.pop();
+                var newLast = macro @:pos(last.pos) return $last;
+
+                var newBlock = { expr : EBlock(ex1.concat([newLast])), pos : expr2.pos};
                 
                 
 
-                { e1 : expr2, e2 : macro $i{name}() };
+                { e1 : newBlock, e2 : macro $i{name}() };
 
             case _ : { e1 : null, e2 : expr2};
         }
@@ -168,11 +172,12 @@ class PythonGenerator
             var exprString2 = new PythonPrinter().printExpr(r.e2,context);
 
             print(indent + "def " + name + "():\n\t" + exprString1 + "\n");
-            print(indent + field + exprString2);
+            print(indent + field + " = " + exprString2);
 
         } else {
             var exprString2 = new PythonPrinter().printExpr(r.e2,context);
-            print(indent + field + exprString2);
+            if (field == "") print(exprString2);
+            else print(indent + field + " = " + exprString2);
         }
         
     }
@@ -348,6 +353,17 @@ class PythonGenerator
                 } else {
                   t.module.split(".").join("_") + typePrefix3 + t.name;
                 }
+                //trace(dotPath3);
+                PythonPrinter.pathHack.set(dotPath3, fullPath);
+            } 
+            if (hasModule) {
+                var typePrefix3 = hasPack ? "." : "";
+                var dotPath3 = if (nativeName != null) {
+                  ((t.module.length > 0) ? (t.module.split(".").join("_") + ".") : "") + nativeName;
+                } else {
+                  t.module.split(".").join("_") + typePrefix3 + t.name;
+                }
+                //trace(dotPath3);
                 PythonPrinter.pathHack.set(dotPath3, fullPath);
             }
         }
@@ -384,7 +400,7 @@ class PythonGenerator
                 newline();
             default:
                 
-                genExpr(e, '# var $field = ', '\t');
+                genExpr(e, '# var $field', '\t');
                 
                 newline();
         }
@@ -417,7 +433,7 @@ class PythonGenerator
                 newline();
             default:
                 
-                genExpr(e, '$p.$field = ');
+                genExpr(e, '$p.$field');
                 
                 newline();
 //                statics.add( { c : c, f : f } );
@@ -433,6 +449,8 @@ class PythonGenerator
         print("# print " + c.module + "." + c.name + "\n");
 
         if (c.pack.length > 0 && c.pack[0] == "js") return;
+
+        
 
         if (!c.isExtern) 
         {
@@ -670,8 +688,8 @@ class PythonGenerator
     {
         var p = getPath(c);
         var f = field(cf.name);
-        print('$p$f = ');
-        genExpr(cf.expr());
+        
+        genExpr(cf.expr(),'$p$f');
         newline();
     }
 
@@ -744,6 +762,9 @@ class _HxException(Exception):
         print("class Int:
     pass\n");
         print("_hx_classes['Int'] = Int\n");
+        print("class Bool:
+    pass\n");
+        print("_hx_classes['Bool'] = Bool\n");
         print("class Float:
     pass\n");
         print("_hx_classes['Float'] = Float\n");
@@ -758,6 +779,7 @@ class _HxException(Exception):
         PythonPrinter.pathHack.set("StdTypes.Int", "Int");
         PythonPrinter.pathHack.set("StdTypes.Float", "Float");
         PythonPrinter.pathHack.set("StdTypes.Dynamic", "Dynamic");
+        PythonPrinter.pathHack.set("StdTypes.Bool", "Bool");
 
 
 
