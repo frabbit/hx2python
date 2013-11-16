@@ -491,11 +491,18 @@ class PythonTransformer {
 				}
 				
 				//trace(ExprTools.toString(eif2));
-				var newIf = { expr : EIf(econd1.expr, eif2, eelse2), pos : e.expr.pos };
-				//trace(ExprTools.toString(newIf));
 				
-				var f = exprsToFunc(econd1.blocks.concat(blocks).concat([newIf]), e.nextId(), e);
-				liftExpr(f.expr, true, e.nextId, f.blocks);
+				//trace(ExprTools.toString(newIf));
+				var blocks = econd1.blocks.concat(blocks);
+				if (blocks.length == 0) {
+					var newIf = { expr : ETernary(econd1.expr, eif2, eelse2), pos : e.expr.pos };
+					liftExpr(newIf, blocks);		
+				} else {
+					var newIf = { expr : EIf(econd1.expr, eif2, eelse2), pos : e.expr.pos };
+					var f = exprsToFunc(blocks.concat([newIf]), e.nextId(), e);
+					liftExpr(f.expr, f.blocks);		
+				}
+				
 				//liftExpr(newIf, true, true, e.nextId, econd1.blocks.concat(blocks));
 				
 

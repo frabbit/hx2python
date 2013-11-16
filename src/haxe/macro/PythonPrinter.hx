@@ -573,7 +573,7 @@ class PythonPrinter {
 		case ECast(e1, _): /*"cast " +*/printExpr1(e1);
 		case EDisplay(e1, _): '#DISPLAY(${printExpr1(e1)})';
 		case EDisplayNew(tp): '#DISPLAY(${printTypePath(tp,context)})';
-		case ETernary(econd, eif, eelse): '${printExpr1(econd)} ? ${printExpr1(eif)} : ${printExpr1(eelse)}';
+		case ETernary(econd, eif, eelse): '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
 		case ECheckType(e1, ct): '${printExpr1(e1)}';
 		case EMeta(meta, e1): 
             trace("it's an EMeta");
