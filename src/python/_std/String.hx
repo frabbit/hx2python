@@ -55,7 +55,7 @@ extern class String {
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
     inline function toUpperCase() : String {
-    	return untyped this.toupper();
+    	return untyped this.upper();
     }
 
 	/**
@@ -64,7 +64,7 @@ extern class String {
 		Affects the characters [A-Z]. Other characters remain unchanged.
 	**/
 	inline function toLowerCase() : String {
-		return untyped this.tolower();
+		return untyped this.lower();
 	}
 
 	/**
@@ -103,7 +103,12 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-	inline function indexOf( str : String, ?startIndex : Int ) : Int return untyped this.lfind(str, startIndex);
+	inline function indexOf( str : String, ?startIndex : Int ) : Int {
+		if (startIndex == null)
+			return untyped this.find(str)
+		else
+			return untyped this.find(str, startIndex);
+	}
 
 	/**
 		Returns the position of the rightmost occurence of [str] within [this]
@@ -154,7 +159,7 @@ extern class String {
 	**/
 	inline public function substr( pos : Int, ?len : Int ) : String
     {
-        return untyped this.substring(pos, (len == null ? this.length - pos : pos + len));
+        return python.Tools.substr(this, pos, len);
     }
 
 	/**

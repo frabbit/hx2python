@@ -62,7 +62,7 @@ abstract PyIterable <T>(NativeIterable<T>) to NativeIterable<T> from NativeItera
 }
 
 class IterHelper {
-	public static inline function iterableToIterator <T>(it:PyIterable<T>) 
+	public static inline function iterableToIterator <T>(it:PyIterable<T>):Iterator<T>
 	{
 		return it.toHaxeIterable().iterator();
 	}
@@ -132,7 +132,7 @@ extern class Set <T>
 
 	static function __init__ ():Void 
 	{
-		Macros.importFromAs("builtins", "set", "python.lib.Set");
+		Macros.importFromAs("builtins", "set", "python.lib.Types.Set");
 	}
 
 	function __iter__ ():PyIterator<T>;
@@ -140,6 +140,17 @@ extern class Set <T>
 	public inline function iterator ():Iterator<T>
 	{
 		return __iter__();
+	}
+}
+
+extern class DictView<T> {
+	public inline function iter ():PyIterator<T> 
+	{
+		return Builtin.iter(this);
+	}
+	public inline function length ():Int 
+	{
+		return Builtin.len(this);
 	}
 }
 
@@ -164,9 +175,13 @@ extern class Dict <K, V>
 
 	public function update (d:Dict<K,V>):Void;
 
-	public function keys ():PyIterator<K>;
-	public function items ():PyIterator<V>;
+	public function keys ():DictView<K>;
+	public function values ():DictView<V>;
+	public function items ():DictView<Tup2<K,V>>;
 
+	public static inline function fromObject (x:{}):Dict<String,Dynamic> {
+		return DictImpl.fromObject(x);
+	}
 	public inline function set (key:K, val:V):Void {
 		DictImpl.set(this, key, val);	
 	}
@@ -178,7 +193,7 @@ extern class Dict <K, V>
 
 	public inline function iterator ():Iterator<V>
 	{
-		return items();
+		return values().iter();
 	}
 
 	static function __init__ ():Void 
@@ -189,6 +204,13 @@ extern class Dict <K, V>
 }
 
 class DictImpl {
+	public static inline function fromObject (x:{}) {
+		var d = new Dict();
+		for (f in Reflect.fields(x)) {
+			d.set(f, Reflect.field(x,f));
+		}
+		return d;
+	}
 	public static function hasKey <X>(d:Dict<X, Dynamic>, key:X) {
 		return untyped __python__("key in d");
 	}
@@ -204,11 +226,28 @@ class DictImpl {
 
 
 
-extern class Tuple implements ArrayAccess<Dynamic> {
+extern class Tuple<X> {
+
+	public static inline function empty<X>():Tuple<X> {
+		return Builtin.tuple();
+	}
+
+	public static inline function fromArray<X>(a:Array<X>):Tuple<X> {
+		return Builtin.tuple(a);
+	}
+
+	public inline function at (i:Int):X {
+		return untyped __python_array_get__(this, i);
+	}
+
+	public inline function toArray ():Array<X>
+	{
+		return Builtin.list(this);
+	}
 
 }
 
-extern class Tup2 <A,B> 
+extern class Tup2 <A,B> extends Tuple<Dynamic>
 {
 	public static inline function create <A,B>(a:A, b:B):Tup2<A,B> return untyped __python_tuple__(a,b);
 	public var _1(get, null):A;
@@ -217,7 +256,7 @@ extern class Tup2 <A,B>
 	public inline function get__2():B return untyped __python_array_get__(this, 1);
 }
 
-extern class Tup3 <A,B,C> 
+extern class Tup3 <A,B,C> extends Tuple<Dynamic>
 {
 	public static inline function create <A,B,C>(a:A, b:B,c:C):Tup3<A,B,C> return untyped __python_tuple__(a,b,c);
 	public var _1(get, null):A;
@@ -228,7 +267,7 @@ extern class Tup3 <A,B,C>
 	public inline function get__3():C return untyped __python_array_get__(this, 2);
 }
 
-extern class Tup4 <A,B,C,D> 
+extern class Tup4 <A,B,C,D> extends Tuple<Dynamic>
 {
 	public static inline function create <A,B,C,D>(a:A, b:B,c:C,d:D):Tup4<A,B,C,D> return untyped __python_tuple__(a,b,c,d);
 	public var _1(get, null):A;
@@ -241,7 +280,7 @@ extern class Tup4 <A,B,C,D>
 	public inline function get__4():D return untyped __python_array_get__(this, 3);
 }
 
-extern class Tup5 <A,B,C,D,E> 
+extern class Tup5 <A,B,C,D,E> extends Tuple<Dynamic>
 {
 	public static inline function create <A,B,C,D,E>(a:A, b:B,c:C,d:D,e:E):Tup5<A,B,C,D,E> return untyped __python_tuple__(a,b,c,d,e);
 	public var _1(get, null):A;

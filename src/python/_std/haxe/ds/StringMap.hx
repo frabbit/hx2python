@@ -14,18 +14,19 @@ class StringMap<T> implements Map.IMap<String, T> {
 	}
 
 	public function get( key : String ) : Null<T> {
-		return untyped h.get("$"+key, null);
+		return h.get("$"+key, null);
+		
 	}
 
 	public function exists( key : String ) : Bool {
-		return untyped h.get("$"+key, null) == null;
+		return h.hasKey("$" + key);
 	}
 
 	public function remove( key : String ) : Bool {
 		key = "$"+key;
 
-		if( untyped h.get("$"+key, null) == null ) return false;
-		untyped __python__("del h[key]");
+		if( !h.hasKey(key) ) return false;
+		untyped __python__("del self.h[key]");
 		return true;
 	}
 
@@ -34,7 +35,7 @@ class StringMap<T> implements Map.IMap<String, T> {
 		var a = [];
 		
 		untyped __python__("for key in self.h:");
-		untyped __python__("	a.append(self.h[key[1:]])");
+		untyped __python__("	a.append(key[1:])");
 		
 		return a.iterator();
 	}
@@ -43,12 +44,14 @@ class StringMap<T> implements Map.IMap<String, T> {
 		var ref = h;
 		return {
 			hasNext : function() { return iter.hasNext(); },
-			next : function() { var i = iter.next(); return untyped ref["$" + i]; }
+			next : function() { var i = iter.next(); return ref.get("$"+i, null); }
 		};
 	}
 	
 	public function toString() : String {
+
 		var s = new StringBuf();
+
 		s.add("{");
 		var it = keys();
 		for( i in it ) {

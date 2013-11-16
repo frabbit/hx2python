@@ -49,6 +49,22 @@ extern class MatchObject
 
 }
 
+private class RegexHelper {
+	public static function findallDynamic(r:Regex, string:String, ?pos:Int, ?endpos:Int):Array<Dynamic>
+	{
+		if (endpos == null) {
+			if (pos == null) {
+				return untyped __field__(r, "findall")(string);
+			} else {
+				return untyped __field__(r, "findall")(string, pos);
+			}
+		} else {
+			return untyped __field__(r, "findall")(string, pos, endpos);
+		}
+		
+	}	
+}
+
 extern class Regex 
 {
 	public function search(string:String, pos:Int = 0, ?endpos:Int):Null<MatchObject>;
@@ -56,7 +72,27 @@ extern class Regex
 	
 	public function split(string:String, maxsplit:Int=0):Array<String>;
 
-	public function findall(string:String, ?pos:Int, ?endpos:Int):Array<Variant<String, Tuple>>;
+	public inline function findallString(string:String, ?pos:Int, ?endpos:Int):Array<String>
+	{
+		return cast this.findallDynamic(string, pos, endpos);
+	}
+
+
+	public inline function findallDynamic(string:String, ?pos:Int, ?endpos:Int):Array<Dynamic>
+	{
+		return RegexHelper.findallDynamic(this, string, pos, endpos);
+	}
+
+	public inline function findallTuple(string:String, ?pos:Int, ?endpos:Int):Array<Tuple<String>> {
+
+		return cast this.findallDynamic(string, pos, endpos);
+	}
+
+	public inline function findallArray(string:String, ?pos:Int, ?endpos:Int):Array<Array<String>>
+	{
+		return findallTuple(string, pos, endpos).map(function (t) return t.toArray());
+	}
+
 	public function finditer(string:String, ?pos:Int, ?endpos:Int):PyIterator<MatchObject>;
 	
 	public function sub(repl:Repl, string:String, count:Int=0):String;
@@ -104,7 +140,26 @@ extern class Re
 
 	public static function split(pattern:Pattern, string:String, 	   maxsplit:Int=0, flags:Int=0):Array<String>;
 
-	public static function findall(pattern:Pattern, string:String,    flags:Int=0):Array<Variant<String, Tuple>>;
+	public static inline function findallDynamic(pattern:Pattern, string:String,    flags:Int=0):Array<Dynamic>
+	{
+		return untyped __field__(pattern, "findall")(string, flags);
+	}
+	
+
+	public static inline function findallString(pattern:Pattern, string:String,    flags:Int=0):Array<String>
+	{
+		return untyped __field__(pattern, "findall")(string, flags);
+	}
+
+	public static inline function findallTuple(pattern:Pattern, string:String,    flags:Int=0):Array<Tuple<String>>
+	{
+		return untyped __field__(pattern, "findall")(string, flags);
+	}
+
+	public static inline function findallArray(pattern:Pattern, string:String,    flags:Int=0):Array<Array<String>>
+	{
+		return findallTuple(pattern, string,flags).map(function (t) return t.toArray());
+	}
 
 	public static function finditer(pattern:Pattern, string:String,   flags:Int=0):Iterator<MatchObject>;
 

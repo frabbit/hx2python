@@ -24,6 +24,21 @@ typedef PopenOptions = {
 extern class Popen {
 
 	public static inline function create (args:Array<String>, o:PopenOptions):Popen {
+
+		o.bufsize = if (Reflect.hasField(o, "bufsize")) o.bufsize else 0;
+		o.executable = if (Reflect.hasField(o, "executable")) o.executable else null;
+		o.stdin = if (Reflect.hasField(o, "stdin")) o.stdin else null;
+		o.stdout = if (Reflect.hasField(o, "stdout")) o.stdout else null;
+		o.stderr = if (Reflect.hasField(o, "stderr")) o.stderr else null;
+		o.preexec_fn = if (Reflect.hasField(o, "preexec_fn")) o.preexec_fn else null;
+		o.close_fds = if (Reflect.hasField(o, "close_fds")) o.close_fds else null;
+		o.shell = if (Reflect.hasField(o, "shell")) o.shell else null;
+		o.cwd = if (Reflect.hasField(o, "cwd")) o.cwd else null;
+		o.env = if (Reflect.hasField(o, "env")) o.env else null;
+		o.universal_newlines = if (Reflect.hasField(o, "universal_newlines")) o.universal_newlines else null;
+		o.startupinfo = if (Reflect.hasField(o, "startupinfo")) o.startupinfo else null;
+		o.creationflags = if (Reflect.hasField(o, "creationflags")) o.creationflags else 0;
+
 		return new Popen(args, o.bufsize, o.executable, o.stdin, o.stdout, o.stderr, o.preexec_fn,
 			o.close_fds, o.shell, o.cwd, o.env, o.universal_newlines, o.startupinfo, o.creationflags);
 	}

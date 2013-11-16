@@ -15,6 +15,8 @@ extern class Sys {
 
 	public static function getfilesystemencoding():String;
 
+	public static var version:String;
+
 	public static var stdout(default, never):TextIOBase;
 
 	

@@ -8,14 +8,17 @@ class Boot {
     }
 
 	@:ifFeature("has_enum")
-	private static function __string_rec(o:Dynamic,s:String) {
+	private static function __string_rec(o:Dynamic,s:String):String {
 		
-			
+		
+
+		if (s == null) s = "";
 		if( o == null ) return "null";
 		
 		if( s.length >= 5 ) return "<...>"; // too much deep recursion
 		
 		var builtin = python.lib.Builtin;
+		var inspect = python.lib.Inspect;
 
 		if (builtin.isinstance(o, String)) return o;
 
@@ -30,7 +33,8 @@ class Boot {
 		}
 		
 
-		if (builtin.callable(o) && !builtin.hasattr(o, "__class__")) return "<function>";
+		if (inspect.isfunction(o) || inspect.ismethod(o)) return "<function>";
+		
 		
 		
 		
@@ -51,6 +55,10 @@ class Boot {
 			st += "]";
 			return st;
 		}
+
+		if (builtin.hasattr(o, "toString")) {
+			return o.toString();
+		}
 		
 		if (builtin.hasattr(o, "__class__")) 
 		{
@@ -61,7 +69,7 @@ class Boot {
 				try 
 				{
 					var fields = Reflect.fields(o);
-					var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s)}'];
+					var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s+"\t")}'];
 					
 					toStr = "{ " + fieldsStr.join(", ") + " }";
 				} 
@@ -106,7 +114,7 @@ class Boot {
 			if (builtin.hasattr(o, "_hx_class_name") && o.__class__.__name__ != "type") {
 
 				var fields = Type.getInstanceFields(o);
-				var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s)}'];
+				var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s+"\t")}'];
 					
 				var toStr = o._hx_class_name + "( " + fieldsStr.join(", ") + " )";
 				return toStr;
@@ -115,7 +123,7 @@ class Boot {
 			if (builtin.hasattr(o, "_hx_class_name") && o.__class__.__name__ == "type") {
 
 				var fields = Type.getClassFields(o);
-				var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s)}'];
+				var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s+"\t")}'];
 					
 				var toStr = "#" + o._hx_class_name + "( " + fieldsStr.join(", ") + " )";
 				return toStr;
@@ -130,6 +138,10 @@ class Boot {
 
 			if (builtin.hasattr(o, "__repr__")) {
 				return untyped o.__repr__();
+			}
+
+			if (builtin.hasattr(o, "__str__")) {
+				return untyped o.__str__();
 			}
 
 			if (builtin.hasattr(o, "__name__")) {
@@ -150,7 +162,8 @@ class Boot {
 				return "???";
 			}
 		}
-
+	
+	
 			
 		
 	}

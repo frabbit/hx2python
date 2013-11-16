@@ -13,19 +13,18 @@ class IntMap<T> implements Map.IMap<Int, T> {
 		untyped h[key] = value;
 	}
 
-	public function get( key : Int ) : Null<T> {
-		return untyped h[key];
+	public inline function get( key : Int ) : Null<T> {
+		return h.get(key, null);
 	}
 
-	public function exists( key : Int ) : Bool {
-		return untyped h[key] != null;
+	public inline function exists( key : Int ) : Bool {
+		return h.hasKey(key);
 	}
 
-	public function remove( key : Int ) : Bool {
-		
-
-		if( untyped h[key] == null ) return false;
-		untyped __python__("del h[key]");
+	public function remove( key : Int ) : Bool 
+	{
+		if(!h.hasKey(key)) return false;
+		untyped __python__("del self.h[key]");
 		return true;
 	}
 
@@ -33,7 +32,7 @@ class IntMap<T> implements Map.IMap<Int, T> {
 		var a = [];
 		
 		untyped __python__("for key in self.h:");
-		untyped __python__("	a.append(self.h[key])");
+		untyped __python__("	a.append(key)");
 		
 		return a.iterator();
 	}

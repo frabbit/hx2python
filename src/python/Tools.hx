@@ -9,5 +9,14 @@ class Tools {
 		return untyped __python__("s[startIndex:endIndex]");
 	}	
 
+	public static function substr( s:String, startIndex : Int, ?len : Int ) : String {
+		if (len == null) {
+			return untyped __python__("s[startIndex:]");
+		} else {
+			return untyped __python__("s[startIndex:startIndex+len]");
+		}
+		
+	}
+
 
 }

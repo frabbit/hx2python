@@ -6,6 +6,7 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 
 
+
 class Macros {
 
 	@:noUsing macro public static function importModule (module:String):haxe.macro.Expr {
@@ -19,6 +20,10 @@ class Macros {
         var e = "import " + module + " as " + n;
 
 	    return macro untyped __python__($v{e});
+    }
+
+    @:noUsing macro public static function pyFor (e:Expr, it:Expr, body:Expr):haxe.macro.Expr {
+        return macro untyped __python_for__($e, $it, $body);
     }
 
     @:noUsing macro public static function importFromAs (from:String, module:String, className : String):haxe.macro.Expr {

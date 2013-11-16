@@ -58,7 +58,7 @@ class ArrayImpl {
 	}
 
 	public static inline function pop<T>(x:Array<T>) : Null<T> {
-		return if (x.length == 0) null else untyped(x).pop();
+		return if (x.length == 0) null else untyped __field__(x, "pop")();
 	}
 
 	public static inline function push<T>(x:Array<T>, e:T) : Int {

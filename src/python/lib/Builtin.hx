@@ -32,6 +32,7 @@ extern class Builtin {
 	@:overload(function (f:Array<Dynamic>):Int {})
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	@:overload(function (f:Bytes):Int {})
+	@:overload(function (f:DictView<Dynamic>):Int {})
 	public static function len(x:String):Int;
 
 	public static function open(file:String, mode:String, ?encoding:String = null, ?errors : String, ?newline:String, ?closefd:Bool, ?opener:String->Int->FileDescriptor):TextIOBase;
@@ -60,9 +61,13 @@ extern class Builtin {
 	//public static function super():Void;
 	//public static function bin():Void;
 	//public static function file():Void;
-	//public static function iter():Void;
+	public static function iter<X>(d:DictView<X>):PyIterator<X>;
 	//public static function property():Void;
-	//public static function tuple():Void;
+	
+
+
+	@:overload(function <X>():Tuple<X> {})
+	public static function tuple<X>(a:Array<X>):Tuple<X>;
 
 	
 	
@@ -72,6 +77,8 @@ extern class Builtin {
 	//public static function bytearray():Void;
 	//public static function float():Void;
 	
+
+	@:overload(function <G>(f:Tuple<G>):Array<G> {})
 	public static function list<T>(i:PyIterable<T>):Array<T>;
 
 	public static function filter<A>(f:A->Bool, i:Choice<Array<A>, PyIterable<A>>):PyIterator<A>;
@@ -94,7 +101,8 @@ extern class Builtin {
 	//public static function xrange():Void;
 	//public static function cmp():Void;
 	//public static function globals():Void;
-	public static function max(a1:Int, ?a2:Int, ?a3:Int, ?a4:Int, ?a5:Int, ?a6:Int, ?a7:Int, ?a8:Int, ?a9:Int):Int;
+	@:overload(function (a1:Float, a2:Float, ?a3:Float, ?a4:Float, ?a5:Float, ?a6:Float, ?a7:Float, ?a8:Float, ?a9:Float):Float {})
+	public static function max(a1:Int, a2:Int, ?a3:Int, ?a4:Int, ?a5:Int, ?a6:Int, ?a7:Int, ?a8:Int, ?a9:Int):Int;
 	//public static function reversed():Void;
 	//public static function zip():Void;
 	//public static function compile():Void;
@@ -104,7 +112,8 @@ extern class Builtin {
 	//public static function __import__():Void;
 	//public static function complex():Void;
 	//public static function hash():Void;
-	//public static function min():Void;
+	@:overload(function (a1:Float, a2:Float, ?a3:Float, ?a4:Float, ?a5:Float, ?a6:Float, ?a7:Float, ?a8:Float, ?a9:Float):Float {})
+	public static function min(a1:Int, a2:Int, ?a3:Int, ?a4:Int, ?a5:Int, ?a6:Int, ?a7:Int, ?a8:Int, ?a9:Int):Int;
 	//public static function set():Void;
 	//public static function apply():Void;
 	public static function delattr(o:Dynamic, attr:String):Void;

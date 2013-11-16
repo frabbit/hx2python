@@ -28,6 +28,11 @@ import python.lib.Inspect;
 @:keepInit
 @:coreApi /*extern*/ class Std {
 
+    public static inline function instance<T>( v : { }, c : Class<T> ) : T {
+        return Builtin.isinstance(v,c) ? cast v : null;
+        
+
+    }
     public static function is( v : Dynamic, t : Dynamic ) : Bool {
         if (v == null) {
             return false;
@@ -87,26 +92,6 @@ import python.lib.Inspect;
     @:access(python.Boot) @:keep public static function string( s : Dynamic ) : String {
         
         return python.Boot.__string_rec(s, "");
-
-        if (is(s, Int)) {
-            return untyped str(s);
-        }
-        if (is(s, String)) {
-            return s;
-        }
-        try {
-            return untyped s.toString();
-        } catch (e:Dynamic) {
-            try {
-                return untyped s.__str__();
-            } catch(e:Dynamic) {
-                try {
-                    return untyped str(s);
-                } catch(e:Dynamic) {
-                    return "##Cannot convert to String##";
-                }
-            }
-        }
     }
 
    public static inline function int( x : Float ) : Int {

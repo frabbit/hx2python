@@ -24,14 +24,14 @@ extern class Element {
 	public function keys ():Array<String>;	
 	public function items ():Array<Tup2<String, String>>;
 
-	public function iter (tag:String):PyIterator<Element>;
+	public function iter (tag:String):PyIterable<Element>;
 	public function iterfind (tag:String, namespaces:Dict<String,String> = null):PyIterator<Element>;
 	public function find (match:String, namespaces:Dict<String,String> = null):Null<Element>;
 	public function findall (match:String, namespaces:Dict<String,String> = null):Array<Element>;
 
 	static function __init__ ():Void 
 	{
-		Macros.importAs("xml.etree.ElementTree.Element", "python.lib.xml.etree.ElementTree.Element");
+		Macros.importFromAs("xml.etree.ElementTree", "Element", "python.lib.xml.etree.ElementTree.Element");
 	}
 }
 
@@ -42,7 +42,7 @@ extern class ElementTree {
 	public static function XML(text:String, ?parser:XMLParser):Element;
 	public static function parse(xml:String):ElementTree;
 
-	public function iter (tag:String):PyIterator<Element>;
+	public function iter (tag:String):PyIterable<Element>;
 	public function find (match:String, namespaces:Dict<String,String> = null):Null<Element>;
 	public function getroot ():Element;
 

@@ -1,6 +1,8 @@
 
 package;
 
+import python.lib.Builtin;
+
 /*
  * Copyright (C)2005-2012 Haxe Foundation
  *
@@ -106,7 +108,10 @@ extern class Math
 		
 		If `a` and `b` are POSITIVE_INFINITY, the result is POSITIVE_INFINITY.
 	**/
-	static function min(a:Float, b:Float):Float;
+
+	public static inline function min(a:Float, b:Float):Float {
+		return Builtin.min(a,b);
+	}
 	
 	/**
 		Returns the greater of values `a` and `b`.
@@ -117,7 +122,10 @@ extern class Math
 		
 		If `a` and `b` are NEGATIVE_INFINITY, the result is NEGATIVE_INFINITY.
 	**/
-	static function max(a:Float, b:Float):Float;
+	public static inline function max(a:Float, b:Float):Float 
+	{
+		return Builtin.max(a,b);
+	}
 	
 	/**
 		Returns the trigonometric sine of `v`.
