@@ -109,7 +109,7 @@ class Log {
 			} else {
 				str = v;
 			}
-			untyped __python__('print(str + "\\n")');
+			untyped __python__('print(str)');
 		
 		#end
 	}
