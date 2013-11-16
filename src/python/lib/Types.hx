@@ -226,14 +226,22 @@ class DictImpl {
 
 
 
-extern class Tuple<X> {
+extern class Tuple<X> implements ArrayAccess<X> {
 
 	public static inline function empty<X>():Tuple<X> {
 		return Builtin.tuple();
 	}
 
+	
+
 	public static inline function fromArray<X>(a:Array<X>):Tuple<X> {
 		return Builtin.tuple(a);
+	}
+
+	public var length(get_length, null):Int;
+
+	inline function get_length():Int {
+		return Builtin.len(this);
 	}
 
 	public inline function at (i:Int):X {

@@ -1,3 +1,4 @@
+import python.internal.KeywordHandler;
 import python.lib.Builtin;
 import python.lib.Inspect;
 import python.lib.Types;
@@ -25,26 +26,30 @@ import python.lib.Types;
  */
 @:coreApi class Reflect {
 
-	public static inline function hasField( o : Dynamic, field : String ) : Bool {
+	public static function hasField( o : Dynamic, field : String ) : Bool 
+	{
+		var field = KeywordHandler.handleKeywords(field);
 		//return untyped __js__('Object').prototype.hasOwnProperty.call(o, field);
 		return Builtin.hasattr(o, field);
 		
 	}
 
-	public inline static function field( o : Dynamic, field : String ) : Dynamic {
-		var v = null;
-		try {
-			v = Builtin.getattr(o, field);
-		} catch( e : Dynamic ) {
-		}
-		return v;
+	public static function field( o : Dynamic, field : String ) : Dynamic 
+	{
+		var field = KeywordHandler.handleKeywords(field);	
+		return if (Builtin.hasattr(o, field)) Builtin.getattr(o, field) else null;
+		
 	}
 
-	public inline static function setField( o : Dynamic, field : String, value : Dynamic ) : Void untyped {
+	public inline static function setField( o : Dynamic, field : String, value : Dynamic ) : Void untyped 
+	{
+		var field = KeywordHandler.handleKeywords(field);
 		return __define_feature__("Reflect.setField",Builtin.setattr(o,field,value));
 	}
 
-	public static inline function getProperty( o : Dynamic, field : String ) : Dynamic {
+	public static function getProperty( o : Dynamic, field : String ) : Dynamic 
+	{
+		var field = KeywordHandler.handleKeywords(field);
 		//var tmp;
 		//return if( o == null ) __define_feature__("Reflect.getProperty",null) else if( o.__properties__ && (tmp=o.__properties__["get_"+field]) ) o[tmp]() else o[field];
 		var tmp = null;
@@ -70,22 +75,40 @@ import python.lib.Types;
 		}
 		else setattr(o,field, __define_feature__("Reflect.setProperty",value));
 		*/
+		var field = KeywordHandler.handleKeyword(field);
 		return throw "not implemented";
 	}
 
-	public inline static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic untyped {
-		//return func.apply(o,args);
-		return throw "not implemented";
+	public static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic 
+	{
+		var args = [o].concat(args);
+		return if (Inspect.ismethod(o)) func(args) else null;
 	}
 
-	public static function fields( o : Dynamic ) : Array<String> {
+	public static function fields( o : Dynamic ) : Array<String> 
+	{
 		var a = [];
-		if (o != null) {
-			if (Builtin.hasattr(o, "_hx_fields")) {
+		if (o != null) 
+		{
+			if (Builtin.hasattr(o, "_hx_fields")) 
+			{
+				trace("here we go");
 				var fields:Array<String> = o._hx_fields;
 				return fields.copy();
 			}
-			if (Builtin.hasattr(o, "__dict__")) {
+			if (Builtin.isinstance(o, untyped __python__("_Hx_AnonObject"))) 
+			{
+				
+				var d:Dict<String, Dynamic> = Builtin.getattr(o, "__dict__");
+				var keys  = d.keys();
+				var handler = python.internal.KeywordHandler.unhandleKeywords;
+				untyped __python__("for k in keys:");
+				untyped __python__("	a.append(handler(k))");
+				
+			} 
+			else if (Builtin.hasattr(o, "__dict__")) 
+			{
+				var a = [];
 				var d:Dict<String, Dynamic> = Builtin.getattr(o, "__dict__");
 				var keys  = untyped d.keys();
 				untyped __python__("for k in keys:");
@@ -94,21 +117,12 @@ import python.lib.Types;
 			}
 		}
 		return a;
-		// var a = [];
-		// if (o != null) untyped {
-		// 	var hasOwnProperty = __js__('Object').prototype.hasOwnProperty;
-		// 	__js__("for( var f in o ) {");
-		// 	if( f != "__id__" && f != "hx__closures__" && hasOwnProperty.call(o, f) ) a.push(f);
-		// 	__js__("}");
-		// }
-		// return a;
-		return throw "not implemented";
+
 	}
 
-	public static function isFunction( f : Dynamic ) : Bool untyped {
-		return Builtin.callable(f);
-		//return __js__("typeof(f)") == "function" && !(js.Boot.isClass(f) || js.Boot.isEnum(f));
-		
+	public static function isFunction( f : Dynamic ) : Bool 
+	{
+		return Inspect.isfunction(f) || Inspect.ismethod(f);
 	}
 
 	public static function compare<T>( a : T, b : T ) : Int {
@@ -117,15 +131,16 @@ import python.lib.Types;
 	}
 
 	public static function compareMethods( f1 : Dynamic, f2 : Dynamic ) : Bool {
-		// if( f1 == f2 )
-		// 	return true;
-		// if( !isFunction(f1) || !isFunction(f2) )
-		// 	return false;
-		// return f1.scope == f2.scope && f1.method == f2.method && f1.method != null;
+		if( f1 == f2 )
+			return true;
+		if( !isFunction(f1) || !isFunction(f2) )
+			return false;
+		
 		return throw "not implemented";
 	}
 
 	public static function isObject( v : Dynamic ) : Bool untyped {
+
 		// if( v == null )
 		// 	return false;
 		// var t = __js__("typeof(v)");
@@ -139,10 +154,9 @@ import python.lib.Types;
 	}
 
 	public static function deleteField( o : Dynamic, field : String ) : Bool untyped {
-		// if( !hasField(o,field) ) return false;
-		// __js__("delete")(o[field]);
-		// return true;
-		return throw "not implemented";
+		if( !hasField(o,field) ) return false;
+		untyped __python_del__(o[field]);
+		return true;
 	}
 
 	public static function copy<T>( o : T ) : T {

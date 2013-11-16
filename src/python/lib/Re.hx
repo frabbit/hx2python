@@ -26,7 +26,7 @@ extern class MatchObject
 
 	public function expand(template:String):String;
 	public function group(?i:Int = 0):String;
-	public function groups<T>(defaultVal:T = null):T;
+	public function groups(defaultVal:String = null):Tuple<String>;
 	public function groupdict(defaultVal:Dict<String, String> = null):Dict<String, String>;
 
 	public function start (?i:Int = 0):Int;
@@ -163,7 +163,9 @@ extern class Re
 
 	public static function finditer(pattern:Pattern, string:String,   flags:Int=0):Iterator<MatchObject>;
 
-	public static function sub(pattern:Pattern, repl:Repl, string:String,  count:Int=0, flags:Int=0):String;
+	
+	@:overload(function (pattern:Pattern, repl:String, string:String,  ?count:Int=0, ?flags:Int=0):String {})
+	public static function sub(pattern:Pattern, repl:MatchObject->String, string:String,  ?count:Int=0, ?flags:Int=0):String;
 
 	public static function subn(pattern:Pattern, repl:Repl, string:String, count:Int=0, flags:Int=0):String;
 

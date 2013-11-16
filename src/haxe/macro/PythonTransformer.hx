@@ -895,6 +895,17 @@ class PythonTransformer {
 
 				liftExpr(ex, false, e.nextId, blocks);
 
+			case [_, EArrayDecl(values)]:
+				var newExprs = [for (v in values) transformExpr(v, true, e.nextId, [])];
+
+				var blocks = [for (v in newExprs) for (b in v.blocks) b];
+
+				var vals = [for (v in newExprs) v.expr];
+
+				var newE = { expr : EArrayDecl(vals), pos : e.expr.pos};
+
+				liftExpr(newE, blocks);
+
 			case [_, ECast(ex, t)]:
 				var ex1 = transformExpr(ex, true, e.nextId, []);
 

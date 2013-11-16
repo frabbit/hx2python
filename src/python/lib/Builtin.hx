@@ -33,6 +33,7 @@ extern class Builtin {
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	@:overload(function (f:Bytes):Int {})
 	@:overload(function (f:DictView<Dynamic>):Int {})
+	@:overload(function (f:Tuple<Dynamic>):Int {})
 	public static function len(x:String):Int;
 
 	public static function open(file:String, mode:String, ?encoding:String = null, ?errors : String, ?newline:String, ?closefd:Bool, ?opener:String->Int->FileDescriptor):TextIOBase;

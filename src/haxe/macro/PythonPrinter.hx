@@ -25,6 +25,7 @@ package haxe.macro;
 import haxe.ds.StringMap;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import python.internal.KeywordHandler;
 using Lambda;
 using haxe.macro.Tools;
 
@@ -55,16 +56,6 @@ class PythonPrinter {
 	var tabs:String;
 	var tabString:String;
 
-	static var keywords = [
-		"and",       "del",       "from",      "not",       "while",
-		"as",        "elif",      "global",    "or",        "with",
-		"assert",    "else",      "if",        "pass",      "yield",
-		"break",     "except",    "import",    "print",		"float",
-		"class",     "exec",      "in",        "raise",
-		"continue",  "finally",   "is",        "return",
-		"def",       "for",       "lambda",    "try"
-];
-
  
 
     static var standardTypes:Map<String, String> = [
@@ -83,9 +74,7 @@ class PythonPrinter {
 
     public static function handleKeywords(name)
     {
-        if(keywords.indexOf(name) != -1)
-            return "_hx_" + name;
-        return name;
+        return KeywordHandler.handleKeywords(name);
     }
 
     public function applyPathHack (id:String) 

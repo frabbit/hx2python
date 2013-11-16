@@ -172,7 +172,7 @@ enum ValueType {
 
 	public static function getEnumConstructs( e : Enum<Dynamic> ) : Array<String> {
 		if (Builtin.hasattr(e, "_hx_constructs")) {
-			var x:Array<String> = untyped c._hx_constructs;
+			var x:Array<String> = untyped e._hx_constructs;
 			return x.copy();
 		} else {
 			return [];
