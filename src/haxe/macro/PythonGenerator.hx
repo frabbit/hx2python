@@ -512,7 +512,7 @@ class PythonGenerator
             initApplied = true;
             var t = c.init;
             var trans = PythonTransformer.transform(t);
-            trace("print init");
+            
             print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
             print("\n");
         }
