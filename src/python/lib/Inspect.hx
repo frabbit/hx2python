@@ -7,7 +7,7 @@ extern class Inspect {
 
 	static function __init__ ():Void 
 	{
-		python.Macros.importAs("sys", "python.lib.Inspect");
+		python.Macros.importAs("inspect", "python.lib.Inspect");
 	}
 
 	static function getmembers (value:Dynamic, ?filter:Dynamic->Bool):Bool;
@@ -17,7 +17,4 @@ extern class Inspect {
 	static function isfunction(value:Dynamic):Bool;
 
 	
-	static function __init__ ():Void {
-		Macros.importAs("inspect", "python.lib.Inspect");
-	}
 }

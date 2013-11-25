@@ -51,6 +51,7 @@ abstract PyIterator <T>(NativeIterator<T>) to NativeIterator<T> to PyIterable<T>
 	public inline function new (p:NativeIterator<T>) this = p;
 	@:to public static inline function toHaxeIterator <T>(p:NativeIterator<T>):HaxeIterator<T> return python.Lib.toHaxeIterator(p);
 	@:to public static inline function toPyIterable <T>(p:NativeIterator<T>):PyIterable<T> return p;
+	public function getNativeIterator <T>():NativeIterator<T> return this;
 }
 
 abstract PyIterable <T>(NativeIterable<T>) to NativeIterable<T> from NativeIterable<T> {
@@ -59,6 +60,9 @@ abstract PyIterable <T>(NativeIterable<T>) to NativeIterable<T> from NativeItera
 	//@:from public static inline function fromArray <T>(p:Array<T>):PyIterable<T> return cast p;
 
 	public inline function iterator <T>() return IterHelper.iterableToIterator(this);
+	public function getNativeIterable <T>():NativeIterable<T> return this;
+	public function getNativeIterator <T>():NativeIterator<T> return this.__iter__();
+	
 }
 
 class IterHelper {
@@ -132,7 +136,7 @@ extern class Set <T>
 
 	static function __init__ ():Void 
 	{
-		Macros.importFromAs("builtins", "set", "python.lib.Types.Set");
+		Macros.importFromAs("builtins", "set", "python.lib.Set");
 	}
 
 	function __iter__ ():PyIterator<T>;
@@ -198,7 +202,7 @@ extern class Dict <K, V>
 
 	static function __init__ ():Void 
 	{
-		Macros.importFromAs("builtins", "dict", "python.lib.Types.Dict");
+		Macros.importFromAs("builtins", "dict", "python.lib.Dict");
 	}
 
 }

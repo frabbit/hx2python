@@ -31,7 +31,7 @@ extern class Element {
 
 	static function __init__ ():Void 
 	{
-		Macros.importFromAs("xml.etree.ElementTree", "Element", "python.lib.xml.etree.ElementTree.Element");
+		Macros.importFromAs("xml.etree.ElementTree", "Element", "python.lib.xml.etree.Element");
 	}
 }
 

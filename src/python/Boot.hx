@@ -115,15 +115,7 @@ class Boot {
 
 				var fields = Type.getInstanceFields(o);
 				var fieldsStr = [for (f in fields) '$f : ${__string_rec(Reflect.field(o,f), s+"\t")}'];
-				for (f in fields) {
-					trace(Reflect.field(o,f));
-
-				}
-
-				trace(python.lib.Inspect.getmembers(o));
-					
-				trace(fieldsStr);
-
+				
 				var toStr = o._hx_class_name + "( " + fieldsStr.join(", ") + " )";
 				return toStr;
 			}

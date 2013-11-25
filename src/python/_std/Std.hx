@@ -34,22 +34,27 @@ import python.lib.Inspect;
 
     }
     public static function is( v : Dynamic, t : Dynamic ) : Bool {
+
         if (v == null) {
             return false;
         }
         else if (t == null) {
+
             return false;
         }
-        else if (t == untyped __python__("Dynamic")) {
+        else if (t == (untyped __python__("Dynamic"))) {
             return true;
         }
-        else if (t == untyped __python__("Int") && Builtin.isinstance(v, __python__("int"))) {
+        else if (t == (untyped __python__("Bool")) && Builtin.isinstance(v, (untyped __python__("bool")))) {
             return true;
         }
-        else if (t == untyped __python__("Float") && (Builtin.isinstance(v, __python__("(float,int)")) || Builtin.isinstance(v, __python__("int")))) {
+        else if ( t ==  (untyped __python__("Int")) && Builtin.isinstance(v, (untyped __python__("int")))) {
             return true;
         }
-        else if (t == untyped __python__("str")) {
+        else if ( t == (untyped __python__("Float")) && (Builtin.isinstance(v, (untyped __python__("(float,int)"))) || Builtin.isinstance(v, (untyped __python__("int"))))) {
+            return true;
+        }
+        else if ( t == (untyped __python__("str"))) {
             return Builtin.isinstance(v, String);
         }
         else if (Builtin.isinstance(v, t)) {
@@ -89,13 +94,17 @@ import python.lib.Inspect;
 //        return untyped __as__(v, c);
 //    }
 
-    @:access(python.Boot) @:keep public static function string( s : Dynamic ) : String {
+    @:access(python.Boot) 
+    @:keep 
+    public static function string( s : Dynamic ) : String 
+    {
         
         return python.Boot.__string_rec(s, "");
     }
 
-   public static inline function int( x : Float ) : Int {
-        return untyped __python__("int")(x);
+    public static inline function int( x : Float ) : Int 
+    {
+        return (untyped __python__("int"))(x);
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
@@ -104,7 +113,8 @@ import python.lib.Inspect;
         
     }
 
-    public static inline function parseFloat( x : String ) : Float {
+    public static inline function parseFloat( x : String ) : Float 
+    {
         return untyped __python__("float")(x);
     }
 

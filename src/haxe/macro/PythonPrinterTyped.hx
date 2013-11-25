@@ -24,40 +24,18 @@ package haxe.macro;
 
 import haxe.ds.StringMap;
 import haxe.macro.Expr;
-import haxe.macro.PythonPrinterTyped;
 import haxe.macro.Type;
+
 import python.internal.KeywordHandler;
 using Lambda;
 using haxe.macro.Tools;
 
+import haxe.macro.PythonPrinter.PrintContext;
 using haxe.macro.PythonPrinter.PrintContexts;
 using StringTools;
 
-typedef PrintContext = {
-	indent : String,
-	nextAnonFunc : Void -> String,
-    typed : PythonPrinterTyped,
-    regular : PythonPrinter
-}
 
-
-
-class PrintContexts {
-	public static function create (indent:String) {
-		var n = 0;
-		return {
-			indent : indent,
-			nextAnonFunc : function () return "anon_" + n++,
-            typed : new PythonPrinterTyped(),
-            regular : new PythonPrinter()
-		}
-	}
-	public static function incIndent (p:PrintContext) {
-		return { indent : p.indent + "\t", nextAnonFunc : p.nextAnonFunc, typed : p.typed, regular : p.regular };
-	}
-}
-
-class PythonPrinter {
+class PythonPrinterTyped {
 	var tabs:String;
 	var tabString:String;
 
@@ -140,26 +118,67 @@ class PythonPrinter {
 		return '"' + s.split("\\").join("\\\\").split('"').join('\\"').split("\n").join("\\n").split("\r").join("\\r").split("\t").join("\\t") #if sys .split("\x00").join("\\x00") #end + '"';
 	}
 
-	public function printConstant(c:Constant) return switch(c) {
-		case CIdent("this"): "self";
-		case CIdent("null"): "None";
-		case CIdent("true"): "True";
-		case CIdent("false"): "False";
-		case CString(s): printString(s);
-		case CIdent(s):
-			
-			handleKeywords(s);
-		case CInt(s), CFloat(s):
-			s;
-			
-		case CRegexp(s,opt): '~/$s/$opt';
+	public function printConstant(c:TConstant) return switch(c) {
+		case TThis: "self";
+		case TNull: "None";
+		case TBool(true): "True";
+		case TBool(false): "False";
+		case TString(s): printString(s);
+		//case CIdent(s):
+		//	
+		//	handleKeywords(s);
+		case TInt(s):
+			""+s;
+        case TFloat(s):
+            s;
+		case TSuper: "super";
+		//case CRegexp(s,opt): '~/$s/$opt';
 	}
 
 	public function printTypeParam(param:TypeParam,context) return switch(param) {
-		case TPType(ct): printComplexType(ct,context);
-		case TPExpr(e): printExpr(e,context);
+		case TPType(ct):printComplexType(ct,context);
+		case TPExpr(e): context.regular.printExpr(e,context);
 	}
 
+    public function printBaseType(tp:BaseType,context:PrintContext){
+        var isPrivate = tp.isPrivate;
+        var isExtern = tp.isExtern;
+
+        var moduleStart = tp.module.lastIndexOf(".");
+        if (moduleStart == -1) moduleStart = 0;
+
+        var module = tp.module.substr(moduleStart);
+
+
+        var hasPack = tp.pack.length > 0;
+
+        var hasModule = module != tp.name;
+
+        var native = tp.meta.get().find(function (e) return e.name == ":native");
+        var isNative = native != null;
+
+        if (isNative) {
+            return switch (native.params[0].expr) {
+                case EConst(CString(x)): x;
+                case _ : throw "unexpected";
+            }
+        } else {
+            if (hasModule && isPrivate) {
+                var prefix = tp.module.split(".").join("_");
+
+                return prefix + (if (prefix.length > 0) "_" else "") + tp.name;        
+            } else {
+                return tp.pack.join("_") + (if (hasPack) "_" else "") + tp.name;        
+            }
+            
+        }
+        
+        
+        
+        //+ (tp.params.length > 0 ? "<" + tp.params.map(printTypeParam.bind(_,context)).join(", ") + ">" : "");
+    }
+
+    
 	public function printTypePath(tp:TypePath,context:PrintContext){
         //trace(tp);
         //if(tp.sub != null) return tp.name + "." + tp.sub ;
@@ -169,6 +188,7 @@ class PythonPrinter {
 		+ (tp.sub != null ? '.${tp.sub}' : "");
 		//+ (tp.params.length > 0 ? "<" + tp.params.map(printTypeParam.bind(_,context)).join(", ") + ">" : "");
     }
+    
 
 	// TODO: check if this can cause loops
 	public function printComplexType(ct:ComplexType,context:PrintContext) return switch(ct) {
@@ -181,8 +201,8 @@ class PythonPrinter {
 	}
 
 	public function printMetadata(meta:MetadataEntry,context) return
-        '@${meta.name}'
-		+ (meta.params.length > 0 ? '(${printExprs(meta.params,", ",context)})' : "");
+        '@${meta.name}';
+		//+ (meta.params.length > 0 ? '(${printExprs(meta.params,", ",context)})' : "");
 
 	public function printAccess(access:Access) return switch(access) {
 		case AStatic: "static";
@@ -199,9 +219,9 @@ class PythonPrinter {
 		+ (field.meta != null && field.meta.length > 0 ? field.meta.map(printMetadata.bind(_,context)).join(" ") + " " : "")
 		+ (field.access != null && field.access.length > 0 ? field.access.map(printAccess).join(" ") + " " : "")
 		+ switch(field.kind) {
-		  case FVar(t, eo): 'var ${field.name}' + opt(t, printComplexType.bind(_,context), " : ") + opt(eo, printExpr.bind(_,context), " = ");
-		  case FProp(get, set, t, eo): 'var ${field.name}($get, $set)' + opt(t, printComplexType.bind(_,context), " : ") + opt(eo, printExpr.bind(_,context), " = ");
-		  case FFun(func): printFunction(func,context, field.name);
+		  case FieldType.FVar(t, eo): 'var ${field.name}' + opt(t, printComplexType.bind(_,context), " : ") + context.regular.opt(eo, context.regular.printExpr.bind(_,context), " = ");
+		  case FieldType.FProp(get, set, t, eo): 'var ${field.name}($get, $set)' + opt(t, printComplexType.bind(_,context), " : ") + context.regular.opt(eo, context.regular.printExpr.bind(_,context), " = ");
+		  case FieldType.FFun(func): context.regular.printFunction(func,context, field.name);
 		}
 
 	public function printTypeParamDecl(tpd:TypeParamDecl,context:PrintContext) return
@@ -209,7 +229,7 @@ class PythonPrinter {
 		+ (tpd.params != null && tpd.params.length > 0 ? "<" + tpd.params.map(printTypeParamDecl.bind(_,context)).join(", ") + ">" : "")
 		+ (tpd.constraints != null && tpd.constraints.length > 0 ? ":(" + tpd.constraints.map(printComplexType.bind(_,context)).join(", ") + ")" : "");
 
-    public function printArgs(args:Array<FunctionArg>,context)
+    public function printArgs(args:Array<{v:TVar, value:Null<TConstant>}>,context:PrintContext)
     {
         var argString = "";
         var optional = false;
@@ -219,23 +239,23 @@ class PythonPrinter {
 
             var arg = args[i];
 
-            var isKwArgs = if (arg.type != null) switch (arg.type) {
-                case TPath(p) if (p.pack.join(".") == "python.lib" && p.name == "Types" && p.sub == "KwArgs"): true;
+            var isKwArgs =  switch (arg.v.t) {
+                case TAbstract(x,_): x.get().name == "KwArgs";
                 case _ : false;
-            } else false;
+            }
             
             var prefix = isKwArgs ? "**" : "";
 
-            var argValue = printExpr(arg.value,context);
+            var argValue = if (arg.value != null) printConstant(arg.value) else "";
             var argIsNull = arg.value == null;
-            if((arg.opt || !argIsNull) && !optional)
+            if((arg.value != null) && !optional)
             {
                 optional = true;
                 argString += "";
             }
             
             
-            argString += prefix + handleKeywords(arg.name);
+            argString += prefix + handleKeywords(arg.v.name);
 
             if(argValue != null && !argIsNull && !isKwArgs) {
                 argString += ' = $argValue';
@@ -250,19 +270,32 @@ class PythonPrinter {
         return argString;
     }
 
-	public function printFunction(func:Function,context:PrintContext, name:String = null) return
+	public function printFunction(func:TFunc,context:PrintContext, name:String = null) return
 
 		"def " + (name == null ? context.nextAnonFunc() : name) + "(" + printArgs(func.args,context) + ")" + ':\n${context.indent}\t'
 //		+ "( " + func.args.map(printFunctionArg).join(", ") + " )"
 //		+ opt(func.ret, printComplexType, " : ")
 		+ opt(func.expr, printExpr.bind(_,context.incIndent()), "");
 
-	public function printVar(v:Var,context)
+	public function printVar(v:{v:TVar, expr:Null<TypedExpr>},context)
     {
-        return
-        handleKeywords(v.name)
-        //		+ opt(v.type, printComplexType, " : ")
-        + if (v.expr != null) opt(v.expr, printOpAssignRight.bind(_,context), " = ") else " = None";
+        function def () {
+            return
+            handleKeywords(v.v.name)
+            //      + opt(v.type, printComplexType, " : ")
+            + if (v.expr != null) opt(v.expr, printOpAssignRight.bind(_,context), " = ") else " = None";
+        }
+
+        return if (v.expr != null) {
+            switch (v.expr.expr) {
+                case TFunction(f):
+                    printFunction(f,context,v.v.name);
+                case _ : def();
+            }
+        } else {
+
+            def();
+        }
     }
 
 //    function justPath(expr)
@@ -276,7 +309,28 @@ class PythonPrinter {
 //       // return printExpr(expr);
 //    }
 
-    function printCall(e1, el:Array<Expr>, context)
+    function isType <X:BaseType>(p:String, t:String) 
+    {
+        return function (r:Ref<X>) {
+            var x = r.get();
+            return x.pack.join(".") == p && x.name == t;
+        }
+    }
+
+    function isType1 (p:String, s:String) 
+    {
+        
+        return function (t:Type) return switch (t)
+        {
+            case TInst(isType(p, s) => true,_) : true;
+            case TAbstract(isType(p, s) => true,_) : true;
+            case TEnum(isType(p, s) => true,_) : true;
+            case _ : false;
+            
+        }
+    }
+
+    function printCall(e1, el:Array<TypedExpr>, context)
     {
         var id = printExpr(e1, context);
 
@@ -285,21 +339,26 @@ class PythonPrinter {
         	case "super":
         		var params = el.copy();
         		'super().__init__(${printExprs(params,", ", context)})';
-            case "trace" :
-                formatPrintCall(el, context);
+            case "`trace" :
+                var s = switch (el[0].t) {
+                    case TInst(isType("", "String") => true, _): '${printExpr(el[0],context)}';
+                    case _ : 'Std.string(${printExpr(el[0],context)})';
+                }
+                'print($s)';
+                //formatPrintCall(el, context);
             case "__python_kwargs__":
                 '**${printExpr(el[0],context)}';
             case "__python_varargs__":
                 '*${printExpr(el[0],context)}';
             case "__python__":   switch(el[0].expr)
             {
-                case EConst(CString(s)): s;
-                default:"";
+                case TConst(TString(s)): s;
+                default:printExpr(el[0], context);
             };
             case "__named_arg__":
                 var name = switch(el[0].expr)
                 {
-                    case EConst(CString(s)): s;
+                    case TConst(TString(s)): s;
                     default: throw "unexpected";
                 };  
                 '$name=${printExpr(el[1], context)}';
@@ -314,7 +373,7 @@ class PythonPrinter {
                 //    trace(ExprTools.toString(e));
                 //}
                 var fields = switch (last.expr) {
-                    case EObjectDecl(fields): fields;
+                    case TObjectDecl(fields): fields;
                     case _ : throw "unexpected ERRRRRRORRRR";
                 }
             	
@@ -337,7 +396,7 @@ class PythonPrinter {
                 
                 var first = el[0];
                 var field = switch (el[1].expr) {
-                    case EConst(CString(id)):id;
+                    case TConst(TString(id)):id;
                     case _ : throw "unexpected";
                 }
                 '${printExpr(first, context)}.$field';
@@ -348,16 +407,22 @@ class PythonPrinter {
             case "__python_in__":
                 '${printExpr(el[0], context)} in ${printExpr(el[1], context)}';
             case "__python_for__":
-                var a1 = el[0];
-                var a2 = el[1];
-                var a3 = el[2];
-                var i = context.incIndent().indent;
-                'for ${printExpr(a1, context)} in ${printExpr(a2, context)}:\n$i${printExpr(a3, context.incIndent())}';
+                var f = el[0];
+                switch (f.expr) {
+                    case TBlock([{ expr : TVars([v1])}, e2, block]):
+                        var f1 = v1.v.name;
+                        var i = context.incIndent().indent;
+                        'for $f1 in ${printExpr(e2, context)}:\n$i${printExpr(block, context.incIndent())}';        
+                    case _ : 
+                        throw "unexpected";
+                }
+                
+                
             case "__python_del__":
                 'del ${printExpr(el[0], context)}';
             case "__python_binop__":
                 var op = switch (el[1].expr) {
-                    case EConst(CString(id)):id;
+                    case TConst(TString(id)):id;
                     case _ : throw "unexpected";
                 }
                 '${printExpr(el[0], context)} $op ${printExpr(el[2], context)}';
@@ -391,56 +456,71 @@ class PythonPrinter {
         return result;
     }
 
-    function extractString(e)
+    function extractString(e:TypedExpr)
     {
         return switch(e.expr)
         {
-            case EConst(CString(s)):s;
+            case TConst(TString(s)):s;
             default:"####";
         }
     }
 
-    function formatPrintCall(el:Array<Expr>, context:PrintContext)
-    {
-        var expr = el[0];
-        var posInfo = Std.string(expr.pos);
-        posInfo = posInfo.substring(5, posInfo.indexOf(" "));
+    // function formatPrintCall(el:Array<TypedExpr>, context:PrintContext)
+    // {
+    //     var expr = el[0];
+    //     var posInfo = Std.string(expr.pos);
+    //     posInfo = posInfo.substring(5, posInfo.indexOf(" "));
 
-        var traceString = printExpr(expr, context);
+    //     var traceString = printExpr(expr, context);
 
-        var toStringCall = switch(expr.expr)
-        {
-            case EConst(CString(_)):"";
-            default:".toString()";
-        }
+    //     var toStringCall = switch(expr.expr)
+    //     {
+    //         case TConst(TString(_)):"";
+    //         default:".toString()";
+    //     }
 
-        var traceStringParts = traceString.split(" + ");
-        var toString = ".toString()";
+    //     var traceStringParts = traceString.split(" + ");
+    //     var toString = ".toString()";
 
-        for(i in 0 ... traceStringParts.length)
-        {
-            var part = traceStringParts[i];
+    //     for(i in 0 ... traceStringParts.length)
+    //     {
+    //         var part = traceStringParts[i];
 
 
-            if(!traceStringParts[i].startsWith("Std.string("))
-            {
-                traceStringParts[i] = "Std.string("+traceStringParts[i]+")";
-            }
-        }
+    //         if(!traceStringParts[i].startsWith("Std.string("))
+    //         {
+    //             traceStringParts[i] = "Std.string("+traceStringParts[i]+")";
+    //         }
+    //     }
 
-        traceString = traceStringParts.join(" + ");
+    //     traceString = traceStringParts.join(" + ");
 
-        return 'print($traceString)';
-    }
+    //     return 'print($traceString)';
+    // }
 
-    function print_field(e1, name, context:PrintContext)
+    function print_field(e1:TypedExpr, fa:FieldAccess, context:PrintContext)
     {
     	var obj = switch (e1.expr) {
-    		case EConst(CIdent("super")):
+    		case TConst(TSuper):
     			"super()";
     		case _: '${printExpr(e1, context)}';
     	}
-        var expr = '$obj.${handleKeywords(name)}';
+        var name = switch (fa) {
+            case FInstance(_, cf): 
+                cf.get().name;
+                
+            case FStatic(_,cf): cf.get().name;
+            case FAnon(cf): cf.get().name;
+            case FDynamic(s): s;
+            case FClosure(_,cf): cf.get().name;
+            case FEnum(_,ef): ef.name;
+        }
+        var expr = if (name == "iterator") {
+            '_hx_functools.partial(HxOverrides_iterator, $obj)';
+        } else {
+            '$obj.${handleKeywords(name)}';
+        }
+        
 
 
         var expr = applyPathHack(expr);
@@ -449,10 +529,10 @@ class PythonPrinter {
         return expr;
     }
 
-    function printIfElse(econd, eif, eelse, context:PrintContext, ?asElif = false)
+    function printIfElse(econd:TypedExpr, eif:TypedExpr, eelse:TypedExpr, context:PrintContext, ?asElif = false)
     {
     	var econd1 = switch (econd.expr) {
-    		case EParenthesis(e):e;
+    		case TParenthesis(e):e;
     		case _ : econd;
     	}
         var ifExpr = printExpr(eif, context.incIndent());
@@ -477,19 +557,29 @@ class PythonPrinter {
 //    }
 	
 
-	public function printOpAssignRight(e:Expr, context:PrintContext):String {
+	public function printOpAssignRight(e:TypedExpr, context:PrintContext):String {
 		function printExpr1 (e) return printExpr(e, context, false);
 		return switch (e.expr) 
 		{
-			case EIf({ expr : EParenthesis(econd)}, eif, eelse) | 
-				 EIf(econd, eif, eelse): '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
+			case TIf({ expr : TParenthesis(econd)}, eif, eelse) | 
+				 TIf(econd, eif, eelse): '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
 			case _ : printExpr1(e);
 
 		}
 	}
 
 
-	public function printExpr(e:Expr, context:PrintContext, top = false)
+    public function printModuleType (t:ModuleType, context:PrintContext) {
+
+        return switch (t) {
+            case TClassDecl(ct): printBaseType(ct.get(),context);
+            case TEnumDecl(ct): printBaseType(ct.get(),context);
+            case TTypeDecl(ct): printBaseType(ct.get(),context);
+            case TAbstract(ct): printBaseType(ct.get(),context);
+        }
+    }
+
+	public function printExpr(e:TypedExpr, context:PrintContext, top = false)
 	{
         //trace(ExprTools.toString(e));
 		var indent = context.indent;
@@ -498,88 +588,132 @@ class PythonPrinter {
 //        trace(e);
 		//if (e == null) trace("WARNING: #NULL");
         return try e == null ? "None" : switch(e.expr) {
-		case EConst(c): printConstant(c);
-		case EArray(e1, e2): '${printExpr1(e1)}[${printExpr1(e2)}]';
-		case EBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
-		case EBinop(OpEq, e1, e2 = { expr : EConst(CIdent("null"))}):
+		case TConst(c): printConstant(c);
+        case TTypeExpr(t): printModuleType(t, context);
+        case TLocal(t): handleKeywords(t.name);
+        case TPatMatch: "not supported";
+        case TEnumParameter(e,ef, index): '${printExpr1(e)}.params[${ef.index}]';
+		case TArray(e1, e2): '${printExpr1(e1)}[${printExpr1(e2)}]';
+		case TBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
+		case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
-		case EBinop(OpNotEq, e1, e2 = { expr : EConst(CIdent("null"))}):
+		case TBinop(OpNotEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
 		
-        case EBinop(OpUShr, e1, e2): 
+        case TBinop(OpUShr, e1, e2): 
             '_hx_rshift(${printExpr1(e1)}, ${printExpr1(e2)})';
-        case EBinop(op, e1, e2): 
+        case TBinop(OpAdd, e1, e2) if (isType1("", "String")(e.t)):
+            var e1Str = if (!isType1("", "String")(e1.t) && !isType1("", "Dynamic")(e1.t)) "Std.string(" + printExpr1(e1) + ")" else printExpr1(e1);
+            var e2Str = if (!isType1("", "String")(e2.t) && !isType1("", "Dynamic")(e2.t)) "Std.string(" + printExpr1(e2) + ")" else printExpr1(e2);
+
+            '$e1Str + $e2Str';
+
+        case TBinop(op, e1, e2): 
 			//trace(ExprTools.toString(e));
 			//trace(ExprTools.toString(e));
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
 		
 		
-		case EField(e1, n):/* trace(e);*/ print_field(e1, n, context);
-		case EParenthesis(e1): '(${printExpr1(e1)})';
-		case EObjectDecl(fl):
-			"_Hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.field)} = ${printExpr1(fld.expr)} ').join(",") + ")";
-		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
-		case ECall({expr : EField(e1, "iterator")}, []): 
-            'HxOverrides_iterator(${printExpr1(e1)})';
-        case ECall(e1, el): printCall(e1, el.copy(),context);
-		case ENew(tp, el): 
+		case TField(e1, fa):
+
+            switch (fa) {
+                case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
+                    
+                    "len(" + printExpr1(e1) + ")";
+                case FInstance(ct, cf) if (cf.get().name == "length"):
+                    
+                    //trace(ct.get().name);
+                    print_field(e1, fa, context);        
+
+                case _ : 
+                    print_field(e1, fa, context);        
+            }
+            
+		case TParenthesis(e1): '(${printExpr1(e1)})';
+		case TObjectDecl(fl):
+			"_Hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.name)} = ${printExpr1(fld.expr)} ').join(",") + ")";
+		case TArrayDecl(el): '[${printExprs(el, ", ",context)}]';
+		//case TCall({expr : TField(e1, "iterator")}, []): 
+        //    'HxOverrides_iterator(${printExpr1(e1)})';
+        case TCall(e1, el): printCall(e1, el.copy(),context);
+		case TNew(tp, _, el): 
 			//trace(tp);
-			var id = printTypePath(tp,context);
+			var id = printBaseType(tp.get(),context);
 			//trace(id);
 			var realId = applyPathHack(id);
 			'${realId}(${printExprs(el,", ",context)})';
-		case EUnop(op, true, e1): printExpr1(e1) + printUnop(op);
-		case EUnop(op, false, e1): printUnop(op) + printExpr1(e1);
+		case TUnop(op, true, e1): printExpr1(e1) + printUnop(op);
+		case TUnop(op, false, e1): printUnop(op) + printExpr1(e1);
 		//case EFunction(no, func) if (no != null): '$n' + printFunction(func,context);
-		case EFunction(name, func):/* "function " +*/printFunction(func,context,name);
+		case TFunction(func):/* "function " +*/printFunction(func,context);
 		
-		case EVars(vl): vl.map(printVar.bind(_, context)).join('\n$indent');
-		case EBlock([]): 'pass\n${indent}';
-		case EBlock(el):
+		case TVars(vl): vl.map(printVar.bind(_, context)).join('\n$indent');
+		case TBlock([]): 'pass\n${indent}';
+		case TBlock(el):
             var old = tabs;
 			tabs = context.indent;
 			var s = printExprs(el, '\n$tabs',context);
 			tabs = old;
 			s + '\n$tabs';
-		case EFor(e1, e2): 'for ${printExpr1(e1)}: ${printExpr1(e2)}';
-		case EIn(e1, e2): '${printExpr1(e1)} in ${printExpr1(e2)}';
+		case TFor(v, e1, e2): 
+            var ctxSub = context.incIndent();
+            var ind1 = context.indent;
+            var ind2 = ctxSub.indent;
+            '_it = ${printExpr1(e1)}\n'
+            + '${ind1}while _it.hasNext():\n'
+            + '$ind2${v.name} = _it.next()\n'
+            + '$ind2${printExpr(e2,ctxSub)}';
+		//case TIn(e1, e2): '${printExpr1(e1)} in ${printExpr1(e2)}';
 		
-		case EIf(econd, eif, eelse) if (eelse != null && switch (eelse.expr) { case EIf(_,_,_): true; case _ : false;}): 
+		case TIf(econd, eif, eelse) if (eelse != null && switch (eelse.expr) { case TIf(_,_,_): true; case _ : false;}): 
 			// here we could print pythons elif
 			printIfElse(econd, eif, eelse,context, true);
-		case EIf(econd, eif, eelse): printIfElse(econd, eif, eelse,context);
+		case TIf(econd, eif, eelse): printIfElse(econd, eif, eelse,context);
 		// revert length property access in generated whiles from for (dirty hack)
-		case EWhile({ expr : EBinop(OpLt, eleft = { expr : EConst(CIdent(g1))}, { expr : EField( eright={ expr:EConst(CIdent(g2))}, "length")})}, e1, true) if (g1.substr(0,2) == "_g"):
-			printExpr1(macro while ($eleft < len($eright)) $e1);
-		case EWhile(econd, e1, true): 'while ${printExpr1(econd)}:\n$indent\t${printExprIndented(e1)}';
-		case EWhile(econd, e1, false): "not supported for python target";
-		case ESwitch(e1, cl, edef): /*trace(e); */ printSwitch(e1, cl, edef,context);
-		case ETry(e1, cl):
+		//case TWhile({ expr : TBinop(OpLt, eleft = { expr : TLocal({name: g1})}, { expr : TField( eright={ expr:TLocal({ name :g2})}, "length")})}, e1, true) if (g1.substr(0,2) == "_g"):
+		//	printExpr1(macro while ($eleft < len($eright)) $e1);
+		case TWhile(econd, e1, true): 'while ${printExpr1(econd)}:\n$indent\t${printExprIndented(e1)}';
+		case TWhile(econd, e1, false): "not supported for python target";
+		case TSwitch(e1, cl, edef): /*trace(e); */ printSwitch(e1, cl, edef,context);
+		case TTry(e1, cl):
 			printTry(e1, cl,context);
 			
 //		case EReturn(eo): "return " + printExpr1(eo);
-		case EReturn(eo): 'return' + opt(eo, printOpAssignRight.bind(_,context), " ");
-		case EBreak: "break";
-		case EContinue: "continue";
-		case EUntyped(e1): "" +printExpr1(e1);
-		case EThrow(e1): "raise _HxException(" +printExpr1(e1) + ")";
-		case ECast(e1, cto) if (cto != null): '${printExpr1(e1)}';
-		case ECast(e1, _): /*"cast " +*/printExpr1(e1);
-		case EDisplay(e1, _): '#DISPLAY(${printExpr1(e1)})';
-		case EDisplayNew(tp): '#DISPLAY(${printTypePath(tp,context)})';
-		case ETernary(econd, eif, eelse): '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
-		case ECheckType(e1, ct): '${printExpr1(e1)}';
-		case EMeta(meta, e1): 
-            trace("it's an EMeta");
-            printMetadata(meta,context) + " " +printExpr1(e1);
-	} catch (ex:Dynamic) { trace("error for Expr:" + ExprTools.toString(e)); throw "error";};
+		case TReturn(eo): 'return' + opt(eo, printOpAssignRight.bind(_,context), " ");
+		case TBreak: "break";
+		case TContinue: "continue";
+		//case TUntyped(e1): "" +printExpr1(e1);
+		case TThrow(e1): "raise _HxException(" +printExpr1(e1) + ")";
+		case TCast(e1, cto) if (cto != null): '${printExpr1(e1)}';
+		case TCast(e1, _): /*"cast " +*/printExpr1(e1);
+		
+		//case TTernary(econd, eif, eelse): 
+        
+        case TMeta([{ name : ":ternaryIf"}], { expr : TIf(econd, eif, eelse)}):
+            //trace("print ternary");
+             '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
+		case TMeta(meta, e1): 
+
+            //trace("it's an EMeta");
+            //var r = "";
+            //for (m in meta) {
+            //    r += printMetadata(m,context) + " ";
+            //}
+            //r;
+            printExpr1(e1);
+	} catch (ex:Dynamic) { 
+        trace("error for Expr:" + TypedExprTools.toString(e)); 
+        trace(ex);
+        trace(CallStack.toString(CallStack.exceptionStack()));
+        throw ex;
+    };
     }
 
-    function printTry (e1:Expr, cl:Array<Catch>, context:PrintContext) 
+    function printTry (e1:TypedExpr, cl:Array<{v:TVar, expr:TypedExpr}>, context:PrintContext) 
     {
     
     	var indent = context.indent;
-    	function printExprIndented (e) return printExpr(e, context.incIndent());
+    	function printExprIndented (e:TypedExpr) return printExpr(e, context.incIndent());
     	var tryStr = 'try:\n$indent\t${printExprIndented(e1)}\n$indent';
 
     	var except = 'except Exception as _hx_e:\n$indent\t_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e\n$indent\t';
@@ -590,26 +724,37 @@ class PythonPrinter {
     	return tryStr + except + catchStr + exceptEnd;
     }
 
-    function printCatch (index:Int, c:Catch, context:PrintContext) 
+    function printCatch (index:Int, c:{v:TVar, expr:TypedExpr}, context:PrintContext) 
     {
     	var indent = context.indent;
-    	return switch (c.type) {
-    		case ComplexType.TPath(p):
-    			var type = printTypePath(p, context);
-    			var type = applyPathHack(type);
-    			//trace(p);
-    			var res = if (type == "String") {
-    				'if isinstance(_hx_e1, str):\n$indent\t${c.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
-    			}  else if (type == "Dynamic") {
-    				'if True:\n$indent\t${c.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
-    			} else {
-    				'if isinstance(_hx_e1, $type):\n$indent\t${c.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
-    			}
-    			if (index > 0) {
-    				res = "el" + res;
-    			}
-    			res;
-    		case _ : throw "catching of types other than tpath is not yet implemented";
+
+        function handleBaseType (bt:BaseType) {
+            var cx = bt;
+            var type = printBaseType(cx, context);
+            var type = applyPathHack(type);
+            //trace(p);
+            var res = if (type == "String") {
+                'if isinstance(_hx_e1, str):\n$indent\t${c.v.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
+            } else {
+                'if isinstance(_hx_e1, $type):\n$indent\t${c.v.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
+            }
+            if (index > 0) {
+                res = "el" + res;
+            }
+            return res;
+        }
+
+    	return switch (c.v.t) {
+            case TDynamic(_):
+                'if True:\n$indent\t${c.v.name} = _hx_e1\n$indent\t' + printExpr(c.expr, context.incIndent());
+            case TInst(ct, _): handleBaseType(ct.get());
+            case TEnum(ct, _): handleBaseType(ct.get());
+            
+
+    		case x : 
+
+                'catch ' + Std.string(x);
+                //throw "catching of types other than tpath is not yet implemented";
     			
 
     	}
@@ -637,19 +782,20 @@ class PythonPrinter {
         return s;
     }
 
-    function printSwitchCase(c:Case,context)
+    function printSwitchCase(c:{values:Array<TypedExpr>, expr:TypedExpr},context)
     {
-        return 'case ${printExprs(c.values, ", ",context)}'
-               + (c.guard != null ? ' if ${printExpr(c.guard,context)}: ' : ":")
-               + (c.expr != null ? (opt(c.expr, printExpr.bind(_, context))) + "\nbreak" : "");
+        return "not implemented";
+        //return 'case ${printExprs(c.values, ", ",context)}'
+        //       + (c.guard != null ? ' if ${printExpr(c.guard,context)}: ' : ":")
+        //       + (c.expr != null ? (opt(c.expr, printExpr.bind(_, context))) + "\nbreak" : "");
     }
 
-	public function printExprs(el:Array<Expr>, sep:String,context) {
+	public function printExprs(el:Array<TypedExpr>, sep:String,context) {
 		return el.map(printExpr.bind(_,context)).join(sep);
 	}
 
-    public function printExprsNamed(el:Array<{ field : String, expr : Expr}>, sep:String,context) {
-        return el.map(function (x) return x.field + " = " + printExpr(x.expr,context)).join(sep);
+    public function printExprsNamed(el:Array<{ name : String, expr : TypedExpr}>, sep:String,context) {
+        return el.map(function (x) return x.name + " = " + printExpr(x.expr,context)).join(sep);
     }
 
 	public function printClass(t:TypeDefinition, superClass, interfaces:Array<TypePath>, isInterface,context) 
@@ -692,7 +838,7 @@ class PythonPrinter {
 						+ (switch(field.kind) {
 							case FVar(_, _): field.name;
 							case FProp(_, _, _, _): throw "FProp is invalid for TDEnum.";
-							case FFun(func): field.name + printFunction(func,context);
+							case FFun(func): field.name + context.regular.printFunction(func,context);
 						}) + ";"
 					].join("\n")
 					+ "\n}";

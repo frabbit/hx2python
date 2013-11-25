@@ -80,25 +80,37 @@ class PythonGenerator
         */
     }
 
-    inline function genStaticFuncExpr(e,name,cl:ClassType, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") {
+    inline function genStaticFuncExpr(e:TypedExpr,name,cl:ClassType, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") {
 
 
         var context = PrintContexts.create(indent);
-        var expr = haxe.macro.Context.getTypedExpr(e);
+        //var expr = haxe.macro.Context.getTypedExpr(e);
 
 
 
-        var expr = switch (expr.expr) {
-            case EFunction(_,f):
+        var expr = switch (e.expr) {
+            case TFunction(f):
 
-                f.args = extraArgs.map(function (s) return { value : null, name : s, opt : false, type:null}).concat(f.args);
-                { expr : EFunction(cl.name + "_statics_" + name, f), pos : expr.pos };
-            case _ : expr;
+                // f.args = extraArgs.map(function (s) return { value : null, name : s, opt : false, type:null}).concat(f.args);
+                // { expr : EFunction(cl.name + "_statics_" + name, f), pos : expr.pos };
+                var args = extraArgs.map(function (s) return { value : null, v : { id : 0, name : s, t : TDynamic(null), capture : false, extra : null}}).concat(f.args);
+                { expr : TypedExprDef.TFunction({ args : args, t : f.t, expr : f.expr}), pos : e.pos, t : e.t };
+            case _ : e;
         }
         var expr1 = PythonTransformer.transform(expr);
         //var exprString = new PythonPrinter().printExpr(expr,context);
 
-        var exprString = new PythonPrinter().printExpr(expr1,context);
+        var fieldName = cl.name + "_statics_" + name;
+
+        var exprString = switch (expr1.expr) {
+            case TFunction(f):
+                new PythonPrinterTyped().printFunction(f,context, fieldName);
+                    
+            case _ : 
+                fieldName + " = " + new PythonPrinterTyped().printExpr(expr1,context);
+        }
+
+        
 
         print(indent);
 
@@ -107,7 +119,7 @@ class PythonGenerator
         print(exprString); 
 
         print("\n");
-        print(getPath(cl) + "." + name + " = " + cl.name + "_statics_" + name);
+        print(getPath(cl) + "." + name + " = " + fieldName);
     }
 
     public function printPyMetas (metas:Array<MetadataEntry>, indent:String) {
@@ -120,19 +132,32 @@ class PythonGenerator
         }
     }
 
-    inline function genFuncExpr(e,name, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") {
+    inline function genFuncExpr(e:TypedExpr,name, metas:Array<MetadataEntry>, extraArgs:Array<String>, indent:String = "\t") 
+    {
 
         var context = PrintContexts.create(indent);
-        var expr = haxe.macro.Context.getTypedExpr(e);
-        var expr = switch (expr.expr) {
-            case EFunction(_,f):
-                f.args = extraArgs.map(function (s) return { value : null, name : s, opt : false, type:null}).concat(f.args);
-                { expr : EFunction(name, f), pos : expr.pos };
-            case _ : expr;
+        //var expr = haxe.macro.Context.getTypedExpr(e);
+        var expr:TypedExpr = switch (e.expr) {
+            case TFunction(f):
+                //trace(f);
+                var args = extraArgs.map(function (s) return { value : null, v : { id : 0, name : s, t : TDynamic(null), capture : false, extra : null}}).concat(f.args);
+                { expr : TFunction({ args : args, t : f.t, expr : f.expr}), pos : e.pos, t : e.t };
+            case _ : e;
         }
+        //var expr = haxe.macro.Context.getTypedExpr(e);
         var expr1 = PythonTransformer.transform(expr);
 
-        var exprString = new PythonPrinter().printExpr(expr1,context);
+        var fieldName = name;
+
+        var exprString = switch (expr1.expr) {
+            case TFunction(f):
+                new PythonPrinterTyped().printFunction(f,context, fieldName);
+                    
+            case _ : 
+                fieldName + " = " + new PythonPrinterTyped().printExpr(expr1,context);
+        }
+
+        
 
         printPyMetas(metas, indent);
         print(indent);
@@ -142,22 +167,24 @@ class PythonGenerator
     inline function genExpr(e, ?field:String = "", ?indent:String = "")
     {
         var context = PrintContexts.create("\t" + indent);
-        var expr = haxe.macro.Context.getTypedExpr(e);
+        //var expr = haxe.macro.Context.getTypedExpr(e);
         
-        var expr2 = PythonTransformer.transform(expr);
+        var expr2 = PythonTransformer.transform(e);
         var name = "_hx_init_" + field.split(".").join("_");
         var r = switch (expr2.expr) {
 
-            case EBlock(es) if (field != ""):
+            case TBlock(es) if (field != ""):
                 var ex1 = es.copy();
                 var last = ex1.pop();
-                var newLast = macro @:pos(last.pos) return $last;
-
-                var newBlock = { expr : EBlock(ex1.concat([newLast])), pos : expr2.pos};
-                
+                var newLast = { expr : TReturn(last), pos : last.pos, t : last.t };
                 
 
-                { e1 : newBlock, e2 : macro $i{name}() };
+                var newBlock = { expr : TBlock(ex1.concat([newLast])), pos : expr2.pos, t : last.t};
+                
+                var fName = { expr : TLocal({ name : name, t : TFun([], last.t), capture : false, extra : null, id : 0}), t:TFun([], last.t), pos : last.pos};
+                var callF = { expr : TCall(fName, []), pos : last.pos, t : last.t};
+
+                { e1 : newBlock, e2 : callF };
 
             case _ : { e1 : null, e2 : expr2};
         }
@@ -168,14 +195,14 @@ class PythonGenerator
         //print("#transformed");
 
         if (r.e1 != null) {
-            var exprString1 = new PythonPrinter().printExpr(r.e1,context);
-            var exprString2 = new PythonPrinter().printExpr(r.e2,context);
+            var exprString1 = new PythonPrinterTyped().printExpr(r.e1,context);
+            var exprString2 = new PythonPrinterTyped().printExpr(r.e2,context);
 
             print(indent + "def " + name + "():\n\t" + exprString1 + "\n");
             print(indent + field + " = " + exprString2);
 
         } else {
-            var exprString2 = new PythonPrinter().printExpr(r.e2,context);
+            var exprString2 = new PythonPrinterTyped().printExpr(r.e2,context);
             if (field == "") print(exprString2);
             else print(indent + field + " = " + exprString2);
         }
@@ -184,7 +211,7 @@ class PythonGenerator
 
     function field(p : String)
     {
-        return PythonPrinter.handleKeywords(p);
+        return PythonPrinterTyped.handleKeywords(p);
 //        return api.isKeyword(p) ? '$' + p : "" + p;
     }
 
@@ -236,139 +263,8 @@ class PythonGenerator
 
     function getPath(t : BaseType)
     {
-        var fullPath = t.name;
-
-        //trace(t.module);
-        //trace(t.name);
-        //trace(t.pack);
-
-        if(t.pack.length > 0 || t.module != t.name || t.isPrivate)
-        {
-           
-            var tpack = t.pack;
-
-            var hasPack = t.pack.length > 0;
-           
-
-
-
-            var pack1 = t.pack.join(".");
-            var pack2 = t.pack.join("_");
-
-            var moduleName = { var p = t.module.split("."); p[p.length-1];};
-           
-            var privateTypeInPack =  t.pack[t.pack.length-1] == "_" + moduleName;
-
-
-            var hasModule = (moduleName != t.name);
-
-           
-
-           
-
-
-
-            var hasModulePrefix = (hasPack && hasModule);
-            var hasTypePrefix = (hasPack || hasModule);
-
-            var modulePrefix1 = hasModulePrefix ? "." : "";
-            var modulePrefix2 = hasModulePrefix ? "_" : "";
-
-            var typePrefix1 = hasTypePrefix ? "." : "";
-            var typePrefix2 = hasTypePrefix ? "_" : "";
-
-            var moduleStr = hasModule ? moduleName : "";
-
-
-            var native = t.meta.get().filter(function (e) return e.name == ":native");
-            var nativeName = if (native.length == 1 && native[0].params.length == 1) {
-                switch (native[0].params[0].expr) {
-                    case EConst(CString(nativeName)): nativeName;
-                    case _  : null;
-                }
-            } 
-            else 
-            {
-                null;
-            }
-
-
-            
-
-            var dotPath = if (false || nativeName != null) {
-                ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
-            } else {
-                pack1 + modulePrefix1 + moduleStr + typePrefix1 + t.name;
-            }
-
-            fullPath = if (nativeName != null) {
-                nativeName;
-            } else {
-                var p = pack2;
-                if (privateTypeInPack) {
-                    var x = tpack.copy();
-                    x.pop();
-                    p = x.join("_");
-                }
-                p + modulePrefix2 + moduleStr + typePrefix2 + t.name;       
-              
-            }
-           
-            dotPath = dotPath.split("_" + moduleName + ".").join("");
-           
-            
-            //trace(dotPath);
-            //trace(fullPath);
-            if(!PythonPrinter.pathHack.exists(dotPath))
-                PythonPrinter.pathHack.set(dotPath, fullPath);
-                
-            
-            if(nativeName != null)
-            {
-                //trace(t.module + "." + nativeName + " - " + fullPath);
-                PythonPrinter.pathHack.set(t.module + "." + nativeName, fullPath);
-                PythonPrinter.pathHack.set(t.name + "." + nativeName, fullPath);
-            }
-
-
-            if (!t.isPrivate) {
-               if (privateTypeInPack) {
-
-               }
-               var typePrefix3 = hasPack ? "." : "";
-               var dotPath3 = if (nativeName != null) {
-                 ((t.module.length > 0) ? (t.module + ".") : "") + nativeName;
-               } else {
-                pack1 + typePrefix3 + t.name;
-               }
-               //trace(dotPath3);
-               
-               //trace(dotPath3);
-               if(!PythonPrinter.pathHack.exists(dotPath3))
-                  PythonPrinter.pathHack.set(dotPath3, fullPath);
-            } else {
-                var typePrefix3 = hasPack ? "." : "";
-                var dotPath3 = if (nativeName != null) {
-                  ((t.module.length > 0) ? (t.module.split(".").join("_") + ".") : "") + nativeName;
-                } else {
-                  t.module.split(".").join("_") + typePrefix3 + t.name;
-                }
-                //trace(dotPath3);
-                PythonPrinter.pathHack.set(dotPath3, fullPath);
-            } 
-            if (hasModule) {
-                var typePrefix3 = hasPack ? "." : "";
-                var dotPath3 = if (nativeName != null) {
-                  ((t.module.length > 0) ? (t.module.split(".").join("_") + ".") : "") + nativeName;
-                } else {
-                  t.module.split(".").join("_") + typePrefix3 + t.name;
-                }
-                //trace(dotPath3);
-                PythonPrinter.pathHack.set(dotPath3, fullPath);
-            }
-        }
-
-        return fullPath;
+        return return new haxe.macro.PythonPrinterTyped().printBaseType(t, PrintContexts.create(""));
+        
     }
 
     function checkFieldName(c : ClassType, f : ClassField)
@@ -429,6 +325,7 @@ class PythonGenerator
                 //print('\tdef $field(');
                 
                 var pyMetas = f.meta.get().filter(function (m) return m.name == ":python");
+                //trace(TypedExprTools.toString(e));
                 genStaticFuncExpr(e, field, c, pyMetas, [], "");
                 newline();
             default:
@@ -581,9 +478,9 @@ class PythonGenerator
             print("\n");
             if (c.init != null) {
                 initApplied = true;
-                var t = haxe.macro.Context.getTypedExpr(c.init);
+                var t = c.init;
                 var trans = PythonTransformer.transform(t);
-                print(new PythonPrinter().printExpr(trans,PrintContexts.create("")));
+                print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
                 print("\n");
 
             }
@@ -613,9 +510,10 @@ class PythonGenerator
 
         if (!initApplied && c.init != null) {
             initApplied = true;
-            var t = haxe.macro.Context.getTypedExpr(c.init);
+            var t = c.init;
             var trans = PythonTransformer.transform(t);
-            print(new PythonPrinter().printExpr(trans,PrintContexts.create("")));
+            trace("print init");
+            print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
             print("\n");
         }
 
@@ -759,17 +657,27 @@ class _HxException(Exception):
     {
 
         print("_hx_classes = dict()\n");
+        print("import functools as _hx_functools\n");
         print("class Int:
     pass\n");
+        print("Int._hx_class_name = 'Int'\n");
+        print("Int._hx_class = Int\n");
         print("_hx_classes['Int'] = Int\n");
         print("class Bool:
     pass\n");
+        print("Bool._hx_class_name = 'Bool'\n");
+        print("Bool._hx_class = Bool\n");
+
         print("_hx_classes['Bool'] = Bool\n");
         print("class Float:
     pass\n");
+        print("Float._hx_class_name = 'Float'\n");
+        print("Float._hx_class = Float\n");
         print("_hx_classes['Float'] = Float\n");
         print("class Dynamic:
     pass\n");
+        print("Dynamic._hx_class_name = 'Dynamic'\n");
+        print("Dynamic._hx_class = Dynamic\n");
         print("_hx_classes['Dynamic'] = Dynamic\n");
 
         print("def _hx_rshift(val, n):\n\treturn (val % 0x100000000) >> n\n");

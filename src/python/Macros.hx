@@ -4,7 +4,13 @@ package python;
 import haxe.macro.Expr;
 
 import haxe.macro.Context;
+#if macro
+import haxe.macro.ExprTools;
+#end
+#if !macro
 
+import python.lib.Types.PyIterator;
+#end
 
 
 class Macros {
@@ -13,7 +19,8 @@ class Macros {
 		return macro untyped __python__($v{"import " + module});
 	}
 
-	@:noUsing macro public static function importAs (module:String, className : String):haxe.macro.Expr {
+	@:noUsing macro public static function importAs (module:String, className : String):haxe.macro.Expr 
+    {
         
         var n = className.split(".").join("_");
 
@@ -22,8 +29,22 @@ class Macros {
 	    return macro untyped __python__($v{e});
     }
 
-    @:noUsing macro public static function pyFor (e:Expr, it:Expr, body:Expr):haxe.macro.Expr {
-        return macro untyped __python_for__($e, $it, $body);
+    
+    @:noUsing macro public static function pyFor <T>(v:Expr, it:Expr, b:Expr):haxe.macro.Expr 
+    {
+        var id = switch (v.expr) {
+            case EConst(CIdent(x)):x;
+            case _ : Context.error("unexpected " + ExprTools.toString(v) + ": const ident expected", v.pos);
+        }
+        
+
+
+        var res = macro @:pos(it.pos) {
+            var $id = $it.getNativeIterator().__next__();
+            $it;
+            $b;
+        }
+        return macro (untyped __python_for__)($res);
     }
 
     @:noUsing macro public static function importFromAs (from:String, module:String, className : String):haxe.macro.Expr {
