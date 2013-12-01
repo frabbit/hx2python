@@ -465,39 +465,6 @@ class PythonPrinterTyped {
         }
     }
 
-    // function formatPrintCall(el:Array<TypedExpr>, context:PrintContext)
-    // {
-    //     var expr = el[0];
-    //     var posInfo = Std.string(expr.pos);
-    //     posInfo = posInfo.substring(5, posInfo.indexOf(" "));
-
-    //     var traceString = printExpr(expr, context);
-
-    //     var toStringCall = switch(expr.expr)
-    //     {
-    //         case TConst(TString(_)):"";
-    //         default:".toString()";
-    //     }
-
-    //     var traceStringParts = traceString.split(" + ");
-    //     var toString = ".toString()";
-
-    //     for(i in 0 ... traceStringParts.length)
-    //     {
-    //         var part = traceStringParts[i];
-
-
-    //         if(!traceStringParts[i].startsWith("Std.string("))
-    //         {
-    //             traceStringParts[i] = "Std.string("+traceStringParts[i]+")";
-    //         }
-    //     }
-
-    //     traceString = traceStringParts.join(" + ");
-
-    //     return 'print($traceString)';
-    // }
-
     function print_field(e1:TypedExpr, fa:FieldAccess, context:PrintContext)
     {
     	var obj = switch (e1.expr) {

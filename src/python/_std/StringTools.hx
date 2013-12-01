@@ -260,11 +260,7 @@ class StringTools {
 		character.
 	**/
 	public static inline function fastCodeAt( s : String, index : Int ) : Int untyped {
-		if (index < s.length) {
-			return untyped(ord(untyped s[index]));
-		} else {
-			return -1;
-		}
+		return untyped(ord(untyped s[index]));
 	}
 
 	/*

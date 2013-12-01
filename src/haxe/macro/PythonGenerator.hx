@@ -684,10 +684,7 @@ class _HxException(Exception):
         
         print("import math as _hx_math\n");
 
-        PythonPrinter.pathHack.set("StdTypes.Int", "Int");
-        PythonPrinter.pathHack.set("StdTypes.Float", "Float");
-        PythonPrinter.pathHack.set("StdTypes.Dynamic", "Dynamic");
-        PythonPrinter.pathHack.set("StdTypes.Bool", "Bool");
+
 
 
 
@@ -760,7 +757,8 @@ class _HxException(Exception):
     }
 
     #if macro
-	public static function use() {
+	public static function use() 
+    {
         Compiler.allowPackage("sys");
 		Compiler.setCustomJSGenerator(function(api) new PythonGenerator(api).generate());
 	}
