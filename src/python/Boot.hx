@@ -1,14 +1,33 @@
 
 package python;
 
-class Boot {
+@:keep class Boot {
 
-	static inline function isClass(o:Dynamic) : Bool {
+	static var inspect:Dynamic;
+	static var builtin:Dynamic;
+
+	@:keep static function __init__ () {
+		Macros.importAs("inspect", "inspect");
+		Boot.inspect = untyped __python__("inspect");
+		Macros.importAs("builtins", "builtin");
+		Boot.builtin = untyped __python__("builtin");
+
+	}
+
+	@:keep static inline function isClass(o:Dynamic) : Bool {
         return untyped __define_feature__("python.Boot.isClass", o._hx_class);
     }
 
-	@:ifFeature("has_enum")
-	private static function __string_rec(o:Dynamic,s:String):String {
+
+    @:keep private static function _add_dynamic(a:Dynamic,b:Dynamic):Dynamic 
+    {
+		if (builtin.isinstance(a, untyped __python__("str")) || builtin.isinstance(b, untyped __python__("str"))) {
+			return __string_rec(a,"") + __string_rec(b,"");
+		}
+		return a+b;
+    }
+	
+	@:keep private static function __string_rec(o:Dynamic,s:String):String {
 		
 		
 
@@ -17,10 +36,10 @@ class Boot {
 		
 		if( s.length >= 5 ) return "<...>"; // too much deep recursion
 		
-		var builtin = python.lib.Builtin;
-		var inspect = python.lib.Inspect;
+		
+		
 
-		if (builtin.isinstance(o, String)) return o;
+		if (builtin.isinstance(o, untyped __python__("str"))) return o;
 
 		if (builtin.isinstance(o, untyped __python__("bool"))) {
 			if (untyped o) return "true" else return "false";
@@ -87,7 +106,7 @@ class Boot {
 				}
 				
 			}
-			if (builtin.isinstance(o, untyped __python__("_Hx_Enum"))) {
+			if (builtin.isinstance(o, untyped __python__("_hx_Enum"))) {
 				
 				
 
@@ -106,8 +125,6 @@ class Boot {
 				} else {
 					return o.tag;
 				}
-				
-				
 			}
 
 
@@ -156,8 +173,8 @@ class Boot {
 
 		} else {
 			try {
-				python.lib.Inspect.getmembers(o, function (_) return true);
-				return python.lib.Builtin.str(o);
+				inspect.getmembers(o, function (_) return true);
+				return builtin.str(o);
 			} catch (e:Dynamic) {
 				return "???";
 			}

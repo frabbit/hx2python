@@ -1,7 +1,11 @@
+import Map;
+import haxe.ds.StringMap;
 import python.internal.KeywordHandler;
 import python.lib.Builtin;
 import python.lib.Inspect;
 import python.lib.Types;
+
+
 
 /*
  * Copyright (C)2005-2012 Haxe Foundation
@@ -81,8 +85,8 @@ import python.lib.Types;
 
 	public static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic 
 	{
-		var args = [o].concat(args);
-		return if (Inspect.ismethod(o)) func(args) else null;
+		var args:VarArgs = args;
+		return if (Inspect.ismethod(func)) func(untyped __python_varargs__(args)) else null;
 	}
 
 	public static function fields( o : Dynamic ) : Array<String> 
@@ -126,8 +130,9 @@ import python.lib.Types;
 	}
 
 	public static function compare<T>( a : T, b : T ) : Int {
-		//return ( a == b ) ? 0 : (((cast a) > (cast b)) ? 1 : -1);
-		return throw "not implemented";
+		return if (a == null) 1 else if (b == null) -1 else
+		( a == b ) ? 0 : (((cast a) > (cast b)) ? 1 : -1);
+		//return throw "not implemented";
 	}
 
 	public static function compareMethods( f1 : Dynamic, f2 : Dynamic ) : Bool {
@@ -155,7 +160,7 @@ import python.lib.Types;
 
 	public static function deleteField( o : Dynamic, field : String ) : Bool untyped {
 		if( !hasField(o,field) ) return false;
-		untyped __python_del__(o[field]);
+		untyped __python_del__(untyped __python_array_get__(o, field));
 		return true;
 	}
 

@@ -2,6 +2,7 @@ package;
 
 import python.lib.Builtin;
 import python.lib.Inspect;
+import python.Boot;
 /*
  * Copyright (C)2005-2012 Haxe Foundation
  *

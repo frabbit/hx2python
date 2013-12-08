@@ -154,7 +154,8 @@ enum ValueType {
 		// dict((name, getattr(f, name)) for name in dir(c) if not name.startswith('__'))
 		if (Builtin.hasattr(c, "_hx_fields")) {
 			var x:Array<String> = untyped c._hx_fields;
-			return x.copy();
+			var x2:Array<String> = untyped c._hx_methods;
+			return x.concat(x2);
 		} else {
 			return [];
 		}

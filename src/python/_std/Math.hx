@@ -48,7 +48,7 @@ extern class Math
 	**/
 	static var NEGATIVE_INFINITY(get, null) : Float;
 
-	static inline function get_NEGATIVE_INFINITY():Float return untyped float('-inf');
+	static inline function get_NEGATIVE_INFINITY():Float return untyped __python__("float")('-inf');
 	/**
 		A special Float constant which denotes negative infinity.
 		
@@ -63,7 +63,7 @@ extern class Math
 	**/
 	static var POSITIVE_INFINITY(get,null) : Float;
 
-	static inline function get_POSITIVE_INFINITY():Float return untyped float('inf');
+	static inline function get_POSITIVE_INFINITY():Float return untyped __python__("float")('inf');
 	/**
 		A special Float constant which denotes an invalid number.
 		
@@ -84,7 +84,7 @@ extern class Math
 	**/
 	static var NaN(get, null) : Float;
 
-	static inline function get_NaN():Float return untyped float('nan');
+	static inline function get_NaN():Float return untyped __python__("float")('nan');
 
 	/**
 		Returns the absolute value of `v`.
@@ -97,7 +97,10 @@ extern class Math
 		
 		If `v` is NaN, the result is NaN.
 	**/
-	static function abs(v:Float):Float;
+	public static inline function abs(v:Float):Float
+	{
+		return (Math:Dynamic).fabs(v);
+	}
 	
 	/**
 		Returns the smaller of values `a` and `b`.
@@ -110,7 +113,7 @@ extern class Math
 	**/
 
 	public static inline function min(a:Float, b:Float):Float {
-		return Builtin.min(a,b);
+		return if (isNaN(a)) a else if (isNaN(b)) b else Builtin.min(a,b);
 	}
 	
 	/**
@@ -124,7 +127,7 @@ extern class Math
 	**/
 	public static inline function max(a:Float, b:Float):Float 
 	{
-		return Builtin.max(a,b);
+		return if (isNaN(a)) a else if (isNaN(b)) b else Builtin.max(a,b);
 	}
 	
 	/**
@@ -134,7 +137,9 @@ extern class Math
 		
 		If `v` is NaN or infinite, the result is NaN.
 	**/
-	static function sin(v:Float):Float;
+	public static inline function sin(v:Float):Float {
+		return if (v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY) NaN else (Math:Dynamic).sin(v);
+	}
 	
 	/**
 		Returns the trigonometric cosine of `v`.
@@ -143,7 +148,9 @@ extern class Math
 		
 		If `v` is NaN or infinite, the result is NaN.
 	**/
-	static function cos(v:Float):Float;
+	public static inline function cos(v:Float):Float {
+		return if (v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY) NaN else (Math:Dynamic).cos(v);
+	}
 	
 	// TODO
 	static function tan(v:Float):Float;
@@ -163,7 +170,16 @@ extern class Math
 		
 		If `v` is NaN, the result is NaN.
 	**/
-	static function exp(v:Float):Float;
+	public static inline function exp(v:Float):Float 
+	{
+		if (v == NEGATIVE_INFINITY) {
+			return 0.0;
+		} else if (v == POSITIVE_INFINITY) {
+			return POSITIVE_INFINITY;
+		} else {
+			return (Math:Dynamic).exp(v);
+		}
+	}
 	
 	/**
 		Returns the natural logarithm of `v`.
@@ -178,7 +194,9 @@ extern class Math
 		This is the inverse operation of exp, i.e. log(exp(v)) == v always
 		holds.
 	**/
-	static function log(v:Float):Float;
+	public static inline function log(v:Float):Float {
+		return if (v == 0.0) NEGATIVE_INFINITY else if (v < 0.0) NaN else (Math:Dynamic).log(v);
+	}
 	
 	// TODO
 	// http://docs.oracle.com/javase/1.4.2/docs/api/java/lang/Math.html#pow(double, double) <-- wtf?
@@ -194,7 +212,10 @@ extern class Math
 		
 		If `v` is 0.0, the result is 0.0.
 	**/
-	static function sqrt(v:Float):Float;
+	public static inline function sqrt(v:Float):Float
+	{
+		return if (v < 0) NaN else (Math:Dynamic).sqrt(v);
+	}
 	
 	/**
 		Rounds `v` to the nearest Int value.
@@ -203,7 +224,9 @@ extern class Math
 		
 		TODO: need spec
 	**/
-	static function round(v:Float):Int;
+	public static inline function round(v:Float):Int {
+		return Builtin.round(v);
+	}
 	
 	/**
 		Returns the largest Int value that is not greater than `v`.
@@ -235,16 +258,22 @@ extern class Math
 	
 	static inline function ffloor( v : Float ) : Float 
 	{
+		if (v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY) return v;
+		if (isNaN(v)) return NaN;
 		return floor(v);
 	}
 
 	static inline function fceil( v : Float ) : Float 
 	{
+		if (v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY) return v;
+		if (isNaN(v)) return NaN;
 		return ceil(v);
 	}
 
 	static inline function fround( v : Float ) : Float 
 	{
+		if (v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY) return v;
+		if (isNaN(v)) return NaN;
 		return round(v);
 	}
 	

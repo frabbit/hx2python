@@ -215,16 +215,16 @@ class DictImpl {
 		}
 		return d;
 	}
-	public static function hasKey <X>(d:Dict<X, Dynamic>, key:X) {
-		return untyped __python__("key in d");
+	public static inline function hasKey <X>(d:Dict<X, Dynamic>, key:X) {
+		return untyped __python_in__(key, d);
 	}
 
-	public static function remove <X>(d:Dict<X, Dynamic>, key:X) {
-		untyped __python_del__(d[key]);
+	public static inline function remove <X>(d:Dict<X, Dynamic>, key:X) {
+		untyped __python_del__(untyped __python_array_get__(d, key));
 	}
 
-	public static function set <K,V>(d:Dict<K, V>, key:K, val:V) {
-		untyped __python__("d[key] = val");
+	public static inline function set <K,V>(d:Dict<K, V>, key:K, val:V) {
+		untyped __python_array_set__(d, key, val);
 	}
 }
 

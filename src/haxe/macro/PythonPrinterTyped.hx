@@ -140,7 +140,7 @@ class PythonPrinterTyped {
 		case TPExpr(e): context.regular.printExpr(e,context);
 	}
 
-    public function printBaseType(tp:BaseType,context:PrintContext){
+    public function printBaseType(tp:BaseType,context:PrintContext, isDefinition:Bool = false){
         var isPrivate = tp.isPrivate;
         var isExtern = tp.isExtern;
 
@@ -163,12 +163,14 @@ class PythonPrinterTyped {
                 case _ : throw "unexpected";
             }
         } else {
-            if (hasModule && isPrivate) {
-                var prefix = tp.module.split(".").join("_");
+            var pre = isDefinition ? "" : "_hx_c.";
 
-                return prefix + (if (prefix.length > 0) "_" else "") + tp.name;        
+            if (hasModule && isPrivate) {
+                var prefix = pre+tp.module.split(".").join("_");
+
+                return prefix + (if (prefix.length > 0) "_" else "") + handleKeywords(tp.name);        
             } else {
-                return tp.pack.join("_") + (if (hasPack) "_" else "") + tp.name;        
+                return pre+tp.pack.join("_") + (if (hasPack) "_" else "") + handleKeywords(tp.name);        
             }
             
         }
@@ -287,10 +289,15 @@ class PythonPrinterTyped {
         }
 
         return if (v.expr != null) {
-            switch (v.expr.expr) {
-                case TFunction(f):
-                    printFunction(f,context,v.v.name);
-                case _ : def();
+            if (v.expr.expr != null)
+            {
+                switch (v.expr.expr) {
+                    case TFunction(f):
+                        printFunction(f,context,v.v.name);
+                    case _ : def();
+                }
+            } else {
+                def();
             }
         } else {
 
@@ -323,6 +330,7 @@ class PythonPrinterTyped {
         return function (t:Type) return switch (t)
         {
             case TInst(isType(p, s) => true,_) : true;
+
             case TAbstract(isType(p, s) => true,_) : true;
             case TEnum(isType(p, s) => true,_) : true;
             case _ : false;
@@ -548,6 +556,7 @@ class PythonPrinterTyped {
 
 	public function printExpr(e:TypedExpr, context:PrintContext, top = false)
 	{
+        //trace(TypedExprTools.toString(e));
         //trace(ExprTools.toString(e));
 		var indent = context.indent;
 		function printExpr1 (e) return printExpr(e, context);
@@ -559,34 +568,67 @@ class PythonPrinterTyped {
         case TTypeExpr(t): printModuleType(t, context);
         case TLocal(t): handleKeywords(t.name);
         case TPatMatch: "not supported";
-        case TEnumParameter(e,ef, index): '${printExpr1(e)}.params[${ef.index}]';
-		case TArray(e1, e2): '${printExpr1(e1)}[${printExpr1(e2)}]';
+        case TEnumParameter(e,ef, index): 
+
+            '${printExpr1(e)}.params[${index}]';
+        case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
+            '_hx_array_set(${printExpr1(e1)},${printExpr1(e2)}, ${printExpr1(e3)})';
+        case TArray(e1, e2): 
+            '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
+		// case TArray(e1, e2): 
+
+  //           '${printExpr1(e1)}[${printExpr1(e2)}]';
 		case TBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
 		case TBinop(OpNotEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
 		
+        case TBinop(OpMod, e1, e2) if (isType1("", "Int")(e1.t) && isType1("", "Int")(e2.t)):
+            '${printExpr1(e1)} % ${printExpr1(e2)}';
+        case TBinop(OpMod, e1, e2):
+            '_hx_modf(${printExpr1(e1)}, ${printExpr1(e2)})';
+
         case TBinop(OpUShr, e1, e2): 
             '_hx_rshift(${printExpr1(e1)}, ${printExpr1(e2)})';
         case TBinop(OpAdd, e1, e2) if (isType1("", "String")(e.t)):
-            var e1Str = if (!isType1("", "String")(e1.t) && !isType1("", "Dynamic")(e1.t)) "Std.string(" + printExpr1(e1) + ")" else printExpr1(e1);
-            var e2Str = if (!isType1("", "String")(e2.t) && !isType1("", "Dynamic")(e2.t)) "Std.string(" + printExpr1(e2) + ")" else printExpr1(e2);
+            //trace(TypeTools.toString(e1.t));
+            //trace(TypeTools.toString(e2.t));
+            //var e1Str = if (!isType1("", "String")(e1.t) && !isType1("", "Dynamic")(e1.t) || e1.expr.match(TConst(TNull)) || e1.t.match(TMono(_))) ("Std.string(" + printExpr1(e1) + ")") else printExpr1(e1);
+            //var e2Str = if (!isType1("", "String")(e2.t) && !isType1("", "Dynamic")(e2.t) || e2.expr.match(TConst(TNull)) || e2.t.match(TMono(_))) ("Std.string(" + printExpr1(e2) + ")") else printExpr1(e2);
+            
+            function safeString(ex:TypedExpr) 
+                return if (ex.expr.match(TConst(TString(_)))) printExpr1(ex) else "Std.string(" + printExpr1(ex) + ")";
+
+            var e1Str = safeString(e1);
+            var e2Str = safeString(e2);
+
+
 
             '$e1Str + $e2Str';
 
+        case TBinop(OpAdd, e1, e2) if (e.t.match(TDynamic(_))):
+            'python_Boot._add_dynamic(${printExpr1(e1)},${printExpr1(e2)})';
         case TBinop(op, e1, e2): 
-			//trace(ExprTools.toString(e));
-			//trace(ExprTools.toString(e));
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
+
+
+
 		
 		
 		case TField(e1, fa):
-
+            
             switch (fa) {
                 case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
                     
-                    "len(" + printExpr1(e1) + ")";
+                    "_hx_builtin.len(" + printExpr1(e1) + ")";
+                case FInstance(x = isType("", "String") => true, cf) if (cf.get().name == "toUpperCase"):
+                    trace(x);
+                    printExpr1(e1) + ".toupper";
+                
+                case FInstance(isType("", "String") => true, cf) if (cf.get().name == "toLowerCase"):
+                    
+                    printExpr1(e1) + ".tolower";
                 case FInstance(ct, cf) if (cf.get().name == "length"):
                     
                     //trace(ct.get().name);
@@ -602,6 +644,8 @@ class PythonPrinterTyped {
 		case TArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		//case TCall({expr : TField(e1, "iterator")}, []): 
         //    'HxOverrides_iterator(${printExpr1(e1)})';
+        case TCall({ expr : TField(e1, FAnon(cf))}, []) if (cf.get().name == "toUpperCase"):
+            "_hx_toUpperCase(" + printExpr1(e1) + ")";
         case TCall(e1, el): printCall(e1, el.copy(),context);
 		case TNew(tp, _, el): 
 			//trace(tp);
@@ -614,7 +658,11 @@ class PythonPrinterTyped {
 		//case EFunction(no, func) if (no != null): '$n' + printFunction(func,context);
 		case TFunction(func):/* "function " +*/printFunction(func,context);
 		
-		case TVars(vl): vl.map(printVar.bind(_, context)).join('\n$indent');
+		case TVars(vl): 
+            //trace(vl.map(function (x) return x.v.name).join(","));
+            //trace(vl.map(function (x) return if (x.expr != null) x.expr.pos else null).join(","));
+            
+            vl.map(printVar.bind(_, context)).join('\n$indent');
 		case TBlock([]): 'pass\n${indent}';
 		case TBlock(el):
             var old = tabs;
@@ -656,7 +704,7 @@ class PythonPrinterTyped {
 		
 		//case TTernary(econd, eif, eelse): 
         
-        case TMeta([{ name : ":ternaryIf"}], { expr : TIf(econd, eif, eelse)}):
+        case TMeta({ name : ":ternaryIf"}, { expr : TIf(econd, eif, eelse)}):
             //trace("print ternary");
              '${printExpr1(eif)} if ${printExpr1(econd)} else ${printExpr1(eelse)}';
 		case TMeta(meta, e1): 

@@ -31,7 +31,9 @@ package;
 	String can be concatenated by using the + operator. If an operand is not a
 	String, it is passed through Std.string() first.
 **/
+import python.internal.StringImpl;
 import python.lib.Builtin;
+
 
 extern class String {
 
@@ -54,7 +56,7 @@ extern class String {
 		
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
-    inline function toUpperCase() : String {
+    @:runtime public inline function toUpperCase() : String {
     	return untyped this.upper();
     }
 
@@ -75,7 +77,7 @@ extern class String {
 	**/
 	inline public function charAt(index : Int) : String
     {
-        return untyped this[index];
+        return StringImpl.charAt(this, index);
     }
 
 	/**
@@ -89,7 +91,7 @@ extern class String {
 	**/
 	inline public function charCodeAt( index : Int) : Null<Int>
     {
-        return untyped ord(untyped __python_array_get__(this, index));
+        return StringImpl.charCodeAt(this, index);
     }
 
 	/**
@@ -121,7 +123,9 @@ extern class String {
 		
 		If [str] cannot be found, -1 is returned.
 	**/
-    inline function lastIndexOf( str : String, ?startIndex : Int ) : Int return untyped this.rfind(str, startIndex);
+    inline function lastIndexOf( str : String, ?startIndex : Int ) : Int {
+    	return StringImpl.lastIndexOf(this, str, startIndex);
+    }
 
 	/**
 		Splits [this] String at each occurence of [delimiter].
@@ -140,7 +144,7 @@ extern class String {
 		result Array contains a leading (or trailing) empty String "" element.
 		Two subsequent delimiters also result in an empty String "" element.
 	**/
-	function split( delimiter : String ) : Array<String>;
+	inline function split( delimiter : String ) : Array<String> return StringImpl.split(this, delimiter);
 
 	/**
 		Returns [len] characters of [this] String, starting at position [pos].
@@ -196,8 +200,9 @@ extern class String {
 	}
 
 	static function __init__ ():Void {
-		Builtin;
-		untyped __python__("String = __builtin__.str");
+		
+		python.Macros.importFromAs("builtins", "str", "String");
+		//untyped __python__("String = __builtin__.str");
 	}
 
     

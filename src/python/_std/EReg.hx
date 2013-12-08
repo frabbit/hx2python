@@ -35,6 +35,8 @@ class EReg {
 		
 
 		pattern = Re.compile(r, options);
+		trace(pattern);
+		trace(r);
 	}
 
 	/**
@@ -45,7 +47,8 @@ class EReg {
 		If `s` is `null`, the result is unspecified.
 	**/
 	public function match( s : String ) : Bool {
-		matchObj = global ? Re.search(pattern, s) : Re.match(pattern, s);
+		matchObj = Re.search(pattern, s);
+		trace(matchObj);
 		return matchObj != null;
 	}
 
@@ -61,6 +64,7 @@ class EReg {
 		If `n` equals 0, the whole matched substring is returned.
 	**/
 	public function matched( n : Int ) : String {
+		trace(matchObj);
 		return matchObj.group(n);
 	}
 

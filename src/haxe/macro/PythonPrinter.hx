@@ -223,8 +223,13 @@ class PythonPrinter {
                 case TPath(p) if (p.pack.join(".") == "python.lib" && p.name == "Types" && p.sub == "KwArgs"): true;
                 case _ : false;
             } else false;
-            
-            var prefix = isKwArgs ? "**" : "";
+
+            var isVarArgs = if (arg.type != null) switch (arg.type) {
+                case TPath(p) if (p.pack.join(".") == "python.lib" && p.name == "Types" && p.sub == "VarArgs"): true;
+                case _ : false;
+            } else false;
+                        
+            var prefix = isKwArgs ? "**" : isVarArgs ? "*" : "";
 
             var argValue = printExpr(arg.value,context);
             var argIsNull = arg.value == null;
@@ -237,7 +242,7 @@ class PythonPrinter {
             
             argString += prefix + handleKeywords(arg.name);
 
-            if(argValue != null && !argIsNull && !isKwArgs) {
+            if(argValue != null && !argIsNull && !isKwArgs && !isVarArgs) {
                 argString += ' = $argValue';
             }
 
@@ -499,7 +504,11 @@ class PythonPrinter {
 		//if (e == null) trace("WARNING: #NULL");
         return try e == null ? "None" : switch(e.expr) {
 		case EConst(c): printConstant(c);
-		case EArray(e1, e2): '${printExpr1(e1)}[${printExpr1(e2)}]';
+        case EBinop(OpAssign, { expr : EArray(e1, e2)}, e3): 
+            '_hx_array_set(${printExpr1(e1)},${printExpr1(e2)}, ${printExpr1(e3)})';
+		case EArray(e1, e2): 
+            '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
+            
 		case EBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case EBinop(OpEq, e1, e2 = { expr : EConst(CIdent("null"))}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';

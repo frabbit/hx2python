@@ -25,8 +25,13 @@ class Macros {
         var n = className.split(".").join("_");
 
         var e = "import " + module + " as " + n;
+        var e1 = "_hx_c."+n+" = "+n;
 
-	    return macro untyped __python__($v{e});
+
+	    return macro{
+            untyped __python__($v{e});
+            untyped __python__($v{e1});
+        }
     }
 
     
@@ -52,8 +57,11 @@ class Macros {
         var n = className.split(".").join("_");
 
         var e = "from " + from + " import " + module + " as " + n;
-
-	    return macro untyped __python__($v{e});
+        var e1 = "_hx_c."+n+" = " + n;
+	    return macro {
+            untyped __python__($v{e});
+            untyped __python__($v{e1});
+        }
     }
 
     #if !macro macro #end public static function callNamed (e:Expr, args:Expr):haxe.macro.Expr {

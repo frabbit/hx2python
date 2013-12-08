@@ -10,7 +10,7 @@ class StringMap<T> implements Map.IMap<String, T> {
 	}
 
 	public function set( key : String, value : T ) : Void {
-		untyped h["$"+key] = value;
+		h.set("$"+key, value);
 	}
 
 	public function get( key : String ) : Null<T> {

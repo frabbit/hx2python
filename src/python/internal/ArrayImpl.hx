@@ -50,7 +50,7 @@ class ArrayImpl {
 
 
 	public static inline function join<T>(x:Array<T>, sep : String ) : String {
-		return untyped sep.join(x);
+		return untyped sep.join(x.map(Std.string));
 	}
 
 	public static inline function toString<T>(x:Array<T>) : String {
@@ -83,6 +83,7 @@ class ArrayImpl {
 	// public static function reverse<T>(x:Array<T>) : Void;
 
 	public static inline function shift<T>(x:Array<T>) : Null<T> {
+		if (x.length == 0) return null;
 		return untyped __field__(x, "pop")(0);
 	}
 
@@ -116,25 +117,25 @@ class ArrayImpl {
 		if (idx >= _hx_a.length || idx < 0)
 			return null;
 		else 
-			return untyped x[idx];
+			return x[idx];
 	}
 
 	@:keep private static inline function __set<T>(x:Array<T>, idx:Int, v:T):T
 	{
 		var _hx_a = x;
 
-		untyped _hx_a[idx] = v;
+		_hx_a[idx] = v;
 		return v;
 	}
 
 	@:keep private static inline function __unsafe_get<T>(x:Array<T>,idx:Int):T
 	{
-		return untyped x[idx];
+		return x[idx];
 	}
 
 	@:keep private static inline function __unsafe_set<T>(x:Array<T>,idx:Int, val:T):T
 	{
-		untyped x[idx] = val;
+		x[idx] = val;
 		return val;
 	}
 

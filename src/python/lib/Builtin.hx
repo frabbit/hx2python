@@ -79,6 +79,7 @@ extern class Builtin {
 	//public static function float():Void;
 	
 
+	@:overload(function (f:String):Array<String> {})
 	@:overload(function <G>(f:Tuple<G>):Array<G> {})
 	public static function list<T>(i:PyIterable<T>):Array<T>;
 
@@ -109,7 +110,7 @@ extern class Builtin {
 	//public static function compile():Void;
 	
 	//public static function memoryview():Void;
-	//public static function round():Void;
+	public static function round(f:Float):Int;
 	//public static function __import__():Void;
 	//public static function complex():Void;
 	//public static function hash():Void;

@@ -40,7 +40,13 @@ extern class StringBuf {
 	**/
     function new():Void;
 
-/**
+    public var length(get, null):Int;
+
+    public inline function get_length ():Int {
+    	return untyped this.len;
+    }
+
+	/**
 		Appends the representation of [x] to [this] StringBuf.
 		
 		The exact representation of [x] may vary per platform. To get more

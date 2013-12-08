@@ -246,6 +246,7 @@ class StringTools {
 			s = hexChars.charAt(n&15) + s;
 			n >>>= 4;
 		} while( n > 0 );
+		return s;
 		
 	}
 

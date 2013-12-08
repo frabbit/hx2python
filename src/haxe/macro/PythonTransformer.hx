@@ -98,6 +98,11 @@ class PythonTransformer {
 		return toExpr(transform1(liftExpr(e)));
 	}
 
+	public static function transformToValue (e:TypedExpr):TypedExpr {
+		
+		return toExpr(transform1(liftExpr(e,true)));
+	}
+
 
 
 	static function toExpr (e:AdjustedExpr):TypedExpr 
@@ -169,31 +174,60 @@ class PythonTransformer {
 		return switch (e.expr) {
 			case TFunction(f):
 				// move default parameters into expr
-				
+							
 				var first = true;
-				var localVars = [for (a in f.args) a.v.name => true];
+				var localVars = f.args.map(function (x) return x.v.name);
 				var localAssigns = [];
 				var nonLocals = [];
-				f.expr.iter(function (e) {
-					switch (e.expr) {
-						case TVars(vars):
-							for (v in vars) localVars.set(v.v.name, true);
-						case TBinop(OpAssign,{ expr : TLocal({ name : a})}, e2): 
-							if (first && !localVars.exists(a)) {
-								//trace("opAssign");
-								localAssigns.push(a); 
-							}
-						case TBinop(OpAssignOp(_),{ expr : TLocal({ name : a})},e2): 
-							if (first && !localVars.exists(a)) {
-								//trace("opAssign");
-								localAssigns.push(a); 
-							}
+				//trace(f.expr.toString(true));
+				function it(e:TypedExpr, lv:Array<String>) {
 
-						case TFunction(_):
-							first = false;
-						case _ :
+					function maybeContinue (x:TypedExpr) {
+						if (x != null) {
+							switch (x.expr) {
+								case TFunction(_):
+								case _ : x.iter(it.bind(_, lv.copy()));
+							}
+						}
 					}
-				});
+
+					if (e != null) {
+						switch (e.expr) {
+							case TVars(vars):
+								for (v in vars) {
+									maybeContinue(v.expr);
+									lv.push(v.v.name);
+								}
+
+
+							case TBinop(OpAssign,{ expr : TLocal({ name : a})}, e2): 
+								if (!Lambda.has(lv, a)) {
+									localAssigns.push(a); 
+								}
+								maybeContinue(e2);
+								
+								
+							case TBinop(OpAssignOp(_),{ expr : TLocal({ name : a})},e2): 
+								if (!Lambda.has(lv, a)) {
+									localAssigns.push(a); 
+								}
+								maybeContinue(e2);
+							case TUnop(OpIncrement, _, _):
+
+								//trace(e.toString(true));
+								//throw "invalid";
+							case TUnop(OpDecrement, _, _):
+								//trace(e.toString(true));
+								//throw "invalid";
+							case TFunction(_):
+								
+							case _ :
+
+								e.iter(it.bind(_, lv.copy()));
+						}
+					}
+				}
+				f.expr.iter(it.bind(_, localVars));
 
 				//trace(" locals: " + localAssigns);
 				for (a in localAssigns) 
@@ -269,15 +303,17 @@ class PythonTransformer {
 
 					[expr, ret];
 				case TBinop(OpAssign,l,r): 
-					var id = base.nextId();
-					var idVar = toTVar(id, expr.t);
+					//var id = base.nextId();
+					//var idVar = toTVar(id, expr.t);
 
-					var e1 = { expr : TVars([{ v : idVar, expr : expr }]), pos : expr.pos, t:Context.typeof(macro var x)};
+					//var e1 = { expr : TVars([{ v : idVar, expr : expr }]), pos : expr.pos, t:Context.typeof(macro var x)};
 
-					var r = toTReturnExpr(id, r.t, r.pos);
+					//var r = toTReturnExpr(id, r.t, r.pos);
+
+					var r = { expr : TReturn(l), t : l.t, pos : l.pos};
 
 
-					[e1, r];
+					[expr, r];
 				case x: 
 					[toTExpr(TReturn(expr), expr.t, expr.pos)];
 
@@ -310,6 +346,7 @@ class PythonTransformer {
 		
 		var f = addNonLocalsToFunc(fExpr);
 
+		
 		var assign = toTExpr(TVars([{ v: fVar, expr:f }]), ex.t, ex.pos);
 
 		var subs = toTExpr(TCall(toTExpr(TLocal(fVar),fExpr.t, ex.pos), []), ex.t, ex.pos);
@@ -325,22 +362,29 @@ class PythonTransformer {
 
 	
 	static function transformFunction (f:TFunc, e :AdjustedExpr, isValue:Bool) {
-		var newExpr = switch (addNonLocalsToFunc(e.expr).expr) {
-			case TFunction(f): f.expr;
-			case _: throw "unexpected";
-		}
+		//trace(Context.getTypedExpr(f.expr).toString());
+		//var newExpr = switch (addNonLocalsToFunc(e.expr).expr) {
+		//	case TFunction(f): f.expr;
+		//	case _: throw "unexpected";
+		//}
+		var newExpr = f.expr;
+		
 		var assigns = [];
 		for (a in f.args) {
 			if (a.value != null) {
 
 				var aLocal = { expr : TLocal(a.v), pos : f.expr.pos, t : a.v.t };
+				//trace(Context.getTypedExpr(aLocal).toString());
 				var aNull= { expr : TConst(TNull), pos : f.expr.pos, t : a.v.t };
+				//trace(Context.getTypedExpr(aNull).toString());
 				var boolType = Context.typeof(macro true);
 				var voidType = Context.typeof(macro while (true) {});
 				var aCmp = { expr : TBinop(Binop.OpEq, aLocal, aNull), pos : f.expr.pos, t : boolType};
+				//trace(Context.getTypedExpr(aCmp).toString());
 				var aAssign = { expr : TBinop(Binop.OpAssign, aLocal, { expr : TConst(a.value), t : a.v.t, pos : f.expr.pos}), pos : f.expr.pos , t: a.v.t};
+				//trace(Context.getTypedExpr(aAssign).toString());
 				var aIf = { expr : TIf(aCmp, aAssign, null), pos : f.expr.pos, t:voidType };
-
+				//trace(Context.getTypedExpr(aIf).toString());
 				assigns.push(aIf);
 			}
 		}
@@ -358,14 +402,24 @@ class PythonTransformer {
 				{ expr : TBlock(assigns.concat([f.expr])), pos : f.expr.pos, t : f.expr.t};
 
 		}
+		//trace(Context.getTypedExpr(body).toString());
 		// top level function = instance or static functions
 		var e1 = toExpr(transformExpr(body, false, e.nextId));
 		
+
+		//trace(e1);
+		//trace(Context.getTypedExpr(e1).toString());
 		
 		var fn = { expr : TFunction({ expr : e1, args : f.args, t : f.t}), pos : e.expr.pos, t : e.expr.t };
 		
+		fn = addNonLocalsToFunc(fn);
+
+		
+		
+
 		return if (isValue) {
 			var newName = e.nextId();
+			
 
 			var newVar = { id : 0, name : newName, t : f.t, capture : false, extra : null };
 			var newLocal = { expr : TLocal(newVar), pos : fn.pos, t : fn.t };
@@ -382,10 +436,15 @@ class PythonTransformer {
 		if (e == null) {
 			trace("EEEEE:" + e);
 		}
+
+		
+		//trace(e.expr.expr.getName());
+
 		return switch [e.isValue, e.expr.expr] 
 		{
 			case [nested, TBlock([x])]:
-
+				//trace(ExprTools.toString(Context.getTypedExpr(x)));
+				//trace("transform simple expr in block " + nested);
 				transformExpr(x,nested, e.nextId);
 
 
@@ -425,6 +484,7 @@ class PythonTransformer {
 				
 
 				var f = addNonLocalsToFunc(fn);
+				
 
 				var fnAssign = { expr: TVars([{ v : tVar, expr : f}]), pos : e.expr.pos, t : e.expr.t};
 
@@ -436,11 +496,18 @@ class PythonTransformer {
 				liftExpr(substitute, [fnAssign]);
 
 			case [false, TFunction(f)]:
+				
+				
+				
+				//trace("here2");
 				transformFunction(f, e, false);
-			
+				
 			case [true, TFunction(f)]:
+				//trace("here1");
+				//trace(f.expr.toString(true));
+				//trace("here we go: " + Context.getTypedExpr(f.expr).toString());
 				transformFunction(f, e, true);
-				//trace("here we go: " + name);
+				
 
 				
 
@@ -497,9 +564,19 @@ class PythonTransformer {
 			case [_,TReturn({ expr : TFunction(f)})]:
 				var n = e.nextId();
 				
-				var e1 = toExpr(transformExpr(f.expr,true, e.nextId));
+				var e1 = toExpr(transformExpr(f.expr,false, e.nextId));
 					
-				var f1 = { expr : TFunction({ expr : e1, t : f.t, args : f.args}), pos : e.expr.pos, t : f.t };
+				var f = { expr : TFunction({ expr : e1, t : f.t, args : f.args}), pos : e.expr.pos, t : f.t };
+
+				if (n == "_hx_local_8") {
+					trace(TypedExprTools.toString(f, true));		
+				}
+
+				var f1 = addNonLocalsToFunc(f);
+
+				if (n == "_hx_local_8" || n == "_hx_local_9") {
+					trace(TypedExprTools.toString(f1, true));		
+				}
 				
 				var varN = { name : n, capture : false, extra : null, t : f1.t, id : 0};
 
@@ -510,9 +587,11 @@ class PythonTransformer {
 				liftExpr({ expr : TReturn(varLocal), pos : e.expr.pos, t : varLocal.t}, true, e.nextId, [f1Assign]);				
 			
 			case [_,TReturn(x)]:
-
+				//trace("transform treturn");
+				//trace(TypedExprTools.toString(x));
+				//trace(ExprTools.toString(Context.getTypedExpr(x)));
 				var x1 = transformExpr(x,true, e.nextId, []);
-
+				//trace("after transform treturn");
 
 				
 
@@ -521,8 +600,10 @@ class PythonTransformer {
 				var res = if (x1.blocks.length > 0) {
 					var f = exprsToFunc(x1.blocks.concat([x1.expr]), e.nextId(), e);
 					//trace(ExprTools.toString(f.expr));
+					//trace("exprsToFunc");
 					liftExpr({ expr : TReturn(f.expr), pos : e.expr.pos, t : e.expr.t}, true, e.nextId, f.blocks);
 				} else {
+					//trace("just expr");
 					liftExpr({ expr : TReturn(x1.expr), pos : e.expr.pos, t : e.expr.t}, true, e.nextId, []);
 				}
 				res;
@@ -543,6 +624,7 @@ class PythonTransformer {
 	
 			
 			case [_,TParenthesis(e1)]:
+				//trace("parens");
 				//trace(e1);
 				var newE1 = transformExpr(e1,true,e.nextId);
 				//trace(newE1);
@@ -600,14 +682,32 @@ class PythonTransformer {
 						blocks = blocks.concat(f.blocks);
 						return f.expr;
 					}
+
+
+
 					if (eelse1.blocks.length == 1) {
+						
+
 						switch (eelse1.blocks[0].expr) {
 							case TVars([{ v : v, expr : { expr : TFunction( f) }} ]):
+								
 								blocks.push(eelse1.blocks[0]);
+
+								
 								eelse1.expr;
-							case _:regular();
+							
+
+							case _:
+								
+								regular();
 						}
-					} else regular();
+					} else {
+						
+						regular();
+						
+
+
+					}
 				} else if (eelse1 != null) {
 
 					eelse1.expr;
@@ -615,7 +715,9 @@ class PythonTransformer {
 					null;
 				}
 				
-				//trace(ExprTools.toString(eif2));
+				//trace(ExprTools.toString(Context.getTypedExpr(eif2)));
+				//trace(ExprTools.toString(Context.getTypedExpr(eelse2)));
+				//trace(ExprTools.toString(Context.getTypedExpr(econd1.expr)));
 				
 				//trace(ExprTools.toString(newIf));
 				var blocks = econd1.blocks.concat(blocks);
@@ -623,9 +725,14 @@ class PythonTransformer {
 					var newIf = { expr : TIf(econd1.expr, eif2, eelse2), pos : e.expr.pos, t : e.expr.t };
 					// this is a ternary if 
 
+					//trace(ExprTools.toString(Context.getTypedExpr(newIf)));
 					
-					var ternary = { expr : TMeta([{ name : ":ternaryIf", pos : e.expr.pos, params : []}], newIf), pos : e.expr.pos, t : e.expr.t}
 
+					var meta = { name : ":ternaryIf", pos : e.expr.pos, params:null};
+					var ternary = { expr : TMeta(meta, newIf), pos : e.expr.pos, t : e.expr.t}
+
+
+					//trace(ExprTools.toString(Context.getTypedExpr(ternary)));
 					
 					liftExpr(ternary, blocks);		
 				} else {
@@ -692,13 +799,15 @@ class PythonTransformer {
 			/*
 			*/
 			
-			case [_, TSwitch(e1, cases,edef)]:
+			case [true, TSwitch(e1, cases,edef)]:
 				// transform eswitch into if/else
-				
+				//trace("tswitch");
 				var boolType = Context.typeof(macro true);
 				//trace(e.expr.toString(true));
 				//return e;
 				
+				var caseFunctions = [];
+
 				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
 
 					var eif = eelse;
@@ -715,13 +824,16 @@ class PythonTransformer {
 							var x = { expr : TBinop(OpEq, e1, v), pos : v.pos, t : boolType};
 							cond = { expr : TBinop(OpBoolOr, cond, x), pos : v.pos, t : boolType};
 						}
-						
-
-						
-
 					}
 
-					eif = { expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
+
+
+					var name = e.nextId();
+					var func = exprsToFunc([c.expr], name,e);
+					caseFunctions = caseFunctions.concat(func.blocks);
+					var call = func.expr;
+
+					eif = { expr : TIf(cond, call, eelse), pos : c.expr.pos, t: e.expr.t };
 					
 					return eif;
 					
@@ -751,8 +863,80 @@ class PythonTransformer {
 					throw "unexpected";
 				}
 
+				var resulting = { expr : TBlock(caseFunctions.concat([res])), t : res.t, pos : res.pos};
 				//trace(res.toString(true));
 				//trace(e.isValue);
+
+				forwardTransform(resulting, e);
+				
+			case [false, TSwitch(e1, cases,edef)]:
+				// transform eswitch into if/else
+				//trace("tswitch2");
+				var boolType = Context.typeof(macro true);
+				//trace(e.expr.toString(true));
+				//return e;
+				
+				
+
+				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
+
+					var eif = eelse;
+
+					var valReversed = c.values.copy();
+					valReversed.reverse();
+
+					var cond = null;
+
+					for (v in valReversed) {
+						if (cond == null) {
+							cond = { expr : TBinop(OpEq, e1, v), pos : v.pos, t : boolType};
+						} else {
+							var x = { expr : TBinop(OpEq, e1, v), pos : v.pos, t : boolType};
+							cond = { expr : TBinop(OpBoolOr, cond, x), pos : v.pos, t : boolType};
+						}
+					}
+
+
+
+					
+					
+
+					eif = { expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
+					
+					return eif;
+					
+				}
+
+
+				var res = null;
+				var revCases = cases.copy();
+				revCases.reverse();
+
+				if (edef != null && edef.expr == null) {
+					edef = { expr : TBlock([]), pos : edef.pos, t : e.expr.t};
+				}
+
+				for (c in revCases) {
+					if (res == null) {
+
+						res = caseToIf(c, edef);
+					} else {
+						res = caseToIf(c, res);
+					}
+					//trace(ExprTools.toString(res));
+				}
+				
+				if (res == null || res.expr == null) {
+					//trace(TypedExprTools.toString(e.expr));
+					//trace(cases);
+					//throw "unexpected";
+					res = { expr : TConst(TNull), pos : e.expr.pos, t : e.expr.t }
+				}
+
+				
+				//trace(res.toString(true));
+				//trace(e.isValue);
+
 				forwardTransform(res, e);
 				
 			
@@ -788,11 +972,6 @@ class PythonTransformer {
 
 				forwardTransform(assign,e);				
 			
-			case [_, TUnop(OpDecrement,false, e1)]:
-				var plus = { expr : TBinop(Binop.OpSub, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
-				var assign = { expr : TBinop(OpAssign, e1, plus), pos : e1.pos, t : e1.t};
-				
-				forwardTransform(assign,e);
 			
 			case [_, TUnop(OpIncrement, true, e1)]:
 				var id = e.nextId();
@@ -810,6 +989,11 @@ class PythonTransformer {
 
 				forwardTransform(blockExpr,e);				
 			
+			case [_, TUnop(OpDecrement,false, e1)]:
+				var plus = { expr : TBinop(Binop.OpSub, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
+				var assign = { expr : TBinop(OpAssign, e1, plus), pos : e1.pos, t : e1.t};
+				
+				forwardTransform(assign,e);
 			case [_, TUnop(OpDecrement,true, e1)]:
 				
 				var id = e.nextId();
@@ -845,11 +1029,11 @@ class PythonTransformer {
 
 				var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
 
-				if (blocks.length == 0) {
-					liftExpr(newEx, false, e.nextId, blocks);
-				} else {
-					exprsToFunc(blocks, e.nextId(),e);
-				}
+				// if (blocks.length == 0) {
+				// 	liftExpr(newEx, false, e.nextId, blocks);
+				// } else {
+				var f = exprsToFunc(blocks, e.nextId(),e);
+				liftExpr(f.expr, true, e.nextId, f.blocks);
 
 				
 			
@@ -862,7 +1046,7 @@ class PythonTransformer {
 				liftExpr(newEx, false, e.nextId, left1.blocks.concat(right1.blocks));
 
 			case [_, TBinop( OpAssignOp(x),left,right)]:
-				//trace(ExprTools.toString(e.expr));
+				//trace(ExprTools.toString(Context.getTypedExpr(e.expr)));
 				forwardTransform({ expr : TBinop(OpAssign, left, { expr : TBinop(x, left, right), t : e.expr.t, pos:e.expr.pos }), pos : e.expr.pos, t : e.expr.t},e);
 			
 			case [true, TBinop(op,left,right)]:
@@ -892,17 +1076,7 @@ class PythonTransformer {
 				var ex = { expr : TBinop(op, left1.expr, right1.expr) , pos : e.expr.pos, t : e.expr.t };
 				liftExpr(ex, false, e.nextId, left1.blocks.concat(right1.blocks));
 				
-			case [false, TTry( etry,catches)]:
-				var try1 = transformExpr(etry, false, e.nextId);
-				var catches1 = [for (c in catches) transformExpr(c.expr, false, e.nextId)];
-
-				var blocks = try1.blocks.concat([for (c in catches1) for (b in c.blocks) b]);
-
-				var newCatches = [for (i in 0...catches.length) { expr : catches1[i].expr, v : catches[i].v }];
-
-				var ex = { expr : TTry(try1.expr, newCatches), pos : e.expr.pos, t : e.expr.t};
-				
-				liftExpr(ex, false, e.nextId, try1.blocks.concat(blocks));
+			
 			
 			case [true, TThrow(x)]:
 
@@ -970,8 +1144,24 @@ class PythonTransformer {
 
 				liftExpr(ex, e1_.blocks.concat(e2_.blocks));
 			
+			case [false, TTry( etry,catches)]:
+				//trace("ETRY false");
+				//trace(ExprTools.toString(Context.getTypedExpr(etry)));
+				
+				var try1 = transformExpr(etry, false, e.nextId);
+				var catches1 = [for (c in catches) transformExpr(c.expr, false, e.nextId)];
+
+				var blocks = try1.blocks.concat([for (c in catches1) for (b in c.blocks) b]);
+
+				var newCatches = [for (i in 0...catches.length) { expr : catches1[i].expr, v : catches[i].v }];
+
+				var ex = { expr : TTry(try1.expr, newCatches), pos : e.expr.pos, t : e.expr.t};
+				
+				liftExpr(ex, false, e.nextId, try1.blocks.concat(blocks));
 
 			case [true, TTry( etry,catches)]:
+				//trace("ETRY true");
+				//trace(ExprTools.toString(Context.getTypedExpr(etry)));
 				
 				var pos = e.expr.pos;
 
@@ -1007,8 +1197,12 @@ class PythonTransformer {
 			
 			
 			case [_, TObjectDecl( fields)]:
+				//trace("tobjectDecl");
 				var newFields = [for (f in fields) { name : f.name, ex: transformExpr(f.expr, true, e.nextId, [])}];
+
 				var newFields1 = [for (f in newFields) { name : f.name, expr : f.ex.expr}];
+
+				//trace("mapped fields tobjectDecl");
 
 				var blocks = [];
 				for (f in newFields) {
@@ -1017,7 +1211,8 @@ class PythonTransformer {
 
 				var ex = { expr : TObjectDecl(newFields1), pos : e.expr.pos, t : e.expr.t };
 
-				liftExpr(ex, false, e.nextId, blocks);
+				//trace("pre lift tobjectDecl");
+				liftExpr(ex, blocks);
 			
 
 			case [_, TArrayDecl(values)]:
@@ -1050,12 +1245,20 @@ class PythonTransformer {
 				
 			case [flag, TMeta(m, e1)]:
 				
+				//trace(m.name);
+				//trace(e1.expr.getName());
+				//trace(TypedExprTools.toString(e1));
+				//trace("after typed to string");
+				
+				//trace("pre transform");
 				var ex1 = transformExpr(e1, flag, e.nextId, []);
 
+				//trace("after transform");
 
 				liftExpr({ expr : TMeta(m, ex1.expr), pos : e.expr.pos, t : e.expr.t}, ex1.blocks);
 
 			case _ : 
+				//trace("just lift");
 				//trace(ExprTools.toString(e.expr));
 				liftExpr(e.expr);
 		}

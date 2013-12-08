@@ -61,11 +61,11 @@ extern class Array<T> implements ArrayAccess<T> {
 		return ArrayImpl.toString(this);
 	}
 
-	public inline function pop() : Null<T> {
+	@:runtime public inline function pop() : Null<T> {
 		return ArrayImpl.pop(this);
 	}
 
-	public inline function push(x:T) : Int {
+	@:runtime public inline function push(x:T) : Int {
 		
 		
 		return ArrayImpl.push(this,x);
@@ -82,7 +82,7 @@ extern class Array<T> implements ArrayAccess<T> {
 
 	public function reverse() : Void;
 
-	public inline function shift() : Null<T> {
+	@:runtime public inline function shift() : Null<T> {
 		return ArrayImpl.shift(this);
 	}
 

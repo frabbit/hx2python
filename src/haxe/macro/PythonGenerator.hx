@@ -38,11 +38,14 @@ class PythonGenerator
     var packages : haxe.ds.StringMap<Bool>;
     var forbidden : haxe.ds.StringMap<Bool>;
 
+    var staticInits : Array<Void->Void>;
+
     
 
     public function new(api)
     {
 
+        staticInits = [];
         //PythonPrinter.pathHack.set("String", "str");
         this.api = api;
 
@@ -164,14 +167,26 @@ class PythonGenerator
         print(exprString); 
     }
 
-    inline function genExpr(e, ?field:String = "", ?indent:String = "")
+    inline function genExpr(e:TypedExpr, ?field:String = "", ?indent:String = "")
     {
         var context = PrintContexts.create("\t" + indent);
         //var expr = haxe.macro.Context.getTypedExpr(e);
         
-        var expr2 = PythonTransformer.transform(e);
+        //trace(ExprTools.toString(Context.getTypedExpr(e)));
+        var e = switch (e.expr) {
+
+            case TFunction(f):
+                trace("here");
+                { expr : TBlock([e]), t : e.t, pos : e.pos};
+            case _ : e;
+
+        }
+
+        var expr2 = PythonTransformer.transformToValue(e);
+        //trace(ExprTools.toString(Context.getTypedExpr(expr2)));
         var name = "_hx_init_" + field.split(".").join("_");
-        var r = switch (expr2.expr) {
+        function transformExpr(expr2:TypedExpr) return switch (expr2.expr) 
+        {
 
             case TBlock(es) if (field != ""):
                 var ex1 = es.copy();
@@ -188,6 +203,7 @@ class PythonGenerator
 
             case _ : { e1 : null, e2 : expr2};
         }
+        var r = transformExpr(expr2);
         //var exprString = new PythonPrinter().printExpr(expr,context);
 
         
@@ -263,7 +279,7 @@ class PythonGenerator
 
     function getPath(t : BaseType)
     {
-        return return new haxe.macro.PythonPrinterTyped().printBaseType(t, PrintContexts.create(""));
+        return return new haxe.macro.PythonPrinterTyped().printBaseType(t, PrintContexts.create(""), true);
         
     }
 
@@ -275,6 +291,7 @@ class PythonGenerator
 
     function genClassField(c : ClassType, p : String, f : ClassField)
     {
+        //trace("gen instance " + f.name);
         checkFieldName(c, f);
         var field = field(f.name);
         var e = f.expr();
@@ -305,6 +322,7 @@ class PythonGenerator
 
     function genStaticField(c : ClassType, p : String, f : ClassField)
     {
+        //trace("gen static " + f.name);
         checkFieldName(c, f);
 
         var p = getPath(c);
@@ -337,9 +355,9 @@ class PythonGenerator
         }
     }
 
-    function genClass(c : ClassType)
+    function genClass(c : ClassType, cType:Type, cRef:Ref<ClassType>)
     {
-        
+        //trace("gen:" + c.pack.join(".") + "." + c.name);
         
         var initApplied = false;
 
@@ -417,6 +435,31 @@ class PythonGenerator
             openBlock();
 
             var usePass = true;
+            var memberInit = [];
+            for(f in c.fields.get())
+            {
+                
+                //trace(f);    
+                
+                
+                switch( f.kind ) {
+
+                    case FVar(r, _):
+
+                        if(r == AccResolve) continue;
+                        switch (r) {
+                            case AccCall:
+                            default: 
+                                if (f.expr() == null) {
+                                    memberInit.push({name:f.name, pos : f.pos, t:f.type, cf : f});
+                                }
+                        }
+                    
+                    case _:
+                }
+            }
+            
+
 
             if(c.constructor != null)
             {
@@ -431,7 +474,40 @@ class PythonGenerator
                 //print('\tdef __init__(self');
 
                 var pyMetas = c.constructor.get().meta.get().filter(function (m) return m.name == ":python");
-                genFuncExpr(c.constructor.get().expr(),"__init__", pyMetas, ["self"]);
+
+                var constructorExpr = c.constructor.get().expr();
+
+                if (memberInit.length > 0) {
+                    switch (constructorExpr.expr) {
+                        case TFunction(f):
+                            var memberData = memberInit.map(function (x) return {v : { id : 0, name : x.name, t : x.t, capture : false, extra : null}, expr : { expr : TConst(TNull), t : x.t, pos : x.pos}, cf: x.cf});
+
+                            
+                            var memberAssigns = memberData.map(function (x) {
+                                var tthis = { expr : TConst(TThis), pos : x.expr.pos, t : cType }
+                                //trace(TypedExprTools.toString(tthis));
+                                // TODO remove FDynamic
+                                var left = { expr : TField(tthis, FDynamic(x.cf.name)), pos : x.expr.pos, t : x.expr.t }
+                                //trace(TypedExprTools.toString(left));
+                                return { expr : TBinop(OpAssign, left, x.expr), pos : x.expr.pos, t : x.cf.type };
+                            });
+
+                            //trace(memberAssigns);
+
+
+                            
+                            var b1 = { expr : TBlock(memberAssigns.concat([f.expr])), pos : constructorExpr.pos, t: f.t};
+
+                            f.expr = b1;
+                            //trace("here we are");
+                        case _ : 
+
+                    }
+                }
+                //trace("now");
+                //trace(c.name);
+                genFuncExpr(constructorExpr,"__init__", pyMetas, ["self"]);
+                //trace("now2");
                 newline();
             }
 
@@ -457,7 +533,7 @@ class PythonGenerator
                         }
                     
                     case _:
-
+                        
                         methods.push(f.name);
                         usePass = false;
                 }
@@ -475,26 +551,17 @@ class PythonGenerator
 
             closeBlock();
 
-            print("\n");
-            if (c.init != null) {
-                initApplied = true;
-                var t = c.init;
-                var trans = PythonTransformer.transform(t);
-                print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
-                print("\n");
+            
 
-            }
             //trace("len statics:" + c.statics.get().length);
-            for(f in c.statics.get()) {
-                //trace(c.name + "::" +f.name);
-                genStaticField(c, p, f);
-            }
             var fieldChar = fields.length > 0 ? '"' : '';
             var propsChar = props.length > 0 ? '"' : '';
             var methodsChar = methods.length > 0 ? '"' : '';
             print("\n\n" + p + "._hx_class = " + p + "\n");
             print(p + "._hx_class_name = \"" + pName + "\"\n");
+            print("\n");
             print("_hx_classes['" + pName + "'] = " + p + "\n");
+            print("_hx_c."+p+" = "+p+"\n");
             //print("\n\n" + p + "._hx_name = " + p + "\n");
             print(p + "._hx_fields = [" + fieldChar + fields.join('","') + fieldChar + "]\n");
             print(p + "._hx_props = [" + propsChar + props.join('","') + propsChar + "]\n");
@@ -505,16 +572,35 @@ class PythonGenerator
             if (superClass != null) {
                 print(p + "._hx_super = " + superClass + "\n");
             }
-            print("\n");
+            
+            staticInits.push(function () {
+
+                for(f in c.statics.get()) {
+                    //trace(c.name + "::" +f.name);
+                    genStaticField(c, p, f);
+                }
+                if (c.init != null) {
+                    initApplied = true;
+                    var t = c.init;
+                    var trans = PythonTransformer.transform(t);
+                    print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
+                    print("\n");
+
+                }
+
+                print("\n");
+            });
         }
 
         if (!initApplied && c.init != null) {
-            initApplied = true;
-            var t = c.init;
-            var trans = PythonTransformer.transform(t);
-            
-            print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
-            print("\n");
+            staticInits.push(function () {
+                initApplied = true;
+                var t = c.init;
+                var trans = PythonTransformer.transform(t);
+                
+                print(new PythonPrinterTyped().printExpr(trans,PrintContexts.create("")));
+                print("\n");
+            });
         }
 
     }
@@ -523,16 +609,12 @@ class PythonGenerator
 
     function genEnum(e : EnumType)
     {
-        if(firstEnum)
-        {
-            generateBaseEnum();
-            firstEnum = false;
-        }
+        
 
         var p = getPath(e);
         var pName = getFullName(e);
 
-        print('class $p(_Hx_Enum):');
+        print('class $p(_hx_Enum):');
         newline();
         print('\tdef __init__(self, t, i, p): \n\t\tsuper($p,self).__init__(t, i, p)');
 
@@ -551,8 +633,9 @@ class PythonGenerator
             
             switch( c.type ) {
                 case TFun(args, _):
-                    var sargs = args.map(function(a) return PythonPrinter.handleKeywords(a.name) ).join(",");
-                    print('def _${p}_statics_${f} ($sargs): \n\treturn $p("${c.name}", ${c.index}, [$sargs])\n');
+                    var sargs = args.map(function(a) return PythonPrinter.handleKeywords(a.name)).join(",");
+                    var sargs2 = args.map(function(a) return PythonPrinter.handleKeywords(a.name) + if (a.opt) " = None" else ""  ).join(",");
+                    print('def _${p}_statics_${f} ($sargs2): \n\treturn $p("${c.name}", ${c.index}, [$sargs])\n');
                     print('$p.$f = _${p}_statics_${f}');
                 default:
                     print('$p.$f = $p(${api.quoteString(c.name)}, ${c.index}, list())');
@@ -567,7 +650,8 @@ class PythonGenerator
         print(p + "._hx_class = " + p + "\n");
         print(p + "._hx_class_name = \"" + pName + "\"\n");
 
-        print("_hx_classes['" + pName + "'] = " + p);
+        print("_hx_classes['" + pName + "'] = " + p+"\n");
+        print("_hx_c."+p+" = " + p);
         newline();
 
 //        var meta = api.buildMetaData(e);
@@ -595,8 +679,10 @@ class PythonGenerator
     {
         switch( t ) {
             case TInst(c, _):
-                var c = c.get();
-                genClass(c);
+                var c1 = c.get();
+                
+                genClass(c1, t, c);
+                
 
             case TEnum(r, _):
                 var e = r.get();
@@ -608,7 +694,7 @@ class PythonGenerator
 
     function generateBaseEnum()
     {
-        print("class _Hx_Enum:
+        print("class _hx_Enum:
     # String tag;
     # int index;
     # List params;
@@ -625,6 +711,10 @@ class PythonGenerator
         res
 ");                                 // String toString() { return haxe.Boot.enum_to_string(this); }
         newline();
+        print("_hx_Enum._hx_class_name = 'Enum'\n");
+        print("_hx_Enum._hx_class = _hx_Enum\n");
+        print("_hx_classes['Enum'] = _hx_Enum\n");
+        print("_hx_c._hx_Enum = _hx_Enum\n");
     }
 
     function generateBaseException()
@@ -655,42 +745,77 @@ class _HxException(Exception):
 
     public function generate()
     {
-
+        generateBaseAnon();
+        print("import builtins as _hx_builtin\n");
         print("_hx_classes = dict()\n");
+        print("_hx_c = _Hx_AnonObject()\n");
         print("import functools as _hx_functools\n");
         print("class Int:
     pass\n");
         print("Int._hx_class_name = 'Int'\n");
         print("Int._hx_class = Int\n");
         print("_hx_classes['Int'] = Int\n");
+        print("_hx_c.Int = Int\n");
         print("class Bool:
     pass\n");
         print("Bool._hx_class_name = 'Bool'\n");
         print("Bool._hx_class = Bool\n");
 
         print("_hx_classes['Bool'] = Bool\n");
+        print("_hx_c.Bool = Bool\n");
         print("class Float:
     pass\n");
         print("Float._hx_class_name = 'Float'\n");
         print("Float._hx_class = Float\n");
         print("_hx_classes['Float'] = Float\n");
+        print("_hx_c.Float = Float\n");
         print("class Dynamic:
     pass\n");
         print("Dynamic._hx_class_name = 'Dynamic'\n");
         print("Dynamic._hx_class = Dynamic\n");
         print("_hx_classes['Dynamic'] = Dynamic\n");
+        print("_hx_c.Dynamic = Dynamic\n");
+        print("class Class:
+    pass\n");
+        print("Class._hx_class_name = 'Class'\n");
+        print("Class._hx_class = Class\n");
+        print("_hx_classes['Class'] = Class\n");
+        print("_hx_c.Class = Class\n");
 
         print("def _hx_rshift(val, n):\n\treturn (val % 0x100000000) >> n\n");
+        print("def _hx_modf(a,b):\n\treturn float('nan') if (b == 0.0) else a % b if a > 0 else -(-a % b)\n");
+        print("def _hx_array_get(a,i):\n\t");
+        print("return a[i] if (i < len(a) and i > -1) else None\n");
+        print("def _hx_array_set(a,i,v):\n\t");
+        print("l = len(a)\n\t");
+        print("while l < i:\n\t\t");
+        print("a.append(None)\n\t\t");
+        print("l+=1\n\t");
+        print("if l == i:\n\t\t");
+        print("a.append(v)\n\t");
+        print("else:\n\t\t");
+        print("a[i] = v\n\t");
+        print("return v\n");
+        print('
+def _hx_toUpperCase (x):
+    if (isinstance(x, str)):
+        return x.upper()
+    return x.toUpperCase()
+');
         
-        print("import math as _hx_math\n");
 
+
+
+
+        print("import math as _hx_math\n");
+        generateBaseEnum();
 
 
 
 
         generateHxOverrides();
         generateBaseException();
-        generateBaseAnon();
+        
 
         //print("String = str\n");
 
@@ -701,12 +826,27 @@ class _HxException(Exception):
 
         //trace(PythonPrinter.pathHack);
 
-        for(t in api.types)
-            genType(t);
+        var boot = Context.getType("python.Boot");
 
-        if (firstEnum) {
-            print("class _Hx_Enum:\n\tpass\n");   
+        genType(boot);
+
+        for(t in api.types) {
+
+            switch( t ) {
+                case TInst(c, _):
+                    var c = c.get();
+                    if (!(c.name == "Boot" && c.pack.length == 1 && c.pack[0] == "python")) {
+                        genType(t);
+                    }           
+                case _ : genType(t);
+            }
+            
         }
+
+        for (s in staticInits) {
+            s();
+        }
+        
 
         if(api.main != null)
         {
@@ -760,6 +900,7 @@ class _HxException(Exception):
 	public static function use() 
     {
         Compiler.allowPackage("sys");
+        Compiler.include("python.Boot");
 		Compiler.setCustomJSGenerator(function(api) new PythonGenerator(api).generate());
 	}
 	#end
