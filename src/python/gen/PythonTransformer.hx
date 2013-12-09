@@ -1,16 +1,17 @@
 
-package haxe.macro;
+package python.gen;
 
 using haxe.macro.ExprTools;
 
 import haxe.macro.Expr;
 import haxe.macro.Expr.Binop.OpAdd;
 import haxe.macro.Expr.Binop.OpAssignOp;
-
+import haxe.macro.Context;
 import haxe.macro.Type;
+using python.gen.Tools.TypedExprTools;
 using haxe.macro.TypedExprTools;
 
-using haxe.macro.PythonTransformer.Iter;
+
 
 typedef AdjustedExpr = {
 	// the resulting Expr which should be valid for python generation
@@ -23,69 +24,6 @@ typedef AdjustedExpr = {
 	// to a value and expressions which don't (statements) to generate valid python code.
 	isValue:Bool
 
-}
-
-class Iter {
-	static public function iter(e:TypedExpr, f:TypedExpr -> Void):Void 
-	{
-	
-		return switch(e.expr) {
-			case TConst(_) | TLocal(_) | TBreak | TContinue | TTypeExpr(_):
-			case TArray(e1, e2)
-			   | TBinop(_, e1, e2)
-			   | TFor(_, e1, e2)
-			   | TWhile(e1, e2, _):
-				f(e1);
-				f(e2);
-			
-			case TEnumParameter(e1, _, _)
-			   | TThrow(e1)
-			   | TField(e1, _)
-			   | TParenthesis(e1)
-			   | TUnop(_, _, e1)
-			   | TReturn(e1)
-			   | TCast(e1, _):
-				f(e1);
-
-			case TArrayDecl(el)
-			   | TBlock(el)
-			   | TNew(_, _, el):
-
-				for (e in el) f(e);
-			case TObjectDecl(fl):
-			
-			case TCall(e1, el):
-				f(e1);
-				for (e in el) f(e);
-			
-			case TVars(vl):
-			 	for (v in vl) f(v.expr);
-			
-			case TFunction(fu):
-				f(fu.expr);
-			case TIf(e1, e2, e3):
-				f(e1);
-				f(e2);
-				f(e3);
-
-			case TSwitch(e1, cases, e2):
-				f(e1);
-				for (c in cases) {
-					f(c.expr);
-					for (v in c.values) {
-						f(v);
-					}
-
-				}
-			case TPatMatch: 
-			case TTry(e1, catches): 
-				f(e1);
-				for (c in catches) f(c.expr);
-			 
-			case TMeta(m, e1): 
-				f(e1);
-		}
-	}
 }
 
 
@@ -193,11 +131,9 @@ class PythonTransformer {
 
 					if (e != null) {
 						switch (e.expr) {
-							case TVars(vars):
-								for (v in vars) {
-									maybeContinue(v.expr);
-									lv.push(v.v.name);
-								}
+							case TVar(v, expr):
+								maybeContinue(expr);
+								lv.push(v.name);
 
 
 							case TBinop(OpAssign,{ expr : TLocal({ name : a})}, e2): 
@@ -255,6 +191,7 @@ class PythonTransformer {
 	}
 
 	static function toTVar (n:String, t:Type, capture:Bool = false) {
+		if (capture == null) capture = false;
 		return { id : 0, name : n, t : t, capture : capture, extra : null};
 	}
 	static function toTLocalExpr (n:String, t:Type, p:Position, capture:Bool = false):TypedExpr {
@@ -347,7 +284,7 @@ class PythonTransformer {
 		var f = addNonLocalsToFunc(fExpr);
 
 		
-		var assign = toTExpr(TVars([{ v: fVar, expr:f }]), ex.t, ex.pos);
+		var assign = toTExpr(TVar(fVar, f), ex.t, ex.pos);
 
 		var subs = toTExpr(TCall(toTExpr(TLocal(fVar),fExpr.t, ex.pos), []), ex.t, ex.pos);
 
@@ -423,7 +360,7 @@ class PythonTransformer {
 
 			var newVar = { id : 0, name : newName, t : f.t, capture : false, extra : null };
 			var newLocal = { expr : TLocal(newVar), pos : fn.pos, t : fn.t };
-			var def = { expr : TVars([{v : newVar, expr : fn}]), pos : fn.pos, t : fn.t};
+			var def = { expr : TVar(newVar,fn), pos : fn.pos, t : fn.t};
 			liftExpr( newLocal, false, e.nextId, [def]);
 		} else {
 			liftExpr(fn);
@@ -439,6 +376,15 @@ class PythonTransformer {
 
 		
 		//trace(e.expr.expr.getName());
+		//trace(e.expr);
+		
+
+		switch (e.expr.expr) {
+			case TConst(f):
+				
+			case _ : 
+		}
+
 
 		return switch [e.isValue, e.expr.expr] 
 		{
@@ -486,7 +432,7 @@ class PythonTransformer {
 				var f = addNonLocalsToFunc(fn);
 				
 
-				var fnAssign = { expr: TVars([{ v : tVar, expr : f}]), pos : e.expr.pos, t : e.expr.t};
+				var fnAssign = { expr: TVar(tVar, f), pos : e.expr.pos, t : e.expr.t};
 
 				var substitute = { expr : TCall({ expr : TLocal(tVar), t : e.expr.t, pos : e.expr.pos}, []), pos : e.expr.pos, t : e.expr.t};
 
@@ -512,26 +458,23 @@ class PythonTransformer {
 				
 
 			
-			case [_, TVars(vars)]:
+			case [_, TVar(v, e1)]:
 				
 				var b = [];
-				var newVars = [];
+				
 
-				for (v in vars) {
-					var newExpr = if (v.expr == null) {
-						null;
-					} else {
-						//trace("var decl : " + ExprTools.toString(v.expr));
-						var f = transformExpr(v.expr, true, e.nextId);
-						
-						b = b.concat(f.blocks);
-						
-						f.expr;
-					}
-					newVars.push({ v : v.v, expr : newExpr});
+				var newExpr = if (e1 == null) {
+					null;
+				} else {
+					//trace("var decl : " + ExprTools.toString(v.expr));
+					var f = transformExpr(e1, true, e.nextId);
+					
+					b = b.concat(f.blocks);
+					
+					f.expr;
 				}
 
-				liftExpr({ expr : TVars(newVars), pos:e.expr.pos,t : e.expr.t}, false, e.nextId, b);
+				liftExpr({ expr : TVar(v, newExpr), pos:e.expr.pos,t : e.expr.t}, false, e.nextId, b);
 			
 
 			case [_, TFor(v, e1, e2)]:
@@ -568,19 +511,11 @@ class PythonTransformer {
 					
 				var f = { expr : TFunction({ expr : e1, t : f.t, args : f.args}), pos : e.expr.pos, t : f.t };
 
-				if (n == "_hx_local_8") {
-					trace(TypedExprTools.toString(f, true));		
-				}
-
 				var f1 = addNonLocalsToFunc(f);
 
-				if (n == "_hx_local_8" || n == "_hx_local_9") {
-					trace(TypedExprTools.toString(f1, true));		
-				}
-				
 				var varN = { name : n, capture : false, extra : null, t : f1.t, id : 0};
 
-				var f1Assign = { expr : TVars([{ v : varN, expr : f1}]), t : f1.t, pos : f1.pos};
+				var f1Assign = { expr : TVar(varN, f1), t : f1.t, pos : f1.pos};
 
 				var varLocal = { expr : TLocal(varN), pos : f1.pos, t : f1.t };
 
@@ -663,7 +598,7 @@ class PythonTransformer {
 
 					if (eif1.blocks.length == 1) {
 						switch (eif1.blocks[0].expr) {
-							case TVars([{ v : v, expr : { expr : TFunction( f) }} ]):
+							case TVar(_, { expr : TFunction( f) }):
 								blocks.push(eif1.blocks[0]);
 								eif1.expr;
 							case _:regular();
@@ -689,7 +624,7 @@ class PythonTransformer {
 						
 
 						switch (eelse1.blocks[0].expr) {
-							case TVars([{ v : v, expr : { expr : TFunction( f) }} ]):
+							case TVar(v, { expr : TFunction( f) }):
 								
 								blocks.push(eelse1.blocks[0]);
 
@@ -980,7 +915,7 @@ class PythonTransformer {
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
 				var plus = { expr : TBinop(OpAdd, e1, one), pos : e.expr.pos, t: e.expr.t}
 
-				var varExpr = { expr : TVars([{ v : resVar, expr : e1 }]), pos : e.expr.pos, t : e.expr.t};
+				var varExpr = { expr : TVar(resVar, e1), pos : e.expr.pos, t : e.expr.t};
 				var assignExpr = { expr : TBinop(OpAssign,e1, plus), pos : e.expr.pos, t : e.expr.t};
 
 				var block = [varExpr, assignExpr, resLocal];
@@ -1002,7 +937,7 @@ class PythonTransformer {
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
 				var minus = { expr : TBinop(OpSub, e1, one), pos : e.expr.pos, t: e.expr.t}
 
-				var varExpr = { expr : TVars([{ v : resVar, expr : e1 }]), pos : e.expr.pos, t : e.expr.t};
+				var varExpr = { expr : TVar(resVar, e1), pos : e.expr.pos, t : e.expr.t};
 				var assignExpr = { expr : TBinop(OpAssign,e1, minus), pos : e.expr.pos, t : e.expr.t};
 
 				var block = [varExpr, assignExpr, resLocal];
@@ -1171,7 +1106,7 @@ class PythonTransformer {
 
 				var tempVar = { name : id, capture : false, extra : null, id : 0, t : e.expr.t };
 
-				var tempVarDef = { expr : TVars([{ v : tempVar, expr : null }]), pos : e.expr.pos, t : e.expr.t};
+				var tempVarDef = { expr : TVar(tempVar, null), pos : e.expr.pos, t : e.expr.t};
 
 				var tempLocal = { expr : TLocal(tempVar), pos : e.expr.pos, t : e.expr.t };
 

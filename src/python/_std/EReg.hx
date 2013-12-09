@@ -29,14 +29,7 @@ class EReg {
 			if (c == "u".code) options |= Re.U;
 			if (c == "g".code) global = true;
 		}
-		
-		
-
-		
-
 		pattern = Re.compile(r, options);
-		trace(pattern);
-		trace(r);
 	}
 
 	/**
@@ -48,7 +41,6 @@ class EReg {
 	**/
 	public function match( s : String ) : Bool {
 		matchObj = Re.search(pattern, s);
-		trace(matchObj);
 		return matchObj != null;
 	}
 
@@ -64,7 +56,6 @@ class EReg {
 		If `n` equals 0, the whole matched substring is returned.
 	**/
 	public function matched( n : Int ) : String {
-		trace(matchObj);
 		return matchObj.group(n);
 	}
 
