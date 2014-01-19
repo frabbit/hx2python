@@ -19,7 +19,7 @@ class KeywordHandler {
 		"def" => true,       "for" => true,       "lambda" => true,    "try" => true, "None" => true, "Enum" => true
 	];
 
-	public static function handleKeywords(name:String)
+	public static inline function handleKeywords(name:String)
     {
         if(keywords.exists(name))
             return "_hx_" + name;
