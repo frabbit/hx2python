@@ -1,0 +1,4 @@
+[submodule "haxe"]
+	path = haxe
+	url = git@github.com:frabbit/haxe-1.git
+	branch = pythondev
