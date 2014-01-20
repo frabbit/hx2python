@@ -425,12 +425,6 @@ class PythonGenerator
             var p = getPath(c, true);
             var pName = getFullName(c);
             
-            if (StringTools.startsWith(p, "_hx_c")) {
-                trace(p);
-                trace(c);    
-                trace(pName);
-                throw "error";
-            }
             print('class $p');
 
             var bases = [];
