@@ -161,7 +161,7 @@ extern class Re
 		return findallTuple(pattern, string,flags).map(function (t) return t.toArray());
 	}
 
-	public static function finditer(pattern:Pattern, string:String,   flags:Int=0):Iterator<MatchObject>;
+	public static function finditer(pattern:Pattern, string:String,   flags:Int=0):PyIterator<MatchObject>;
 
 	
 	@:overload(function (pattern:Pattern, repl:String, string:String,  ?count:Int=0, ?flags:Int=0):String {})

@@ -33,6 +33,7 @@ enum ValueType {
 	TUnknown;
 }
 
+@:access(python.Boot)
 @:coreApi class Type {
 
 	public static function getClass<T>( o : T ) : Class<T> untyped {
@@ -68,6 +69,9 @@ enum ValueType {
 			return untyped c._hx_class_name;
 		} else {
 			// not a haxe class
+			if (c == Array) {
+				return "Array";
+			}
 			try {
 				var s :String = untyped c.__name__;
 			} catch (e:Dynamic) {
@@ -84,8 +88,8 @@ enum ValueType {
 		return untyped e._hx_class_name;
 	}
 
-	public static function resolveClass( name : String ) : Class<Dynamic> untyped {
-		var cl : Class<Dynamic> = _hx_classes[name];
+	public static function resolveClass( name : String ) : Class<Dynamic> {
+		var cl : Class<Dynamic> = (untyped _hx_classes : python.lib.Types.Dict<String, Class<Dynamic>>).get(name, null);
         // ensure that this is a class
         if( cl == null || !python.Boot.isClass(cl) )
                 return null;
@@ -137,6 +141,7 @@ enum ValueType {
 		if( f == null ) throw "No such constructor "+constr;
 		if( Reflect.isFunction(f) ) {
 			if( params == null ) throw "Constructor "+constr+" need parameters";
+
 			return Reflect.callMethod(e,f,params);
 		}
 		if( params != null && params.length != 0 )
@@ -190,10 +195,10 @@ enum ValueType {
 		} else if (Builtin.isinstance(v, untyped __python__("float"))) {
 			return TFloat;
 		} else if (Builtin.hasattr(v, "__class__")) {
-			if (Builtin.isinstance(v, untyped __python__("_Hx_AnonObject"))) {
+			if (Builtin.isinstance(v, untyped __python__("_hx_c._hx_AnonObject"))) {
 				return TObject;
 			}
-			if (Builtin.isinstance(v, untyped __python__("_Hx_Enum"))) {
+			if (Builtin.isinstance(v, untyped __python__("_hx_c.Enum"))) {
 				return TEnum(untyped v.__class__);	
 			}
 			return TClass(untyped v.__class__);
@@ -205,19 +210,49 @@ enum ValueType {
 	}
 
 	public static function enumEq<T>( a : T, b : T ) : Bool {
-		return throw "enumEq not implemented";
+		if( a == b )
+			return true;
+		try {
+			if( untyped a.tag != untyped b.tag )
+				return false;
+			var p1:Array<Dynamic> = untyped a.params;
+			var p2:Array<Dynamic> = untyped b.params;
+			for( i in 0...p1.length )
+				if( !enumEq(p1[i],p2[i]) )
+					return false;
+			var e = Type.getClass(a);
+
+			if( e != untyped b._hx_class || e == null )
+				return false;
+		} catch( e : Dynamic ) {
+			return false;
+		}
+		return true;
 	}
 
 	public inline static function enumConstructor( e : EnumValue ) : String {
-		return untyped e.tag;
+		try {
+			return untyped e.tag;
+		} catch (e:Dynamic) {
+			return null;
+		}
 	}
 
 	public inline static function enumParameters( e : EnumValue ) : Array<Dynamic> {
-		return untyped e.params;
+		try {
+			return untyped e.params;
+		} catch (e:Dynamic) {
+			return null;
+		}
 	}
 
 	public inline static function enumIndex( e : EnumValue ) : Int {
-		return untyped e.index;
+		try {
+			return untyped e.index;
+		} catch (e:Dynamic) {
+			return null;
+		}
+
 	}
 
 	public static function allEnums<T>( e : Enum<T> ) : Array<T>

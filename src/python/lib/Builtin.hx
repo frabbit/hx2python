@@ -129,7 +129,7 @@ extern class Builtin {
 	//public static function slice():Void;
 	//public static function coerce():Void;
 	//public static function dir():Void;
-	//public static function id():Void;
+	public static function id(x:{}):Int;
 	//public static function oct():Void;
 	//public static function sorted():Void;
 	//public static function intern():Void;

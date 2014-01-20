@@ -167,11 +167,11 @@ class Serializer {
 	}
 
 	function serializeRef(v) {
-		#if js
+		#if (js && !python)
 		var vt = untyped __js__("typeof")(v);
 		#end
 		for( i in 0...cache.length ) {
-			#if js
+			#if (js && !python)
 			var ci = cache[i];
 			if( untyped __js__("typeof")(ci) == vt && ci == v ) {
 			#else
@@ -244,20 +244,25 @@ class Serializer {
 		case TBool:
 			buf.add(if( v ) "t" else "f");
 		case TClass(c):
+
 			if( #if neko untyped c.__is_String #else c == String #end ) {
 				serializeString(v);
 				return;
 			}
+			
 			if( useCache && serializeRef(v) )
 				return;
+
+			
+
 			switch( #if (neko || cs || python) Type.getClassName(c) #else c #end ) {
 			case #if (neko || cs || python) "Array" #else cast Array #end:
 				var ucount = 0;
 				buf.add("a");
-				#if flash9
+				#if (flash9 || python)
 				var v : Array<Dynamic> = v;
 				#end
-				var l = #if (neko || flash9 || php || cs || java) v.length #elseif cpp v.__length() #else v[untyped "length"] #end;
+				var l = #if (neko || flash9 || php || cs || java || python) v.length #elseif cpp v.__length() #else v[untyped "length"] #end;
 				for( i in 0...l ) {
 					if( v[i] == null )
 						ucount++;
@@ -282,12 +287,14 @@ class Serializer {
 						buf.add(ucount);
 					}
 				}
+
 				buf.add("h");
 			case #if (neko || cs || python) "List" #else cast List #end:
 				buf.add("l");
 				var v : List<Dynamic> = v;
 				for( i in v )
 					serialize(i);
+					
 				buf.add("h");
 			case #if (neko || cs || python) "Date" #else cast Date #end:
 				var d : Date = v;
@@ -381,10 +388,13 @@ class Serializer {
 				}
 			}
 		case TObject:
+
 			if( useCache && serializeRef(v) )
 				return;
 			buf.add("o");
+
 			serializeFields(v);
+			
 		case TEnum(e):
 			if( useCache && serializeRef(v) )
 				return;
@@ -458,10 +468,10 @@ class Serializer {
 			} else
 				serializeString(Type.enumConstructor(v));
 			buf.add(":");
+			
 			var arr:Array<Dynamic> = Type.enumParameters(v);
 			
-			trace(arr);
-			trace(arr != null);
+			
 			if (arr != null)
 			{
 				buf.add(arr.length);

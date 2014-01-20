@@ -13,10 +13,12 @@ class EReg {
 		If `r` or `opt` are null, the result is unspecified.
 	**/
 
-	var pattern:Pattern;
+	var pattern:Regex;
 	var matchObj:MatchObject;
 	var global:Bool;
 	
+
+
 
 	public function new( r : String, opt : String ) {
 		global = false;
@@ -101,7 +103,7 @@ class EReg {
 		length of the leftmost substring is returned.
 	**/
 	public function matchedPos() : { pos : Int, len : Int } {
-		return { pos : matchObj.pos, len : matchObj.end() - matchObj.start() };
+		return { pos : matchObj.start(), len : matchObj.end() - matchObj.start() };
 	}
 
 	/**
@@ -115,8 +117,15 @@ class EReg {
 		
 		If `s` is null, the result is unspecified.
 	**/
-	public function matchSub( s : String, pos : Int, len : Int = 0):Bool {
-		return this.match(s.substr(pos, len));
+	public function matchSub( s : String, pos : Int, ?len : Int):Bool {
+		if (len != null) {
+			matchObj = pattern.search(s, pos, pos+len);
+		} else {
+			matchObj = pattern.search(s, pos);
+		}
+		
+		return this.matchObj != null;
+		
 	}
 
 	/**
@@ -141,7 +150,9 @@ class EReg {
 		return if (global) {
 			var ret = [];
 			var lastEnd = 0;
+			
 			for (x in Re.finditer(pattern, s)) {
+
 				ret.push(s.substring(lastEnd, x.start() ));
 				lastEnd = x.end();
 			}
@@ -193,15 +204,54 @@ class EReg {
 		and setting the `g` flag might cause some incorrect behavior on some platforms.
 	**/
 	public function map( s : String, f : EReg -> String ) : String {
+		
 		var buf = new StringBuf();
-		while( true ) {
-			if( !match(s) )
+		var pos = 0;
+		var right = s;
+		
+		var cur = this;
+		while( pos < s.length ) {
+			
+			if (matchObj == null) {
+				matchObj = Re.search(pattern, s);
+			} else {
+				matchObj = matchObj.re.search(s, pos);
+			}
+
+			if( matchObj == null )
 				break;
-			buf.add(matchedLeft());
-			buf.add(f(this));
-			s = matchedRight();
+			
+			
+
+			var pos1 = matchObj.end();
+
+			var curPos = cur.matchedPos();
+
+
+			buf.add(cur.matchedLeft().substr(pos));
+			buf.add(f(cur));
+
+			right = cur.matchedRight();
+			
+			
+
+			if (!global) {
+				buf.add(right);
+				return buf.toString();
+			}
+			
+			if (curPos.len == 0) {
+				buf.add(s.charAt(pos1));
+				right = right.substr(1);
+				pos = pos1+1;
+			} else {
+				pos = pos1;
+			}
+
+			
 		}
-		buf.add(s);
+		buf.add(right);
 		return buf.toString();
+
 	}
 }

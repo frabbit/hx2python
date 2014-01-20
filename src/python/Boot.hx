@@ -82,7 +82,7 @@ package python;
 		if (builtin.hasattr(o, "__class__")) 
 		{
 
-			if (builtin.isinstance(o, untyped __python__("_Hx_AnonObject"))) 
+			if (builtin.isinstance(o, untyped __python__("_hx_c._hx_AnonObject"))) 
 			{
 				var toStr = null;
 				try 
@@ -106,7 +106,7 @@ package python;
 				}
 				
 			}
-			if (builtin.isinstance(o, untyped __python__("_hx_Enum"))) {
+			if (builtin.isinstance(o, untyped __python__("_hx_c.Enum"))) {
 				
 				
 

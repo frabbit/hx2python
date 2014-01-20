@@ -388,10 +388,10 @@ class PythonTransformer {
 
 		return switch [e.isValue, e.expr.expr] 
 		{
-			case [nested, TBlock([x])]:
+			case [isValue, TBlock([x])]:
 				//trace(ExprTools.toString(Context.getTypedExpr(x)));
-				//trace("transform simple expr in block " + nested);
-				transformExpr(x,nested, e.nextId);
+				//trace("transform simple expr in block " + isValue);
+				transformExpr(x,isValue, e.nextId);
 
 
 			case [_, x = TBlock([])]:
@@ -1019,6 +1019,10 @@ class PythonTransformer {
 
 				var blockExpr = { expr : block, t : e.expr.t, pos : e.expr.pos };
 				forwardTransform(blockExpr, e);				
+			case [false, TThrow(x)]:
+				var x = transformExpr(x, true, e.nextId);
+				var ex = { expr : TThrow(x.expr) , pos : e.expr.pos, t : e.expr.t };
+				liftExpr(ex, false, e.nextId, x.blocks);
 			/*
 
 			//  case [_, ECall(e1={ expr : EConst(CIdent("trace"))},params)]:

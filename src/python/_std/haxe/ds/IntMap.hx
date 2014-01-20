@@ -6,11 +6,11 @@ class IntMap<T> implements Map.IMap<Int, T> {
 	private var h : Dict<Int, T>;
 
 	public function new() : Void {
-		h = untyped __python__("{}");
+		h = new Dict();
 	}
 
 	public function set( key : Int, value : T ) : Void {
-		untyped h[key] = value;
+		h.set(key, value);
 	}
 
 	public inline function get( key : Int ) : Null<T> {
@@ -42,7 +42,7 @@ class IntMap<T> implements Map.IMap<Int, T> {
 		var ref = h;
 		return {
 			hasNext : function() { return iter.hasNext(); },
-			next : function() { var i = iter.next(); return untyped ref[i]; }
+			next : function() { var i = iter.next(); return ref.get(i, null); }
 		};
 	}
 	

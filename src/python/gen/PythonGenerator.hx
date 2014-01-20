@@ -286,9 +286,9 @@ class PythonGenerator
        
     }
 
-    function getPath(t : BaseType)
+    function getPath(t : BaseType, isDefinition:Bool = true)
     {
-        return typedExprPrinter.printBaseType(t, PrintContexts.create(""), true);
+        return typedExprPrinter.printBaseType(t, PrintContexts.create(""), isDefinition);
     }
 
     
@@ -299,6 +299,7 @@ class PythonGenerator
         if(e == null)
         {
             print('\t# var $field');
+
         }
         else switch( f.kind )
         {
@@ -421,8 +422,15 @@ class PythonGenerator
         {
             api.setCurrentClass(c);
 
-            var p = getPath(c);
+            var p = getPath(c, true);
             var pName = getFullName(c);
+            
+            if (StringTools.startsWith(p, "_hx_c")) {
+                trace(p);
+                trace(c);    
+                trace(pName);
+                throw "error";
+            }
             print('class $p');
 
             var bases = [];
@@ -548,7 +556,7 @@ class PythonGenerator
         var p = getPath(e);
         var pName = getFullName(e);
 
-        printLine('class $p(_hx_Enum):');
+        printLine('class $p(_hx_c.Enum):');
         printLine('\tdef __init__(self, t, i, p):');
         printLine('\t\tsuper($p,self).__init__(t, i, p)');
 
@@ -560,7 +568,7 @@ class PythonGenerator
 
             var c = e.constructs.get(c);
 
-            enumConstructs.push(c.name);
+            enumConstructs.push({ name : c.name, index: c.index });
 
             var f = handleKeywords(c.name);
             
@@ -578,7 +586,9 @@ class PythonGenerator
             newline();
         }
         var fix = enumConstructs.length > 0 ? '"' : '';
-        var enumConstructsStr = fix + enumConstructs.join('","') + fix;
+        var enumConstructs = enumConstructs.copy();
+        enumConstructs.sort(function (a,b) return a.index < b.index ? -1 : a.index > b.index ? 1 : 0);
+        var enumConstructsStr = fix + enumConstructs.map(function (x) return x.name).join('","') + fix;
 
         printLine('$p._hx_constructs = [$enumConstructsStr]');
         printLine('$p._hx_class = $p');

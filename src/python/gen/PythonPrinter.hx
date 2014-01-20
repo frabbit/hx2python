@@ -180,7 +180,12 @@ class PythonPrinter {
 		case TAnonymous(fields): "{ " + [for (f in fields) printField(f,context) + "; "].join("") + "}";
 		case TParent(ct): "(" + printComplexType(ct,context) + ")";
 		case TOptional(ct): "?" + printComplexType(ct,context);
-		case TExtend(tp, fields): '{${printTypePath(tp,context)} >, ${fields.map(printField.bind(_,context)).join(", ")} }';
+		case TExtend(tps, fields): 
+            var tpsStr = "";
+            for (tp in tps) {
+                tpsStr += printTypePath(tp,context) + " >,";
+            }
+            '{$tpsStr ${fields.map(printField.bind(_,context)).join(", ")} }';
 	}
 
 	public function printMetadata(meta:MetadataEntry,context) return

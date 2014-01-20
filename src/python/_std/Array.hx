@@ -66,13 +66,19 @@ extern class Array<T> implements ArrayAccess<T> {
 	}
 
 	@:runtime public inline function push(x:T) : Int {
-		
-		
 		return ArrayImpl.push(this,x);
 	}
 
 	public inline function unshift(x : T) : Void {
 		return ArrayImpl.unshift(this,x);
+	}
+
+	public inline function indexOf(x : T, ?fromIndex:Int) : Int {
+		return ArrayImpl.indexOf(this,x, fromIndex);
+	}
+
+	public inline function lastIndexOf(x : T, ?fromIndex:Int) : Int {
+		return ArrayImpl.lastIndexOf(this,x, fromIndex);
 	}
 
 	public inline function remove(x : T) : Bool {

@@ -13,6 +13,7 @@ class Tools {
 		if (len == null) {
 			return untyped __python__("s[startIndex:]");
 		} else {
+			if (len == 0) return "";
 			return untyped __python__("s[startIndex:startIndex+len]");
 		}
 		

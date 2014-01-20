@@ -21,7 +21,8 @@ class StringImpl {
 		} else {
 
 			var i = (untyped s.rfind)(str, 0, startIndex+1);
-			var check = (untyped s.find)(str, i == -1 ? startIndex+1-str.length : i+1, s.length);
+			var startLeft = i == -1 ? Math.max(0,startIndex+1-str.length) : i+1;
+			var check = (untyped s.find)(str, startLeft, s.length);
 			if (check > i && check <= startIndex) {
 				return check;
 			} else {

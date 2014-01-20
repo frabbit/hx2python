@@ -49,6 +49,30 @@ class ArrayImpl {
 	//public static function insert( pos : Int, x : T ) : Void;
 
 
+	public static function indexOf<T>(a:Array<T>, x : T, ?fromIndex:Int) : Int {
+		var l = 
+			if (fromIndex == null) 0
+			else if (fromIndex < 0) a.length - fromIndex 
+			else fromIndex;
+		if (l < 0) return -1;
+		for (i in fromIndex...a.length) {
+			if (a[l] == x) return l;
+		}
+		return -1;
+	}
+
+	public static function lastIndexOf<T>(a:Array<T>, x : T, ?fromIndex:Int) : Int {
+		var l = 
+			if (fromIndex == null) a.length 
+			else if (fromIndex < 0) a.length - fromIndex
+			else fromIndex;
+		if (l > a.length) return -1;
+		while (--l > -1) {
+			if (a[l] == x) return l;
+		}
+		return -1;
+	}
+
 	public static inline function join<T>(x:Array<T>, sep : String ) : String {
 		return untyped sep.join(x.map(Std.string));
 	}

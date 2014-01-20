@@ -2,15 +2,17 @@ import builtins as _hx_builtin
 
 _hx_classes = dict()
 
-class _Hx_AnonObject(object):
+class _hx_AnonObject(object):
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-_hx_c = _Hx_AnonObject()
+_hx_c = _hx_AnonObject()
+
+_hx_c._hx_AnonObject = _hx_AnonObject
 
 import functools as _hx_functools
 
-class _hx_Enum:
+class Enum:
     # String tag;
     # int index;
     # List params;
@@ -26,10 +28,10 @@ class _hx_Enum:
             res = self.tag + '(' + ','.join(self.params) + ')'
         res
 
-_hx_Enum._hx_class_name = 'Enum'
-_hx_Enum._hx_class = _hx_Enum
-_hx_classes['Enum'] = _hx_Enum
-_hx_c._hx_Enum = _hx_Enum
+Enum._hx_class_name = 'Enum'
+Enum._hx_class = Enum
+_hx_classes['Enum'] = Enum
+_hx_c.Enum = Enum
 
 class _HxException(Exception):
     # String tag;

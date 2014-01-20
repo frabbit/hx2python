@@ -109,10 +109,11 @@ class PythonPrinterTyped {
 	}
 
 
-
-    public function printBaseType(tp:BaseType,context:PrintContext, isDefinition:Bool = false)
+    
+    public function printBaseType(tp:BaseType,context:PrintContext, ?isDefinition:Bool = false)
     {
-        var key = tp.module + tp.name;
+        
+        var key = tp.module + tp.name + "_" + Std.string(isDefinition);
         if (baseTypeCache.exists(key)) {
             return baseTypeCache.get(key);
         }
@@ -140,7 +141,7 @@ class PythonPrinterTyped {
             }
         } else {
             var pre = isDefinition ? "" : "_hx_c.";
-
+                    
             if (hasModule && isPrivate) {
                 var prefix = pre+tp.module.split(".").join("_");
 
@@ -528,7 +529,7 @@ class PythonPrinterTyped {
             
 		case TParenthesis(e1): '(${printExpr1(e1)})';
 		case TObjectDecl(fl):
-			"_Hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.name)} = ${printExpr1(fld.expr)} ').join(",") + ")";
+			"_hx_c._hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.name)} = ${printExpr1(fld.expr)} ').join(",") + ")";
 		case TArrayDecl(el): '[${printExprs(el, ", ",context)}]';
         case TCall({ expr : TField(e1, FAnon(cf))}, []) if (cf.get().name == "toUpperCase"):
             "_hx_toUpperCase(" + printExpr1(e1) + ")";

@@ -86,7 +86,7 @@ import python.lib.Types;
 	public static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic 
 	{
 		var args:VarArgs = args;
-		return if (Inspect.ismethod(func)) func(untyped __python_varargs__(args)) else null;
+		return if (Builtin.callable(func)) func(untyped __python_varargs__(args)) else null;
 	}
 
 	public static function fields( o : Dynamic ) : Array<String> 
@@ -96,11 +96,11 @@ import python.lib.Types;
 		{
 			if (Builtin.hasattr(o, "_hx_fields")) 
 			{
-				trace("here we go");
+				
 				var fields:Array<String> = o._hx_fields;
 				return fields.copy();
 			}
-			if (Builtin.isinstance(o, untyped __python__("_Hx_AnonObject"))) 
+			if (Builtin.isinstance(o, untyped __python__("_hx_c._hx_AnonObject"))) 
 			{
 				
 				var d:Dict<String, Dynamic> = Builtin.getattr(o, "__dict__");
