@@ -288,7 +288,7 @@ extern class Math
 		
 		Otherwise the result is true.
 	**/
-	static inline function isFinite( f : Float ) : Bool return untyped !_hx_math.isinf(f);
+	static inline function isFinite( f : Float ) : Bool return f != POSITIVE_INFINITY && f != NEGATIVE_INFINITY && !isNaN(f);
 	
 	/**
 		Tells if `f` is not a valid number.

@@ -65,13 +65,15 @@ enum ValueType {
 
 	public static function getClassName( c : Class<Dynamic> ) : String 
 	{
+		
 		if (Builtin.hasattr(c, "_hx_class_name")) {
 			return untyped c._hx_class_name;
 		} else {
 			// not a haxe class
-			if (c == Array) {
-				return "Array";
-			}
+			if (c == Array) return "Array";
+			if (c == Math) return "Math";
+			if (c == String) return "String";
+
 			try {
 				var s :String = untyped c.__name__;
 			} catch (e:Dynamic) {
@@ -89,6 +91,9 @@ enum ValueType {
 	}
 
 	public static function resolveClass( name : String ) : Class<Dynamic> {
+		if (name == "Array") return Array;
+		if (name == "Math") return Math;
+		if (name == "String") return String;
 		var cl : Class<Dynamic> = (untyped _hx_classes : python.lib.Types.Dict<String, Class<Dynamic>>).get(name, null);
         // ensure that this is a class
         if( cl == null || !python.Boot.isClass(cl) )
@@ -132,7 +137,11 @@ enum ValueType {
 	}
 
 	public static function createEmptyInstance<T>( cl : Class<T> ) : T {
-		return untyped cl.__new__(cl);
+		var i = untyped cl.__new__(cl);
+		if (Builtin.hasattr(cl, "_hx_empty_init")) {
+			untyped cl._hx_empty_init(i);
+		}
+		return i;
 	}
 
 	public static function createEnum<T>( e : Enum<T>, constr : String, ?params : Array<Dynamic> ) : T 
@@ -185,6 +194,8 @@ enum ValueType {
 		}
 	}
 
+
+
 	public static function typeof( v : Dynamic ) : ValueType {
 		if (v == null) {
 			return TNull;
@@ -194,13 +205,17 @@ enum ValueType {
 			return TInt;
 		} else if (Builtin.isinstance(v, untyped __python__("float"))) {
 			return TFloat;
-		} else if (Builtin.hasattr(v, "__class__")) {
-			if (Builtin.isinstance(v, untyped __python__("_hx_c._hx_AnonObject"))) {
-				return TObject;
-			}
-			if (Builtin.isinstance(v, untyped __python__("_hx_c.Enum"))) {
-				return TEnum(untyped v.__class__);	
-			}
+		} else if (Builtin.isinstance(v, String)) {
+			return TClass(String);
+		} else if (Builtin.isinstance(v, Array)) {
+			return TClass(Array);
+		} else if (Builtin.isinstance(v, untyped __python__("_hx_c._hx_AnonObject")) || python.lib.Inspect.isclass(v)) {
+			return TObject;
+		}
+		else if (Builtin.isinstance(v, untyped __python__("_hx_c.Enum"))) {
+			return TEnum(untyped v.__class__);
+		}
+		else if (Builtin.isinstance(v, untyped __python__("type")) || Builtin.hasattr(v, "_hx_class")) {
 			return TClass(untyped v.__class__);
 		} else if (Builtin.callable(v)) {
 			return TFunction;

@@ -16,7 +16,7 @@ class KeywordHandler {
 		"break" => true,     "except" => true,    "import" => true,    "print" => true,		"float" => true,
 		"class" => true,     "exec" => true,      "in" => true,        "raise" => true,
 		"continue" => true,  "finally" => true,   "is" => true,        "return" => true,
-		"def" => true,       "for" => true,       "lambda" => true,    "try" => true, "None" => true, "Enum" => true
+		"def" => true,       "for" => true,       "lambda" => true,    "try" => true, "None" => true
 	];
 
 	public static inline function handleKeywords(name:String)

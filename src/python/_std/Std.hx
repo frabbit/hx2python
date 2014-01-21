@@ -30,38 +30,67 @@ import python.Boot;
 @:coreApi /*extern*/ class Std {
 
     public static inline function instance<T>( v : { }, c : Class<T> ) : T {
-        return Builtin.isinstance(v,c) ? cast v : null;
+        try {
+            return Builtin.isinstance(v,c) ? cast v : null;
+        } catch (e:Dynamic) {
+            return null;
+        }
         
 
     }
     public static function is( v : Dynamic, t : Dynamic ) : Bool {
 
-        if (v == null) {
+        if (v == null && t == null) {
             return false;
         }
-        else if (t == null) {
+        if (t == null) {
 
             return false;
         }
-        else if (t == (untyped __python__("Dynamic"))) {
+        if (t == (untyped __python__("Dynamic"))) {
             return true;
         }
-        else if (t == (untyped __python__("Bool")) && Builtin.isinstance(v, (untyped __python__("bool")))) {
+        var isBool = Builtin.isinstance(v, (untyped __python__("bool")));
+        
+        if (t == (untyped __python__("Bool")) && isBool) {
             return true;
         }
-        else if ( t ==  (untyped __python__("Int")) && Builtin.isinstance(v, (untyped __python__("int")))) {
+        if (!isBool && t != (untyped __python__("Bool")) && t ==  (untyped __python__("Int")) && Builtin.isinstance(v, (untyped __python__("int")) )) {
             return true;
         }
-        else if ( t == (untyped __python__("Float")) && (Builtin.isinstance(v, (untyped __python__("(float,int)"))) || Builtin.isinstance(v, (untyped __python__("int"))))) {
+        var vIsFloat = Builtin.isinstance(v, (untyped __python__("float")));
+
+        if (!isBool && vIsFloat && t == (untyped __python__("Int")) && Math.isFinite(v) && v == Std.int(v)) {
             return true;
         }
-        else if ( t == (untyped __python__("str"))) {
+
+        if (!isBool &&  t == (untyped __python__("Float")) && ( Builtin.isinstance(v, (untyped __python__("(float,int)"))))) {
+            return true;
+        }
+
+        if ( t == (untyped __python__("str"))) {
             return Builtin.isinstance(v, String);
         }
-        else if (Builtin.isinstance(v, t)) {
+        if (t == Enum && Inspect.isclass(v) && Builtin.hasattr(v, "_hx_constructs")) return true;
+
+        if (t == Enum) return false;
+
+        if (t == Date && Builtin.isinstance(v, Date)) return true;
+
+        if (t == Date) return false;
+
+        if (Builtin.isinstance(v, Date)) return false;        
+
+        if (t == Class && !Builtin.isinstance(v, untyped Enum) && Inspect.isclass(v) && Builtin.hasattr(v, "_hx_class_name") && !Builtin.hasattr(v, "_hx_constructs")) return true;
+
+        if (t == Class) return false; // && !Builtin.isinstance(v, untyped Enum) && Builtin.hasattr(v, "__class__") && untyped Builtin.hasattr(v.__class__, "_hx_class_name") && !untyped Builtin.hasattr(v.__class__, "_hx_constructs")) return true;
+
+
+
+        if (try Builtin.isinstance(v, t) catch (e:Dynamic) false) {
             return true;
         } 
-        else if (Inspect.isclass(t)) {
+        if (Inspect.isclass(t)) {
             
             function loop (intf) 
             {
@@ -109,8 +138,15 @@ import python.Boot;
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
-        
-        return int(parseFloat(x));
+        try {
+            return (untyped __python__("int"))(x);
+        } catch (e:Dynamic) {
+            try {
+                return (untyped __python__("int"))(x,16);
+            } catch (e:Dynamic) {
+                return int(parseFloat(x));
+            }
+        }
         
     }
 

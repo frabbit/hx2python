@@ -70,17 +70,18 @@ import python.lib.Types;
 		//return if (o == null) null else if ( (tmp=Reflect.field(o, "get_" + field)) != null && Builtin.callable(tmp)) tmp() else Reflect.field(o, field);
 	}
 
-	public static inline function setProperty( o : Dynamic, field : String, value : Dynamic ) : Void untyped {
+	public static inline function setProperty( o : Dynamic, field : String, value : Dynamic ) : Void {
 		
-		/*
-		if (hasattr(o,"set_"+field)) {
-			var tmp = getattr(o,"set_"+field);
+		var field = KeywordHandler.handleKeywords(field);
+
+		return if (Builtin.hasattr(o,"set_"+field)) {
+			var tmp = Builtin.getattr(o,"set_"+field);
 			tmp(value);
 		}
-		else setattr(o,field, __define_feature__("Reflect.setProperty",value));
-		*/
-		var field = KeywordHandler.handleKeyword(field);
-		return throw "not implemented";
+		else Builtin.setattr(o,field, untyped __define_feature__("Reflect.setProperty",value));
+		
+		
+		
 	}
 
 	public static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic 
@@ -141,7 +142,7 @@ import python.lib.Types;
 		if( !isFunction(f1) || !isFunction(f2) )
 			return false;
 		
-		return throw "not implemented";
+		return false;
 	}
 
 	public static function isObject( v : Dynamic ) : Bool untyped {

@@ -395,6 +395,29 @@ class PythonGenerator
         }
     }
 
+    function genClassEmptyConstructor(typeName:String, classFields:Array<ClassField>) {
+        var sName = typeName + "_hx_empty_init";
+
+        printLine("def "+ sName +" (_hx_o):");
+
+        var foundFields = false;
+        for (c in classFields) {
+            switch (c.kind) {
+                case FVar(AccResolve | AccCall, _):
+                case FVar(_, _): 
+                    foundFields = true; 
+                    printLine("\t_hx_o." + handleKeywords(c.name) + " = None");
+                case _ :
+            }
+            
+        }
+        if (!foundFields) {
+            printLine("\tpass");            
+        }
+
+        printLine(typeName + "._hx_empty_init = " + sName);
+    }
+
     function collectClassFieldData (classFields:Array<ClassField>) 
     {
         var fields = [];
@@ -455,6 +478,8 @@ class PythonGenerator
 
             genClassConstructor(c, cType, classFields);
 
+
+
             
             
             for(f in classFields)
@@ -472,6 +497,7 @@ class PythonGenerator
 
             genClassData (c, x.fields, x.props, x.methods, superClass, interfaces, p, pName);
             
+            genClassEmptyConstructor(p, classFields);
             
             genClassStatics(c, p);
             

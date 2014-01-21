@@ -74,9 +74,12 @@ package python;
 			st += "]";
 			return st;
 		}
+		try {
+			if (builtin.hasattr(o, "toString")) {
+				return o.toString();
+			}
+		} catch (e:Dynamic) {
 
-		if (builtin.hasattr(o, "toString")) {
-			return o.toString();
 		}
 		
 		if (builtin.hasattr(o, "__class__")) 
@@ -152,10 +155,18 @@ package python;
 			//if (builtin.hasattr(o, "_hx_name")) {
 			//	return "#" + untyped o._hx_name;
 			//}
-
-			if (builtin.hasattr(o, "__repr__")) {
-				return untyped o.__repr__();
+			if (o == Array) {
+				return "#Array";
 			}
+			
+			if (builtin.callable(o)) {
+				return "function";
+			}
+			try {
+				if (builtin.hasattr(o, "__repr__")) {
+					return untyped o.__repr__();
+				}
+			} catch (e:Dynamic) {}
 
 			if (builtin.hasattr(o, "__str__")) {
 				return untyped o.__str__();

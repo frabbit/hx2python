@@ -10,6 +10,7 @@ _hx_c = _hx_AnonObject()
 
 _hx_c._hx_AnonObject = _hx_AnonObject
 
+
 import functools as _hx_functools
 
 class Enum:

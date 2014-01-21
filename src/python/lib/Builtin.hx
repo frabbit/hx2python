@@ -23,6 +23,10 @@ extern class Builtin {
 	public static function issubclass(x:Class<Dynamic>, from:Class<Dynamic>):Bool;
 	public static function callable(x:Dynamic):Bool;
 
+
+	
+
+	@:overload(function (obj:Dynamic, f:Tuple<Dynamic>):Bool {})
 	public static function isinstance(obj:Dynamic, cl:Class<Dynamic>):Bool;
 
 	public static function hasattr(obj:Dynamic, attr:String):Bool;
