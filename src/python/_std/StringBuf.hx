@@ -1,3 +1,5 @@
+import python.lib.Builtin;
+
 /*
  * Copyright (C)2005-2012 Haxe Foundation
  *
@@ -43,7 +45,8 @@ extern class StringBuf {
     public var length(get, null):Int;
 
     public inline function get_length ():Int {
-    	return untyped this.len;
+    	// TODO better implementation
+    	return this.toString().length;
     }
 
 	/**

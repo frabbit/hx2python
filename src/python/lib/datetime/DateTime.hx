@@ -19,7 +19,7 @@ extern class DateTime {
 	public var microsecond : Int;
 	public var tzinfo : TzInfo;
 
-
+	
 
 	public static function today ():DateTime;
 	public static function now (?tzinfo:TzInfo):DateTime;
@@ -30,6 +30,10 @@ extern class DateTime {
 
 	public function strftime (format:String):String;
 	public function replace (?year:Int = 1970, ?month:Int = 1, ?day:Int = 1, ?hour:Int = 0, ?minute:Int = 0, ?second:Int, ?microsecond:Int, ?tzinfo:TzInfo):DateTime;
+	/* 0-6 */
+	public function weekday():Int;
+	/* 1-7 */
+	public function isoweekday():Int;
 
 	// python 3.3
 	public function timestamp ():Float;

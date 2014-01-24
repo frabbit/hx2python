@@ -80,7 +80,7 @@ import python.lib.datetime.DateTime;
 
 	public inline function getDay() : Int
 	{
-		return throw "not implemented";
+		return date.isoweekday();
 	}
 
 	public function toString():String

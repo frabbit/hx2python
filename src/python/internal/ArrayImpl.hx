@@ -55,7 +55,7 @@ class ArrayImpl {
 			else if (fromIndex < 0) a.length - fromIndex 
 			else fromIndex;
 		if (l < 0) return -1;
-		for (i in fromIndex...a.length) {
+		for (i in l...a.length) {
 			if (a[l] == x) return l;
 		}
 		return -1;

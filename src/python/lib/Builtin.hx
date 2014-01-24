@@ -33,6 +33,7 @@ extern class Builtin {
 	public static function getattr(obj:Dynamic, attr:String):Dynamic;
 	
 	@:overload(function (f:Set<Dynamic>):Int {})
+	@:overload(function (f:StringBuf):Int {})
 	@:overload(function (f:Array<Dynamic>):Int {})
 	@:overload(function (f:Dict<Dynamic, Dynamic>):Int {})
 	@:overload(function (f:Bytes):Int {})

@@ -155,8 +155,9 @@ import python.lib.Types;
 	}
 	
 	public static function isEnumValue( v : Dynamic ) : Bool {
+		return v != Enum && Builtin.isinstance(v, untyped Enum);
 		//return v != null && v.__enum__ != null;
-		return throw "not implemented";
+		//return throw "not implemented";
 	}
 
 	public static function deleteField( o : Dynamic, field : String ) : Bool untyped {

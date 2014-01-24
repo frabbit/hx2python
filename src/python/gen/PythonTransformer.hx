@@ -190,6 +190,14 @@ class PythonTransformer {
 		
 	}
 
+	static function createNonLocal (n:String, pos:Position) {
+		var s = "nonlocal " + n; 
+		var id = { expr : TLocal({ id : 0, name : "__python__", t : TDynamic(null), extra : null, capture : false }), pos : pos, t : TDynamic(null)};
+		var id2 = { expr : TLocal({ id : 0, name : s, t : TDynamic(null), extra : null, capture : false }), pos : pos, t : TDynamic(null)};
+		var e = { expr : TCall(id, [id2]), pos : pos, t : TDynamic(null)};
+		return e;
+	}
+
 	static function toTVar (n:String, t:Type, capture:Bool = false) {
 		if (capture == null) capture = false;
 		return { id : 0, name : n, t : t, capture : capture, extra : null};
@@ -212,9 +220,20 @@ class PythonTransformer {
 		return toTExpr(TCall(id, []), retType, pos);
 	}
 
-	static function exprsToFunc (exprs:Array<TypedExpr>, name:String, base:AdjustedExpr) 
+	static function exprsToFunc (exprs:Array<TypedExpr>, name:String, base:AdjustedExpr, cacheCall:Bool = false) 
 	{
-		
+		var ex1 = exprs[exprs.length-1];
+		var cacheVarName = base.nextId();
+		var cacheVar = toTVar(cacheVarName, ex1.t, false);
+		var cacheVarLocal = toTExpr(TLocal(cacheVar), ex1.t, ex1.pos);
+		var cNull = toTExpr(TConst(TNull), ex1.t, ex1.pos);
+		var cacheVarInit = toTExpr(TVar(cacheVar, cNull), ex1.t, ex1.pos);
+		var cacheVarRet = toTExpr(TReturn(cacheVarLocal), ex1.t, ex1.pos);
+		var cacheVarCheckNull = toTExpr(TBinop(OpNotEq, cacheVarLocal, cNull), ex1.t, ex1.pos);
+
+		var cacheVarNonLocal = createNonLocal(cacheVarName, ex1.pos);
+		var cacheVarCheckAndRet = toTExpr(TIf(cacheVarCheckNull, cacheVarRet, null), ex1.t, ex1.pos);
+
 		if (exprs.length == 1) 
 		{
 			switch (exprs[0].expr) {
@@ -236,32 +255,31 @@ class PythonTransformer {
 				
 				case TFunction(f): 
 					
+
 					var ret = toTReturnExpr(name, f.t, f.expr.pos);
 
 					[expr, ret];
 				case TBinop(OpAssign,l,r): 
-					//var id = base.nextId();
-					//var idVar = toTVar(id, expr.t);
-
-					//var e1 = { expr : TVars([{ v : idVar, expr : expr }]), pos : expr.pos, t:Context.typeof(macro var x)};
-
-					//var r = toTReturnExpr(id, r.t, r.pos);
-
+					var cacheVarSet = toTExpr(TVar(cacheVar, l), l.t, l.pos);
 					var r = { expr : TReturn(l), t : l.t, pos : l.pos};
 
+					if (cacheCall) [expr, cacheVarSet, r] else [expr, r];
 
-					[expr, r];
+					
 				case x: 
-					[toTExpr(TReturn(expr), expr.t, expr.pos)];
+					var cacheVarSet = toTExpr(TVar(cacheVar, expr), expr.t, expr.pos);
+					var retExpr = toTExpr(TReturn(expr), expr.t, expr.pos);
+					if (cacheCall) [cacheVarSet, retExpr] else [retExpr];
+					
 
 			}
 		}
 
-		//trace(name);
 		var ex = if (exprs.length == 1) {
 			var exs = convertReturnExpr(exprs[0]);
 			if (exs.length > 1) {
-				{ expr : TBlock(exs), pos : base.expr.pos, t : exs[exs.length-1].t};
+				var u = if (cacheCall) [cacheVarNonLocal, cacheVarCheckAndRet] else [];
+				{ expr : TBlock( u.concat(exs) ), pos : base.expr.pos, t : exs[exs.length-1].t};
 			} else {
 				exs[0];
 			}
@@ -271,8 +289,8 @@ class PythonTransformer {
 			
 
 			var ret = exprs.pop();
-
-			var block = exprs.concat(convertReturnExpr(ret));
+			var u = if (cacheCall) [cacheVarNonLocal, cacheVarCheckAndRet] else [];
+			var block = u.concat(exprs).concat(convertReturnExpr(ret));
 
 
 			{ expr : TBlock(block), pos : base.expr.pos, t : block[block.length-1].t };
@@ -293,7 +311,8 @@ class PythonTransformer {
 		
 		
 		
-		return liftExpr(substitute,  [assign]);
+		return if (cacheCall) liftExpr(substitute,  [cacheVarInit, assign])
+			else liftExpr(substitute,  [assign]);
 	}
 	
 
@@ -417,11 +436,11 @@ class PythonTransformer {
 
 				var block = exprs.concat([retEx]);
 
-
+				
 
 				var myBlock = transformExprsToBlock(block, retEx.t, false, e.expr.pos, e.nextId);
 
-				//trace(ExprTools.toString(myBlock.expr));
+				
 
 				var fn = { expr : TFunction({ args:[], t: retEx.t, expr : myBlock.expr}), pos : e.expr.pos, t: e.expr.t};
 
@@ -440,6 +459,17 @@ class PythonTransformer {
 				//trace(substitute.toString(true));
 				//blockToFunc(exprs, e);
 				liftExpr(substitute, [fnAssign]);
+				
+
+					//trace(ExprTools.toString(f.expr));
+					//trace("exprsToFunc");
+					
+				
+				//var f = exprsToFunc(block, e);
+				
+				//return liftExpr(f);
+
+
 
 			case [false, TFunction(f)]:
 				
@@ -898,31 +928,70 @@ class PythonTransformer {
 				forwardTransform(newExpr, e);
 				
 
-			
-			case [_, TUnop(OpIncrement, false, e1)]:
+			case [true, y = TUnop(OpIncrement, false, e1)]:
 				
-				var plus = { expr : TBinop(OpAdd, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
-				var assign = { expr : TBinop(OpAssign, e1, plus), pos : e1.pos, t : e1.t};
+				
+				var e1_ = transformExpr(e1, true, e.nextId);
+
+				var plus = { expr : TBinop(OpAdd, e1_.expr, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
+				var assign = { expr : TBinop(OpAssign, e1_.expr, plus), pos : e1.pos, t : e1.t};
+				
+				
+				
+				if (true || e1_.blocks.length > 0) {
+					var blocks = e1_.blocks.concat([assign]);
+					var f = exprsToFunc(blocks, e.nextId(),e);
+					liftExpr(f.expr, true, e.nextId, f.blocks);
+				} else {
+					liftExpr(assign, e1_.blocks);
+				}
+			
+			case [false, TUnop(OpIncrement, false, e1)]:
+				
+				var e1_ = transformExpr(e1, true, e.nextId);
+
+				var plus = { expr : TBinop(OpAdd, e1_.expr, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
+				var assign = { expr : TBinop(OpAssign, e1_.expr, plus), pos : e1.pos, t : e1.t};
+				
+				liftExpr(assign, e1_.blocks);
+
+			
+			case [isValue, TUnop(OpIncrement, true, e1)]:
 				
 
-				forwardTransform(assign,e);				
-			
-			
-			case [_, TUnop(OpIncrement, true, e1)]:
+				var e1_ = transformExpr(e1, true, e.nextId);
+
 				var id = e.nextId();
+
+				var tempVar = { name : id, id : 0, extra : null, capture : false, t : e1_.expr.t };
+				var tempLocal = { expr : TLocal(tempVar), pos : e1_.expr.pos, t : e1_.expr.t};
+				var tempVarExpr = { expr : TVar(tempVar, e1_.expr), pos : e1_.expr.pos, t : e1_.expr.t};
+				
+				var id = e.nextId();
+
 				var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
+				
 				var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
+				
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
-				var plus = { expr : TBinop(OpAdd, e1, one), pos : e.expr.pos, t: e.expr.t}
+				var plus = { expr : TBinop(OpAdd, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
 
-				var varExpr = { expr : TVar(resVar, e1), pos : e.expr.pos, t : e.expr.t};
-				var assignExpr = { expr : TBinop(OpAssign,e1, plus), pos : e.expr.pos, t : e.expr.t};
+				var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
+				var assignExpr = { expr : TBinop(OpAssign,e1_.expr, plus), pos : e.expr.pos, t : e.expr.t};
 
-				var block = [varExpr, assignExpr, resLocal];
-				var blockExpr = { expr : TBlock(block), pos : e.expr.pos, t : e.expr.t};
+				var block = e1_.blocks.concat([tempVarExpr, varExpr, assignExpr, resLocal]);
+				
 
+				if (isValue) {
+					var f = exprsToFunc(block, e.nextId(), e, true);
+					//var blockExpr = { expr : TBlock([f.expr].concat(block), pos : e.expr.pos, t : e.expr.t};
+					liftExpr(f.expr, true, e.nextId, f.blocks);
+				} else {
+					var f = exprsToFunc(block, e.nextId(), e, true);
+					var blockExpr = { expr : TBlock(f.blocks.concat([f.expr])), pos : e.expr.pos, t : e.expr.t};
+					forwardTransform(blockExpr,e);
+				}
 
-				forwardTransform(blockExpr,e);				
 			
 			case [_, TUnop(OpDecrement,false, e1)]:
 				var plus = { expr : TBinop(Binop.OpSub, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
@@ -971,8 +1040,8 @@ class PythonTransformer {
 				liftExpr(f.expr, true, e.nextId, f.blocks);
 
 				
-			
-			case [_, TBinop(OpAssign,left,right)]:
+
+			case [false, TBinop(OpAssign,left,right)]:
 				var left1 = transformExpr(left, true, e.nextId);
 				var right1 = transformExpr(right, true, e.nextId);
 
@@ -980,9 +1049,32 @@ class PythonTransformer {
 
 				liftExpr(newEx, false, e.nextId, left1.blocks.concat(right1.blocks));
 
-			case [_, TBinop( OpAssignOp(x),left,right)]:
-				//trace(ExprTools.toString(Context.getTypedExpr(e.expr)));
-				forwardTransform({ expr : TBinop(OpAssign, left, { expr : TBinop(x, left, right), t : e.expr.t, pos:e.expr.pos }), pos : e.expr.pos, t : e.expr.t},e);
+			case [true, TBinop( OpAssignOp(x),left,right)]:
+				
+				var left1 = transformExpr(left, true, e.nextId);
+				var right1 = transformExpr(right, true, e.nextId);
+
+				var opExpr = { expr : TBinop(x, left1.expr, right1.expr), pos : e.expr.pos, t : e.expr.t };
+
+				var newEx = { expr : TBinop(OpAssign, left1.expr, opExpr), pos : e.expr.pos, t : e.expr.t };
+
+				var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
+
+				var f = exprsToFunc(blocks, e.nextId(),e);
+				liftExpr(f.expr, true, e.nextId, f.blocks);
+
+				
+			case [false, TBinop( OpAssignOp(x),left,right)]:
+				
+				var left1 = transformExpr(left, true, e.nextId);
+				var right1 = transformExpr(right, true, e.nextId);
+
+				var opExpr = { expr : TBinop(x, left1.expr, right1.expr), pos : e.expr.pos, t : e.expr.t };
+
+				var newEx = { expr : TBinop(OpAssign, left1.expr, opExpr), pos : e.expr.pos, t : e.expr.t };
+
+				liftExpr(newEx, false, e.nextId, left1.blocks.concat(right1.blocks));
+
 			
 			case [true, TBinop(op,left,right)]:
 				//trace(ExprTools.toString(e.expr));
@@ -1078,6 +1170,8 @@ class PythonTransformer {
 			case [true, TArray( e1, e2)]:
 				var e1_ = transformExpr(e1, true, e.nextId);
 				var e2_ = transformExpr(e2, true, e.nextId);
+
+
 
 				var ex = { expr : TArray(e1_.expr, e2_.expr), pos : e.expr.pos, t : e.expr.t };
 
