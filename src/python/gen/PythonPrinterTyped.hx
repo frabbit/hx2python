@@ -439,15 +439,20 @@ class PythonPrinterTyped {
                 printExpr(e1, context) + ".toupper";
             case FInstance(isType("", "String") => true, cf) if (cf.get().name == "toLowerCase"):
                 printExpr(e1, context) + ".tolower";
-
             case FInstance(ct, cf): 
                 //var ct = ct.get();
                 doDefault();
             case FStatic(_,cf): doDefault();
-            case FAnon(cf) if (name == "iterator"): 
+            case FAnon(cf) if (name == "iterator" && !isAssign):
                 switch (cf.get().type) {
                     case TFun(args,_) if (args.length == 0): 
                         '_hx_functools.partial(HxOverrides_iterator, $obj)';        
+                    case _ : doDefault();
+                }
+            case FAnon(cf) if (name == "shift" && !isAssign):
+                switch (cf.get().type) {
+                    case TFun(args,_) if (args.length == 0): 
+                        '_hx_functools.partial(HxOverrides_shift, $obj)';        
                     case _ : doDefault();
                 }
             case FAnon(_):

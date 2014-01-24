@@ -118,6 +118,12 @@ def HxOverrides_iterator(x):
     else:
         return x.iterator()
 
+def HxOverrides_shift(x):
+    if isinstance(x, list):
+        return _hx_c.python_internal_ArrayImpl.shift(x)
+    else:
+        return x.shift()
+
 def HxOverrides_filter(x, f):
     if isinstance(x, list):
         return _hx_c.python_internal_ArrayImpl.filter(x,f)
