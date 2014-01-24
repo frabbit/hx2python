@@ -36,9 +36,18 @@ enum ValueType {
 @:access(python.Boot)
 @:coreApi class Type {
 
-	public static function getClass<T>( o : T ) : Class<T> untyped {
+	public static function getClass<T>( o : T ) : Class<T> {
+
+		
+
 		if( o == null )
 			return null;
+		
+		if (python.Boot.isClass(o)) return null;
+
+		if (Builtin.hasattr(o, "_hx_class")) {	
+			return untyped o._hx_class;
+		}
 		if (Builtin.hasattr(o, "__class__")) {	
 			return untyped o.__class__;
 		} else {
@@ -53,13 +62,19 @@ enum ValueType {
 	}
 
 	public static function getSuperClass( c : Class<Dynamic> ) : Class<Dynamic> untyped {
-		if( o == null )
+		if( c == null )
 			return null;
-		var res = null;
+		
 		try {
-			res = untyped __python_array_get(o.__bases__,0);
-		} catch (e:Dynamic) {}
-		return res;
+			if (Builtin.hasattr(c, "_hx_super")) {
+				return untyped c._hx_super;
+			}
+			return untyped __python_array_get(c.__bases__,0);
+		} catch (e:Dynamic) {
+
+		}
+		return null;
+
 	}
 
 
@@ -103,8 +118,10 @@ enum ValueType {
 		//return throw "resolveClass not implemented";
 	}
 
-	public static function resolveEnum( name : String ) : Enum<Dynamic> untyped {
-		return resolveClass(name);
+	public static function resolveEnum( name : String ) : Enum<Dynamic> {
+
+		var o = resolveClass(name);
+		return if (Builtin.hasattr(o, "_hx_constructs")) cast o else null;
 	}
 
 	public static function createInstance<T>( cl : Class<T>, args : Array<Dynamic> ) : T untyped 
@@ -136,11 +153,22 @@ enum ValueType {
 		return null;
 	}
 
-	public static function createEmptyInstance<T>( cl : Class<T> ) : T {
+	public static function createEmptyInstance<T>( cl : Class<T> ) : T 
+	{
 		var i = untyped cl.__new__(cl);
-		if (Builtin.hasattr(cl, "_hx_empty_init")) {
-			untyped cl._hx_empty_init(i);
+
+		function callInit (cl) {
+			var sc = getSuperClass(cl);
+			if (sc != null) {
+				callInit(sc);
+			}
+			if (Builtin.hasattr(cl, "_hx_empty_init")) {
+				
+				untyped cl._hx_empty_init(i);
+			}	
 		}
+		callInit(cl);
+		
 		return i;
 	}
 
@@ -159,7 +187,8 @@ enum ValueType {
 	}
 
 	public static function createEnumIndex<T>( e : Enum<T>, index : Int, ?params : Array<Dynamic> ) : T {
-		var c : String = (untyped e.__constructs__)[index];
+
+		var c : String = (untyped e._hx_constructs)[index];
 		if( c == null ) throw index+" is not a valid enum constructor index";
 		return createEnum(e,c,params);
 	}

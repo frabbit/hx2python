@@ -10,7 +10,7 @@ class StringImpl {
 	}
 
 	public static function charCodeAt(s:String, index:Int) {
-		return if (index < 0 || index >= s.length) null else untyped ord(untyped __python_array_get__(s, index));
+		return if (s == null || s.length == 0 || index < 0 || index >= s.length) null else untyped ord(untyped __python_array_get__(s, index));
 	}
 	public static inline function charAt(s:String, index:Int) {
 		return if (index < 0 || index >= s.length) "" else untyped __python_array_get__(s,index);

@@ -15,7 +15,8 @@ package python;
 	}
 
 	@:keep static inline function isClass(o:Dynamic) : Bool {
-        return untyped __define_feature__("python.Boot.isClass", o._hx_class);
+		return o == String || python.lib.Inspect.isclass(o);
+        //return untyped __define_feature__("python.Boot.isClass", o._hx_class);
     }
 
 

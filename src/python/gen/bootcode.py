@@ -112,8 +112,26 @@ def _hx_toUpperCase (x):
 import math as _hx_math
 
 
-def HxOverrides_iterator(it):
-    if isinstance(it, list):
-        return _hx_c.python_internal_ArrayImpl.iterator(it)
+def HxOverrides_iterator(x):
+    if isinstance(x, list):
+        return _hx_c.python_internal_ArrayImpl.iterator(x)
     else:
-        return it.iterator()
+        return x.iterator()
+
+def HxOverrides_filter(x, f):
+    if isinstance(x, list):
+        return _hx_c.python_internal_ArrayImpl.filter(x,f)
+    else:
+        return x.filter(f)
+
+def HxOverrides_map(x, f):
+    if isinstance(x, list):
+        return _hx_c.python_internal_ArrayImpl.map(x,f)
+    else:
+        return x.filter(f)
+
+def HxOverrides_length(x):
+    if isinstance(x, list) or isinstance(x, str):
+        return _hx_builtin.len(x)
+    else:
+        return x.length

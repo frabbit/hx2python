@@ -134,7 +134,11 @@ import python.Boot;
 
     public static inline function int( x : Float ) : Int 
     {
-        return (untyped __python__("int"))(x);
+        try {
+            return (untyped __python__("int"))(x);
+        } catch (e:Dynamic) {
+            return null;
+        }
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
@@ -144,6 +148,7 @@ import python.Boot;
             try {
                 return (untyped __python__("int"))(x,16);
             } catch (e:Dynamic) {
+                
                 return int(parseFloat(x));
             }
         }
@@ -152,7 +157,12 @@ import python.Boot;
 
     public static inline function parseFloat( x : String ) : Float 
     {
-        return untyped __python__("float")(x);
+        try {
+            return untyped __python__("float")(x);    
+        } catch (e:Dynamic) {
+            return Math.NaN;
+        }
+        
     }
 
 

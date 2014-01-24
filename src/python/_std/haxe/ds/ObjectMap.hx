@@ -27,7 +27,9 @@ class ObjectMap<K:{},V> implements Map.IMap<K, V> {
 	public function remove( key : K ) : Bool 
 	{
 		var r = h.hasKey(key);
-		h.remove(key);
+		
+		if (r) h.remove(key);
+		
 		return r;
 	}
 	

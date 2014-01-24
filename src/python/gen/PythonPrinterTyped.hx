@@ -391,30 +391,83 @@ class PythonPrinterTyped {
         }
     }
 
-    function printField(e1:TypedExpr, fa:FieldAccess, context:PrintContext)
+    function printField(e1:TypedExpr, fa:FieldAccess, context:PrintContext, isAssign:Bool = false)
     {
+        
+
     	var obj = switch (e1.expr) {
     		case TConst(TSuper): "super()";
     		case _: '${printExpr(e1, context)}';
     	}
+
+
+
         var name = switch (fa) {
-            case FInstance(_, cf): 
-                cf.get().name;
-                
+            case FInstance(_, cf): cf.get().name;
             case FStatic(_,cf): cf.get().name;
             case FAnon(cf): cf.get().name;
             case FDynamic(s): s;
             case FClosure(_,cf): cf.get().name;
             case FEnum(_,ef): ef.name;
         }
-        var expr = if (name == "iterator") {
-            '_hx_functools.partial(HxOverrides_iterator, $obj)';
-        } else {
-            '$obj.${handleKeywords(name)}';
-        }
-        
 
-        return expr;
+        function doDefault() {
+            return '$obj.${handleKeywords(name)}';
+        }
+
+        /*function doReplace () {
+            return switch (name) {
+                case "iterator":
+                    '_hx_functools.partial(HxOverrides_iterator, $obj)';
+                case "map":
+                    '_hx_functools.partial(HxOverrides_map, $obj)';
+                case "filter":
+                    '_hx_functools.partial(HxOverrides_filter, $obj)';
+                case _ : 
+                    '$obj.${handleKeywords(name)}';
+            }
+        }*/
+        /*
+        if (name == "iterator") {
+            trace(fa + " => " + e1.pos);
+        }
+        */
+        return switch (fa) {
+            case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
+                "_hx_builtin.len(" + printExpr(e1, context) + ")";
+            case FInstance(x = isType("", "String") => true, cf) if (cf.get().name == "toUpperCase"):
+                printExpr(e1, context) + ".toupper";
+            case FInstance(isType("", "String") => true, cf) if (cf.get().name == "toLowerCase"):
+                printExpr(e1, context) + ".tolower";
+
+            case FInstance(ct, cf): 
+                //var ct = ct.get();
+                doDefault();
+            case FStatic(_,cf): doDefault();
+            case FAnon(cf) if (name == "iterator"): 
+                switch (cf.get().type) {
+                    case TFun(args,_) if (args.length == 0): 
+                        '_hx_functools.partial(HxOverrides_iterator, $obj)';        
+                    case _ : doDefault();
+                }
+            case FAnon(_):
+                doDefault();
+            case FDynamic("iterator"):
+                '_hx_functools.partial(HxOverrides_iterator, $obj)';
+            case FDynamic("length") if (!isAssign):
+                'HxOverrides_length($obj)';
+            case FDynamic("filter") if (!isAssign):
+                '_hx_functools.partial(HxOverrides_filter, $obj)';
+            case FDynamic("map") if (!isAssign):
+                '_hx_functools.partial(HxOverrides_map, $obj)';
+            case FDynamic(_):
+                doDefault();
+            case FClosure(ct,cf): 
+                doDefault();
+            case FEnum(_,ef): 
+                doDefault();
+        }
+
     }
 
     function printIfElse(econd:TypedExpr, eif:TypedExpr, eelse:TypedExpr, context:PrintContext, ?asElif = false)
@@ -490,7 +543,10 @@ class PythonPrinterTyped {
             '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
 		case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
             '_hx_array_set(${printExpr1(e1)},${printExpr1(e2)}, ${printExpr1(e3)})';
-        case TBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
+        case TBinop(OpAssign, field = { expr : TField(ef1, fa)}, e2):
+            '${printField(ef1, fa, context, true)} = ' + printOpAssignRight(e2, context);
+        case TBinop(OpAssign, e1, e2): 
+            '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
 		case TBinop(OpNotEq, e1, e2 = { expr : TConst(TNull)}):
@@ -516,26 +572,7 @@ class PythonPrinterTyped {
         case TBinop(op, e1, e2): 
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
 		case TField(e1, fa):
-            switch (fa) 
-            {
-                case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
-                    
-                    "_hx_builtin.len(" + printExpr1(e1) + ")";
-                case FInstance(x = isType("", "String") => true, cf) if (cf.get().name == "toUpperCase"):
-                    trace(x);
-                    printExpr1(e1) + ".toupper";
-                
-                case FInstance(isType("", "String") => true, cf) if (cf.get().name == "toLowerCase"):
-                    
-                    printExpr1(e1) + ".tolower";
-                case FInstance(ct, cf) if (cf.get().name == "length"):
-                    
-                    //trace(ct.get().name);
-                    printField(e1, fa, context);        
-
-                case _ : 
-                    printField(e1, fa, context);        
-            }
+            printField(e1, fa, context);
             
 		case TParenthesis(e1): '(${printExpr1(e1)})';
 		case TObjectDecl(fl):

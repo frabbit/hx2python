@@ -298,7 +298,9 @@ extern class Math
 		Otherwise the result is false. In particular, both POSITIVE_INFINITY and
 		NEGATIVE_INFINITY are not considered NaN.
 	**/
-	static inline function isNaN( f : Float ) : Bool return untyped _hx_math.isnan(f);
+	static inline function isNaN( f : Float ) : Bool {
+		return untyped _hx_math.isnan(f);
+	}
 
 	static function __init__():Void {
 		python.Macros.importAs("math", "_hx_math");

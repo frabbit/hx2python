@@ -515,7 +515,7 @@ class PythonTransformer {
 
 				var newExpr = { expr : TFor(v, e1New.expr, e2New.expr), pos : e.expr.pos, t : e.expr.t };
 
-				liftExpr(newExpr, e1New.blocks);
+				liftExpr(newExpr, e1New.blocks.concat(e2New.blocks));
 
 
 
@@ -984,11 +984,14 @@ class PythonTransformer {
 
 				if (isValue) {
 					var f = exprsToFunc(block, e.nextId(), e, true);
+
 					//var blockExpr = { expr : TBlock([f.expr].concat(block), pos : e.expr.pos, t : e.expr.t};
 					liftExpr(f.expr, true, e.nextId, f.blocks);
 				} else {
 					var f = exprsToFunc(block, e.nextId(), e, true);
 					var blockExpr = { expr : TBlock(f.blocks.concat([f.expr])), pos : e.expr.pos, t : e.expr.t};
+					
+
 					forwardTransform(blockExpr,e);
 				}
 

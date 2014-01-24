@@ -52,11 +52,11 @@ class ArrayImpl {
 	public static function indexOf<T>(a:Array<T>, x : T, ?fromIndex:Int) : Int {
 		var l = 
 			if (fromIndex == null) 0
-			else if (fromIndex < 0) a.length - fromIndex 
+			else if (fromIndex < 0) a.length + fromIndex 
 			else fromIndex;
-		if (l < 0) return -1;
+		if (l < 0) l = 0;
 		for (i in l...a.length) {
-			if (a[l] == x) return l;
+			if (a[i] == x) return i;
 		}
 		return -1;
 	}
@@ -64,9 +64,9 @@ class ArrayImpl {
 	public static function lastIndexOf<T>(a:Array<T>, x : T, ?fromIndex:Int) : Int {
 		var l = 
 			if (fromIndex == null) a.length 
-			else if (fromIndex < 0) a.length - fromIndex
-			else fromIndex;
-		if (l > a.length) return -1;
+			else if (fromIndex < 0) a.length + fromIndex + 1
+			else fromIndex+1;
+		if (l > a.length) l = a.length;
 		while (--l > -1) {
 			if (a[l] == x) return l;
 		}
@@ -78,7 +78,7 @@ class ArrayImpl {
 	}
 
 	public static inline function toString<T>(x:Array<T>) : String {
-		return untyped str(x);
+		return "[" + x.join(",") + "]";
 	}
 
 	public static inline function pop<T>(x:Array<T>) : Null<T> {
@@ -95,7 +95,7 @@ class ArrayImpl {
 		return x.insert(0,e);
 	}
 
-	public static inline function remove<T>(x:Array<T>,e : T) : Bool {
+	public static function remove<T>(x:Array<T>,e : T) : Bool {
 		try {
 			untyped __field__(x, "remove")(e);
 			return true;
@@ -125,11 +125,11 @@ class ArrayImpl {
 		return res;
 	}
 
-	public static inline function map<S,T>(x:Array<T>, f : T -> S ) : Array<S> {
+	@:keep public static inline function map<S,T>(x:Array<T>, f : T -> S ) : Array<S> {
 		return Builtin.list(Builtin.map(f,x));
 	}
 
-	public static inline function filter<T>(x:Array<T>, f : T -> Bool ) : Array<T> {
+	@:keep public static inline function filter<T>(x:Array<T>, f : T -> Bool ) : Array<T> {
 		return Builtin.list(Builtin.filter(f, x));
 	}
 

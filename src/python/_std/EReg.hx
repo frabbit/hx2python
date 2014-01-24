@@ -164,7 +164,6 @@ class EReg {
 				
 				return [s];
 			} else {
-				trace(matchObj.lastindex);
 				return [ s.substring(0, matchObj.start()), s.substr(matchObj.end()) ];
 			}
 

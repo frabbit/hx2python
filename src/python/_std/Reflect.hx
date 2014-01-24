@@ -40,6 +40,7 @@ import python.lib.Types;
 
 	public static function field( o : Dynamic, field : String ) : Dynamic 
 	{
+		if (field == null) return null;
 		var field = KeywordHandler.handleKeywords(field);	
 		return if (Builtin.hasattr(o, field)) Builtin.getattr(o, field) else null;
 		
@@ -145,33 +146,30 @@ import python.lib.Types;
 		return false;
 	}
 
-	public static function isObject( v : Dynamic ) : Bool untyped {
+	public static function isObject( v : Dynamic ) : Bool {
 
-		// if( v == null )
-		// 	return false;
-		// var t = __js__("typeof(v)");
-		// return (t == "string" || (t == "object" && v.__enum__ == null)) || (t == "function" && (js.Boot.isClass(v) || js.Boot.isEnum(v)) != null);
-		return throw "not implemented";
+		return switch (Type.typeof(v)) {
+			case TObject, TClass(_): true;
+			case _ : false;
+		}
+
 	}
 	
 	public static function isEnumValue( v : Dynamic ) : Bool {
 		return v != Enum && Builtin.isinstance(v, untyped Enum);
-		//return v != null && v.__enum__ != null;
-		//return throw "not implemented";
 	}
 
-	public static function deleteField( o : Dynamic, field : String ) : Bool untyped {
+	public static function deleteField( o : Dynamic, field : String ) : Bool {
 		if( !hasField(o,field) ) return false;
-		untyped __python_del__(untyped __python_array_get__(o, field));
+		untyped __python__("o.__delattr__")(field);
 		return true;
 	}
 
 	public static function copy<T>( o : T ) : T {
-		// var o2 : Dynamic = {};
-		// for( f in Reflect.fields(o) )
-		// 	Reflect.setField(o2,f,Reflect.field(o,f));
-		// return o2;
-		return throw "not implemented";
+		var o2 : Dynamic = {};
+		for( f in Reflect.fields(o) )
+			Reflect.setField(o2,f,Reflect.field(o,f));
+		return o2;
 	}
 
 	@:overload(function( f : Array<Dynamic> -> Void ) : Dynamic {})

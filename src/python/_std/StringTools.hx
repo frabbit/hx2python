@@ -116,6 +116,7 @@ class StringTools {
 		`s`, the result is false.
 	**/
 	public static function isSpace( s : String, pos : Int ) : Bool {
+		if (s.length == 0 || pos < 0 || pos >= s.length) return false;
 		var c = s.charCodeAt( pos );
 		return (c > 8 && c < 14) || c == 32;
 	}
