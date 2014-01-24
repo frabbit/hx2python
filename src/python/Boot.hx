@@ -24,7 +24,7 @@ package python;
 		if (builtin.isinstance(a, untyped __python__("str")) || builtin.isinstance(b, untyped __python__("str"))) {
 			return __string_rec(a,"") + __string_rec(b,"");
 		}
-		return a+b;
+		return untyped __python__("a+b");
     }
 	
 	@:keep private static function __string_rec(o:Dynamic,s:String):String {

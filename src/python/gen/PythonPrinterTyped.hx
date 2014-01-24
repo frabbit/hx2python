@@ -461,6 +461,15 @@ class PythonPrinterTyped {
         }
     }
 
+    function isUnderlyingString (t:Type) {
+        return switch (haxe.macro.Context.follow(t)) {
+            case TAbstract(t, p):
+
+               isType1("", "String")(t.get().type);
+            case _ : false;
+        }
+    }
+
 	public function printExpr(e:TypedExpr, context:PrintContext, top = false)
 	{
 
@@ -476,11 +485,12 @@ class PythonPrinterTyped {
         case TPatMatch: "not supported";
         case TEnumParameter(e,ef, index): 
             '${printExpr1(e)}.params[${index}]';
-        case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
-            '_hx_array_set(${printExpr1(e1)},${printExpr1(e2)}, ${printExpr1(e3)})';
+        
         case TArray(e1, e2): 
             '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
-		case TBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
+		case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
+            '_hx_array_set(${printExpr1(e1)},${printExpr1(e2)}, ${printExpr1(e3)})';
+        case TBinop(OpAssign, e1, e2): '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
 		case TBinop(OpNotEq, e1, e2 = { expr : TConst(TNull)}):
@@ -492,7 +502,7 @@ class PythonPrinterTyped {
 
         case TBinop(OpUShr, e1, e2): 
             '_hx_rshift(${printExpr1(e1)}, ${printExpr1(e2)})';
-        case TBinop(OpAdd, e1, e2) if (isType1("", "String")(e.t)):
+        case TBinop(OpAdd, e1, e2) if (isType1("", "String")(e.t) || isUnderlyingString(e.t)):
             
             function safeString(ex:TypedExpr) 
                 return if (ex.expr.match(TConst(TString(_)))) printExpr1(ex) else "Std.string(" + printExpr1(ex) + ")";
