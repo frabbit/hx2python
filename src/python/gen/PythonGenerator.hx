@@ -35,6 +35,7 @@ import python.gen.PythonTransformer;
 import haxe.macro.JSGenApi;
 import python.gen.Tools;
 
+using StringTools;
 
 class PythonGenerator
 {
@@ -497,6 +498,8 @@ class PythonGenerator
 
             genClassData (c, x.fields, x.props, x.methods, superClass, interfaces, p, pName);
             
+            genClassMetaData(c, p);
+
             genClassEmptyConstructor(p, classFields);
             
             genClassStatics(c, p);
@@ -506,6 +509,65 @@ class PythonGenerator
         genClassInit(c);
         
     }
+
+    function genClassMetaData (c:ClassType, pName:String) {
+        print('$pName._hx_meta = _hx_c._hx_AnonObject(');
+        print("obj=");
+        print(getMetaEntries(c.meta.get()));
+        print(",statics=");
+        genMetaMembers([for (f in c.statics.get()) f] );
+        print(",fields=");
+        var fields:Array<{ name : String, meta : MetaAccess }> = [for (f in c.fields.get()) f];
+        if (c.constructor != null) {
+            fields.unshift(c.constructor.get());
+        }
+        genMetaMembers( fields );
+        print(')\n');
+    }
+    function genEnumMetaData (c:EnumType, pName:String) {
+        print('$pName._hx_meta = _hx_c._hx_AnonObject(');
+        print("obj=");
+        print(getMetaEntries(c.meta.get()));
+        print(",fields=");
+        genMetaMembers([for (k in c.constructs.keys()) { name : k, meta : c.constructs.get(k).meta} ]);
+        print(')\n');
+    }
+
+
+
+    function genMetaMembers (fields:Array<{ name : String, meta : MetaAccess }>) {
+        print("_hx_c._hx_AnonObject(");
+        var first = true;
+        for (f in fields) {
+            var metas = f.meta.get();
+            var realMetas = [for (m in metas) if (!m.name.startsWith(":")) m];
+            if (realMetas.length > 0) {
+                var prefix = if (first) { first = false;"";} else ",";
+                var name = if (f.name == "new") "_" else f.name;
+                print(prefix + handleKeywords(name) + " = " + getMetaEntries(realMetas));
+            }
+        }
+        print(")");
+    }
+
+    function getMetaEntries (metas:Metadata) 
+    {
+        var printer = new PythonPrinter();
+        var ctx = PrintContexts.create("\t\t");
+        var str = "_hx_c._hx_AnonObject(";
+        var first = true;
+        for (m in metas) {
+            if (!m.name.startsWith(":")) {
+                var prefix = if (first) { first = false;"";} else ",";
+                var val = if (m.params == null || m.params.length == 0) "None" else
+                    "[" + m.params.map(printer.printExpr.bind(_,ctx)).join(",") + "]";
+                str += prefix + m.name + " = " + val;
+            }
+        }
+        str += ")";
+        return str;
+    }
+
 
     function genClassData (c:ClassType, fields, props, methods, superClass, interfaces, p, pName) 
     {
@@ -615,6 +677,8 @@ class PythonGenerator
         printLine('$p._hx_class_name = "$pName"');
         printLine('_hx_classes["$pName"] = $p');
         printLine('_hx_c.$p = $p');
+
+        genEnumMetaData(e, p);
     }
 
     function genType(t : Type)

@@ -534,7 +534,7 @@ class PythonPrinter {
 		case EField(e1, n):/* trace(e);*/ print_field(e1, n, context);
 		case EParenthesis(e1): '(${printExpr1(e1)})';
 		case EObjectDecl(fl):
-			"_Hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.field)} = ${printExpr1(fld.expr)} ').join(",") + ")";
+			"_hx_c._hx_AnonObject(" + fl.map(function(fld) return '${handleKeywords(fld.field)} = ${printExpr1(fld.expr)} ').join(",") + ")";
 		case EArrayDecl(el): '[${printExprs(el, ", ",context)}]';
 		case ECall({expr : EField(e1, "iterator")}, []): 
             'HxOverrides_iterator(${printExpr1(e1)})';
