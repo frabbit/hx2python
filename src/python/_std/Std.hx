@@ -141,7 +141,7 @@ import python.Boot;
         }
     }
 
-    public static inline function parseInt( x : String ) : Null<Int> {
+    public static function parseInt( x : String ) : Null<Int> {
         if (x == null) return null;
         try {
             return (untyped __python__("int"))(x);
@@ -169,6 +169,7 @@ import python.Boot;
                 return r;
             }
         }
+
         
     }
 
