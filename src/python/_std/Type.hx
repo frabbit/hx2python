@@ -43,7 +43,10 @@ enum ValueType {
 		if( o == null )
 			return null;
 		
+
 		if (python.Boot.isClass(o)) return null;
+
+		if (python.Boot.isAnonObject(o)) return null;
 
 		if (Builtin.hasattr(o, "_hx_class")) {	
 			return untyped o._hx_class;
@@ -207,7 +210,16 @@ enum ValueType {
 		if (sc == null) {
 			return f;
 		} else {
-			return getInstanceFields(sc).concat(f);
+			var scArr = getInstanceFields(sc);
+			var scMap = [for (f in scArr) f => f];
+			var res = [];
+			for (f1 in f) {
+				if (!scMap.exists(f1)) {
+					scArr.push(f1);
+				}
+			}
+			
+			return scArr;
 		}
 
 		

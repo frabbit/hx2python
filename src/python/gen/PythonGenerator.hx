@@ -419,6 +419,25 @@ class PythonGenerator
         printLine(typeName + "._hx_empty_init = " + sName);
     }
 
+    function collectClassStaticsData (classFields:Array<ClassField>) {
+        var fields = [];
+                
+        for(f in classFields)
+        {
+            switch( f.kind ) 
+            {
+                case FVar(AccResolve, _): continue;
+                case FVar(AccCall, _): 
+                    if (f.meta.has(":isVar")) {
+                        fields.push(f.name);
+                    }
+                case FVar(_, _): fields.push(f.name);
+                case _: fields.push(f.name);
+            }
+        }
+        return fields;   
+    }
+
     function collectClassFieldData (classFields:Array<ClassField>) 
     {
         var fields = [];
@@ -430,7 +449,13 @@ class PythonGenerator
             switch( f.kind ) 
             {
                 case FVar(AccResolve, _): continue;
-                case FVar(AccCall, _): props.push(f.name);
+                case FVar(AccCall, _): 
+                    
+                    if (f.meta.has(":isVar")) {
+                        fields.push(f.name);
+                    } else {
+                        props.push(f.name);
+                    }
                 case FVar(_, _): fields.push(f.name);
                 case _: methods.push(f.name);
             }
@@ -589,7 +614,7 @@ class PythonGenerator
         }
 
         var staticsStr = {
-            var statics = [for(f in c.statics.get()) f.name];
+            var statics = collectClassStaticsData(c.statics.get());
             var f = statics.length > 0 ? '"' : '';
             f + statics.join('","') + f;
         }
