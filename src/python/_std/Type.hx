@@ -194,13 +194,23 @@ enum ValueType {
 
 	public static function getInstanceFields( c : Class<Dynamic> ) : Array<String> {
 		// dict((name, getattr(f, name)) for name in dir(c) if not name.startswith('__'))
-		if (Builtin.hasattr(c, "_hx_fields")) {
+		var f = if (Builtin.hasattr(c, "_hx_fields")) {
 			var x:Array<String> = untyped c._hx_fields;
 			var x2:Array<String> = untyped c._hx_methods;
-			return x.concat(x2);
+			x.concat(x2);
 		} else {
-			return [];
+			[];
 		}
+
+		var sc = getSuperClass(c);
+
+		if (sc == null) {
+			return f;
+		} else {
+			return getInstanceFields(sc).concat(f);
+		}
+
+		
 		//return throw "getInstanceFields not implemented";
 	}
 
