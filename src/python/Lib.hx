@@ -19,6 +19,7 @@ class HaxeIterator<T>
 {
   var it :NativeIterator<T>;
   var x:Null<T> = null;
+  var has = false;
   var checked = false;
 
   public function new (it:NativeIterator<T>) {
@@ -34,15 +35,17 @@ class HaxeIterator<T>
   public function hasNext ():Bool
   {
     if (checked) {
-      return x != null;
+      return has;
     } else {
       try {
         x = it.__next__();
+        has = true;
       } catch (s:StopIteration) {
+        has = false;
         x = null;
       }
       checked = true;
-      return x != null;  
+      return has;  
     }
     
   }

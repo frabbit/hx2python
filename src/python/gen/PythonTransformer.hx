@@ -511,11 +511,12 @@ class PythonTransformer {
 				// for to while
 
 				var e1New = transformExpr(e1, true, e.nextId, []);
-				var e2New = transformExpr(e2, false, e.nextId, []);
+				
+				var e2New = toExpr(transformExpr(e2, false, e.nextId, []));
 
-				var newExpr = { expr : TFor(v, e1New.expr, e2New.expr), pos : e.expr.pos, t : e.expr.t };
+				var newExpr = { expr : TFor(v, e1New.expr, e2New), pos : e.expr.pos, t : e.expr.t };
 
-				liftExpr(newExpr, e1New.blocks.concat(e2New.blocks));
+				liftExpr(newExpr, e1New.blocks);
 
 
 
