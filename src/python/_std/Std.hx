@@ -146,21 +146,68 @@ import python.Boot;
             return (untyped __python__("int"))(x);
         } catch (e:Dynamic) {
             try {
-                return (untyped __python__("int"))(x,16);
+                var prefix = x.substr(0,2).toLowerCase();
+                
+                if (prefix == "0x") {
+                    return (untyped __python__("int"))(x,16);
+                } 
+                throw "fail";
             } catch (e:Dynamic) {
                 
-                return int(parseFloat(x));
+
+                var r = int(parseFloat(x));
+                
+                if (r == null && x != null) {
+                    var r1 = shortenPossibleNumber(x);
+                    if (r1 != x) {
+                        return parseInt(r1);
+                    } else {
+                        return null;
+                    }
+                }
+                return r;
             }
         }
         
     }
 
-    public static inline function parseFloat( x : String ) : Float 
+    static function shortenPossibleNumber (x:String):String 
+    {
+        var r = "";
+        for (i in 0...x.length) {
+            var c = x.charAt(i);
+            switch (c.charCodeAt(0)) {
+                case "0".code
+                | "1".code
+                | "2".code
+                | "3".code
+                | "4".code
+                | "5".code
+                | "6".code
+                | "7".code
+                | "8".code
+                | "9".code
+                | ".".code : r += c;
+                case _ : break;
+            }
+        }
+        return r;
+    }
+
+    public static function parseFloat( x : String ) : Float 
     {
         try {
             return untyped __python__("float")(x);    
         } catch (e:Dynamic) {
+
+            if (x != null) {
+                var r1 = shortenPossibleNumber(x);
+                if (r1 != x) {
+                    return parseFloat(r1);
+                }
+            }
             return Math.NaN;
+            
         }
         
     }

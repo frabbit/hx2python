@@ -106,6 +106,7 @@ enum ValueType {
 	}
 
 	public static function resolveClass( name : String ) : Class<Dynamic> {
+		
 		if (name == "Array") return Array;
 		if (name == "Math") return Math;
 		if (name == "String") return String;
@@ -114,12 +115,10 @@ enum ValueType {
         if( cl == null || !python.Boot.isClass(cl) )
                 return null;
         return cl;
-
-		//return throw "resolveClass not implemented";
 	}
 
 	public static function resolveEnum( name : String ) : Enum<Dynamic> {
-
+		if (name == "Bool") return cast Bool;
 		var o = resolveClass(name);
 		return if (Builtin.hasattr(o, "_hx_constructs")) cast o else null;
 	}
