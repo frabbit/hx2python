@@ -257,16 +257,19 @@ enum ValueType {
 		if( a == b )
 			return true;
 		try {
+			if (b == null && a != b) return false;
 			if( untyped a.tag != untyped b.tag )
 				return false;
 			var p1:Array<Dynamic> = untyped a.params;
 			var p2:Array<Dynamic> = untyped b.params;
+			if (p1.length != p2.length) return false;
+
 			for( i in 0...p1.length )
 				if( !enumEq(p1[i],p2[i]) )
 					return false;
-			var e = Type.getClass(a);
+			//var e = Type.getClass(a);
 
-			if( e != untyped b._hx_class || e == null )
+			if( untyped a._hx_class != untyped b._hx_class)
 				return false;
 		} catch( e : Dynamic ) {
 			return false;

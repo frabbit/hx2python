@@ -132,7 +132,9 @@ import python.lib.Types;
 	}
 
 	public static function compare<T>( a : T, b : T ) : Int {
-		return if (a == null) 1 else if (b == null) -1 else
+		if (a == null && b == null) return 0;
+		return 
+		if (a == null) 1 else if (b == null) -1 else
 		( a == b ) ? 0 : (((cast a) > (cast b)) ? 1 : -1);
 		//return throw "not implemented";
 	}
