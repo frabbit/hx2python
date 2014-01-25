@@ -247,6 +247,12 @@ class StringTools {
 			s = hexChars.charAt(n&15) + s;
 			n >>>= 4;
 		} while( n > 0 );
+		if (digits != null && s.length < digits) {
+			var diff = digits - s.length;
+			for (_ in 0...diff) {
+				s = "0" + s;
+			}
+		}
 		return s;
 		
 	}
