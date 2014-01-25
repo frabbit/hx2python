@@ -142,6 +142,7 @@ import python.Boot;
     }
 
     public static inline function parseInt( x : String ) : Null<Int> {
+        if (x == null) return null;
         try {
             return (untyped __python__("int"))(x);
         } catch (e:Dynamic) {
@@ -157,7 +158,7 @@ import python.Boot;
 
                 var r = int(parseFloat(x));
                 
-                if (r == null && x != null) {
+                if (r == null) {
                     var r1 = shortenPossibleNumber(x);
                     if (r1 != x) {
                         return parseInt(r1);
