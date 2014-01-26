@@ -788,27 +788,16 @@ class PythonGenerator
 
     function genResources() {
         var res = Context.getResources();
+        trace(res.keys());
         var keys = res.keys();
         if (keys.hasNext()) {
             var file = Compiler.getOutput();
             print("def _hx_resources__():\n\treturn {");
-            //var dir = file + ".__resources__";
-            //if (!sys.FileSystem.exists(dir)) {
-            //    sys.FileSystem.createDirectory(dir);
-            //}
-
 
             var first = true;
             for (k in keys) {
                 var prefix = if (first) { first = false; "";} else ",";
-                //if (sys.FileSystem.exists(dir + "/" + k)) {
-                //    sys.FileSystem.deleteFile(dir + "/" + k);
-                //}
-                print(prefix + "'" + k + "':'" + haxe.crypto.Base64.encode(haxe.io.Bytes.ofString(res.get(k))) + "'");
-                //var out = sys.io.File.write(dir + "/" + k, true);
-                //out.writeString();
-                //out.close();
-
+                print(prefix + "'" + k + "':'" + haxe.crypto.Base64.encode(res.get(k)) + "'");
             }
             print("}\n");
         }
