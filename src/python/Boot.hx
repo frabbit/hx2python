@@ -11,8 +11,8 @@ import python.lib.Builtin;
 	@:keep static function __init__ () {
 		Macros.importAs("inspect", "inspect");
 		Boot.inspect = untyped __python__("inspect");
-		Macros.importAs("builtins", "builtin");
-		Boot.builtin = untyped __python__("builtin");
+		Boot.builtin = untyped __python__("_hx_builtin");
+		
 
 	}
 

@@ -8,7 +8,7 @@ import python.lib.Types;
 
 
 
-@:native("__builtin__")
+@:native("_hx_builtin")
 extern class Builtin {
 
 	
@@ -52,7 +52,7 @@ extern class Builtin {
 	public static function int(x:Dynamic):Int;
 	//public static function ord():Void;
 	public static inline function str(o:Dynamic):String {
-		return untyped __python__("__builtin__.str")(o);
+		return untyped __field__(Builtin, "str")(o);
 	}
 	//public static function eval():Void;
 	
@@ -62,7 +62,7 @@ extern class Builtin {
 	//public static function execfile():Void;
 	
 	public static inline function print(o:Dynamic):Void {
-		untyped __python__("__builtin__.print")(o);
+		return untyped __field__(Builtin, "print")(o);
 	}
 	
 	//public static function super():Void;
@@ -140,7 +140,7 @@ extern class Builtin {
 	//public static function sorted():Void;
 	//public static function intern():Void;
 	static function __init__ ():Void {
-		python.Macros.importAs("builtins", "__builtin__");
+		python.Macros.importAs("builtins", "python.lib.Builtin");
 	}
 
 }
