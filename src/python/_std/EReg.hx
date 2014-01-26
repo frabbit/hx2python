@@ -186,12 +186,15 @@ class EReg {
 	**/
 	public function replace( s : String, by : String ) : String 
 	{
+		var by = by.split("$$").join("_hx_#repl#__");
 		function replace (x:MatchObject) {
 			var res = by;
 			var g = x.groups();
 			for (i in 0...g.length) {
+
 				res = res.split("$"+Builtin.str(i+1)).join(g[i]);
 			}
+			res = res.split("_hx_#repl#__").join("$");
 			return res;
 		}
 		return Re.sub(pattern, replace, s, global ? 0 : 1 );

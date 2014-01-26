@@ -225,7 +225,7 @@ extern class Math
 		TODO: need spec
 	**/
 	public static inline function round(v:Float):Int {
-		return Builtin.round(v);
+		return Math.floor(v + 0.5);
 	}
 	
 	/**
