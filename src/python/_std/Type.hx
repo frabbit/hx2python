@@ -298,7 +298,7 @@ enum ValueType {
 		return true;
 	}
 
-	public inline static function enumConstructor( e : EnumValue ) : String {
+	public static function enumConstructor( e : EnumValue ) : String {
 		try {
 			return untyped e.tag;
 		} catch (e:Dynamic) {
@@ -306,7 +306,7 @@ enum ValueType {
 		}
 	}
 
-	public inline static function enumParameters( e : EnumValue ) : Array<Dynamic> {
+	public static function enumParameters( e : EnumValue ) : Array<Dynamic> {
 		try {
 			return untyped e.params;
 		} catch (e:Dynamic) {
@@ -314,7 +314,7 @@ enum ValueType {
 		}
 	}
 
-	public inline static function enumIndex( e : EnumValue ) : Int {
+	public static function enumIndex( e : EnumValue ) : Int {
 		try {
 			return untyped e.index;
 		} catch (e:Dynamic) {

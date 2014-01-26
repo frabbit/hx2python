@@ -775,7 +775,7 @@ class PythonGenerator
         }
     }
 
-    function writeFile () 
+    function writeFile ()
     {
         sys.io.File.saveContent(api.outputFile, buf.toString());
     }
@@ -805,6 +805,8 @@ class PythonGenerator
 
     public function generate()
     {
+        
+
         genResources();
         genBootCode();
 

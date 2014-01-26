@@ -32,4 +32,10 @@ class StringImpl {
 
 		
 	}
+
+	public static inline function fromCharCode( code : Int ) : String {
+		var c = code;
+		return untyped (''.join)(untyped map(untyped chr, [c]));
+	}
+	
 }

@@ -5,6 +5,7 @@ import haxe.io.Path;
 import haxe.macro.Context;
 
 import haxe.ds.Option;
+import haxe.macro.Expr.Position;
 import haxe.macro.Type;
 class Tools {
 	
@@ -29,7 +30,15 @@ class Tools {
 
 class TypedExprTools 
 {
-	static public function iter(e:TypedExpr, f:TypedExpr -> Void):Void 
+	public static inline function withExpr (e:TypedExpr, td:TypedExprDef) {
+		return toTExpr(td, e.t, e.pos);
+	}
+
+	public static inline function toTExpr (e:TypedExprDef, t:Type, pos:Position) {
+		return { expr : e, t : t, pos : pos};
+	}
+
+	public static function iter(e:TypedExpr, f:TypedExpr -> Void):Void 
 	{
 	
 		return switch(e.expr) {

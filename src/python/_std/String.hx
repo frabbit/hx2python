@@ -195,8 +195,7 @@ extern class String {
 		unspecified.
 	**/
 	public static inline function fromCharCode( code : Int ) : String {
-		var c = code;
-		return untyped (''.join)(untyped map(untyped chr, [c]));
+		return StringImpl.fromCharCode(code);
 	}
 
 	static function __init__ ():Void {
