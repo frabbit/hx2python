@@ -788,7 +788,6 @@ class PythonGenerator
 
     function genResources() {
         var res = Context.getResources();
-        trace(res.keys());
         var keys = res.keys();
         if (keys.hasNext()) {
             var file = Compiler.getOutput();
