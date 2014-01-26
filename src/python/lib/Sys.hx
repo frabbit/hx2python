@@ -18,7 +18,11 @@ extern class Sys {
 	public static var version:String;
 
 	public static var stdout(default, never):TextIOBase;
+	
 
+	public static function getsizeof (t:Dynamic):Int;
+
+	public static var maxsize:Int;
 	
 	static function __init__ ():Void 
 	{

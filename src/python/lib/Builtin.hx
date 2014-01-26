@@ -48,7 +48,8 @@ extern class Builtin {
 	
 	//public static function staticmethod():Void;
 	//public static function enumerate():Void;
-	//public static function int():Void;
+
+	public static function int(x:Dynamic):Int;
 	//public static function ord():Void;
 	public static inline function str(o:Dynamic):String {
 		return untyped __python__("__builtin__.str")(o);

@@ -54,8 +54,17 @@ import python.lib.Builtin;
 		if (builtin.isinstance(o, untyped __python__("int"))) {
 			return builtin.str(o);
 		}
+		// 1.0 should be printed as 1
 		if (builtin.isinstance(o, untyped __python__("float"))) {
-			return builtin.str(o);
+			try {
+				if (o == Builtin.int(o)) {
+					return builtin.str(Math.round(o));	
+				} else {
+					return builtin.str(o);
+				}
+			} catch (e:Dynamic) {
+				return builtin.str(o);
+			}
 		}
 		
 
