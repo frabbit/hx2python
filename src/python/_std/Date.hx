@@ -45,7 +45,7 @@ import python.lib.datetime.DateTime;
 	public inline function getTime() : Float
 	{
 			
-		return date.timestamp();
+		return date.timestamp()*1000.0;
 	}
 
 	public inline function getHours() : Int
@@ -110,13 +110,13 @@ import python.lib.datetime.DateTime;
 	static public function fromTime( t : Float ) : Date
 	{
 		var d = new Date(1970, 0, 1, 0, 0, 0);
-		d.date = DateTime.fromtimestamp(t);
+		d.date = DateTime.fromtimestamp(t/1000.0);
 		return d;
 	}
 
 	static function UTC( year : Int, month : Int, day : Int, hour : Int, min : Int, sec : Int ) : Float
 	{
-		return new DateTime(year, month+1, day, hour, min, sec, 0, python.lib.datetime.Timezone.utc).timestamp();
+		return new DateTime(year, month+1, day, hour, min, sec, 0, python.lib.datetime.Timezone.utc).timestamp()*1000.0;
 	}
 
 	static public function fromString( s : String ) : Date
