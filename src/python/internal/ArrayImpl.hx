@@ -118,8 +118,16 @@ class ArrayImpl {
 	public static inline function sort<T>(x:Array<T>, f:T->T->Int) : Void {
 		return untyped __field__(x, "sort")(untyped __named_arg__("key", python.lib.FuncTools.cmp_to_key(f)));
 	}
-
+	/*
+	b = [i0, i1, i3, i0, i2];
+	a = b.splice( -2, 2);
+	b == [i0, i1, i3];
+	trace(a);
+	a == [i0, i2];
+	*/
 	public static inline function splice<T>(x:Array<T>, pos : Int, len : Int ) : Array<T> {
+		if (pos < 0) pos = x.length+pos;
+		if (pos < 0) pos = 0;
 		var res = untyped __python_array_get__(x, pos, pos+len);
 		untyped __python_del__(untyped __python_array_get__(x, pos, pos+len));
 		return res;

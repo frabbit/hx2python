@@ -776,7 +776,7 @@ class PythonTransformer {
 
 				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
 
-					var eif = eelse;
+					
 
 					var valReversed = c.values.copy();
 					valReversed.reverse();
@@ -799,7 +799,7 @@ class PythonTransformer {
 					caseFunctions = caseFunctions.concat(func.blocks);
 					var call = func.expr;
 
-					eif = { expr : TIf(cond, call, eelse), pos : c.expr.pos, t: e.expr.t };
+					var eif = { expr : TIf(cond, call, eelse), pos : c.expr.pos, t: e.expr.t };
 					
 					return eif;
 					
@@ -825,8 +825,8 @@ class PythonTransformer {
 				}
 				
 				if (res == null || res.expr == null) {
-
-					throw "unexpected";
+					res = edef;
+					//throw "unexpected";
 				}
 
 				var resulting = { expr : TBlock(caseFunctions.concat([res])), t : res.t, pos : res.pos};
@@ -846,7 +846,7 @@ class PythonTransformer {
 
 				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
 
-					var eif = eelse;
+					
 
 					var valReversed = c.values.copy();
 					valReversed.reverse();
@@ -862,12 +862,7 @@ class PythonTransformer {
 						}
 					}
 
-
-
-					
-					
-
-					eif = { expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
+					var eif = { expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
 					
 					return eif;
 					
@@ -893,10 +888,11 @@ class PythonTransformer {
 				}
 				
 				if (res == null || res.expr == null) {
+					res = edef;
 					//trace(TypedExprTools.toString(e.expr));
 					//trace(cases);
 					//throw "unexpected";
-					res = { expr : TConst(TNull), pos : e.expr.pos, t : e.expr.t }
+					//res = { expr : TConst(TNull), pos : e.expr.pos, t : e.expr.t }
 				}
 
 				
