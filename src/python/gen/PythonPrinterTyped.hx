@@ -271,6 +271,8 @@ class PythonPrinterTyped {
 
         var result =  switch(id)
         {
+            
+
         	case "super":
         		var params = el.copy();
         		'super().__init__(${printExprs(params,", ", context)})';
@@ -432,6 +434,7 @@ class PythonPrinterTyped {
             trace(fa + " => " + e1.pos);
         }
         */
+
         return switch (fa) {
             case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
                 "_hx_builtin.len(" + printExpr(e1, context) + ")";
@@ -544,6 +547,13 @@ class PythonPrinterTyped {
         case TEnumParameter(e,ef, index): 
             '${printExpr1(e)}.params[${index}]';
         
+        case TCall({ expr : TLocal({ name : "__strict_eq__"})}, [e1,e2]):
+            var e1 = switch (e1.expr) {
+                case TBinop(OpOr, a, _): a;
+                case _ : e1;
+            }
+            printExpr1({ expr : TBinop(OpEq, e1, e2), pos : e.pos, t: e.t});
+
         case TArray(e1, e2): 
             '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
 		case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
@@ -552,8 +562,12 @@ class PythonPrinterTyped {
             '${printField(ef1, fa, context, true)} = ' + printOpAssignRight(e2, context);
         case TBinop(OpAssign, e1, e2): 
             '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
-		case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
+		case TBinop(OpEq, { expr : TCall({ expr : TLocal({ name : "__typeof__"})}, [e1])}, e2):
+            '_hx_c.Std._hx_is(${printExpr(e1,context)},${printExpr(e2,context)})';
+        
+        case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
+
 		case TBinop(OpNotEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is not ${printExpr1(e2)}'; 
         case TBinop(OpMod, e1, e2) if (isType1("", "Int")(e1.t) && isType1("", "Int")(e2.t)):
@@ -574,6 +588,7 @@ class PythonPrinterTyped {
 
         case TBinop(OpAdd, e1, e2) if (e.t.match(TDynamic(_))):
             'python_Boot._add_dynamic(${printExpr1(e1)},${printExpr1(e2)})';
+        
         case TBinop(op, e1, e2): 
 			'${printExpr1(e1)} ${printBinop(op)} ${printExpr1(e2)}';
 		case TField(e1, fa):

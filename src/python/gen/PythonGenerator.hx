@@ -463,10 +463,23 @@ class PythonGenerator
         return { fields : fields, props : props, methods : methods };
     }
 
+    function genPreCodeMeta(m:Metadata) {
+
+        var entry = m.find(function (e) return e.name == ":preCode");
+        if (entry != null) {
+            if (entry.params == null || entry.params.length != 1) throw "assert";
+
+            switch (entry.params[0].expr) {
+                case EConst(CString(s)): print(s);
+                case _ : throw "assert";
+            }
+        }
+    }
+
     function genClass(c : ClassType, cType:Type, cRef:Ref<ClassType>)
     {
         
-
+        genPreCodeMeta(c.meta.get());
         printLine("# print " + c.module + "." + c.name);
 
         if (!c.isExtern) 

@@ -79,7 +79,7 @@ import python.Boot;
 
         if (t == Date) return false;
 
-        if (Builtin.isinstance(v, Date)) return false;        
+        if (Builtin.isinstance(v, Date)) return false;
 
         if (t == Class && !Builtin.isinstance(v, untyped Enum) && Inspect.isclass(v) && Builtin.hasattr(v, "_hx_class_name") && !Builtin.hasattr(v, "_hx_constructs")) return true;
 
