@@ -943,38 +943,61 @@ class PythonTransformer {
 	{
 		var e1_ = transformExpr(e1, true, e.nextId);
 
+		function handleAsLocal (tempLocal:TypedExpr) {
+			var ex = e.expr;
+
+			var resVar = { name : e.nextId(), id : 0, extra : null, capture : false, t : ex.t };
+			
+			var resLocal = e.expr.withExpr( TLocal(resVar) );
+			
+			var plus = ex.withExpr( TBinop(op, tempLocal, one) );
+
+			var varExpr = ex.withExpr( TVar(resVar, tempLocal) );
+
+			var assignExpr = ex.withExpr( TBinop(OpAssign,e1_.expr, plus) );
+
+			var blocks = if (post) [varExpr, assignExpr, resLocal] else [assignExpr, tempLocal];
+
+			var block = e1_.blocks.concat(blocks);
+			
+			return if (isValue) {
+				var f = exprsToFunc(block, e.nextId(), e);
+				liftExpr(f.expr, true, e.nextId, f.blocks);
+			} else {
+				var block = e1_.blocks.concat([assignExpr]);	
+				transformExprsToBlock(block, ex.t, false, ex.pos, e.nextId);
+				
+			}
+		}
+
 		return switch (e1_.expr.expr) {
+			case TArray({ expr : TLocal(_)},{ expr : TLocal(_)}):
+				handleAsLocal(e1_.expr);
 			case TArray(e1,e2):
 				var id = e.nextId();
 
 				var tempVarL = { name : id, id : 0, extra : null, capture : false, t : e1.t };
-				var tempLocalL = { expr : TLocal(tempVarL), pos : e1.pos, t : e1.t};
-				var tempVarL = { expr : TVar(tempVarL, e1), pos : e1.pos, t : e1.t};
+				var tempLocalL = e1.withExpr( TLocal(tempVarL) );
+				var tempVarL = e1.withExpr( TVar(tempVarL, e1) );
 
 				var id = e.nextId();
 
 				var tempVarR = { name : id, id : 0, extra : null, capture : false, t : e2.t };
-				var tempLocalR = { expr : TLocal(tempVarR), pos : e2.pos, t : e2.t};
-				var tempVarR = { expr : TVar(tempVarR, e2), pos : e2.pos, t : e2.t};
+				var tempLocalR = e2.withExpr( TLocal(tempVarR) );
+				var tempVarR = e2.withExpr( TVar(tempVarR, e2) );
 
 				var id = e.nextId();
 
 				var tempVar = { name : id, id : 0, extra : null, capture : false, t : e1_.expr.t };
-				var tempLocal = { expr : TLocal(tempVar), pos : e1_.expr.pos, t : e1_.expr.t};
-				var tempVarExpr = { expr : TArray(tempLocalL, tempLocalR), pos : e1_.expr.pos, t : e1_.expr.t};
-				var tempVar = { expr : TVar(tempVar, tempVarExpr), pos : e1_.expr.pos, t : e1_.expr.t};
+				var tempLocal = e1_.expr.withExpr( TLocal(tempVar) );
+				var tempVarExpr = e1_.expr.withExpr( TArray(tempLocalL, tempLocalR) );
+				var tempVar = e1_.expr.withExpr( TVar(tempVar, tempVarExpr));
 
 				var id = e.nextId();
 
-				//var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
+				var plus = e.expr.withExpr( TBinop(op, tempLocal, one) );
 				
-				//var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
-				
-				
-				var plus = { expr : TBinop(op, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
-
-				//var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
-				var assignExpr = { expr : TBinop(OpAssign,tempVarExpr, plus), pos : e.expr.pos, t : e.expr.t};
+				var assignExpr = e.expr.withExpr( TBinop(OpAssign,tempVarExpr, plus) );
 
 				var block = e1_.blocks.concat([tempVarL, tempVarR, tempVar, assignExpr, if (post) tempLocal else tempVarExpr]);
 				
@@ -983,35 +1006,28 @@ class PythonTransformer {
 					liftExpr(f.expr, true, e.nextId, f.blocks);
 				} else {
 					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
-					//var f = exprsToFunc(block, e.nextId(), e);
-					//var blockExpr = { expr : TBlock(f.blocks.concat([f.expr])), pos : e.expr.pos, t : e.expr.t};
-					//forwardTransform(blockExpr,e);
 				}
+
+			case TField({ expr : TLocal(_)},fa):
+				handleAsLocal(e1_.expr);
+
 			case TField(e1,fa):
-				var id = e.nextId();
 
-				var tempVarL = { name : id, id : 0, extra : null, capture : false, t : e1.t };
-				var tempLocalL = { expr : TLocal(tempVarL), pos : e1.pos, t : e1.t};
-				var tempVarL = { expr : TVar(tempVarL, e1), pos : e1.pos, t : e1.t};
-
-				var id = e.nextId();
-
-				var tempVar = { name : id, id : 0, extra : null, capture : false, t : e1_.expr.t };
-				var tempLocal = { expr : TLocal(tempVar), pos : e1_.expr.pos, t : e1_.expr.t};
-				var tempVarExpr = { expr : TField(tempLocalL, fa), pos : e1_.expr.pos, t : e1_.expr.t};
-				var tempVar = { expr : TVar(tempVar, tempVarExpr), pos : e1_.expr.pos, t : e1_.expr.t};
-
-				var id = e.nextId();
-
-				//var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
+				var tempVarL = { name : e.nextId(), id : 0, extra : null, capture : false, t : e1.t };
 				
-				//var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
+				var tempLocalL = e1.withExpr( TLocal(tempVarL) );
 				
-				
-				var plus = { expr : TBinop(op, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
+				var tempVarL = e1.withExpr( TVar(tempVarL, e1) );
 
-				//var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
-				var assignExpr = { expr : TBinop(OpAssign,tempVarExpr, plus), pos : e.expr.pos, t : e.expr.t};
+
+				var tempVar = { name : e.nextId(), id : 0, extra : null, capture : false, t : e1_.expr.t };
+				var tempLocal = e1_.expr.with( TLocal(tempVar) );
+				var tempVarExpr = e1_.expr.withExpr( TField(tempLocalL, fa) );
+				var tempVar =     e1_.expr.withExpr( TVar(tempVar, tempVarExpr) );
+
+				var plus = e.expr.withExpr( TBinop(op, tempLocal, one) );
+
+				var assignExpr = e.expr.withExpr( TBinop(OpAssign,tempVarExpr, plus) );
 
 				var block = e1_.blocks.concat([tempVarL, tempVar, assignExpr, if (post) tempLocal else tempVarExpr]);
 				
@@ -1020,42 +1036,9 @@ class PythonTransformer {
 					liftExpr(f.expr, true, e.nextId, f.blocks);
 				} else {
 					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
-					//var f = exprsToFunc(block, e.nextId(), e);
-					//var blockExpr = { expr : TBlock(f.blocks.concat([f.expr])), pos : e.expr.pos, t : e.expr.t};
-					//forwardTransform(blockExpr,e);
 				}
 			case TLocal(v):
-				var id = e.nextId();
-
-				var tempLocal = e1_.expr;
-				//var tempVar = { name : id, id : 0, extra : null, capture : false, t : e1_.expr.t };
-				//var tempLocal = { expr : TLocal(tempVar), pos : e1_.expr.pos, t : e1_.expr.t};
-				//var tempVarExpr = { expr : TVar(tempVar, ), pos : e1_.expr.pos, t : e1_.expr.t};
-				
-				var id = e.nextId();
-
-				var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
-				
-				var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
-				
-				
-				var plus = { expr : TBinop(op, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
-
-				var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
-				var assignExpr = { expr : TBinop(OpAssign,e1_.expr, plus), pos : e.expr.pos, t : e.expr.t};
-
-				var blocks = if (post) [varExpr, assignExpr, resLocal] else [assignExpr, tempLocal];
-
-				var block = e1_.blocks.concat(blocks);
-				
-				if (isValue) {
-					var f = exprsToFunc(block, e.nextId(), e);
-					liftExpr(f.expr, true, e.nextId, f.blocks);
-				} else {
-					var block = e1_.blocks.concat([assignExpr]);	
-					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
-					
-				}
+				handleAsLocal(e1_.expr);
 			case _ : throw "assert";
 
 		}
