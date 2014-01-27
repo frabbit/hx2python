@@ -128,7 +128,6 @@ import python.lib.Builtin;
 			if (builtin.isinstance(o, untyped __python__("_hx_c.Enum"))) {
 				
 				
-
 				var l = builtin.len(o.params);
 				var hasParams = l > 0;
 				if (hasParams) {
