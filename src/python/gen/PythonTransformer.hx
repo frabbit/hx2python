@@ -966,17 +966,17 @@ class PythonTransformer {
 
 				var id = e.nextId();
 
-				var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
+				//var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
 				
-				var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
+				//var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
 				
 				
 				var plus = { expr : TBinop(op, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
 
-				var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
+				//var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
 				var assignExpr = { expr : TBinop(OpAssign,tempVarExpr, plus), pos : e.expr.pos, t : e.expr.t};
 
-				var block = e1_.blocks.concat([tempVarL, tempVarR, tempVar, varExpr, assignExpr, if (post) resLocal else tempVarExpr]);
+				var block = e1_.blocks.concat([tempVarL, tempVarR, tempVar, assignExpr, if (post) tempLocal else tempVarExpr]);
 				
 				if (isValue) {
 					var f = exprsToFunc(block, e.nextId(), e);
@@ -1003,17 +1003,17 @@ class PythonTransformer {
 
 				var id = e.nextId();
 
-				var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
+				//var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
 				
-				var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
+				//var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
 				
 				
 				var plus = { expr : TBinop(op, tempLocal, one), pos : e.expr.pos, t: e.expr.t}
 
-				var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
+				//var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
 				var assignExpr = { expr : TBinop(OpAssign,tempVarExpr, plus), pos : e.expr.pos, t : e.expr.t};
 
-				var block = e1_.blocks.concat([tempVarL, tempVar, varExpr, assignExpr, if (post) resLocal else tempVarExpr]);
+				var block = e1_.blocks.concat([tempVarL, tempVar, assignExpr, if (post) tempLocal else tempVarExpr]);
 				
 				if (isValue) {
 					var f = exprsToFunc(block, e.nextId(), e);
@@ -1044,16 +1044,17 @@ class PythonTransformer {
 				var varExpr = { expr : TVar(resVar, tempLocal), pos : e.expr.pos, t : e.expr.t};
 				var assignExpr = { expr : TBinop(OpAssign,e1_.expr, plus), pos : e.expr.pos, t : e.expr.t};
 
-				var block = e1_.blocks.concat([varExpr, assignExpr, if (post) resLocal else tempLocal]);
+				var blocks = if (post) [varExpr, assignExpr, resLocal] else [assignExpr, tempLocal];
+
+				var block = e1_.blocks.concat(blocks);
 				
 				if (isValue) {
 					var f = exprsToFunc(block, e.nextId(), e);
 					liftExpr(f.expr, true, e.nextId, f.blocks);
 				} else {
+					var block = e1_.blocks.concat([assignExpr]);	
 					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
-					//var f = exprsToFunc(block, e.nextId(), e);
-					//var blockExpr = { expr : TBlock(f.blocks.concat([f.expr])), pos : e.expr.pos, t : e.expr.t};
-					//forwardTransform(blockExpr,e);
+					
 				}
 			case _ : throw "assert";
 
