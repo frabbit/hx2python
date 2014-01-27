@@ -1,19 +1,21 @@
 
 package ;
 
-
 // must be defined before (in python code) using a python decorator
+@:preCode("
+def lazy(fn):
+	attr_name = '_lazy_' + fn.__name__
+	def _lazyprop(self):
+		if not hasattr(self, attr_name):
+			setattr(self, attr_name, fn(self))
+		return getattr(self, attr_name)
+	return _lazyprop
+")
 @:keep class LazyDefine {
-	static function __init__ ():Void {
-		untyped __python__("def lazy(fn):");
-    	untyped __python__("\tattr_name = '_lazy_' + fn.__name__");
-    	untyped __python__("\tdef _lazyprop(self):");
-        untyped __python__("\t\tif not hasattr(self, attr_name):");
-        untyped __python__("\t\t\tsetattr(self, attr_name, fn(self))");
-        untyped __python__("\t\treturn getattr(self, attr_name)");
-    	untyped __python__("\treturn _lazyprop");
-	}
 }
+
+
+
 
 class PyMetaDemo {
 	

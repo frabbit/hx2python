@@ -55,10 +55,11 @@ class ControlFlowDemo
         trace("\n\n-------------WHILE---------------\n");
 
         var count = 0;
-        while(count ++ < 3)
-        {
-            trace("count = " + Std.string(count));      //*currently need to convert to string before concating via + operator
-        }
+        //TODO BUG
+        //while(count++ < 3)
+        //{
+        //    trace("count = " + Std.string(count));      //*currently need to convert to string before concating via + operator
+        //}
 
         trace("\n\n-------------FOR---------------\n");
 

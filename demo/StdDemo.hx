@@ -19,7 +19,7 @@ class StdDemo
     {
         trace("\n\n-------------Std.is---------------\n");
 
-//Int, Float and Bool failing at the moment
+        //Int, Float and Bool failing at the moment
 
         var isIt = Std.is("someString", String);
 

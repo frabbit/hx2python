@@ -1,11 +1,12 @@
--cp src
--cp src/python/_std
--cp demo
 -D python
+-cp src
+-cp demo
+-cp src/python/_std
 -main Main
 -js bin/hxpython.py
 --macro python.gen.PythonGenerator.use()
--dce full
+-dce no
+
 
 -cmd python3 bin/hxpython.py
 

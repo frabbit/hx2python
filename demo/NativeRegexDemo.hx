@@ -13,14 +13,14 @@ class NativeRegexDemo {
 
 		var mo = r.match("heeeeello world");
 
-		var x = r.findall("h");
+		var x = r.findallString("h");
 
 		
 
 
 		var r = Re.compile("(e)x(a)x(c)");
 
-		var x = r.findall("exaxce\nexae");
+		var x = r.findallString("exaxce\nexae");
 
 		trace(x);
 		//trace(mo.group(1));

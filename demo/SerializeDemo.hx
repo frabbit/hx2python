@@ -74,6 +74,7 @@ class SerializeDemo {
 		var cl = new ClassA();
 
 		var cl1 = haxe.Serializer.run(cl);
+		trace(cl1);
 
 		var c2:ClassA = haxe.Unserializer.run(cl1);
 
