@@ -719,6 +719,11 @@ class PythonTransformer {
 
 				var block = e1_.blocks.concat([tempVarExpr, varExpr, assignExpr, resLocal]);
 				
+				//var isLocal = e1.expr.match(TLocal(_));
+
+				// TODO lazy expressions are a bad solution here
+ 				// we have to handle increments on fields, locals and array indices differently
+
 				if (isValue) {
 					var f = exprsToFunc(block, e.nextId(), e, true);
 					liftExpr(f.expr, true, e.nextId, f.blocks);

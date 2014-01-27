@@ -547,13 +547,15 @@ class PythonPrinterTyped {
         case TEnumParameter(e,ef, index): 
             '${printExpr1(e)}.params[${index}]';
         
+        case TCall({ expr : TLocal({ name : "__instanceof__"})}, [e1,e2]):
+            '_hx_c.Std._hx_is(${printExpr(e1,context)},${printExpr(e2,context)})';
         case TCall({ expr : TLocal({ name : "__strict_eq__"})}, [e1,e2]):
             var e1 = switch (e1.expr) {
                 case TBinop(OpOr, a, _): a;
                 case _ : e1;
             }
             printExpr1({ expr : TBinop(OpEq, e1, e2), pos : e.pos, t: e.t});
-
+        
         case TArray(e1, e2): 
             '_hx_array_get(${printExpr1(e1)},${printExpr1(e2)})';
 		case TBinop(OpAssign, { expr : TArray(e1, e2)}, e3): 
@@ -563,7 +565,14 @@ class PythonPrinterTyped {
         case TBinop(OpAssign, e1, e2): 
             '${printExpr1(e1)} = ' + printOpAssignRight(e2, context);
 		case TBinop(OpEq, { expr : TCall({ expr : TLocal({ name : "__typeof__"})}, [e1])}, e2):
-            '_hx_c.Std._hx_is(${printExpr(e1,context)},${printExpr(e2,context)})';
+            switch (e2.expr) {
+                case TConst(TString("string")): '_hx_c.Std._hx_is(${printExpr(e1,context)}, _hx_builtin.str)';
+                case TConst(TString("boolean")): '_hx_c.Std._hx_is(${printExpr(e1,context)}, _hx_builtin.bool)';
+                case TConst(TString("number")): '_hx_c.Std._hx_is(${printExpr(e1,context)}, _hx_builtin.float)';
+                case _ : throw "assert";
+            }
+            
+            
         
         case TBinop(OpEq, e1, e2 = { expr : TConst(TNull)}):
 			'${printExpr1(e1)} is ${printExpr1(e2)}';
