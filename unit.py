@@ -163,6 +163,27 @@ python_Boot._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_
 def python_Boot_hx_empty_init (_hx_o):
 	pass
 python_Boot._hx_empty_init = python_Boot_hx_empty_init
+# print python.internal.ArrayImpl.ArrayImpl
+class python_internal_ArrayImpl:
+
+	pass
+
+
+
+
+python_internal_ArrayImpl._hx_class = python_internal_ArrayImpl
+python_internal_ArrayImpl._hx_class_name = "python.internal.ArrayImpl"
+_hx_classes["python.internal.ArrayImpl"] = python_internal_ArrayImpl
+_hx_c.python_internal_ArrayImpl = python_internal_ArrayImpl
+python_internal_ArrayImpl._hx_fields = []
+python_internal_ArrayImpl._hx_props = []
+python_internal_ArrayImpl._hx_methods = []
+python_internal_ArrayImpl._hx_statics = ["get_length","concat","copy","iterator","indexOf","lastIndexOf","join","toString","pop","push","unshift","remove","shift","slice","sort","splice","map","filter","__get","__set","__unsafe_get","__unsafe_set"]
+python_internal_ArrayImpl._hx_interfaces = []
+python_internal_ArrayImpl._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
+def python_internal_ArrayImpl_hx_empty_init (_hx_o):
+	pass
+python_internal_ArrayImpl._hx_empty_init = python_internal_ArrayImpl_hx_empty_init
 # print Array.list
 # print Date.Date
 class Date:
@@ -262,25 +283,13 @@ class EReg:
 		self._hx_global = False
 		options = 0
 		_g1 = 0
-		_g = __builtin__.len(opt)
+		_g = _hx_builtin.len(opt)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			c = None
-			if i >= __builtin__.len(opt):
+			if i >= _hx_builtin.len(opt):
 				c = -1
 			else:
 				c = ord(_hx_array_get(opt,i))
@@ -355,14 +364,14 @@ class EReg:
 				x1 = _hx_c.python_Tools.substring(s, lastEnd, endIndex)
 				
 				ret.append(x1)
-				__builtin__.len(ret)
+				_hx_builtin.len(ret)
 				
 				
 				lastEnd = x.end()
 			
 			x2 = _hx_c.python_Tools.substr(s, lastEnd, None)
 			ret.append(x2)
-			__builtin__.len(ret)
+			_hx_builtin.len(ret)
 			
 			
 			return ret
@@ -390,52 +399,40 @@ class EReg:
 	def replace(self,s,by):
 		by1 = None
 		_this = _hx_c.python_internal_StringImpl.split(by, "$$")
-		by1 = "_hx_#repl#__".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+		by1 = "_hx_#repl#__".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
-		def _hx_local_4(x):
+		def _hx_local_0(x):
 			res = by1
 			g = x.groups()
 			_g1 = 0
-			_g = __builtin__.len(g)
+			_g = _hx_builtin.len(g)
 			while _g1 < _g:
-				_hx_local_3 = None
-				def _hx_local_2():
-					nonlocal _g1
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = _g1
-					_hx_local_1 = _hx_local_0
-					_g1 = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
+				i = _g1
+				_g1 = _g1 + 1
 				
-				i = _hx_local_2()
 				_this1 = None
-				delimiter = "$" + Std.string(__builtin__.str(i + 1))
+				delimiter = "$" + Std.string(_hx_builtin.str(i + 1))
 				_this1 = _hx_c.python_internal_StringImpl.split(res, delimiter)
 				
-				res = _hx_array_get(g,i).join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+				res = _hx_array_get(g,i).join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 				
 			
 			
 			_this2 = _hx_c.python_internal_StringImpl.split(res, "_hx_#repl#__")
-			res = "$".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+			res = "$".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 			
 			return res
 		
-		replace = _hx_local_4
+		replace = _hx_local_0
 		return _hx_c.python_lib_Re.sub(self.pattern, replace, s, 0 if (self._hx_global) else 1)
 	
 
 	def map(self,s,f):
-		buf = _hx_StringIO()
+		buf = _hx_c.StringBuf()
 		pos = 0
 		right = s
 		cur = self
-		while pos < __builtin__.len(s):
+		while pos < _hx_builtin.len(s):
 			if self.matchObj is None:
 				self.matchObj = _hx_c.python_lib_Re.search(self.pattern, s)
 			else:
@@ -450,30 +447,30 @@ class EReg:
 			x = _hx_c.python_Tools.substr(_this, pos, None)
 			
 			s1 = _hx_c.Std.string(x)
-			buf.write(s1)
+			buf.b.write(s1)
 			
 			
 			x1 = f(cur)
 			s2 = _hx_c.Std.string(x1)
-			buf.write(s2)
+			buf.b.write(s2)
 			
 			
 			right = cur.matchedRight()
 			if not self._hx_global:
 				s3 = _hx_c.Std.string(right)
-				buf.write(s3)
+				buf.b.write(s3)
 				
-				return buf.getvalue()
+				return buf.b.getvalue()
 			
 			
 			if curPos.len == 0:
 				x2 = None
-				if pos1 < 0 or pos1 >= __builtin__.len(s):
+				if pos1 < 0 or pos1 >= _hx_builtin.len(s):
 					x2 = ""
 				else:
 					x2 = s[pos1]
 				s4 = _hx_c.Std.string(x2)
-				buf.write(s4)
+				buf.b.write(s4)
 				
 				
 				right = _hx_c.python_Tools.substr(right, 1, None)
@@ -483,9 +480,9 @@ class EReg:
 				pos = pos1
 		
 		s5 = _hx_c.Std.string(right)
-		buf.write(s5)
+		buf.b.write(s5)
 		
-		return buf.getvalue()
+		return buf.b.getvalue()
 	
 
 
@@ -524,22 +521,15 @@ class IntIterator:
 		return self.min < self.max
 
 	def next(self):
-		def _hx_local_4():
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
+		def _hx_local_2():
+			def _hx_local_1():
 				_hx_local_0 = self.min
-				_hx_local_1 = _hx_local_0
-				self.min = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+				self.min = self.min + 1
+				return _hx_local_0
 			
-			return _hx_local_2()
+			return _hx_local_1()
 		
-		return _hx_local_4()
+		return _hx_local_2()
 	
 
 
@@ -601,21 +591,7 @@ class List:
 		else:
 			_hx_array_set(self.q,1, x)
 		self.q = x
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = self.length
-			_hx_local_1 = _hx_local_0
-			self.length = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-		
+		self.length = self.length + 1
 	
 
 	def push(self,item):
@@ -624,21 +600,7 @@ class List:
 		if self.q is None:
 			self.q = x
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = self.length
-			_hx_local_1 = _hx_local_0
-			self.length = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-		
+		self.length = self.length + 1
 	
 
 	def first(self):
@@ -662,10 +624,7 @@ class List:
 		if self.h is None:
 			self.q = None
 		
-		_hx_local_0 = self.length
 		self.length = self.length - 1
-		_hx_local_0
-		
 		return x
 	
 
@@ -690,10 +649,7 @@ class List:
 				if self.q == l:
 					self.q = prev
 				
-				_hx_local_0 = self.length
 				self.length = self.length - 1
-				_hx_local_0
-				
 				return True
 			
 			
@@ -724,34 +680,34 @@ class List:
 	
 
 	def toString(self):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		first = True
 		l = self.h
 		s1 = _hx_c.Std.string("{")
-		s.write(s1)
+		s.b.write(s1)
 		
 		while l is not None:
 			if first:
 				first = False
 			else:
 				s2 = _hx_c.Std.string(", ")
-				s.write(s2)
+				s.b.write(s2)
 			
 			x = _hx_c.Std.string(_hx_array_get(l,0))
 			s3 = _hx_c.Std.string(x)
-			s.write(s3)
+			s.b.write(s3)
 			
 			
 			l = _hx_array_get(l,1)
 		
 		s4 = _hx_c.Std.string("}")
-		s.write(s4)
+		s.b.write(s4)
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 	def join(self,sep):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		first = True
 		l = self.h
 		while l is not None:
@@ -759,14 +715,14 @@ class List:
 				first = False
 			else:
 				s1 = _hx_c.Std.string(sep)
-				s.write(s1)
+				s.b.write(s1)
 			
 			s2 = _hx_c.Std.string(_hx_array_get(l,0))
-			s.write(s2)
+			s.b.write(s2)
 			
 			l = _hx_array_get(l,1)
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 	def filter(self,f):
@@ -905,8 +861,91 @@ def Std_hx_empty_init (_hx_o):
 	pass
 Std._hx_empty_init = Std_hx_empty_init
 # print StdTypes.ArrayAccess
+# print python.internal.StringImpl.StringImpl
+class python_internal_StringImpl:
+
+	pass
+
+
+
+
+python_internal_StringImpl._hx_class = python_internal_StringImpl
+python_internal_StringImpl._hx_class_name = "python.internal.StringImpl"
+_hx_classes["python.internal.StringImpl"] = python_internal_StringImpl
+_hx_c.python_internal_StringImpl = python_internal_StringImpl
+python_internal_StringImpl._hx_fields = []
+python_internal_StringImpl._hx_props = []
+python_internal_StringImpl._hx_methods = []
+python_internal_StringImpl._hx_statics = ["split","charCodeAt","charAt","lastIndexOf","fromCharCode"]
+python_internal_StringImpl._hx_interfaces = []
+python_internal_StringImpl._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
+def python_internal_StringImpl_hx_empty_init (_hx_o):
+	pass
+python_internal_StringImpl._hx_empty_init = python_internal_StringImpl_hx_empty_init
 # print String.String
-# print StringBuf._hx_StringIO
+# print StringBuf.StringBuf
+class StringBuf:
+
+
+	def __init__(self):
+		self.b = None
+		self.b = _hx_c.python_lib_io_StringIO()
+	
+	# var b
+	# var length
+	def get_length(self):
+		_this = self.b.getvalue()
+		return _hx_builtin.len(_this)
+	
+
+	def add(self,x):
+		s = _hx_c.Std.string(x)
+		self.b.write(s)
+	
+
+	def add1(self,s):
+		self.b.write(s)
+
+	def addChar(self,c):
+		s = None
+		c1 = c
+		s = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
+		
+		self.b.write(s)
+	
+
+	def addSub(self,s,pos,len = None):
+		if len is None:
+			len = None
+		
+		s1 = None
+		if len is None:
+			s1 = _hx_c.python_Tools.substr(s, pos, None)
+		else:
+			s1 = _hx_c.python_Tools.substr(s, pos, len)
+		self.b.write(s1)
+	
+
+	def toString(self):
+		return self.b.getvalue()
+
+
+
+
+
+StringBuf._hx_class = StringBuf
+StringBuf._hx_class_name = "StringBuf"
+_hx_classes["StringBuf"] = StringBuf
+_hx_c.StringBuf = StringBuf
+StringBuf._hx_fields = ["b"]
+StringBuf._hx_props = ["length"]
+StringBuf._hx_methods = ["get_length","add","add1","addChar","addSub","toString"]
+StringBuf._hx_statics = []
+StringBuf._hx_interfaces = []
+StringBuf._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
+def StringBuf_hx_empty_init (_hx_o):
+	_hx_o.b = None
+StringBuf._hx_empty_init = StringBuf_hx_empty_init
 # print StringTools.StringTools
 class StringTools:
 
@@ -1024,14 +1063,14 @@ class Xml:
 		if self.nodeType != _hx_c.Xml.Element:
 			raise _HxException("bad nodeType")
 		
-		def _hx_local_2():
+		def _hx_local_1():
 			def _hx_local_0():
 				self._nodeName = n
 				return self._nodeName
 			
 			return _hx_local_0()
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
 
 	def get_nodeValue(self):
@@ -1045,14 +1084,14 @@ class Xml:
 		if self.nodeType == _hx_c.Xml.Element or self.nodeType == _hx_c.Xml.Document:
 			raise _HxException("bad nodeType")
 		
-		def _hx_local_2():
+		def _hx_local_1():
 			def _hx_local_0():
 				self._nodeValue = v
 				return self._nodeValue
 			
 			return _hx_local_0()
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
 
 	def get_parent(self):
@@ -1099,32 +1138,25 @@ class Xml:
 		
 		cur = 0
 		x = self._children
-		def _hx_local_8():
+		def _hx_local_5():
 			def _hx_local_0():
-				return cur < __builtin__.len(x)
-			def _hx_local_7():
-				def _hx_local_5():
-					_hx_local_4 = None
-					def _hx_local_3():
+				return cur < _hx_builtin.len(x)
+			def _hx_local_4():
+				def _hx_local_3():
+					def _hx_local_2():
 						nonlocal cur
-						nonlocal _hx_local_4
-						if _hx_local_4 is not None:
-							return _hx_local_4
-						
 						_hx_local_1 = cur
-						_hx_local_2 = _hx_local_1
-						cur = _hx_local_1 + 1
-						_hx_local_4 = _hx_local_2
-						return _hx_local_2
+						cur = cur + 1
+						return _hx_local_1
 						
 					
-					return _hx_array_get(x,_hx_local_3())
+					return _hx_array_get(x,_hx_local_2())
 				
-				return _hx_local_5()
+				return _hx_local_3()
 			
-			return _hx_c._hx_AnonObject(hasNext = _hx_local_0 ,next = _hx_local_7 )
+			return _hx_c._hx_AnonObject(hasNext = _hx_local_0 ,next = _hx_local_4 )
 		
-		return _hx_local_8()
+		return _hx_local_5()
 	
 
 	def elements(self):
@@ -1133,11 +1165,11 @@ class Xml:
 		
 		cur = 0
 		x = self._children
-		def _hx_local_2():
-			def _hx_local_0():
+		def _hx_local_4():
+			def _hx_local_1():
 				nonlocal cur
 				k = cur
-				l = __builtin__.len(x)
+				l = _hx_builtin.len(x)
 				while k < l:
 					if _hx_array_get(x,k).nodeType == _hx_c.Xml.Element:
 						break
@@ -1148,10 +1180,10 @@ class Xml:
 				return k < l
 				
 			
-			def _hx_local_1():
+			def _hx_local_3():
 				nonlocal cur
 				k1 = cur
-				l1 = __builtin__.len(x)
+				l1 = _hx_builtin.len(x)
 				while k1 < l1:
 					n = _hx_array_get(x,k1)
 					k1 = k1 + 1
@@ -1164,9 +1196,9 @@ class Xml:
 				return None
 				
 			
-			return _hx_c._hx_AnonObject(hasNext = _hx_local_0 ,next = _hx_local_1 )
+			return _hx_c._hx_AnonObject(hasNext = _hx_local_1 ,next = _hx_local_3 )
 		
-		return _hx_local_2()
+		return _hx_local_4()
 	
 
 	def elementsNamed(self,name):
@@ -1175,65 +1207,29 @@ class Xml:
 		
 		cur = 0
 		x = self._children
-		def _hx_local_12():
-			def _hx_local_5():
+		def _hx_local_4():
+			def _hx_local_1():
 				nonlocal cur
 				k = cur
-				l = __builtin__.len(x)
+				l = _hx_builtin.len(x)
 				while k < l:
 					n = _hx_array_get(x,k)
 					if n.nodeType == _hx_c.Xml.Element and n._nodeName == name:
 						break
 					
-					_hx_local_3 = None
-					def _hx_local_4():
-						nonlocal k
-						nonlocal k
-						nonlocal _hx_local_3
-						if _hx_local_3 is not None:
-							return _hx_local_3
-						
-						_hx_local_0 = k
-						_hx_local_1 = _hx_local_0
-						k = _hx_local_0 + 1
-						_hx_local_3 = _hx_local_1
-						return _hx_local_1
-						
-						
-					
-					_hx_local_2 = _hx_local_4
-					_hx_local_2()
-					
+					k = k + 1
 				
 				cur = k
 				return k < l
 				
 			
-			def _hx_local_11():
+			def _hx_local_3():
 				nonlocal cur
 				k1 = cur
-				l1 = __builtin__.len(x)
+				l1 = _hx_builtin.len(x)
 				while k1 < l1:
 					n1 = _hx_array_get(x,k1)
-					_hx_local_9 = None
-					def _hx_local_10():
-						nonlocal k1
-						nonlocal k1
-						nonlocal _hx_local_9
-						if _hx_local_9 is not None:
-							return _hx_local_9
-						
-						_hx_local_6 = k1
-						_hx_local_7 = _hx_local_6
-						k1 = _hx_local_6 + 1
-						_hx_local_9 = _hx_local_7
-						return _hx_local_7
-						
-						
-					
-					_hx_local_8 = _hx_local_10
-					_hx_local_8()
-					
+					k1 = k1 + 1
 					if n1.nodeType == _hx_c.Xml.Element and n1._nodeName == name:
 						cur = k1
 						return n1
@@ -1243,9 +1239,9 @@ class Xml:
 				return None
 				
 			
-			return _hx_c._hx_AnonObject(hasNext = _hx_local_5 ,next = _hx_local_11 )
+			return _hx_c._hx_AnonObject(hasNext = _hx_local_1 ,next = _hx_local_3 )
 		
-		return _hx_local_12()
+		return _hx_local_4()
 	
 
 	def firstChild(self):
@@ -1260,31 +1256,13 @@ class Xml:
 			raise _HxException("bad nodetype")
 		
 		cur = 0
-		l = __builtin__.len(self._children)
+		l = _hx_builtin.len(self._children)
 		while cur < l:
 			n = _hx_array_get(self._children,cur)
 			if n.nodeType == _hx_c.Xml.Element:
 				return n
 			
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal cur
-				nonlocal cur
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = cur
-				_hx_local_1 = _hx_local_0
-				cur = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-			
+			cur = cur + 1
 		
 		return None
 	
@@ -1299,7 +1277,7 @@ class Xml:
 		x._parent = self
 		_this = self._children
 		_this.append(x)
-		__builtin__.len(_this)
+		_hx_builtin.len(_this)
 		
 		
 	
@@ -1342,44 +1320,44 @@ class Xml:
 		if self.nodeType == _hx_c.Xml.ProcessingInstruction:
 			return Std.string("<?" + Std.string(self._nodeValue)) + "?>"
 		
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		if self.nodeType == _hx_c.Xml.Element:
 			s1 = _hx_c.Std.string("<")
-			s.write(s1)
+			s.b.write(s1)
 			
 			s2 = _hx_c.Std.string(self._nodeName)
-			s.write(s2)
+			s.b.write(s2)
 			
 			_it = self._attributes.keys()
 			while _it.hasNext():
 				k = _it.next()
 				s3 = _hx_c.Std.string(" ")
-				s.write(s3)
+				s.b.write(s3)
 				
 				s4 = _hx_c.Std.string(k)
-				s.write(s4)
+				s.b.write(s4)
 				
 				s5 = _hx_c.Std.string("=\"")
-				s.write(s5)
+				s.b.write(s5)
 				
 				x = self._attributes.get(k)
 				s6 = _hx_c.Std.string(x)
-				s.write(s6)
+				s.b.write(s6)
 				
 				
 				s7 = _hx_c.Std.string("\"")
-				s.write(s7)
+				s.b.write(s7)
 				
 			
-			if __builtin__.len(self._children) == 0:
+			if _hx_builtin.len(self._children) == 0:
 				s8 = _hx_c.Std.string("/>")
-				s.write(s8)
+				s.b.write(s8)
 				
-				return s.getvalue()
+				return s.b.getvalue()
 			
 			
 			s9 = _hx_c.Std.string(">")
-			s.write(s9)
+			s.b.write(s9)
 			
 		
 		
@@ -1388,22 +1366,22 @@ class Xml:
 			x1 = _it.next()
 			x2 = x1.toString()
 			s10 = _hx_c.Std.string(x2)
-			s.write(s10)
+			s.b.write(s10)
 			
 		
 		if self.nodeType == _hx_c.Xml.Element:
 			s11 = _hx_c.Std.string("</")
-			s.write(s11)
+			s.b.write(s11)
 			
 			s12 = _hx_c.Std.string(self._nodeName)
-			s.write(s12)
+			s.b.write(s12)
 			
 			s13 = _hx_c.Std.string(">")
-			s.write(s13)
+			s.b.write(s13)
 			
 		
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 
@@ -1546,25 +1524,7 @@ class haxe_Int64:
 			high = _hx_c.haxe_Int64.i32(~i.high)
 			low = _hx_c.haxe_Int64.i32(-i.low)
 			if low == 0:
-				_hx_local_3 = None
-				def _hx_local_4():
-					nonlocal high
-					nonlocal high
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = high
-					_hx_local_1 = _hx_local_0
-					high = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
-					
-				
-				_hx_local_2 = _hx_local_4
-				_hx_local_2()
-			
+				high = high + 1
 			
 			i = _hx_c.haxe_Int64(high, low)
 			
@@ -1619,19 +1579,19 @@ class haxe_Json:
 		if replacer is None:
 			replacer = None
 		
-		self.buf = _hx_StringIO()
+		self.buf = _hx_c.StringBuf()
 		self.replacer = replacer
 		self.toStringRec("", v)
-		return self.buf.getvalue()
+		return self.buf.b.getvalue()
 	
 
 	def fieldsString(self,v,fields):
 		first = True
 		s = None
 		c = 123
-		s = "".join(map(chr, [c]))
+		s = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
-		self.buf.write(s)
+		self.buf.b.write(s)
 		
 		_g = 0
 		while _g < _hx_builtin.len(fields):
@@ -1646,25 +1606,25 @@ class haxe_Json:
 			else:
 				s1 = None
 				c1 = 44
-				s1 = "".join(map(chr, [c1]))
+				s1 = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 				
-				self.buf.write(s1)
+				self.buf.b.write(s1)
 			
 			self.quote(f)
 			s2 = None
 			c2 = 58
-			s2 = "".join(map(chr, [c2]))
+			s2 = "".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 			
-			self.buf.write(s2)
+			self.buf.b.write(s2)
 			
 			self.toStringRec(f, value)
 		
 		
 		s3 = None
 		c3 = 125
-		s3 = "".join(map(chr, [c3]))
+		s3 = "".join(_hx_builtin.map(_hx_builtin.chr, [c3]))
 		
-		self.buf.write(s3)
+		self.buf.b.write(s3)
 		
 	
 
@@ -1676,19 +1636,19 @@ class haxe_Json:
 			v = self.replacer(k, v)
 		
 		_g = _hx_c.Type.typeof(v)
-		if (_hx_c.Type.enumIndex(_g)) == 8:
+		if (_g.index) == 8:
 			s = _hx_c.Std.string("\"???\"")
-			self.buf.write(s)
+			self.buf.b.write(s)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 4:
+		elif (_g.index) == 4:
 			self.objString(v)
-		elif (_hx_c.Type.enumIndex(_g)) == 1:
+		elif (_g.index) == 1:
 			v1 = v
 			s1 = _hx_c.Std.string(v1)
-			self.buf.write(s1)
+			self.buf.b.write(s1)
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 2:
+		elif (_g.index) == 2:
 			v2 = None
 			def _hx_local_0():
 				f = v
@@ -1699,14 +1659,14 @@ class haxe_Json:
 			else:
 				v2 = "null"
 			s2 = _hx_c.Std.string(v2)
-			self.buf.write(s2)
+			self.buf.b.write(s2)
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 5:
+		elif (_g.index) == 5:
 			s3 = _hx_c.Std.string("\"<fun>\"")
-			self.buf.write(s3)
+			self.buf.b.write(s3)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 6:
+		elif (_g.index) == 6:
 			c = _g.params[0]
 			if c == _hx_c.String:
 				self.quote(v)
@@ -1714,44 +1674,37 @@ class haxe_Json:
 				v3 = v
 				s4 = None
 				c1 = 91
-				s4 = "".join(map(chr, [c1]))
+				s4 = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 				
-				self.buf.write(s4)
+				self.buf.b.write(s4)
 				
-				len = __builtin__.len(v3)
+				len = _hx_builtin.len(v3)
 				if len > 0:
 					self.toStringRec(0, _hx_array_get(v3,0))
 					i = 1
 					while i < len:
 						s5 = None
 						c2 = 44
-						s5 = "".join(map(chr, [c2]))
+						s5 = "".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 						
-						self.buf.write(s5)
+						self.buf.b.write(s5)
 						
-						_hx_local_4 = None
-						def _hx_local_3():
+						def _hx_local_2():
 							nonlocal i
-							nonlocal _hx_local_4
-							if _hx_local_4 is not None:
-								return _hx_local_4
-							
 							_hx_local_1 = i
-							_hx_local_2 = _hx_local_1
-							i = _hx_local_1 + 1
-							_hx_local_4 = _hx_local_2
-							return _hx_local_2
+							i = i + 1
+							return _hx_local_1
 							
 						
-						self.toStringRec(i, _hx_array_get(v3,_hx_local_3()))
+						self.toStringRec(i, _hx_array_get(v3,_hx_local_2()))
 					
 				
 				
 				s6 = None
 				c3 = 93
-				s6 = "".join(map(chr, [c3]))
+				s6 = "".join(_hx_builtin.map(_hx_builtin.chr, [c3]))
 				
-				self.buf.write(s6)
+				self.buf.b.write(s6)
 				
 			
 			elif c == _hx_c.haxe_ds_StringMap:
@@ -1766,30 +1719,33 @@ class haxe_Json:
 						field = "_hx_" + Std.string(k1)
 					else:
 						field = k1
-					__builtin__.setattr(o, field, value)
+					_hx_builtin.setattr(o, field, value)
 				
 				self.objString(o)
 			
 			else:
 				self.objString(v)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 7:
-			i1 = _hx_c.Type.enumIndex(v)
+		elif (_g.index) == 7:
+			i1 = None
+			e = v
+			i1 = e.index
+			
 			v5 = i1
 			s7 = _hx_c.Std.string(v5)
-			self.buf.write(s7)
+			self.buf.b.write(s7)
 			
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 3:
+		elif (_g.index) == 3:
 			v6 = v
 			s8 = _hx_c.Std.string(v6)
-			self.buf.write(s8)
+			self.buf.b.write(s8)
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 0:
+		elif (_g.index) == 0:
 			s9 = _hx_c.Std.string("null")
-			self.buf.write(s9)
+			self.buf.b.write(s9)
 		
 		
 		
@@ -1798,29 +1754,17 @@ class haxe_Json:
 	def quote(self,s):
 		s1 = None
 		c = 34
-		s1 = "".join(map(chr, [c]))
+		s1 = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
-		self.buf.write(s1)
+		self.buf.b.write(s1)
 		
 		i = 0
 		while True:
 			c1 = None
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal i
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = i
-				_hx_local_1 = _hx_local_0
-				i = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			index = i
+			i = i + 1
 			
-			index = _hx_local_2()
-			if index >= __builtin__.len(s):
+			if index >= _hx_builtin.len(s):
 				c1 = -1
 			else:
 				c1 = ord(_hx_array_get(s,index))
@@ -1830,45 +1774,45 @@ class haxe_Json:
 			
 			if (c1) == 34:
 				s2 = _hx_c.Std.string("\\\"")
-				self.buf.write(s2)
+				self.buf.b.write(s2)
 			
 			elif (c1) == 92:
 				s3 = _hx_c.Std.string("\\\\")
-				self.buf.write(s3)
+				self.buf.b.write(s3)
 			
 			elif (c1) == 10:
 				s4 = _hx_c.Std.string("\\n")
-				self.buf.write(s4)
+				self.buf.b.write(s4)
 			
 			elif (c1) == 13:
 				s5 = _hx_c.Std.string("\\r")
-				self.buf.write(s5)
+				self.buf.b.write(s5)
 			
 			elif (c1) == 9:
 				s6 = _hx_c.Std.string("\\t")
-				self.buf.write(s6)
+				self.buf.b.write(s6)
 			
 			elif (c1) == 8:
 				s7 = _hx_c.Std.string("\\b")
-				self.buf.write(s7)
+				self.buf.b.write(s7)
 			
 			elif (c1) == 12:
 				s8 = _hx_c.Std.string("\\f")
-				self.buf.write(s8)
+				self.buf.b.write(s8)
 			
 			else:
 				s9 = None
 				c2 = c1
-				s9 = "".join(map(chr, [c2]))
+				s9 = "".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 				
-				self.buf.write(s9)
+				self.buf.b.write(s9)
 			
 		
 		s10 = None
 		c3 = 34
-		s10 = "".join(map(chr, [c3]))
+		s10 = "".join(_hx_builtin.map(_hx_builtin.chr, [c3]))
 		
-		self.buf.write(s10)
+		self.buf.b.write(s10)
 		
 	
 
@@ -1879,34 +1823,21 @@ class haxe_Json:
 	
 
 	def invalidChar(self):
-		_hx_local_0 = self.pos
 		self.pos = self.pos - 1
-		_hx_local_0
-		
 		def _hx_local_1():
 			index = self.pos
 			s = self.str
-			return -1 if (index >= __builtin__.len(s)) else ord(_hx_array_get(s,index))
+			return -1 if (index >= _hx_builtin.len(s)) else ord(_hx_array_get(s,index))
 		
 		raise _HxException(Std.string(Std.string("Invalid char " + Std.string(_hx_local_1())) + " at position ") + Std.string(self.pos))
 	
 
 	def nextChar(self):
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = self.pos
-			_hx_local_1 = _hx_local_0
-			self.pos = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+		index = self.pos
+		self.pos = self.pos + 1
 		
-		index = _hx_local_2()
 		s = self.str
-		if index >= __builtin__.len(s):
+		if index >= _hx_builtin.len(s):
 			return -1
 		else:
 			return ord(_hx_array_get(s,index))
@@ -1915,21 +1846,11 @@ class haxe_Json:
 	def parseRec(self):
 		while True:
 			c = None
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = self.pos
-				_hx_local_1 = _hx_local_0
-				self.pos = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+			index = self.pos
+			self.pos = self.pos + 1
 			
-			index = _hx_local_2()
 			s = self.str
-			if index >= __builtin__.len(s):
+			if index >= _hx_builtin.len(s):
 				c = -1
 			else:
 				c = ord(_hx_array_get(s,index))
@@ -1942,21 +1863,11 @@ class haxe_Json:
 				comma = None
 				while True:
 					c1 = None
-					_hx_local_7 = None
-					def _hx_local_6():
-						nonlocal _hx_local_7
-						if _hx_local_7 is not None:
-							return _hx_local_7
-						
-						_hx_local_4 = self.pos
-						_hx_local_5 = _hx_local_4
-						self.pos = _hx_local_4 + 1
-						_hx_local_7 = _hx_local_5
-						return _hx_local_5
+					index1 = self.pos
+					self.pos = self.pos + 1
 					
-					index1 = _hx_local_6()
 					s1 = self.str
-					if index1 >= __builtin__.len(s1):
+					if index1 >= _hx_builtin.len(s1):
 						c1 = -1
 					else:
 						c1 = ord(_hx_array_get(s1,index1))
@@ -1979,7 +1890,7 @@ class haxe_Json:
 							field1 = "_hx_" + Std.string(field)
 						else:
 							field1 = field
-						__builtin__.setattr(obj, field1, value)
+						_hx_builtin.setattr(obj, field1, value)
 						
 						field = None
 						comma = True
@@ -2004,21 +1915,11 @@ class haxe_Json:
 				comma1 = None
 				while True:
 					c2 = None
-					_hx_local_11 = None
-					def _hx_local_10():
-						nonlocal _hx_local_11
-						if _hx_local_11 is not None:
-							return _hx_local_11
-						
-						_hx_local_8 = self.pos
-						_hx_local_9 = _hx_local_8
-						self.pos = _hx_local_8 + 1
-						_hx_local_11 = _hx_local_9
-						return _hx_local_9
+					index2 = self.pos
+					self.pos = self.pos + 1
 					
-					index2 = _hx_local_10()
 					s2 = self.str
-					if index2 >= __builtin__.len(s2):
+					if index2 >= _hx_builtin.len(s2):
 						c2 = -1
 					else:
 						c2 = ord(_hx_array_get(s2,index2))
@@ -2040,13 +1941,10 @@ class haxe_Json:
 						if comma1:
 							self.invalidChar()
 						
-						_hx_local_12 = self.pos
 						self.pos = self.pos - 1
-						_hx_local_12
-						
 						x = self.parseRec()
 						arr.append(x)
-						__builtin__.len(arr)
+						_hx_builtin.len(arr)
 						
 						
 						comma1 = True
@@ -2055,58 +1953,28 @@ class haxe_Json:
 			
 			elif (c) == 116:
 				save = self.pos
-				def _hx_local_23():
-					_hx_local_27 = None
-					def _hx_local_26():
-						nonlocal _hx_local_27
-						if _hx_local_27 is not None:
-							return _hx_local_27
-						
-						_hx_local_24 = self.pos
-						_hx_local_25 = _hx_local_24
-						self.pos = _hx_local_24 + 1
-						_hx_local_27 = _hx_local_25
-						return _hx_local_25
+				def _hx_local_3():
+					index3 = self.pos
+					self.pos = self.pos + 1
 					
-					index3 = _hx_local_26()
 					s3 = self.str
-					return -1 if (index3 >= __builtin__.len(s3)) else ord(_hx_array_get(s3,index3))
+					return -1 if (index3 >= _hx_builtin.len(s3)) else ord(_hx_array_get(s3,index3))
 				
-				def _hx_local_18():
-					_hx_local_22 = None
-					def _hx_local_21():
-						nonlocal _hx_local_22
-						if _hx_local_22 is not None:
-							return _hx_local_22
-						
-						_hx_local_19 = self.pos
-						_hx_local_20 = _hx_local_19
-						self.pos = _hx_local_19 + 1
-						_hx_local_22 = _hx_local_20
-						return _hx_local_20
+				def _hx_local_2():
+					index4 = self.pos
+					self.pos = self.pos + 1
 					
-					index4 = _hx_local_21()
 					s4 = self.str
-					return -1 if (index4 >= __builtin__.len(s4)) else ord(_hx_array_get(s4,index4))
+					return -1 if (index4 >= _hx_builtin.len(s4)) else ord(_hx_array_get(s4,index4))
 				
-				def _hx_local_13():
-					_hx_local_17 = None
-					def _hx_local_16():
-						nonlocal _hx_local_17
-						if _hx_local_17 is not None:
-							return _hx_local_17
-						
-						_hx_local_14 = self.pos
-						_hx_local_15 = _hx_local_14
-						self.pos = _hx_local_14 + 1
-						_hx_local_17 = _hx_local_15
-						return _hx_local_15
+				def _hx_local_1():
+					index5 = self.pos
+					self.pos = self.pos + 1
 					
-					index5 = _hx_local_16()
 					s5 = self.str
-					return -1 if (index5 >= __builtin__.len(s5)) else ord(_hx_array_get(s5,index5))
+					return -1 if (index5 >= _hx_builtin.len(s5)) else ord(_hx_array_get(s5,index5))
 				
-				if _hx_local_23() != 114 or _hx_local_18() != 117 or _hx_local_13() != 101:
+				if _hx_local_3() != 114 or _hx_local_2() != 117 or _hx_local_1() != 101:
 					self.pos = save
 					self.invalidChar()
 				
@@ -2115,75 +1983,35 @@ class haxe_Json:
 			
 			elif (c) == 102:
 				save1 = self.pos
-				def _hx_local_43():
-					_hx_local_47 = None
-					def _hx_local_46():
-						nonlocal _hx_local_47
-						if _hx_local_47 is not None:
-							return _hx_local_47
-						
-						_hx_local_44 = self.pos
-						_hx_local_45 = _hx_local_44
-						self.pos = _hx_local_44 + 1
-						_hx_local_47 = _hx_local_45
-						return _hx_local_45
+				def _hx_local_7():
+					index6 = self.pos
+					self.pos = self.pos + 1
 					
-					index6 = _hx_local_46()
 					s6 = self.str
-					return -1 if (index6 >= __builtin__.len(s6)) else ord(_hx_array_get(s6,index6))
+					return -1 if (index6 >= _hx_builtin.len(s6)) else ord(_hx_array_get(s6,index6))
 				
-				def _hx_local_38():
-					_hx_local_42 = None
-					def _hx_local_41():
-						nonlocal _hx_local_42
-						if _hx_local_42 is not None:
-							return _hx_local_42
-						
-						_hx_local_39 = self.pos
-						_hx_local_40 = _hx_local_39
-						self.pos = _hx_local_39 + 1
-						_hx_local_42 = _hx_local_40
-						return _hx_local_40
+				def _hx_local_6():
+					index7 = self.pos
+					self.pos = self.pos + 1
 					
-					index7 = _hx_local_41()
 					s7 = self.str
-					return -1 if (index7 >= __builtin__.len(s7)) else ord(_hx_array_get(s7,index7))
+					return -1 if (index7 >= _hx_builtin.len(s7)) else ord(_hx_array_get(s7,index7))
 				
-				def _hx_local_33():
-					_hx_local_37 = None
-					def _hx_local_36():
-						nonlocal _hx_local_37
-						if _hx_local_37 is not None:
-							return _hx_local_37
-						
-						_hx_local_34 = self.pos
-						_hx_local_35 = _hx_local_34
-						self.pos = _hx_local_34 + 1
-						_hx_local_37 = _hx_local_35
-						return _hx_local_35
+				def _hx_local_5():
+					index8 = self.pos
+					self.pos = self.pos + 1
 					
-					index8 = _hx_local_36()
 					s8 = self.str
-					return -1 if (index8 >= __builtin__.len(s8)) else ord(_hx_array_get(s8,index8))
+					return -1 if (index8 >= _hx_builtin.len(s8)) else ord(_hx_array_get(s8,index8))
 				
-				def _hx_local_28():
-					_hx_local_32 = None
-					def _hx_local_31():
-						nonlocal _hx_local_32
-						if _hx_local_32 is not None:
-							return _hx_local_32
-						
-						_hx_local_29 = self.pos
-						_hx_local_30 = _hx_local_29
-						self.pos = _hx_local_29 + 1
-						_hx_local_32 = _hx_local_30
-						return _hx_local_30
+				def _hx_local_4():
+					index9 = self.pos
+					self.pos = self.pos + 1
 					
-					index9 = _hx_local_31()
 					s9 = self.str
-					return -1 if (index9 >= __builtin__.len(s9)) else ord(_hx_array_get(s9,index9))
+					return -1 if (index9 >= _hx_builtin.len(s9)) else ord(_hx_array_get(s9,index9))
 				
-				if _hx_local_43() != 97 or _hx_local_38() != 108 or _hx_local_33() != 115 or _hx_local_28() != 101:
+				if _hx_local_7() != 97 or _hx_local_6() != 108 or _hx_local_5() != 115 or _hx_local_4() != 101:
 					self.pos = save1
 					self.invalidChar()
 				
@@ -2192,58 +2020,28 @@ class haxe_Json:
 			
 			elif (c) == 110:
 				save2 = self.pos
-				def _hx_local_58():
-					_hx_local_62 = None
-					def _hx_local_61():
-						nonlocal _hx_local_62
-						if _hx_local_62 is not None:
-							return _hx_local_62
-						
-						_hx_local_59 = self.pos
-						_hx_local_60 = _hx_local_59
-						self.pos = _hx_local_59 + 1
-						_hx_local_62 = _hx_local_60
-						return _hx_local_60
+				def _hx_local_10():
+					index10 = self.pos
+					self.pos = self.pos + 1
 					
-					index10 = _hx_local_61()
 					s10 = self.str
-					return -1 if (index10 >= __builtin__.len(s10)) else ord(_hx_array_get(s10,index10))
+					return -1 if (index10 >= _hx_builtin.len(s10)) else ord(_hx_array_get(s10,index10))
 				
-				def _hx_local_53():
-					_hx_local_57 = None
-					def _hx_local_56():
-						nonlocal _hx_local_57
-						if _hx_local_57 is not None:
-							return _hx_local_57
-						
-						_hx_local_54 = self.pos
-						_hx_local_55 = _hx_local_54
-						self.pos = _hx_local_54 + 1
-						_hx_local_57 = _hx_local_55
-						return _hx_local_55
+				def _hx_local_9():
+					index11 = self.pos
+					self.pos = self.pos + 1
 					
-					index11 = _hx_local_56()
 					s11 = self.str
-					return -1 if (index11 >= __builtin__.len(s11)) else ord(_hx_array_get(s11,index11))
+					return -1 if (index11 >= _hx_builtin.len(s11)) else ord(_hx_array_get(s11,index11))
 				
-				def _hx_local_48():
-					_hx_local_52 = None
-					def _hx_local_51():
-						nonlocal _hx_local_52
-						if _hx_local_52 is not None:
-							return _hx_local_52
-						
-						_hx_local_49 = self.pos
-						_hx_local_50 = _hx_local_49
-						self.pos = _hx_local_49 + 1
-						_hx_local_52 = _hx_local_50
-						return _hx_local_50
+				def _hx_local_8():
+					index12 = self.pos
+					self.pos = self.pos + 1
 					
-					index12 = _hx_local_51()
 					s12 = self.str
-					return -1 if (index12 >= __builtin__.len(s12)) else ord(_hx_array_get(s12,index12))
+					return -1 if (index12 >= _hx_builtin.len(s12)) else ord(_hx_array_get(s12,index12))
 				
-				if _hx_local_58() != 117 or _hx_local_53() != 108 or _hx_local_48() != 108:
+				if _hx_local_10() != 117 or _hx_local_9() != 108 or _hx_local_8() != 108:
 					self.pos = save2
 					self.invalidChar()
 				
@@ -2263,21 +2061,11 @@ class haxe_Json:
 				pm = False
 				end = False
 				while True:
-					_hx_local_66 = None
-					def _hx_local_65():
-						nonlocal _hx_local_66
-						if _hx_local_66 is not None:
-							return _hx_local_66
-						
-						_hx_local_63 = self.pos
-						_hx_local_64 = _hx_local_63
-						self.pos = _hx_local_63 + 1
-						_hx_local_66 = _hx_local_64
-						return _hx_local_64
+					index13 = self.pos
+					self.pos = self.pos + 1
 					
-					index13 = _hx_local_65()
 					s13 = self.str
-					if index13 >= __builtin__.len(s13):
+					if index13 >= _hx_builtin.len(s13):
 						c3 = -1
 					else:
 						c3 = ord(_hx_array_get(s13,index13))
@@ -2328,10 +2116,7 @@ class haxe_Json:
 						if not digit:
 							self.invalidNumber(start)
 						
-						_hx_local_67 = self.pos
 						self.pos = self.pos - 1
-						_hx_local_67
-						
 						end = True
 					
 					if end:
@@ -2360,24 +2145,14 @@ class haxe_Json:
 
 	def parseString(self):
 		start = self.pos
-		buf = _hx_StringIO()
+		buf = _hx_c.StringBuf()
 		while True:
 			c = None
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = self.pos
-				_hx_local_1 = _hx_local_0
-				self.pos = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+			index = self.pos
+			self.pos = self.pos + 1
 			
-			index = _hx_local_2()
 			s = self.str
-			if index >= __builtin__.len(s):
+			if index >= _hx_builtin.len(s):
 				c = -1
 			else:
 				c = ord(_hx_array_get(s,index))
@@ -2393,24 +2168,14 @@ class haxe_Json:
 					s2 = _hx_c.python_Tools.substr(s1, start, None)
 				else:
 					s2 = _hx_c.python_Tools.substr(s1, start, len)
-				buf.write(s2)
+				buf.b.write(s2)
 				
 				
-				_hx_local_7 = None
-				def _hx_local_6():
-					nonlocal _hx_local_7
-					if _hx_local_7 is not None:
-						return _hx_local_7
-					
-					_hx_local_4 = self.pos
-					_hx_local_5 = _hx_local_4
-					self.pos = _hx_local_4 + 1
-					_hx_local_7 = _hx_local_5
-					return _hx_local_5
+				index1 = self.pos
+				self.pos = self.pos + 1
 				
-				index1 = _hx_local_6()
 				s3 = self.str
-				if index1 >= __builtin__.len(s3):
+				if index1 >= _hx_builtin.len(s3):
 					c = -1
 				else:
 					c = ord(_hx_array_get(s3,index1))
@@ -2418,61 +2183,61 @@ class haxe_Json:
 				if (c) == 114:
 					s4 = None
 					c1 = 13
-					s4 = "".join(map(chr, [c1]))
+					s4 = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 					
-					buf.write(s4)
+					buf.b.write(s4)
 				
 				elif (c) == 110:
 					s5 = None
 					c2 = 10
-					s5 = "".join(map(chr, [c2]))
+					s5 = "".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 					
-					buf.write(s5)
+					buf.b.write(s5)
 				
 				elif (c) == 116:
 					s6 = None
 					c3 = 9
-					s6 = "".join(map(chr, [c3]))
+					s6 = "".join(_hx_builtin.map(_hx_builtin.chr, [c3]))
 					
-					buf.write(s6)
+					buf.b.write(s6)
 				
 				elif (c) == 98:
 					s7 = None
 					c4 = 8
-					s7 = "".join(map(chr, [c4]))
+					s7 = "".join(_hx_builtin.map(_hx_builtin.chr, [c4]))
 					
-					buf.write(s7)
+					buf.b.write(s7)
 				
 				elif (c) == 102:
 					s8 = None
 					c5 = 12
-					s8 = "".join(map(chr, [c5]))
+					s8 = "".join(_hx_builtin.map(_hx_builtin.chr, [c5]))
 					
-					buf.write(s8)
+					buf.b.write(s8)
 				
 				elif (c) == 34 or (c) == 92 or (c) == 47:
 					s9 = None
 					c6 = c
-					s9 = "".join(map(chr, [c6]))
+					s9 = "".join(_hx_builtin.map(_hx_builtin.chr, [c6]))
 					
-					buf.write(s9)
+					buf.b.write(s9)
 				
 				elif (c) == 117:
 					uc = _hx_c.Std.parseInt("0x" + Std.string(_hx_c.python_Tools.substr(self.str, self.pos, 4)))
 					self.pos = self.pos + 4
 					s10 = None
 					c7 = uc
-					s10 = "".join(map(chr, [c7]))
+					s10 = "".join(_hx_builtin.map(_hx_builtin.chr, [c7]))
 					
-					buf.write(s10)
+					buf.b.write(s10)
 					
 				
 				else:
-					def _hx_local_8():
+					def _hx_local_1():
 						c8 = c
-						return "".join(map(chr, [c8]))
+						return "".join(_hx_builtin.map(_hx_builtin.chr, [c8]))
 					
-					raise _HxException(Std.string(Std.string("Invalid escape sequence \\" + Std.string(_hx_local_8())) + " at position ") + Std.string((self.pos - 1)))
+					raise _HxException(Std.string(Std.string("Invalid escape sequence \\" + Std.string(_hx_local_1())) + " at position ") + Std.string((self.pos - 1)))
 				
 				start = self.pos
 			
@@ -2487,10 +2252,10 @@ class haxe_Json:
 			s12 = _hx_c.python_Tools.substr(s11, start, None)
 		else:
 			s12 = _hx_c.python_Tools.substr(s11, start, len1)
-		buf.write(s12)
+		buf.b.write(s12)
 		
 		
-		return buf.getvalue()
+		return buf.b.getvalue()
 	
 
 	def invalidNumber(self,start):
@@ -2506,21 +2271,11 @@ class haxe_Json:
 		pm = False
 		end = False
 		while True:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = self.pos
-				_hx_local_1 = _hx_local_0
-				self.pos = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+			index = self.pos
+			self.pos = self.pos + 1
 			
-			index = _hx_local_2()
 			s = self.str
-			if index >= __builtin__.len(s):
+			if index >= _hx_builtin.len(s):
 				c = -1
 			else:
 				c = ord(_hx_array_get(s,index))
@@ -2571,10 +2326,7 @@ class haxe_Json:
 				if not digit:
 					self.invalidNumber(start)
 				
-				_hx_local_4 = self.pos
 				self.pos = self.pos - 1
-				_hx_local_4
-				
 				end = True
 			
 			if end:
@@ -2671,7 +2423,7 @@ class haxe_Serializer:
 		self.scount = None
 		self.useCache = None
 		self.useEnumIndex = None
-		self.buf = _hx_StringIO()
+		self.buf = _hx_c.StringBuf()
 		self.cache = list()
 		self.useCache = _hx_c.haxe_Serializer.USE_CACHE
 		self.useEnumIndex = _hx_c.haxe_Serializer.USE_ENUM_INDEX
@@ -2686,75 +2438,56 @@ class haxe_Serializer:
 	# var useCache
 	# var useEnumIndex
 	def toString(self):
-		return self.buf.getvalue()
+		return self.buf.b.getvalue()
 
 	def serializeString(self,s):
 		x = self.shash.get(s)
 		if x is not None:
 			s1 = _hx_c.Std.string("R")
-			self.buf.write(s1)
+			self.buf.b.write(s1)
 			
 			s2 = _hx_c.Std.string(x)
-			self.buf.write(s2)
+			self.buf.b.write(s2)
 			
 			return
 		
 		
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
+		def _hx_local_1():
 			_hx_local_0 = self.scount
-			_hx_local_1 = _hx_local_0
-			self.scount = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			self.scount = self.scount + 1
+			return _hx_local_0
 		
-		self.shash.set(s, _hx_local_2())
+		self.shash.set(s, _hx_local_1())
 		s3 = _hx_c.Std.string("y")
-		self.buf.write(s3)
+		self.buf.b.write(s3)
 		
 		s = _hx_c.StringTools.urlEncode(s)
-		x1 = __builtin__.len(s)
+		x1 = _hx_builtin.len(s)
 		s4 = _hx_c.Std.string(x1)
-		self.buf.write(s4)
+		self.buf.b.write(s4)
 		
 		
 		s5 = _hx_c.Std.string(":")
-		self.buf.write(s5)
+		self.buf.b.write(s5)
 		
 		s6 = _hx_c.Std.string(s)
-		self.buf.write(s6)
+		self.buf.b.write(s6)
 		
 	
 
 	def serializeRef(self,v):
 		_g1 = 0
-		_g = __builtin__.len(self.cache)
+		_g = _hx_builtin.len(self.cache)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			if _hx_array_get(self.cache,i) == v:
 				s = _hx_c.Std.string("r")
-				self.buf.write(s)
+				self.buf.b.write(s)
 				
 				s1 = _hx_c.Std.string(i)
-				self.buf.write(s1)
+				self.buf.b.write(s1)
 				
 				return True
 			
@@ -2763,7 +2496,7 @@ class haxe_Serializer:
 		
 		_this = self.cache
 		_this.append(v)
-		__builtin__.len(_this)
+		_hx_builtin.len(_this)
 		
 		
 		return False
@@ -2780,39 +2513,39 @@ class haxe_Serializer:
 		
 		
 		s = _hx_c.Std.string("g")
-		self.buf.write(s)
+		self.buf.b.write(s)
 		
 	
 
 	def serialize(self,v):
 		_g = _hx_c.Type.typeof(v)
-		if (_hx_c.Type.enumIndex(_g)) == 0:
+		if (_g.index) == 0:
 			s = _hx_c.Std.string("n")
-			self.buf.write(s)
+			self.buf.b.write(s)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 1:
+		elif (_g.index) == 1:
 			if v == 0:
 				s1 = _hx_c.Std.string("z")
-				self.buf.write(s1)
+				self.buf.b.write(s1)
 				
 				return
 			
 			
 			s2 = _hx_c.Std.string("i")
-			self.buf.write(s2)
+			self.buf.b.write(s2)
 			
 			s3 = _hx_c.Std.string(v)
-			self.buf.write(s3)
+			self.buf.b.write(s3)
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 2:
+		elif (_g.index) == 2:
 			def _hx_local_0():
 				f = v
 				return _hx_math.isnan(f)
 			
 			if _hx_local_0():
 				s4 = _hx_c.Std.string("k")
-				self.buf.write(s4)
+				self.buf.b.write(s4)
 			
 			else:
 				def _hx_local_1():
@@ -2821,23 +2554,23 @@ class haxe_Serializer:
 				
 				if not _hx_local_1():
 					s5 = _hx_c.Std.string("m" if (v < 0) else "p")
-					self.buf.write(s5)
+					self.buf.b.write(s5)
 				
 				else:
 					s6 = _hx_c.Std.string("d")
-					self.buf.write(s6)
+					self.buf.b.write(s6)
 					
 					s7 = _hx_c.Std.string(v)
-					self.buf.write(s7)
+					self.buf.b.write(s7)
 					
 				
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 3:
+		elif (_g.index) == 3:
 			s8 = _hx_c.Std.string("t" if (v) else "f")
-			self.buf.write(s8)
+			self.buf.b.write(s8)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 6:
+		elif (_g.index) == 6:
 			c = _g.params[0]
 			if c == _hx_c.String:
 				self.serializeString(v)
@@ -2851,59 +2584,29 @@ class haxe_Serializer:
 			if (_g1) == "Array":
 				ucount = 0
 				s9 = _hx_c.Std.string("a")
-				self.buf.write(s9)
+				self.buf.b.write(s9)
 				
 				v1 = v
-				l = __builtin__.len(v1)
+				l = _hx_builtin.len(v1)
 				_g2 = 0
 				while _g2 < l:
-					_hx_local_5 = None
-					def _hx_local_4():
-						nonlocal _g2
-						nonlocal _hx_local_5
-						if _hx_local_5 is not None:
-							return _hx_local_5
-						
-						_hx_local_2 = _g2
-						_hx_local_3 = _hx_local_2
-						_g2 = _hx_local_2 + 1
-						_hx_local_5 = _hx_local_3
-						return _hx_local_3
-						
+					i = _g2
+					_g2 = _g2 + 1
 					
-					i = _hx_local_4()
 					if _hx_array_get(v1,i) is None:
-						_hx_local_9 = None
-						def _hx_local_10():
-							nonlocal ucount
-							nonlocal ucount
-							nonlocal _hx_local_9
-							if _hx_local_9 is not None:
-								return _hx_local_9
-							
-							_hx_local_6 = ucount
-							_hx_local_7 = _hx_local_6
-							ucount = _hx_local_6 + 1
-							_hx_local_9 = _hx_local_7
-							return _hx_local_7
-							
-							
-						
-						_hx_local_8 = _hx_local_10
-						_hx_local_8()
-					
+						ucount = ucount + 1
 					else:
 						if ucount > 0:
 							if ucount == 1:
 								s10 = _hx_c.Std.string("n")
-								self.buf.write(s10)
+								self.buf.b.write(s10)
 							
 							else:
 								s11 = _hx_c.Std.string("u")
-								self.buf.write(s11)
+								self.buf.b.write(s11)
 								
 								s12 = _hx_c.Std.string(ucount)
-								self.buf.write(s12)
+								self.buf.b.write(s12)
 								
 							
 							ucount = 0
@@ -2916,24 +2619,24 @@ class haxe_Serializer:
 				if ucount > 0:
 					if ucount == 1:
 						s13 = _hx_c.Std.string("n")
-						self.buf.write(s13)
+						self.buf.b.write(s13)
 				
 					else:
 						s14 = _hx_c.Std.string("u")
-						self.buf.write(s14)
+						self.buf.b.write(s14)
 						
 						s15 = _hx_c.Std.string(ucount)
-						self.buf.write(s15)
+						self.buf.b.write(s15)
 						
 				
 				
 				s16 = _hx_c.Std.string("h")
-				self.buf.write(s16)
+				self.buf.b.write(s16)
 				
 			
 			elif (_g1) == "List":
 				s17 = _hx_c.Std.string("l")
-				self.buf.write(s17)
+				self.buf.b.write(s17)
 				
 				v2 = v
 				_it = v2.iterator()
@@ -2941,23 +2644,23 @@ class haxe_Serializer:
 					i1 = _it.next()
 					self.serialize(i1)
 				s18 = _hx_c.Std.string("h")
-				self.buf.write(s18)
+				self.buf.b.write(s18)
 				
 			
 			elif (_g1) == "Date":
 				d = v
 				s19 = _hx_c.Std.string("v")
-				self.buf.write(s19)
+				self.buf.b.write(s19)
 				
 				x = d.toString()
 				s20 = _hx_c.Std.string(x)
-				self.buf.write(s20)
+				self.buf.b.write(s20)
 				
 				
 			
 			elif (_g1) == "haxe.ds.StringMap":
 				s21 = _hx_c.Std.string("b")
-				self.buf.write(s21)
+				self.buf.b.write(s21)
 				
 				v3 = v
 				_it = v3.keys()
@@ -2967,32 +2670,32 @@ class haxe_Serializer:
 					self.serialize(v3.get(k))
 				
 				s22 = _hx_c.Std.string("h")
-				self.buf.write(s22)
+				self.buf.b.write(s22)
 				
 			
 			elif (_g1) == "haxe.ds.IntMap":
 				s23 = _hx_c.Std.string("q")
-				self.buf.write(s23)
+				self.buf.b.write(s23)
 				
 				v4 = v
 				_it = v4.keys()
 				while _it.hasNext():
 					k1 = _it.next()
 					s24 = _hx_c.Std.string(":")
-					self.buf.write(s24)
+					self.buf.b.write(s24)
 					
 					s25 = _hx_c.Std.string(k1)
-					self.buf.write(s25)
+					self.buf.b.write(s25)
 					
 					self.serialize(v4.h.get(k1, None))
 				
 				s26 = _hx_c.Std.string("h")
-				self.buf.write(s26)
+				self.buf.b.write(s26)
 				
 			
 			elif (_g1) == "haxe.ds.ObjectMap":
 				s27 = _hx_c.Std.string("M")
-				self.buf.write(s27)
+				self.buf.b.write(s27)
 				
 				v5 = v
 				_it = v5.keys()
@@ -3006,282 +2709,210 @@ class haxe_Serializer:
 						field = "_hx_" + "__id__"
 					else:
 						field = "__id__"
-					__builtin__.setattr(k2, field, id)
+					_hx_builtin.setattr(k2, field, id)
 					
 					self.serialize(v5.h.get(k2, None))
 				
 				s28 = _hx_c.Std.string("h")
-				self.buf.write(s28)
+				self.buf.b.write(s28)
 				
 			
 			elif (_g1) == "haxe.io.Bytes":
 				v6 = v
 				i2 = 0
 				max = v6.length - 2
-				charsBuf = _hx_StringIO()
+				charsBuf = _hx_c.StringBuf()
 				b64 = _hx_c.haxe_Serializer.BASE64
 				while i2 < max:
 					b1 = None
-					_hx_local_14 = None
-					def _hx_local_13():
-						nonlocal i2
-						nonlocal _hx_local_14
-						if _hx_local_14 is not None:
-							return _hx_local_14
-						
-						_hx_local_11 = i2
-						_hx_local_12 = _hx_local_11
-						i2 = _hx_local_11 + 1
-						_hx_local_14 = _hx_local_12
-						return _hx_local_12
-						
+					pos = i2
+					i2 = i2 + 1
 					
-					pos = _hx_local_13()
 					b1 = _hx_array_get(v6.b,pos)
 					
 					b2 = None
-					_hx_local_18 = None
-					def _hx_local_17():
-						nonlocal i2
-						nonlocal _hx_local_18
-						if _hx_local_18 is not None:
-							return _hx_local_18
-						
-						_hx_local_15 = i2
-						_hx_local_16 = _hx_local_15
-						i2 = _hx_local_15 + 1
-						_hx_local_18 = _hx_local_16
-						return _hx_local_16
-						
+					pos1 = i2
+					i2 = i2 + 1
 					
-					pos1 = _hx_local_17()
 					b2 = _hx_array_get(v6.b,pos1)
 					
 					b3 = None
-					_hx_local_22 = None
-					def _hx_local_21():
-						nonlocal i2
-						nonlocal _hx_local_22
-						if _hx_local_22 is not None:
-							return _hx_local_22
-						
-						_hx_local_19 = i2
-						_hx_local_20 = _hx_local_19
-						i2 = _hx_local_19 + 1
-						_hx_local_22 = _hx_local_20
-						return _hx_local_20
-						
+					pos2 = i2
+					i2 = i2 + 1
 					
-					pos2 = _hx_local_21()
 					b3 = _hx_array_get(v6.b,pos2)
 					
 					x1 = None
 					index = b1 >> 2
-					if index < 0 or index >= __builtin__.len(b64):
+					if index < 0 or index >= _hx_builtin.len(b64):
 						x1 = ""
 					else:
 						x1 = b64[index]
 					
 					s29 = _hx_c.Std.string(x1)
-					charsBuf.write(s29)
+					charsBuf.b.write(s29)
 					
 					
 					x2 = None
 					index1 = (b1 << 4 | b2 >> 4) & 63
-					if index1 < 0 or index1 >= __builtin__.len(b64):
+					if index1 < 0 or index1 >= _hx_builtin.len(b64):
 						x2 = ""
 					else:
 						x2 = b64[index1]
 					
 					s30 = _hx_c.Std.string(x2)
-					charsBuf.write(s30)
+					charsBuf.b.write(s30)
 					
 					
 					x3 = None
 					index2 = (b2 << 2 | b3 >> 6) & 63
-					if index2 < 0 or index2 >= __builtin__.len(b64):
+					if index2 < 0 or index2 >= _hx_builtin.len(b64):
 						x3 = ""
 					else:
 						x3 = b64[index2]
 					
 					s31 = _hx_c.Std.string(x3)
-					charsBuf.write(s31)
+					charsBuf.b.write(s31)
 					
 					
 					x4 = None
 					index3 = b3 & 63
-					if index3 < 0 or index3 >= __builtin__.len(b64):
+					if index3 < 0 or index3 >= _hx_builtin.len(b64):
 						x4 = ""
 					else:
 						x4 = b64[index3]
 					
 					s32 = _hx_c.Std.string(x4)
-					charsBuf.write(s32)
+					charsBuf.b.write(s32)
 					
 					
 				
 				if i2 == max:
 					b11 = None
-					_hx_local_26 = None
-					def _hx_local_25():
-						nonlocal i2
-						nonlocal _hx_local_26
-						if _hx_local_26 is not None:
-							return _hx_local_26
-						
-						_hx_local_23 = i2
-						_hx_local_24 = _hx_local_23
-						i2 = _hx_local_23 + 1
-						_hx_local_26 = _hx_local_24
-						return _hx_local_24
-						
+					pos3 = i2
+					i2 = i2 + 1
 					
-					pos3 = _hx_local_25()
 					b11 = _hx_array_get(v6.b,pos3)
 					
 					b21 = None
-					_hx_local_30 = None
-					def _hx_local_29():
-						nonlocal i2
-						nonlocal _hx_local_30
-						if _hx_local_30 is not None:
-							return _hx_local_30
-						
-						_hx_local_27 = i2
-						_hx_local_28 = _hx_local_27
-						i2 = _hx_local_27 + 1
-						_hx_local_30 = _hx_local_28
-						return _hx_local_28
-						
+					pos4 = i2
+					i2 = i2 + 1
 					
-					pos4 = _hx_local_29()
 					b21 = _hx_array_get(v6.b,pos4)
 					
 					x5 = None
 					index4 = b11 >> 2
-					if index4 < 0 or index4 >= __builtin__.len(b64):
+					if index4 < 0 or index4 >= _hx_builtin.len(b64):
 						x5 = ""
 					else:
 						x5 = b64[index4]
 					
 					s33 = _hx_c.Std.string(x5)
-					charsBuf.write(s33)
+					charsBuf.b.write(s33)
 					
 					
 					x6 = None
 					index5 = (b11 << 4 | b21 >> 4) & 63
-					if index5 < 0 or index5 >= __builtin__.len(b64):
+					if index5 < 0 or index5 >= _hx_builtin.len(b64):
 						x6 = ""
 					else:
 						x6 = b64[index5]
 					
 					s34 = _hx_c.Std.string(x6)
-					charsBuf.write(s34)
+					charsBuf.b.write(s34)
 					
 					
 					x7 = None
 					index6 = b21 << 2 & 63
-					if index6 < 0 or index6 >= __builtin__.len(b64):
+					if index6 < 0 or index6 >= _hx_builtin.len(b64):
 						x7 = ""
 					else:
 						x7 = b64[index6]
 					
 					s35 = _hx_c.Std.string(x7)
-					charsBuf.write(s35)
+					charsBuf.b.write(s35)
 					
 					
 				
 				elif i2 == max + 1:
 					b12 = None
-					_hx_local_34 = None
-					def _hx_local_33():
-						nonlocal i2
-						nonlocal _hx_local_34
-						if _hx_local_34 is not None:
-							return _hx_local_34
-						
-						_hx_local_31 = i2
-						_hx_local_32 = _hx_local_31
-						i2 = _hx_local_31 + 1
-						_hx_local_34 = _hx_local_32
-						return _hx_local_32
-						
+					pos5 = i2
+					i2 = i2 + 1
 					
-					pos5 = _hx_local_33()
 					b12 = _hx_array_get(v6.b,pos5)
 					
 					x8 = None
 					index7 = b12 >> 2
-					if index7 < 0 or index7 >= __builtin__.len(b64):
+					if index7 < 0 or index7 >= _hx_builtin.len(b64):
 						x8 = ""
 					else:
 						x8 = b64[index7]
 					
 					s36 = _hx_c.Std.string(x8)
-					charsBuf.write(s36)
+					charsBuf.b.write(s36)
 					
 					
 					x9 = None
 					index8 = b12 << 4 & 63
-					if index8 < 0 or index8 >= __builtin__.len(b64):
+					if index8 < 0 or index8 >= _hx_builtin.len(b64):
 						x9 = ""
 					else:
 						x9 = b64[index8]
 					
 					s37 = _hx_c.Std.string(x9)
-					charsBuf.write(s37)
+					charsBuf.b.write(s37)
 					
 					
 				
 				
-				chars = charsBuf.getvalue()
+				chars = charsBuf.b.getvalue()
 				s38 = _hx_c.Std.string("s")
-				self.buf.write(s38)
+				self.buf.b.write(s38)
 				
-				x10 = __builtin__.len(chars)
+				x10 = _hx_builtin.len(chars)
 				s39 = _hx_c.Std.string(x10)
-				self.buf.write(s39)
+				self.buf.b.write(s39)
 				
 				
 				s40 = _hx_c.Std.string(":")
-				self.buf.write(s40)
+				self.buf.b.write(s40)
 				
 				s41 = _hx_c.Std.string(chars)
-				self.buf.write(s41)
+				self.buf.b.write(s41)
 				
 			
 			else:
 				_this = self.cache
-				if __builtin__.len(_this) == 0:
+				if _hx_builtin.len(_this) == 0:
 					None
 				else:
 					_this.pop()
 				
 				if _hx_c.Reflect.hasField(v, "hxSerialize"):
 					s42 = _hx_c.Std.string("C")
-					self.buf.write(s42)
+					self.buf.b.write(s42)
 					
 					self.serializeString(_hx_c.Type.getClassName(c))
 					x11 = v
 					_this1 = self.cache
 					_this1.append(x11)
-					__builtin__.len(_this1)
+					_hx_builtin.len(_this1)
 					
 					
 					v.hxSerialize(self)
 					s43 = _hx_c.Std.string("g")
-					self.buf.write(s43)
+					self.buf.b.write(s43)
 					
 				
 				else:
 					s44 = _hx_c.Std.string("c")
-					self.buf.write(s44)
+					self.buf.b.write(s44)
 					
 					self.serializeString(_hx_c.Type.getClassName(c))
 					x12 = v
 					_this2 = self.cache
 					_this2.append(x12)
-					__builtin__.len(_this2)
+					_hx_builtin.len(_this2)
 					
 					
 					self.serializeFields(v)
@@ -3290,50 +2921,60 @@ class haxe_Serializer:
 			
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 4:
+		elif (_g.index) == 4:
 			if self.useCache and self.serializeRef(v):
 				return
 			
 			s45 = _hx_c.Std.string("o")
-			self.buf.write(s45)
+			self.buf.b.write(s45)
 			
 			self.serializeFields(v)
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 7:
+		elif (_g.index) == 7:
 			e = _g.params[0]
 			if self.useCache and self.serializeRef(v):
 				return
 			
 			_this3 = self.cache
-			if __builtin__.len(_this3) == 0:
+			if _hx_builtin.len(_this3) == 0:
 				None
 			else:
 				_this3.pop()
 			
 			s46 = _hx_c.Std.string("j" if (self.useEnumIndex) else "w")
-			self.buf.write(s46)
+			self.buf.b.write(s46)
 			
 			self.serializeString(_hx_c.Type.getEnumName(e))
 			if self.useEnumIndex:
 				s47 = _hx_c.Std.string(":")
-				self.buf.write(s47)
+				self.buf.b.write(s47)
 				
-				x13 = _hx_c.Type.enumIndex(v)
-				s48 = _hx_c.Std.string(x13)
-				self.buf.write(s48)
+				def _hx_local_3():
+					e1 = v
+					return e1.index
 				
+				s48 = _hx_c.Std.string(_hx_local_3())
+				self.buf.b.write(s48)
 				
 			
 			else:
-				self.serializeString(_hx_c.Type.enumConstructor(v))
-			s49 = _hx_c.Std.string(":")
-			self.buf.write(s49)
+				def _hx_local_4():
+					e2 = v
+					return e2.tag
+				
+				self.serializeString(_hx_local_4())
 			
-			arr = _hx_c.Type.enumParameters(v)
+			s49 = _hx_c.Std.string(":")
+			self.buf.b.write(s49)
+			
+			arr = None
+			e3 = v
+			arr = e3.params
+			
 			if arr is not None:
-				x14 = __builtin__.len(arr)
-				s50 = _hx_c.Std.string(x14)
-				self.buf.write(s50)
+				x13 = _hx_builtin.len(arr)
+				s50 = _hx_c.Std.string(x13)
+				self.buf.b.write(s50)
 				
 				
 				_g11 = 0
@@ -3346,17 +2987,17 @@ class haxe_Serializer:
 			
 			else:
 				s51 = _hx_c.Std.string("0")
-				self.buf.write(s51)
+				self.buf.b.write(s51)
 			
-			x15 = v
+			x14 = v
 			_this4 = self.cache
-			_this4.append(x15)
-			__builtin__.len(_this4)
+			_this4.append(x14)
+			_hx_builtin.len(_this4)
 			
 			
 			
 		
-		elif (_hx_c.Type.enumIndex(_g)) == 5:
+		elif (_g.index) == 5:
 			raise _HxException("Cannot serialize function")
 		else:
 			raise _HxException("Cannot serialize " + Std.string(_hx_c.Std.string(v)))
@@ -3364,7 +3005,7 @@ class haxe_Serializer:
 
 	def serializeException(self,e):
 		s = _hx_c.Std.string("x")
-		self.buf.write(s)
+		self.buf.b.write(s)
 		
 		self.serialize(e)
 	
@@ -3429,7 +3070,7 @@ haxe_Template_TemplateExpr._hx_class_name = "haxe._Template._Template.TemplateEx
 _hx_classes["haxe._Template._Template.TemplateExpr"] = haxe_Template_TemplateExpr
 _hx_c.haxe_Template_TemplateExpr = haxe_Template_TemplateExpr
 haxe_Template_TemplateExpr._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
-# print python.lib.Builtin.__builtin__
+# print python.lib.Builtin._hx_builtin
 # print python.lib.Re.Re
 # print haxe.Template.Template
 class haxe_Template:
@@ -3463,9 +3104,9 @@ class haxe_Template:
 			self.macros = macros
 		self.context = context
 		self.stack = _hx_c.List()
-		self.buf = _hx_StringIO()
+		self.buf = _hx_c.StringBuf()
 		self.run(self.expr)
-		return self.buf.getvalue()
+		return self.buf.b.getvalue()
 	
 
 	def resolve(self,v):
@@ -3502,63 +3143,24 @@ class haxe_Template:
 			while npar > 0:
 				c = _hx_c.python_internal_StringImpl.charCodeAt(data, parp)
 				if c == 40:
-					_hx_local_3 = None
-					def _hx_local_4():
-						nonlocal npar
-						nonlocal npar
-						nonlocal _hx_local_3
-						if _hx_local_3 is not None:
-							return _hx_local_3
-						
-						_hx_local_0 = npar
-						_hx_local_1 = _hx_local_0
-						npar = _hx_local_0 + 1
-						_hx_local_3 = _hx_local_1
-						return _hx_local_1
-						
-						
-					
-					_hx_local_2 = _hx_local_4
-					_hx_local_2()
-				
+					npar = npar + 1
 				elif c == 41:
-					_hx_local_5 = npar
 					npar = npar - 1
-					_hx_local_5
-				
 				elif c is None:
 					raise _HxException("Unclosed macro parenthesis")
 				
-				_hx_local_9 = None
-				def _hx_local_10():
-					nonlocal parp
-					nonlocal parp
-					nonlocal _hx_local_9
-					if _hx_local_9 is not None:
-						return _hx_local_9
-					
-					_hx_local_6 = parp
-					_hx_local_7 = _hx_local_6
-					parp = _hx_local_6 + 1
-					_hx_local_9 = _hx_local_7
-					return _hx_local_7
-					
-					
-				
-				_hx_local_8 = _hx_local_10
-				_hx_local_8()
-				
+				parp = parp + 1
 			
 			params = None
 			_this = _hx_c.python_Tools.substr(data, p.pos + p.len, parp - (p.pos + p.len) - 1)
 			params = _hx_c.python_internal_StringImpl.split(_this, ",")
 			
 			tokens.add(_hx_c._hx_AnonObject(p = _hx_c.haxe_Template.splitter.matched(2) ,s = False ,l = params ))
-			len = __builtin__.len(data) - parp
+			len = _hx_builtin.len(data) - parp
 			data = _hx_c.python_Tools.substr(data, parp, len)
 			
 		
-		if __builtin__.len(data) > 0:
+		if _hx_builtin.len(data) > 0:
 			tokens.add(_hx_c._hx_AnonObject(p = data ,s = True ,l = None ))
 		
 		return tokens
@@ -3602,7 +3204,7 @@ class haxe_Template:
 		
 		
 		if _hx_c.python_Tools.substr(p, 0, 3) == "if ":
-			len = __builtin__.len(p) - 3
+			len = _hx_builtin.len(p) - 3
 			p = _hx_c.python_Tools.substr(p, 3, len)
 			
 			e = self.parseExpr(p)
@@ -3625,7 +3227,7 @@ class haxe_Template:
 				
 			
 			else:
-				len1 = __builtin__.len(t1.p) - 4
+				len1 = _hx_builtin.len(t1.p) - 4
 				t1.p = _hx_c.python_Tools.substr(t1.p, 4, len1)
 				
 				eelse = self.parse(tokens)
@@ -3634,7 +3236,7 @@ class haxe_Template:
 		
 		
 		if _hx_c.python_Tools.substr(p, 0, 8) == "foreach ":
-			len2 = __builtin__.len(p) - 8
+			len2 = _hx_builtin.len(p) - 8
 			p = _hx_c.python_Tools.substr(p, 8, len2)
 			
 			e1 = self.parseExpr(p)
@@ -3665,7 +3267,7 @@ class haxe_Template:
 			l.add(_hx_c._hx_AnonObject(p = p1 ,s = (p1.find("\"") if (None is None) else p1.find("\"", None)) >= 0 ))
 			data = _hx_c.haxe_Template.expr_splitter.matchedRight()
 		
-		if __builtin__.len(data) != 0:
+		if _hx_builtin.len(data) != 0:
 			l.add(_hx_c._hx_AnonObject(p = data ,s = True ))
 		
 		e = None
@@ -3700,7 +3302,7 @@ class haxe_Template:
 		v = _hx_c.haxe_Template.expr_trim.matched(1)
 		if _hx_c.python_internal_StringImpl.charCodeAt(v, 0) == 34:
 			str = None
-			len = __builtin__.len(v) - 2
+			len = _hx_builtin.len(v) - 2
 			str = _hx_c.python_Tools.substr(v, 1, len)
 			
 			def _hx_local_0():
@@ -3860,23 +3462,23 @@ class haxe_Template:
 	
 
 	def run(self,e):
-		if (_hx_c.Type.enumIndex(e)) == 0:
+		if (e.index) == 0:
 			v = e.params[0]
 			x = _hx_c.Std.string(self.resolve(v))
 			s = _hx_c.Std.string(x)
-			self.buf.write(s)
+			self.buf.b.write(s)
 			
 			
 	
-		elif (_hx_c.Type.enumIndex(e)) == 1:
+		elif (e.index) == 1:
 			e1 = e.params[0]
 			x1 = _hx_c.Std.string(e1())
 			s1 = _hx_c.Std.string(x1)
-			self.buf.write(s1)
+			self.buf.b.write(s1)
 			
 			
 	
-		elif (_hx_c.Type.enumIndex(e)) == 2:
+		elif (e.index) == 2:
 			eelse = e.params[2]
 			eif = e.params[1]
 			e2 = e.params[0]
@@ -3889,20 +3491,20 @@ class haxe_Template:
 				self.run(eif)
 			
 	
-		elif (_hx_c.Type.enumIndex(e)) == 3:
+		elif (e.index) == 3:
 			str = e.params[0]
 			s2 = _hx_c.Std.string(str)
-			self.buf.write(s2)
+			self.buf.b.write(s2)
 			
 	
-		elif (_hx_c.Type.enumIndex(e)) == 4:
+		elif (e.index) == 4:
 			l = e.params[0]
 			_it = l.iterator()
 			while _it.hasNext():
 				e3 = _it.next()
 				self.run(e3)
 	
-		elif (_hx_c.Type.enumIndex(e)) == 5:
+		elif (e.index) == 5:
 			loop = e.params[1]
 			e4 = e.params[0]
 			v2 = e4()
@@ -3941,32 +3543,32 @@ class haxe_Template:
 			self.context = self.stack.pop()
 			
 	
-		elif (_hx_c.Type.enumIndex(e)) == 6:
+		elif (e.index) == 6:
 			params = e.params[1]
 			m = e.params[0]
 			v4 = _hx_c.Reflect.field(self.macros, m)
 			pl = list()
 			old = self.buf
 			pl.append(self.resolve)
-			__builtin__.len(pl)
+			_hx_builtin.len(pl)
 			
 			_it = params.iterator()
 			while _it.hasNext():
 				p = _it.next()
-				if (_hx_c.Type.enumIndex(p)) == 0:
+				if (p.index) == 0:
 					v5 = p.params[0]
 					x3 = self.resolve(v5)
 					pl.append(x3)
-					__builtin__.len(pl)
+					_hx_builtin.len(pl)
 					
 					
 			
 				else:
-					self.buf = _hx_StringIO()
+					self.buf = _hx_c.StringBuf()
 					self.run(p)
-					x4 = self.buf.getvalue()
+					x4 = self.buf.b.getvalue()
 					pl.append(x4)
-					__builtin__.len(pl)
+					_hx_builtin.len(pl)
 					
 					
 			
@@ -3974,7 +3576,7 @@ class haxe_Template:
 			try:
 				x5 = _hx_c.Std.string(_hx_c.Reflect.callMethod(self.macros, v4, pl))
 				s3 = _hx_c.Std.string(x5)
-				self.buf.write(s3)
+				self.buf.b.write(s3)
 				
 			
 			except Exception as _hx_e:
@@ -3983,7 +3585,7 @@ class haxe_Template:
 					e7 = _hx_e1
 					plstr = None
 					try:
-						plstr = ",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, pl)))
+						plstr = ",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, pl)))
 					except Exception as _hx_e:
 						_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 						if True:
@@ -4054,7 +3656,7 @@ class haxe_Unserializer:
 		self.scache = None
 		self.resolver = None
 		self.buf = buf
-		self.length = __builtin__.len(buf)
+		self.length = _hx_builtin.len(buf)
 		self.pos = 0
 		self.scache = list()
 		self.cache = list()
@@ -4089,7 +3691,7 @@ class haxe_Unserializer:
 
 	def get(self,p):
 		s = self.buf
-		if p >= __builtin__.len(s):
+		if p >= _hx_builtin.len(s):
 			return -1
 		else:
 			return ord(_hx_array_get(s,p))
@@ -4103,7 +3705,7 @@ class haxe_Unserializer:
 			c = None
 			p = self.pos
 			s1 = self.buf
-			if p >= __builtin__.len(s1):
+			if p >= _hx_builtin.len(s1):
 				c = -1
 			else:
 				c = ord(_hx_array_get(s1,p))
@@ -4117,21 +3719,7 @@ class haxe_Unserializer:
 					break
 				
 				s = True
-				_hx_local_3 = None
-				def _hx_local_4():
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = self.pos
-					_hx_local_1 = _hx_local_0
-					self.pos = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-				
-				_hx_local_2 = _hx_local_4
-				_hx_local_2()
-				
+				self.pos = self.pos + 1
 				continue
 			
 			
@@ -4139,21 +3727,7 @@ class haxe_Unserializer:
 				break
 			
 			k = k * 10 + (c - 48)
-			_hx_local_8 = None
-			def _hx_local_9():
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = self.pos
-				_hx_local_6 = _hx_local_5
-				self.pos = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-			
-			_hx_local_7 = _hx_local_9
-			_hx_local_7()
-			
+			self.pos = self.pos + 1
 		
 		if s:
 			k = k * -1
@@ -4171,7 +3745,7 @@ class haxe_Unserializer:
 				def _hx_local_2():
 					def _hx_local_1():
 						s = self.buf
-						return -1 if (p >= __builtin__.len(s)) else ord(_hx_array_get(s,p))
+						return -1 if (p >= _hx_builtin.len(s)) else ord(_hx_array_get(s,p))
 					
 					return _hx_local_1()
 				
@@ -4190,49 +3764,25 @@ class haxe_Unserializer:
 				field = "_hx_" + Std.string(k)
 			else:
 				field = k
-			__builtin__.setattr(o, field, v)
+			_hx_builtin.setattr(o, field, v)
 			
 		
-		_hx_local_7 = None
-		def _hx_local_8():
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = self.pos
-			_hx_local_5 = _hx_local_4
-			self.pos = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-		
-		_hx_local_6 = _hx_local_8
-		_hx_local_6()
-		
+		self.pos = self.pos + 1
 	
 
 	def unserializeEnum(self,edecl,tag):
 		def _hx_local_0():
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = self.pos
-				_hx_local_2 = _hx_local_1
-				self.pos = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
+			p = self.pos
+			self.pos = self.pos + 1
 			
-			p = _hx_local_3()
-			def _hx_local_6():
-				def _hx_local_5():
+			def _hx_local_2():
+				def _hx_local_1():
 					s = self.buf
-					return -1 if (p >= __builtin__.len(s)) else ord(_hx_array_get(s,p))
+					return -1 if (p >= _hx_builtin.len(s)) else ord(_hx_array_get(s,p))
 				
-				return _hx_local_5()
+				return _hx_local_1()
 			
-			return _hx_local_6()
+			return _hx_local_2()
 		
 		if _hx_local_0() != 58:
 			raise _HxException("Invalid enum format")
@@ -4242,17 +3792,17 @@ class haxe_Unserializer:
 			return _hx_c.Type.createEnum(edecl, tag)
 		
 		args = list()
-		def _hx_local_9():
+		def _hx_local_4():
 			nonlocal nargs
-			_hx_local_8 = nargs
+			_hx_local_3 = nargs
 			nargs = nargs - 1
-			return _hx_local_8
+			return _hx_local_3
 			
 		
-		while _hx_local_9() > 0:
+		while _hx_local_4() > 0:
 			x = self.unserialize()
 			args.append(x)
-			__builtin__.len(args)
+			_hx_builtin.len(args)
 			
 		
 		return _hx_c.Type.createEnum(edecl, tag, args)
@@ -4260,21 +3810,11 @@ class haxe_Unserializer:
 
 	def unserialize(self):
 		_g = None
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = self.pos
-			_hx_local_1 = _hx_local_0
-			self.pos = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+		p = self.pos
+		self.pos = self.pos + 1
 		
-		p = _hx_local_2()
 		s = self.buf
-		if p >= __builtin__.len(s):
+		if p >= _hx_builtin.len(s):
 			_g = -1
 		else:
 			_g = ord(_hx_array_get(s,p))
@@ -4296,28 +3836,14 @@ class haxe_Unserializer:
 				c = None
 				p2 = self.pos
 				s1 = self.buf
-				if p2 >= __builtin__.len(s1):
+				if p2 >= _hx_builtin.len(s1):
 					c = -1
 				else:
 					c = ord(_hx_array_get(s1,p2))
 				
 				
 				if c >= 43 and c < 58 or c == 101 or c == 69:
-					_hx_local_7 = None
-					def _hx_local_8():
-						nonlocal _hx_local_7
-						if _hx_local_7 is not None:
-							return _hx_local_7
-						
-						_hx_local_4 = self.pos
-						_hx_local_5 = _hx_local_4
-						self.pos = _hx_local_4 + 1
-						_hx_local_7 = _hx_local_5
-						return _hx_local_5
-					
-					_hx_local_6 = _hx_local_8
-					_hx_local_6()
-				
+					self.pos = self.pos + 1
 				else:
 					break
 			
@@ -4325,30 +3851,20 @@ class haxe_Unserializer:
 		
 		elif (_g) == 121:
 			len = self.readDigits()
-			def _hx_local_9():
-				_hx_local_13 = None
-				def _hx_local_12():
-					nonlocal _hx_local_13
-					if _hx_local_13 is not None:
-						return _hx_local_13
-					
-					_hx_local_10 = self.pos
-					_hx_local_11 = _hx_local_10
-					self.pos = _hx_local_10 + 1
-					_hx_local_13 = _hx_local_11
-					return _hx_local_11
+			def _hx_local_1():
+				p3 = self.pos
+				self.pos = self.pos + 1
 				
-				p3 = _hx_local_12()
-				def _hx_local_15():
-					def _hx_local_14():
+				def _hx_local_3():
+					def _hx_local_2():
 						s2 = self.buf
-						return -1 if (p3 >= __builtin__.len(s2)) else ord(_hx_array_get(s2,p3))
+						return -1 if (p3 >= _hx_builtin.len(s2)) else ord(_hx_array_get(s2,p3))
 					
-					return _hx_local_14()
+					return _hx_local_2()
 				
-				return _hx_local_15()
+				return _hx_local_3()
 			
-			if _hx_local_9() != 58 or self.length - self.pos < len:
+			if _hx_local_1() != 58 or self.length - self.pos < len:
 				raise _HxException("Invalid string length")
 			
 			s3 = _hx_c.python_Tools.substr(self.buf, self.pos, len)
@@ -4356,7 +3872,7 @@ class haxe_Unserializer:
 			s3 = _hx_c.StringTools.urlDecode(s3)
 			_this = self.scache
 			_this.append(s3)
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 			
 			return s3
@@ -4372,61 +3888,33 @@ class haxe_Unserializer:
 			a = list()
 			_this1 = self.cache
 			_this1.append(a)
-			__builtin__.len(_this1)
+			_hx_builtin.len(_this1)
 			
 			
 			while True:
 				c1 = None
 				p4 = self.pos
 				s4 = self.buf
-				if p4 >= __builtin__.len(s4):
+				if p4 >= _hx_builtin.len(s4):
 					c1 = -1
 				else:
 					c1 = ord(_hx_array_get(s4,p4))
 				
 				
 				if c1 == 104:
-					_hx_local_20 = None
-					def _hx_local_21():
-						nonlocal _hx_local_20
-						if _hx_local_20 is not None:
-							return _hx_local_20
-						
-						_hx_local_17 = self.pos
-						_hx_local_18 = _hx_local_17
-						self.pos = _hx_local_17 + 1
-						_hx_local_20 = _hx_local_18
-						return _hx_local_18
-					
-					_hx_local_19 = _hx_local_21
-					_hx_local_19()
-					
+					self.pos = self.pos + 1
 					break
 				
 				
 				if c1 == 117:
-					_hx_local_25 = None
-					def _hx_local_26():
-						nonlocal _hx_local_25
-						if _hx_local_25 is not None:
-							return _hx_local_25
-						
-						_hx_local_22 = self.pos
-						_hx_local_23 = _hx_local_22
-						self.pos = _hx_local_22 + 1
-						_hx_local_25 = _hx_local_23
-						return _hx_local_23
-					
-					_hx_local_24 = _hx_local_26
-					_hx_local_24()
-					
+					self.pos = self.pos + 1
 					n = self.readDigits()
-					_hx_array_set(a,__builtin__.len(a) + n - 1, None)
+					_hx_array_set(a,_hx_builtin.len(a) + n - 1, None)
 				
 				else:
 					x = self.unserialize()
 					a.append(x)
-					__builtin__.len(a)
+					_hx_builtin.len(a)
 					
 				
 			
@@ -4436,7 +3924,7 @@ class haxe_Unserializer:
 			o = _hx_c._hx_AnonObject()
 			_this2 = self.cache
 			_this2.append(o)
-			__builtin__.len(_this2)
+			_hx_builtin.len(_this2)
 			
 			
 			self.unserializeObject(o)
@@ -4444,14 +3932,14 @@ class haxe_Unserializer:
 		
 		elif (_g) == 114:
 			n1 = self.readDigits()
-			if n1 < 0 or n1 >= __builtin__.len(self.cache):
+			if n1 < 0 or n1 >= _hx_builtin.len(self.cache):
 				raise _HxException("Invalid reference")
 			
 			return _hx_array_get(self.cache,n1)
 		
 		elif (_g) == 82:
 			n2 = self.readDigits()
-			if n2 < 0 or n2 >= __builtin__.len(self.scache):
+			if n2 < 0 or n2 >= _hx_builtin.len(self.scache):
 				raise _HxException("Invalid string reference")
 			
 			return _hx_array_get(self.scache,n2)
@@ -4467,7 +3955,7 @@ class haxe_Unserializer:
 			o1 = _hx_c.Type.createEmptyInstance(cl)
 			_this3 = self.cache
 			_this3.append(o1)
-			__builtin__.len(_this3)
+			_hx_builtin.len(_this3)
 			
 			
 			self.unserializeObject(o1)
@@ -4482,7 +3970,7 @@ class haxe_Unserializer:
 			e = self.unserializeEnum(edecl, self.unserialize())
 			_this4 = self.cache
 			_this4.append(e)
-			__builtin__.len(_this4)
+			_hx_builtin.len(_this4)
 			
 			
 			return e
@@ -4493,21 +3981,7 @@ class haxe_Unserializer:
 			if edecl1 is None:
 				raise _HxException("Enum not found " + Std.string(name2))
 			
-			_hx_local_30 = None
-			def _hx_local_31():
-				nonlocal _hx_local_30
-				if _hx_local_30 is not None:
-					return _hx_local_30
-				
-				_hx_local_27 = self.pos
-				_hx_local_28 = _hx_local_27
-				self.pos = _hx_local_27 + 1
-				_hx_local_30 = _hx_local_28
-				return _hx_local_28
-			
-			_hx_local_29 = _hx_local_31
-			_hx_local_29()
-			
+			self.pos = self.pos + 1
 			index = self.readDigits()
 			tag = _hx_array_get(_hx_c.Type.getEnumConstructs(edecl1),index)
 			if tag is None:
@@ -4516,7 +3990,7 @@ class haxe_Unserializer:
 			e1 = self.unserializeEnum(edecl1, tag)
 			_this5 = self.cache
 			_this5.append(e1)
-			__builtin__.len(_this5)
+			_hx_builtin.len(_this5)
 			
 			
 			return e1
@@ -4525,104 +3999,66 @@ class haxe_Unserializer:
 			l = _hx_c.List()
 			_this6 = self.cache
 			_this6.append(l)
-			__builtin__.len(_this6)
+			_hx_builtin.len(_this6)
 			
 			
 			buf1 = self.buf
-			def _hx_local_32():
+			def _hx_local_8():
 				p5 = self.pos
-				def _hx_local_34():
-					def _hx_local_33():
+				def _hx_local_10():
+					def _hx_local_9():
 						s5 = self.buf
-						return -1 if (p5 >= __builtin__.len(s5)) else ord(_hx_array_get(s5,p5))
+						return -1 if (p5 >= _hx_builtin.len(s5)) else ord(_hx_array_get(s5,p5))
 					
-					return _hx_local_33()
+					return _hx_local_9()
 				
-				return _hx_local_34()
+				return _hx_local_10()
 			
-			while _hx_local_32() != 104:
+			while _hx_local_8() != 104:
 				l.add(self.unserialize())
-			_hx_local_39 = None
-			def _hx_local_40():
-				nonlocal _hx_local_39
-				if _hx_local_39 is not None:
-					return _hx_local_39
-				
-				_hx_local_36 = self.pos
-				_hx_local_37 = _hx_local_36
-				self.pos = _hx_local_36 + 1
-				_hx_local_39 = _hx_local_37
-				return _hx_local_37
-			
-			_hx_local_38 = _hx_local_40
-			_hx_local_38()
-			
+			self.pos = self.pos + 1
 			return l
 		
 		elif (_g) == 98:
 			h = _hx_c.haxe_ds_StringMap()
 			_this7 = self.cache
 			_this7.append(h)
-			__builtin__.len(_this7)
+			_hx_builtin.len(_this7)
 			
 			
 			buf2 = self.buf
-			def _hx_local_41():
+			def _hx_local_12():
 				p6 = self.pos
-				def _hx_local_43():
-					def _hx_local_42():
+				def _hx_local_14():
+					def _hx_local_13():
 						s6 = self.buf
-						return -1 if (p6 >= __builtin__.len(s6)) else ord(_hx_array_get(s6,p6))
+						return -1 if (p6 >= _hx_builtin.len(s6)) else ord(_hx_array_get(s6,p6))
 					
-					return _hx_local_42()
+					return _hx_local_13()
 				
-				return _hx_local_43()
+				return _hx_local_14()
 			
-			while _hx_local_41() != 104:
+			while _hx_local_12() != 104:
 				s7 = self.unserialize()
 				h.set(s7, self.unserialize())
 			
-			_hx_local_48 = None
-			def _hx_local_49():
-				nonlocal _hx_local_48
-				if _hx_local_48 is not None:
-					return _hx_local_48
-				
-				_hx_local_45 = self.pos
-				_hx_local_46 = _hx_local_45
-				self.pos = _hx_local_45 + 1
-				_hx_local_48 = _hx_local_46
-				return _hx_local_46
-			
-			_hx_local_47 = _hx_local_49
-			_hx_local_47()
-			
+			self.pos = self.pos + 1
 			return h
 		
 		elif (_g) == 113:
 			h1 = _hx_c.haxe_ds_IntMap()
 			_this8 = self.cache
 			_this8.append(h1)
-			__builtin__.len(_this8)
+			_hx_builtin.len(_this8)
 			
 			
 			buf3 = self.buf
 			c2 = None
-			_hx_local_53 = None
-			def _hx_local_52():
-				nonlocal _hx_local_53
-				if _hx_local_53 is not None:
-					return _hx_local_53
-				
-				_hx_local_50 = self.pos
-				_hx_local_51 = _hx_local_50
-				self.pos = _hx_local_50 + 1
-				_hx_local_53 = _hx_local_51
-				return _hx_local_51
+			p7 = self.pos
+			self.pos = self.pos + 1
 			
-			p7 = _hx_local_52()
 			s8 = self.buf
-			if p7 >= __builtin__.len(s8):
+			if p7 >= _hx_builtin.len(s8):
 				c2 = -1
 			else:
 				c2 = ord(_hx_array_get(s8,p7))
@@ -4631,21 +4067,11 @@ class haxe_Unserializer:
 			while c2 == 58:
 				i = self.readDigits()
 				h1.set(i, self.unserialize())
-				_hx_local_57 = None
-				def _hx_local_56():
-					nonlocal _hx_local_57
-					if _hx_local_57 is not None:
-						return _hx_local_57
-					
-					_hx_local_54 = self.pos
-					_hx_local_55 = _hx_local_54
-					self.pos = _hx_local_54 + 1
-					_hx_local_57 = _hx_local_55
-					return _hx_local_55
+				p8 = self.pos
+				self.pos = self.pos + 1
 				
-				p8 = _hx_local_56()
 				s9 = self.buf
-				if p8 >= __builtin__.len(s9):
+				if p8 >= _hx_builtin.len(s9):
 					c2 = -1
 				else:
 					c2 = ord(_hx_array_get(s9,p8))
@@ -4661,47 +4087,33 @@ class haxe_Unserializer:
 			h2 = _hx_c.haxe_ds_ObjectMap()
 			_this9 = self.cache
 			_this9.append(h2)
-			__builtin__.len(_this9)
+			_hx_builtin.len(_this9)
 			
 			
 			buf4 = self.buf
-			def _hx_local_58():
+			def _hx_local_16():
 				p9 = self.pos
-				def _hx_local_60():
-					def _hx_local_59():
+				def _hx_local_18():
+					def _hx_local_17():
 						s10 = self.buf
-						return -1 if (p9 >= __builtin__.len(s10)) else ord(_hx_array_get(s10,p9))
+						return -1 if (p9 >= _hx_builtin.len(s10)) else ord(_hx_array_get(s10,p9))
 					
-					return _hx_local_59()
+					return _hx_local_17()
 				
-				return _hx_local_60()
+				return _hx_local_18()
 			
-			while _hx_local_58() != 104:
+			while _hx_local_16() != 104:
 				s11 = self.unserialize()
 				h2.set(s11, self.unserialize())
 			
-			_hx_local_65 = None
-			def _hx_local_66():
-				nonlocal _hx_local_65
-				if _hx_local_65 is not None:
-					return _hx_local_65
-				
-				_hx_local_62 = self.pos
-				_hx_local_63 = _hx_local_62
-				self.pos = _hx_local_62 + 1
-				_hx_local_65 = _hx_local_63
-				return _hx_local_63
-			
-			_hx_local_64 = _hx_local_66
-			_hx_local_64()
-			
+			self.pos = self.pos + 1
 			return h2
 		
 		elif (_g) == 118:
 			d = _hx_c.Date.fromString(_hx_c.python_Tools.substr(self.buf, self.pos, 19))
 			_this10 = self.cache
 			_this10.append(d)
-			__builtin__.len(_this10)
+			_hx_builtin.len(_this10)
 			
 			
 			self.pos = self.pos + 19
@@ -4710,30 +4122,20 @@ class haxe_Unserializer:
 		elif (_g) == 115:
 			len1 = self.readDigits()
 			buf5 = self.buf
-			def _hx_local_67():
-				_hx_local_71 = None
-				def _hx_local_70():
-					nonlocal _hx_local_71
-					if _hx_local_71 is not None:
-						return _hx_local_71
-					
-					_hx_local_68 = self.pos
-					_hx_local_69 = _hx_local_68
-					self.pos = _hx_local_68 + 1
-					_hx_local_71 = _hx_local_69
-					return _hx_local_69
+			def _hx_local_21():
+				p10 = self.pos
+				self.pos = self.pos + 1
 				
-				p10 = _hx_local_70()
-				def _hx_local_73():
-					def _hx_local_72():
+				def _hx_local_23():
+					def _hx_local_22():
 						s12 = self.buf
-						return -1 if (p10 >= __builtin__.len(s12)) else ord(_hx_array_get(s12,p10))
+						return -1 if (p10 >= _hx_builtin.len(s12)) else ord(_hx_array_get(s12,p10))
 					
-					return _hx_local_72()
+					return _hx_local_22()
 				
-				return _hx_local_73()
+				return _hx_local_23()
 			
-			if _hx_local_67() != 58 or self.length - self.pos < len1:
+			if _hx_local_21() != 58 or self.length - self.pos < len1:
 				raise _HxException("Invalid bytes length")
 			
 			codes = _hx_c.haxe_Unserializer.CODES
@@ -4750,225 +4152,95 @@ class haxe_Unserializer:
 			bytes = _hx_c.haxe_io_Bytes.alloc(size)
 			bpos = 0
 			while i1 < max:
-				def _hx_local_75():
-					_hx_local_79 = None
-					def _hx_local_78():
-						nonlocal i1
-						nonlocal _hx_local_79
-						if _hx_local_79 is not None:
-							return _hx_local_79
-						
-						_hx_local_76 = i1
-						_hx_local_77 = _hx_local_76
-						i1 = _hx_local_76 + 1
-						_hx_local_79 = _hx_local_77
-						return _hx_local_77
-						
+				def _hx_local_24():
+					nonlocal i1
+					index1 = i1
+					i1 = i1 + 1
 					
-					index1 = _hx_local_78()
-					return -1 if (index1 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index1))
-				
-				c11 = _hx_array_get(codes,_hx_local_75())
-				def _hx_local_80():
-					_hx_local_84 = None
-					def _hx_local_83():
-						nonlocal i1
-						nonlocal _hx_local_84
-						if _hx_local_84 is not None:
-							return _hx_local_84
-						
-						_hx_local_81 = i1
-						_hx_local_82 = _hx_local_81
-						i1 = _hx_local_81 + 1
-						_hx_local_84 = _hx_local_82
-						return _hx_local_82
-						
-					
-					index2 = _hx_local_83()
-					return -1 if (index2 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index2))
-				
-				c21 = _hx_array_get(codes,_hx_local_80())
-				_hx_local_88 = None
-				def _hx_local_87():
-					nonlocal bpos
-					nonlocal _hx_local_88
-					if _hx_local_88 is not None:
-						return _hx_local_88
-					
-					_hx_local_85 = bpos
-					_hx_local_86 = _hx_local_85
-					bpos = _hx_local_85 + 1
-					_hx_local_88 = _hx_local_86
-					return _hx_local_86
+					return -1 if (index1 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index1))
 					
 				
-				pos = _hx_local_87()
+				c11 = _hx_array_get(codes,_hx_local_24())
+				def _hx_local_25():
+					nonlocal i1
+					index2 = i1
+					i1 = i1 + 1
+					
+					return -1 if (index2 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index2))
+					
+				
+				c21 = _hx_array_get(codes,_hx_local_25())
+				pos = bpos
+				bpos = bpos + 1
+				
 				_hx_array_set(bytes.b,pos, (c11 << 2 | c21 >> 4) & 255)
 				
-				def _hx_local_89():
-					_hx_local_93 = None
-					def _hx_local_92():
-						nonlocal i1
-						nonlocal _hx_local_93
-						if _hx_local_93 is not None:
-							return _hx_local_93
-						
-						_hx_local_90 = i1
-						_hx_local_91 = _hx_local_90
-						i1 = _hx_local_90 + 1
-						_hx_local_93 = _hx_local_91
-						return _hx_local_91
-						
+				def _hx_local_26():
+					nonlocal i1
+					index3 = i1
+					i1 = i1 + 1
 					
-					index3 = _hx_local_92()
-					return -1 if (index3 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index3))
-				
-				c3 = _hx_array_get(codes,_hx_local_89())
-				_hx_local_97 = None
-				def _hx_local_96():
-					nonlocal bpos
-					nonlocal _hx_local_97
-					if _hx_local_97 is not None:
-						return _hx_local_97
-					
-					_hx_local_94 = bpos
-					_hx_local_95 = _hx_local_94
-					bpos = _hx_local_94 + 1
-					_hx_local_97 = _hx_local_95
-					return _hx_local_95
+					return -1 if (index3 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index3))
 					
 				
-				pos1 = _hx_local_96()
+				c3 = _hx_array_get(codes,_hx_local_26())
+				pos1 = bpos
+				bpos = bpos + 1
+				
 				_hx_array_set(bytes.b,pos1, (c21 << 4 | c3 >> 2) & 255)
 				
-				def _hx_local_98():
-					_hx_local_102 = None
-					def _hx_local_101():
-						nonlocal i1
-						nonlocal _hx_local_102
-						if _hx_local_102 is not None:
-							return _hx_local_102
-						
-						_hx_local_99 = i1
-						_hx_local_100 = _hx_local_99
-						i1 = _hx_local_99 + 1
-						_hx_local_102 = _hx_local_100
-						return _hx_local_100
-						
+				def _hx_local_27():
+					nonlocal i1
+					index4 = i1
+					i1 = i1 + 1
 					
-					index4 = _hx_local_101()
-					return -1 if (index4 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index4))
-				
-				c4 = _hx_array_get(codes,_hx_local_98())
-				_hx_local_106 = None
-				def _hx_local_105():
-					nonlocal bpos
-					nonlocal _hx_local_106
-					if _hx_local_106 is not None:
-						return _hx_local_106
-					
-					_hx_local_103 = bpos
-					_hx_local_104 = _hx_local_103
-					bpos = _hx_local_103 + 1
-					_hx_local_106 = _hx_local_104
-					return _hx_local_104
+					return -1 if (index4 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index4))
 					
 				
-				pos2 = _hx_local_105()
+				c4 = _hx_array_get(codes,_hx_local_27())
+				pos2 = bpos
+				bpos = bpos + 1
+				
 				_hx_array_set(bytes.b,pos2, (c3 << 6 | c4) & 255)
 				
 			
 			if rest >= 2:
-				def _hx_local_107():
-					_hx_local_111 = None
-					def _hx_local_110():
-						nonlocal i1
-						nonlocal _hx_local_111
-						if _hx_local_111 is not None:
-							return _hx_local_111
-						
-						_hx_local_108 = i1
-						_hx_local_109 = _hx_local_108
-						i1 = _hx_local_108 + 1
-						_hx_local_111 = _hx_local_109
-						return _hx_local_109
-						
+				def _hx_local_28():
+					nonlocal i1
+					index5 = i1
+					i1 = i1 + 1
 					
-					index5 = _hx_local_110()
-					return -1 if (index5 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index5))
-				
-				c12 = _hx_array_get(codes,_hx_local_107())
-				def _hx_local_112():
-					_hx_local_116 = None
-					def _hx_local_115():
-						nonlocal i1
-						nonlocal _hx_local_116
-						if _hx_local_116 is not None:
-							return _hx_local_116
-						
-						_hx_local_113 = i1
-						_hx_local_114 = _hx_local_113
-						i1 = _hx_local_113 + 1
-						_hx_local_116 = _hx_local_114
-						return _hx_local_114
-						
-					
-					index6 = _hx_local_115()
-					return -1 if (index6 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index6))
-				
-				c22 = _hx_array_get(codes,_hx_local_112())
-				_hx_local_120 = None
-				def _hx_local_119():
-					nonlocal bpos
-					nonlocal _hx_local_120
-					if _hx_local_120 is not None:
-						return _hx_local_120
-					
-					_hx_local_117 = bpos
-					_hx_local_118 = _hx_local_117
-					bpos = _hx_local_117 + 1
-					_hx_local_120 = _hx_local_118
-					return _hx_local_118
+					return -1 if (index5 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index5))
 					
 				
-				pos3 = _hx_local_119()
+				c12 = _hx_array_get(codes,_hx_local_28())
+				def _hx_local_29():
+					nonlocal i1
+					index6 = i1
+					i1 = i1 + 1
+					
+					return -1 if (index6 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index6))
+					
+				
+				c22 = _hx_array_get(codes,_hx_local_29())
+				pos3 = bpos
+				bpos = bpos + 1
+				
 				_hx_array_set(bytes.b,pos3, (c12 << 2 | c22 >> 4) & 255)
 				
 				if rest == 3:
-					def _hx_local_121():
-						_hx_local_125 = None
-						def _hx_local_124():
-							nonlocal i1
-							nonlocal _hx_local_125
-							if _hx_local_125 is not None:
-								return _hx_local_125
-							
-							_hx_local_122 = i1
-							_hx_local_123 = _hx_local_122
-							i1 = _hx_local_122 + 1
-							_hx_local_125 = _hx_local_123
-							return _hx_local_123
-							
+					def _hx_local_30():
+						nonlocal i1
+						index7 = i1
+						i1 = i1 + 1
 						
-						index7 = _hx_local_124()
-						return -1 if (index7 >= __builtin__.len(buf5)) else ord(_hx_array_get(buf5,index7))
-					
-					c31 = _hx_array_get(codes,_hx_local_121())
-					_hx_local_129 = None
-					def _hx_local_128():
-						nonlocal bpos
-						nonlocal _hx_local_129
-						if _hx_local_129 is not None:
-							return _hx_local_129
-						
-						_hx_local_126 = bpos
-						_hx_local_127 = _hx_local_126
-						bpos = _hx_local_126 + 1
-						_hx_local_129 = _hx_local_127
-						return _hx_local_127
+						return -1 if (index7 >= _hx_builtin.len(buf5)) else ord(_hx_array_get(buf5,index7))
 						
 					
-					pos4 = _hx_local_128()
+					c31 = _hx_array_get(codes,_hx_local_30())
+					pos4 = bpos
+					bpos = bpos + 1
+					
 					_hx_array_set(bytes.b,pos4, (c22 << 4 | c31 >> 2) & 255)
 					
 				
@@ -4978,7 +4250,7 @@ class haxe_Unserializer:
 			self.pos = self.pos + len1
 			_this11 = self.cache
 			_this11.append(bytes)
-			__builtin__.len(_this11)
+			_hx_builtin.len(_this11)
 			
 			
 			return bytes
@@ -4993,34 +4265,24 @@ class haxe_Unserializer:
 			x1 = o2
 			_this12 = self.cache
 			_this12.append(x1)
-			__builtin__.len(_this12)
+			_hx_builtin.len(_this12)
 			
 			
 			o2.hxUnserialize(self)
-			def _hx_local_130():
-				_hx_local_134 = None
-				def _hx_local_133():
-					nonlocal _hx_local_134
-					if _hx_local_134 is not None:
-						return _hx_local_134
-					
-					_hx_local_131 = self.pos
-					_hx_local_132 = _hx_local_131
-					self.pos = _hx_local_131 + 1
-					_hx_local_134 = _hx_local_132
-					return _hx_local_132
+			def _hx_local_32():
+				p11 = self.pos
+				self.pos = self.pos + 1
 				
-				p11 = _hx_local_133()
-				def _hx_local_136():
-					def _hx_local_135():
+				def _hx_local_34():
+					def _hx_local_33():
 						s13 = self.buf
-						return -1 if (p11 >= __builtin__.len(s13)) else ord(_hx_array_get(s13,p11))
+						return -1 if (p11 >= _hx_builtin.len(s13)) else ord(_hx_array_get(s13,p11))
 					
-					return _hx_local_135()
+					return _hx_local_33()
 				
-				return _hx_local_136()
+				return _hx_local_34()
 			
-			if _hx_local_130() != 103:
+			if _hx_local_32() != 103:
 				raise _HxException("Invalid custom data")
 			
 			return o2
@@ -5028,16 +4290,13 @@ class haxe_Unserializer:
 		else:
 			None
 		
-		_hx_local_138 = self.pos
 		self.pos = self.pos - 1
-		_hx_local_138
-		
-		def _hx_local_139():
+		def _hx_local_36():
 			index8 = self.pos
 			_this13 = self.buf
-			return "" if (index8 < 0 or index8 >= __builtin__.len(_this13)) else _this13[index8]
+			return "" if (index8 < 0 or index8 >= _hx_builtin.len(_this13)) else _this13[index8]
 		
-		raise _HxException(Std.string(Std.string("Invalid char " + Std.string(_hx_local_139())) + " at position ") + Std.string(self.pos))
+		raise _HxException(Std.string(Std.string("Invalid char " + Std.string(_hx_local_36())) + " at position ") + Std.string(self.pos))
 	
 
 
@@ -5090,10 +4349,7 @@ class haxe_io_Bytes:
 		if b1 == b2 and pos > srcpos:
 			i = len
 			while i > 0:
-				_hx_local_0 = i
 				i = i - 1
-				_hx_local_0
-				
 				_hx_array_set(b1,i + pos, _hx_array_get(b2,i + srcpos))
 			
 			return
@@ -5101,21 +4357,9 @@ class haxe_io_Bytes:
 		
 		_g = 0
 		while _g < len:
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _g
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _g
-				_hx_local_2 = _hx_local_1
-				_g = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			i1 = _g
+			_g = _g + 1
 			
-			i1 = _hx_local_3()
 			_hx_array_set(b1,i1 + pos, _hx_array_get(b2,i1 + srcpos))
 		
 		
@@ -5124,36 +4368,12 @@ class haxe_io_Bytes:
 	def fill(self,pos,len,value):
 		_g = 0
 		while _g < len:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal pos
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = pos
-				_hx_local_5 = _hx_local_4
-				pos = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			pos1 = pos
+			pos = pos + 1
 			
-			pos1 = _hx_local_6()
 			_hx_array_set(self.b,pos1, value & 255)
 		
 	
@@ -5175,21 +4395,9 @@ class haxe_io_Bytes:
 			len = other.length
 		_g = 0
 		while _g < len:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			if _hx_array_get(b1,i) != _hx_array_get(b2,i):
 				return _hx_array_get(b1,i) - _hx_array_get(b2,i)
 			
@@ -5207,131 +4415,82 @@ class haxe_io_Bytes:
 		i = pos
 		max = pos + len
 		while i < max:
-			_hx_local_3 = None
-			def _hx_local_2():
+			def _hx_local_1():
 				nonlocal i
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
 				_hx_local_0 = i
-				_hx_local_1 = _hx_local_0
-				i = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+				i = i + 1
+				return _hx_local_0
 				
 			
-			c = _hx_array_get(b,_hx_local_2())
+			c = _hx_array_get(b,_hx_local_1())
 			if c < 128:
 				if c == 0:
 					break
 				
 				c1 = c
-				s = Std.string(s) + Std.string("".join(map(chr, [c1])))
+				s = Std.string(s) + Std.string("".join(_hx_builtin.map(_hx_builtin.chr, [c1])))
 				
 			
 			elif c < 224:
-				_hx_local_7 = None
-				def _hx_local_6():
+				def _hx_local_4():
 					nonlocal i
-					nonlocal _hx_local_7
-					if _hx_local_7 is not None:
-						return _hx_local_7
-					
-					_hx_local_4 = i
-					_hx_local_5 = _hx_local_4
-					i = _hx_local_4 + 1
-					_hx_local_7 = _hx_local_5
-					return _hx_local_5
+					_hx_local_3 = i
+					i = i + 1
+					return _hx_local_3
 					
 				
-				x = (c & 63) << 6 | _hx_array_get(b,_hx_local_6()) & 127
+				x = (c & 63) << 6 | _hx_array_get(b,_hx_local_4()) & 127
 				c2 = x
-				s = Std.string(s) + Std.string("".join(map(chr, [c2])))
+				s = Std.string(s) + Std.string("".join(_hx_builtin.map(_hx_builtin.chr, [c2])))
 			
 			elif c < 240:
-				_hx_local_11 = None
-				def _hx_local_10():
+				def _hx_local_7():
 					nonlocal i
-					nonlocal _hx_local_11
-					if _hx_local_11 is not None:
-						return _hx_local_11
+					_hx_local_6 = i
+					i = i + 1
+					return _hx_local_6
 					
+				
+				c21 = _hx_array_get(b,_hx_local_7())
+				def _hx_local_9():
+					nonlocal i
 					_hx_local_8 = i
-					_hx_local_9 = _hx_local_8
-					i = _hx_local_8 + 1
-					_hx_local_11 = _hx_local_9
-					return _hx_local_9
+					i = i + 1
+					return _hx_local_8
 					
 				
-				c21 = _hx_array_get(b,_hx_local_10())
-				_hx_local_15 = None
-				def _hx_local_14():
-					nonlocal i
-					nonlocal _hx_local_15
-					if _hx_local_15 is not None:
-						return _hx_local_15
-					
-					_hx_local_12 = i
-					_hx_local_13 = _hx_local_12
-					i = _hx_local_12 + 1
-					_hx_local_15 = _hx_local_13
-					return _hx_local_13
-					
-				
-				x1 = (c & 31) << 12 | (c21 & 127) << 6 | _hx_array_get(b,_hx_local_14()) & 127
+				x1 = (c & 31) << 12 | (c21 & 127) << 6 | _hx_array_get(b,_hx_local_9()) & 127
 				c3 = x1
-				s = Std.string(s) + Std.string("".join(map(chr, [c3])))
+				s = Std.string(s) + Std.string("".join(_hx_builtin.map(_hx_builtin.chr, [c3])))
 				
 			
 			else:
-				_hx_local_19 = None
-				def _hx_local_18():
+				def _hx_local_12():
 					nonlocal i
-					nonlocal _hx_local_19
-					if _hx_local_19 is not None:
-						return _hx_local_19
-					
-					_hx_local_16 = i
-					_hx_local_17 = _hx_local_16
-					i = _hx_local_16 + 1
-					_hx_local_19 = _hx_local_17
-					return _hx_local_17
+					_hx_local_11 = i
+					i = i + 1
+					return _hx_local_11
 					
 				
-				c22 = _hx_array_get(b,_hx_local_18())
-				_hx_local_23 = None
-				def _hx_local_22():
+				c22 = _hx_array_get(b,_hx_local_12())
+				def _hx_local_14():
 					nonlocal i
-					nonlocal _hx_local_23
-					if _hx_local_23 is not None:
-						return _hx_local_23
-					
-					_hx_local_20 = i
-					_hx_local_21 = _hx_local_20
-					i = _hx_local_20 + 1
-					_hx_local_23 = _hx_local_21
-					return _hx_local_21
+					_hx_local_13 = i
+					i = i + 1
+					return _hx_local_13
 					
 				
-				c31 = _hx_array_get(b,_hx_local_22())
-				_hx_local_27 = None
-				def _hx_local_26():
+				c31 = _hx_array_get(b,_hx_local_14())
+				def _hx_local_16():
 					nonlocal i
-					nonlocal _hx_local_27
-					if _hx_local_27 is not None:
-						return _hx_local_27
-					
-					_hx_local_24 = i
-					_hx_local_25 = _hx_local_24
-					i = _hx_local_24 + 1
-					_hx_local_27 = _hx_local_25
-					return _hx_local_25
+					_hx_local_15 = i
+					i = i + 1
+					return _hx_local_15
 					
 				
-				x2 = (c & 15) << 18 | (c22 & 127) << 12 | c31 << 6 & 127 | _hx_array_get(b,_hx_local_26()) & 127
+				x2 = (c & 15) << 18 | (c22 & 127) << 12 | c31 << 6 & 127 | _hx_array_get(b,_hx_local_16()) & 127
 				c4 = x2
-				s = Std.string(s) + Std.string("".join(map(chr, [c4])))
+				s = Std.string(s) + Std.string("".join(_hx_builtin.map(_hx_builtin.chr, [c4])))
 				
 			
 		
@@ -5342,67 +4501,43 @@ class haxe_io_Bytes:
 		return self.readString(0, self.length)
 
 	def toHex(self):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		chars = []
 		str = "0123456789abcdef"
 		_g1 = 0
-		_g = __builtin__.len(str)
+		_g = _hx_builtin.len(str)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			x = _hx_c.python_internal_StringImpl.charCodeAt(str, i)
 			chars.append(x)
-			__builtin__.len(chars)
+			_hx_builtin.len(chars)
 			
 		
 		
 		_g11 = 0
 		_g2 = self.length
 		while _g11 < _g2:
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal _g11
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = _g11
-				_hx_local_5 = _hx_local_4
-				_g11 = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			i1 = _g11
+			_g11 = _g11 + 1
 			
-			i1 = _hx_local_6()
 			c = _hx_array_get(self.b,i1)
 			s1 = None
 			c1 = _hx_array_get(chars,c >> 4)
-			s1 = "".join(map(chr, [c1]))
+			s1 = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 			
-			s.write(s1)
+			s.b.write(s1)
 			
 			s2 = None
 			c2 = _hx_array_get(chars,c & 15)
-			s2 = "".join(map(chr, [c2]))
+			s2 = "".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 			
-			s.write(s2)
+			s.b.write(s2)
 			
 		
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 	def getData(self):
@@ -5458,25 +4593,7 @@ class haxe_crypto_BaseCode:
 		len = base.length
 		nbits = 1
 		while len > 1 << nbits:
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal nbits
-				nonlocal nbits
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = nbits
-				_hx_local_1 = _hx_local_0
-				nbits = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-		
+			nbits = nbits + 1
 		if nbits > 8 or len != 1 << nbits:
 			raise _HxException("BaseCode : base length must be a power of two.")
 		
@@ -5510,59 +4627,23 @@ class haxe_crypto_BaseCode:
 			while curbits < nbits:
 				curbits = curbits + 8
 				buf = buf << 8
-				_hx_local_3 = None
-				def _hx_local_2():
-					nonlocal pin
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = pin
-					_hx_local_1 = _hx_local_0
-					pin = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
+				pos = pin
+				pin = pin + 1
 				
-				pos = _hx_local_2()
 				buf = buf | _hx_array_get(b.b,pos)
 				
 			
 			curbits = curbits - nbits
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal pout
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = pout
-				_hx_local_5 = _hx_local_4
-				pout = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			pos1 = pout
+			pout = pout + 1
 			
-			pos1 = _hx_local_6()
 			_hx_array_set(out.b,pos1, _hx_array_get(base.b,buf >> curbits & mask) & 255)
 			
 		
 		if curbits > 0:
-			_hx_local_11 = None
-			def _hx_local_10():
-				nonlocal pout
-				nonlocal _hx_local_11
-				if _hx_local_11 is not None:
-					return _hx_local_11
-				
-				_hx_local_8 = pout
-				_hx_local_9 = _hx_local_8
-				pout = _hx_local_8 + 1
-				_hx_local_11 = _hx_local_9
-				return _hx_local_9
-				
+			pos2 = pout
+			pout = pout + 1
 			
-			pos2 = _hx_local_10()
 			_hx_array_set(out.b,pos2, _hx_array_get(base.b,buf << nbits - curbits & mask) & 255)
 		
 		
@@ -5573,42 +4654,18 @@ class haxe_crypto_BaseCode:
 		tbl = list()
 		_g = 0
 		while _g < 256:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			_hx_array_set(tbl,i, -1)
 		
 		
 		_g1 = 0
 		_g2 = self.base.length
 		while _g1 < _g2:
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal _g1
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = _g1
-				_hx_local_5 = _hx_local_4
-				_g1 = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			i1 = _g1
+			_g1 = _g1 + 1
 			
-			i1 = _hx_local_6()
 			_hx_array_set(tbl,_hx_array_get(self.base.b,i1), i1)
 		
 		
@@ -5632,46 +4689,24 @@ class haxe_crypto_BaseCode:
 			while curbits < 8:
 				curbits = curbits + nbits
 				buf = buf << nbits
-				def _hx_local_0():
-					_hx_local_4 = None
-					def _hx_local_3():
-						nonlocal pin
-						nonlocal _hx_local_4
-						if _hx_local_4 is not None:
-							return _hx_local_4
-						
-						_hx_local_1 = pin
-						_hx_local_2 = _hx_local_1
-						pin = _hx_local_1 + 1
-						_hx_local_4 = _hx_local_2
-						return _hx_local_2
-						
+				def _hx_local_2():
+					nonlocal pin
+					pos = pin
+					pin = pin + 1
 					
-					pos = _hx_local_3()
 					return _hx_array_get(b.b,pos)
+					
 				
-				i = _hx_array_get(tbl,_hx_local_0())
+				i = _hx_array_get(tbl,_hx_local_2())
 				if i == -1:
 					raise _HxException("BaseCode : invalid encoded char")
 				
 				buf = buf | i
 			
 			curbits = curbits - 8
-			_hx_local_8 = None
-			def _hx_local_7():
-				nonlocal pout
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = pout
-				_hx_local_6 = _hx_local_5
-				pout = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-				
+			pos1 = pout
+			pout = pout + 1
 			
-			pos1 = _hx_local_7()
 			_hx_array_set(out.b,pos1, buf >> curbits & 255 & 255)
 			
 		
@@ -5742,30 +4777,18 @@ class haxe_crypto_Md5:
 			_g = _g + 1
 			_g1 = 0
 			while _g1 < 4:
-				_hx_local_3 = None
-				def _hx_local_2():
-					nonlocal _g1
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = _g1
-					_hx_local_1 = _hx_local_0
-					_g1 = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
+				j = _g1
+				_g1 = _g1 + 1
 				
-				j = _hx_local_2()
-				def _hx_local_5():
+				def _hx_local_1():
 					index = num >> j * 8 + 4 & 15
-					return "" if (index < 0 or index >= __builtin__.len(hex_chr)) else hex_chr[index]
+					return "" if (index < 0 or index >= _hx_builtin.len(hex_chr)) else hex_chr[index]
 				
-				def _hx_local_4():
+				def _hx_local_0():
 					index1 = num >> j * 8 & 15
-					return "" if (index1 < 0 or index1 >= __builtin__.len(hex_chr)) else hex_chr[index1]
+					return "" if (index1 < 0 or index1 >= _hx_builtin.len(hex_chr)) else hex_chr[index1]
 				
-				str = Std.string(str) + Std.string(Std.string(_hx_local_5()) + Std.string(_hx_local_4()))
+				str = Std.string(str) + Std.string(Std.string(_hx_local_1()) + Std.string(_hx_local_0()))
 			
 		
 		
@@ -5797,7 +4820,7 @@ class haxe_crypto_Md5:
 		d = 271733878
 		step = None
 		i = 0
-		while i < __builtin__.len(x):
+		while i < _hx_builtin.len(x):
 			olda = a
 			oldb = b
 			oldc = c
@@ -5907,7 +4930,7 @@ class haxe_crypto_Sha1:
 		d = 271733878
 		e = -1009589776
 		i = 0
-		while i < __builtin__.len(x):
+		while i < _hx_builtin.len(x):
 			olda = a
 			oldb = b
 			oldc = c
@@ -5927,25 +4950,7 @@ class haxe_crypto_Sha1:
 				c = b << 30 | _hx_rshift(b, 32 - 30)
 				b = a
 				a = t
-				_hx_local_3 = None
-				def _hx_local_4():
-					nonlocal j
-					nonlocal j
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = j
-					_hx_local_1 = _hx_local_0
-					j = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
-					
-				
-				_hx_local_2 = _hx_local_4
-				_hx_local_2()
-				
+				j = j + 1
 			
 			a = a + olda
 			b = b + oldb
@@ -5996,15 +5001,12 @@ class haxe_crypto_Sha1:
 			j = 7
 			while j >= 0:
 				index = _hx_rshift(num, (j << 2)) & 15
-				if index < 0 or index >= __builtin__.len(hex_chr):
+				if index < 0 or index >= _hx_builtin.len(hex_chr):
 					str = Std.string(str) + ""
 				else:
 					str = Std.string(str) + Std.string(hex_chr[index])
 				
-				_hx_local_0 = j
 				j = j - 1
-				_hx_local_0
-				
 			
 		
 		
@@ -6153,7 +5155,7 @@ class haxe_ds_BalancedTree:
 		if node is not None:
 			self.iteratorLoop(node.left, acc)
 			acc.append(node.value)
-			__builtin__.len(acc)
+			_hx_builtin.len(acc)
 			
 			self.iteratorLoop(node.right, acc)
 	
@@ -6163,7 +5165,7 @@ class haxe_ds_BalancedTree:
 		if node is not None:
 			self.keysLoop(node.left, acc)
 			acc.append(node.key)
-			__builtin__.len(acc)
+			_hx_builtin.len(acc)
 			
 			self.keysLoop(node.right, acc)
 	
@@ -6339,41 +5341,29 @@ class haxe_ds_EnumValueMap(haxe_ds_BalancedTree):
 	def __init__(self):
 		super().__init__()
 	def compare(self,k1,k2):
-		d = _hx_c.Type.enumIndex(k1) - _hx_c.Type.enumIndex(k2)
+		d = k1.index - k2.index
 		if d != 0:
 			return d
 		
-		p1 = _hx_c.Type.enumParameters(k1)
-		p2 = _hx_c.Type.enumParameters(k2)
-		if __builtin__.len(p1) == 0 and __builtin__.len(p2) == 0:
+		p1 = k1.params
+		p2 = k2.params
+		if _hx_builtin.len(p1) == 0 and _hx_builtin.len(p2) == 0:
 			return 0
 		
 		return self.compareArgs(p1, p2)
 	
 
 	def compareArgs(self,a1,a2):
-		ld = __builtin__.len(a1) - __builtin__.len(a2)
+		ld = _hx_builtin.len(a1) - _hx_builtin.len(a2)
 		if ld != 0:
 			return ld
 		
 		_g1 = 0
-		_g = __builtin__.len(a1)
+		_g = _hx_builtin.len(a1)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			d = self.compareArg(_hx_array_get(a1,i), _hx_array_get(a2,i))
 			if d != 0:
 				return d
@@ -6511,11 +5501,11 @@ class haxe_ds_GenericStack:
 		l = self.head
 		while l is not None:
 			a.append(l.elt)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			l = l.next
 		
-		return Std.string("{" + Std.string(",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, a))))) + "}"
+		return Std.string("{" + Std.string(",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, a))))) + "}"
 	
 
 
@@ -6607,35 +5597,35 @@ class haxe_ds_IntMap:
 	
 
 	def toString(self):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		s1 = _hx_c.Std.string("{")
-		s.write(s1)
+		s.b.write(s1)
 		
 		it = self.keys()
 		_it = it
 		while _it.hasNext():
 			i = _it.next()
 			s2 = _hx_c.Std.string(i)
-			s.write(s2)
+			s.b.write(s2)
 			
 			s3 = _hx_c.Std.string(" => ")
-			s.write(s3)
+			s.b.write(s3)
 			
 			x = _hx_c.Std.string(self.h.get(i, None))
 			s4 = _hx_c.Std.string(x)
-			s.write(s4)
+			s.b.write(s4)
 			
 			
 			if it.hasNext():
 				s5 = _hx_c.Std.string(", ")
-				s.write(s5)
+				s.b.write(s5)
 			
 			
 		
 		s6 = _hx_c.Std.string("}")
-		s.write(s6)
+		s.b.write(s6)
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 
@@ -6684,7 +5674,7 @@ class haxe_ds_ObjectMap:
 	def keys(self):
 		p = None
 		_this = self.h.keys()
-		p = __builtin__.iter(_this)
+		p = _hx_builtin.iter(_this)
 		
 		return _hx_c.python_HaxeIterator(p)
 	
@@ -6692,15 +5682,15 @@ class haxe_ds_ObjectMap:
 	def iterator(self):
 		p = None
 		_this = self.h.values()
-		p = __builtin__.iter(_this)
+		p = _hx_builtin.iter(_this)
 		
 		return _hx_c.python_HaxeIterator(p)
 	
 
 	def toString(self):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		s1 = _hx_c.Std.string("{")
-		s.write(s1)
+		s.b.write(s1)
 		
 		it = self.keys()
 		_it = it
@@ -6708,27 +5698,27 @@ class haxe_ds_ObjectMap:
 			i = _it.next()
 			x = _hx_c.Std.string(i)
 			s2 = _hx_c.Std.string(x)
-			s.write(s2)
+			s.b.write(s2)
 			
 			
 			s3 = _hx_c.Std.string(" => ")
-			s.write(s3)
+			s.b.write(s3)
 			
 			x1 = _hx_c.Std.string(self.h.get(i, None))
 			s4 = _hx_c.Std.string(x1)
-			s.write(s4)
+			s.b.write(s4)
 			
 			
 			if it.hasNext():
 				s5 = _hx_c.Std.string(", ")
-				s.write(s5)
+				s.b.write(s5)
 			
 			
 		
 		s6 = _hx_c.Std.string("}")
-		s.write(s6)
+		s.b.write(s6)
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 
@@ -6816,35 +5806,35 @@ class haxe_ds_StringMap:
 	
 
 	def toString(self):
-		s = _hx_StringIO()
+		s = _hx_c.StringBuf()
 		s1 = _hx_c.Std.string("{")
-		s.write(s1)
+		s.b.write(s1)
 		
 		it = self.keys()
 		_it = it
 		while _it.hasNext():
 			i = _it.next()
 			s2 = _hx_c.Std.string(i)
-			s.write(s2)
+			s.b.write(s2)
 			
 			s3 = _hx_c.Std.string(" => ")
-			s.write(s3)
+			s.b.write(s3)
 			
 			x = _hx_c.Std.string(self.get(i))
 			s4 = _hx_c.Std.string(x)
-			s.write(s4)
+			s.b.write(s4)
 			
 			
 			if it.hasNext():
 				s5 = _hx_c.Std.string(", ")
-				s.write(s5)
+				s.b.write(s5)
 			
 			
 		
 		s6 = _hx_c.Std.string("}")
-		s.write(s6)
+		s.b.write(s6)
 		
-		return s.getvalue()
+		return s.b.getvalue()
 	
 
 
@@ -6940,12 +5930,12 @@ class haxe_io_BytesBuffer:
 	# var b
 	# var length
 	def get_length(self):
-		return __builtin__.len(self.b)
+		return _hx_builtin.len(self.b)
 
 	def addByte(self,byte):
 		_this = self.b
 		_this.append(byte)
-		__builtin__.len(_this)
+		_hx_builtin.len(_this)
 		
 	
 
@@ -6955,24 +5945,12 @@ class haxe_io_BytesBuffer:
 		_g1 = 0
 		_g = src.length
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			_this = self.b
 			_this.append(_hx_array_get(b2,i))
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 		
 		
@@ -6987,31 +5965,19 @@ class haxe_io_BytesBuffer:
 		_g1 = pos
 		_g = pos + len
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			_this = self.b
 			_this.append(_hx_array_get(b2,i))
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 		
 		
 	
 
 	def getBytes(self):
-		bytes = _hx_c.haxe_io_Bytes(__builtin__.len(self.b), self.b)
+		bytes = _hx_c.haxe_io_Bytes(_hx_builtin.len(self.b), self.b)
 		self.b = None
 		return bytes
 	
@@ -7048,29 +6014,8 @@ class haxe_io_Input:
 		
 		while k > 0:
 			_hx_array_set(b,pos, self.readByte())
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal pos
-				nonlocal pos
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = pos
-				_hx_local_1 = _hx_local_0
-				pos = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-			
-			_hx_local_5 = k
+			pos = pos + 1
 			k = k - 1
-			_hx_local_5
-			
 		
 		return len
 	
@@ -7106,24 +6051,12 @@ class haxe_io_Input:
 				_g1 = 0
 				_g = 0 + len
 				while _g1 < _g:
-					_hx_local_3 = None
-					def _hx_local_2():
-						nonlocal _g1
-						nonlocal _hx_local_3
-						if _hx_local_3 is not None:
-							return _hx_local_3
-						
-						_hx_local_0 = _g1
-						_hx_local_1 = _hx_local_0
-						_g1 = _hx_local_0 + 1
-						_hx_local_3 = _hx_local_1
-						return _hx_local_1
-						
+					i = _g1
+					_g1 = _g1 + 1
 					
-					i = _hx_local_2()
 					_this = total.b
 					_this.append(_hx_array_get(b2,i))
-					__builtin__.len(_this)
+					_hx_builtin.len(_this)
 					
 				
 				
@@ -7161,7 +6094,7 @@ class haxe_io_Input:
 	
 
 	def readUntil(self,end):
-		buf = _hx_StringIO()
+		buf = _hx_c.StringBuf()
 		last = None
 		def _hx_local_0():
 			nonlocal last
@@ -7172,15 +6105,15 @@ class haxe_io_Input:
 		while (_hx_local_0()) != end:
 			s = None
 			c = last
-			s = "".join(map(chr, [c]))
+			s = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 			
-			buf.write(s)
+			buf.b.write(s)
 		
-		return buf.getvalue()
+		return buf.b.getvalue()
 	
 
 	def readLine(self):
-		buf = _hx_StringIO()
+		buf = _hx_c.StringBuf()
 		last = None
 		s = None
 		try:
@@ -7193,16 +6126,16 @@ class haxe_io_Input:
 			while (_hx_local_0()) != 10:
 				s1 = None
 				c = last
-				s1 = "".join(map(chr, [c]))
+				s1 = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 				
-				buf.write(s1)
+				buf.b.write(s1)
 			
-			s = buf.getvalue()
-			def _hx_local_2():
-				index = __builtin__.len(s) - 1
+			s = buf.b.getvalue()
+			def _hx_local_1():
+				index = _hx_builtin.len(s) - 1
 				return _hx_c.python_internal_StringImpl.charCodeAt(s, index)
 			
-			if _hx_local_2() == 13:
+			if _hx_local_1() == 13:
 				s = _hx_c.python_Tools.substr(s, 0, -1)
 			
 		
@@ -7210,8 +6143,8 @@ class haxe_io_Input:
 			_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 			if isinstance(_hx_e1, _hx_c.haxe_io_Eof):
 				e = _hx_e1
-				s = buf.getvalue()
-				if __builtin__.len(s) == 0:
+				s = buf.b.getvalue()
+				if _hx_builtin.len(s) == 0:
 					raise _HxException(e)
 				
 		
@@ -7224,22 +6157,22 @@ class haxe_io_Input:
 		bytes = []
 		x = self.readByte()
 		bytes.append(x)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x1 = self.readByte()
 		bytes.append(x1)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x2 = self.readByte()
 		bytes.append(x2)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x3 = self.readByte()
 		bytes.append(x3)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		if not self.bigEndian:
@@ -7258,42 +6191,42 @@ class haxe_io_Input:
 		bytes = []
 		x = self.readByte()
 		bytes.append(x)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x1 = self.readByte()
 		bytes.append(x1)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x2 = self.readByte()
 		bytes.append(x2)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x3 = self.readByte()
 		bytes.append(x3)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x4 = self.readByte()
 		bytes.append(x4)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x5 = self.readByte()
 		bytes.append(x5)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x6 = self.readByte()
 		bytes.append(x6)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		x7 = self.readByte()
 		bytes.append(x7)
-		__builtin__.len(bytes)
+		_hx_builtin.len(bytes)
 		
 		
 		if not self.bigEndian:
@@ -7449,40 +6382,30 @@ class haxe_io_BytesInput(haxe_io_Input):
 		return self.totlen
 
 	def set_position(self,p):
-		def _hx_local_2():
+		def _hx_local_1():
 			def _hx_local_0():
 				self.pos = p
 				return self.pos
 			
 			return _hx_local_0()
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
 
 	def readByte(self):
 		if self.len == 0:
 			raise _HxException(_hx_c.haxe_io_Eof())
 		
-		_hx_local_0 = self.len
 		self.len = self.len - 1
-		_hx_local_0
-		
-		def _hx_local_5():
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
+		def _hx_local_3():
+			def _hx_local_2():
 				_hx_local_1 = self.pos
-				_hx_local_2 = _hx_local_1
-				self.pos = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
+				self.pos = self.pos + 1
+				return _hx_local_1
 			
-			return _hx_array_get(self.b,_hx_local_3())
+			return _hx_array_get(self.b,_hx_local_2())
 		
-		return _hx_local_5()
+		return _hx_local_3()
 	
 
 	def readBytes(self,buf,pos,len):
@@ -7499,21 +6422,9 @@ class haxe_io_BytesInput(haxe_io_Input):
 		b2 = buf.b
 		_g = 0
 		while _g < len:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			_hx_array_set(b2,pos + i, _hx_array_get(b1,self.pos + i))
 		
 		
@@ -7558,29 +6469,8 @@ class haxe_io_Output:
 		
 		while k > 0:
 			self.writeByte(_hx_array_get(b,pos))
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal pos
-				nonlocal pos
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = pos
-				_hx_local_1 = _hx_local_0
-				pos = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-			
-			_hx_local_5 = k
+			pos = pos + 1
 			k = k - 1
-			_hx_local_5
-			
 		
 		return len
 	
@@ -7836,12 +6726,12 @@ class haxe_io_BytesOutput(haxe_io_Output):
 	# var b
 	# var length
 	def get_length(self):
-		return __builtin__.len(self.b.b)
+		return _hx_builtin.len(self.b.b)
 
 	def writeByte(self,c):
 		_this = self.b.b
 		_this.append(c)
-		__builtin__.len(_this)
+		_hx_builtin.len(_this)
 		
 	
 
@@ -7855,24 +6745,12 @@ class haxe_io_BytesOutput(haxe_io_Output):
 		_g1 = pos
 		_g = pos + len
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			_this1 = _this.b
 			_this1.append(_hx_array_get(b2,i))
-			__builtin__.len(_this1)
+			_hx_builtin.len(_this1)
 			
 		
 		
@@ -7958,22 +6836,22 @@ class haxe_io_Path:
 		self.backslash = None
 		c1 = None
 		if None is None:
-			c1 = path.rfind("/", 0, __builtin__.len(path))
+			c1 = path.rfind("/", 0, _hx_builtin.len(path))
 		else:
 			i = path.rfind("/", 0, None + 1)
 			startLeft = None
 			if i == -1:
-				b = None + 1 - __builtin__.len("/")
+				b = None + 1 - _hx_builtin.len("/")
 				if _hx_math.isnan(0):
 					startLeft = 0
 				elif _hx_math.isnan(b):
 					startLeft = b
 				else:
-					startLeft = __builtin__.max(0, b)
+					startLeft = _hx_builtin.max(0, b)
 			
 			else:
 				startLeft = i + 1
-			check = path.find("/", startLeft, __builtin__.len(path))
+			check = path.find("/", startLeft, _hx_builtin.len(path))
 			if check > i and check <= None:
 				c1 = check
 			else:
@@ -7981,22 +6859,22 @@ class haxe_io_Path:
 		
 		c2 = None
 		if None is None:
-			c2 = path.rfind("\\", 0, __builtin__.len(path))
+			c2 = path.rfind("\\", 0, _hx_builtin.len(path))
 		else:
 			i1 = path.rfind("\\", 0, None + 1)
 			startLeft1 = None
 			if i1 == -1:
-				b1 = None + 1 - __builtin__.len("\\")
+				b1 = None + 1 - _hx_builtin.len("\\")
 				if _hx_math.isnan(0):
 					startLeft1 = 0
 				elif _hx_math.isnan(b1):
 					startLeft1 = b1
 				else:
-					startLeft1 = __builtin__.max(0, b1)
+					startLeft1 = _hx_builtin.max(0, b1)
 			
 			else:
 				startLeft1 = i1 + 1
-			check1 = path.find("\\", startLeft1, __builtin__.len(path))
+			check1 = path.find("\\", startLeft1, _hx_builtin.len(path))
 			if check1 > i1 and check1 <= None:
 				c2 = check1
 			else:
@@ -8015,22 +6893,22 @@ class haxe_io_Path:
 			self.dir = None
 		cp = None
 		if None is None:
-			cp = path.rfind(".", 0, __builtin__.len(path))
+			cp = path.rfind(".", 0, _hx_builtin.len(path))
 		else:
 			i2 = path.rfind(".", 0, None + 1)
 			startLeft2 = None
 			if i2 == -1:
-				b2 = None + 1 - __builtin__.len(".")
+				b2 = None + 1 - _hx_builtin.len(".")
 				if _hx_math.isnan(0):
 					startLeft2 = 0
 				elif _hx_math.isnan(b2):
 					startLeft2 = b2
 				else:
-					startLeft2 = __builtin__.max(0, b2)
+					startLeft2 = _hx_builtin.max(0, b2)
 			
 			else:
 				startLeft2 = i2 + 1
-			check2 = path.find(".", startLeft2, __builtin__.len(path))
+			check2 = path.find(".", startLeft2, _hx_builtin.len(path))
 			if check2 > i2 and check2 <= None:
 				cp = check2
 			else:
@@ -8545,64 +7423,64 @@ class haxe_macro_Printer:
 	# var tabs
 	# var tabString
 	def printUnop(self,op):
-		if (_hx_c.Type.enumIndex(op)) == 0:
+		if (op.index) == 0:
 			return "++"
-		elif (_hx_c.Type.enumIndex(op)) == 1:
+		elif (op.index) == 1:
 			return "--"
-		elif (_hx_c.Type.enumIndex(op)) == 2:
+		elif (op.index) == 2:
 			return "!"
-		elif (_hx_c.Type.enumIndex(op)) == 3:
+		elif (op.index) == 3:
 			return "-"
-		elif (_hx_c.Type.enumIndex(op)) == 4:
+		elif (op.index) == 4:
 			return "~"
 		
 
 	def printBinop(self,op):
-		if (_hx_c.Type.enumIndex(op)) == 0:
+		if (op.index) == 0:
 			return "+"
-		elif (_hx_c.Type.enumIndex(op)) == 1:
+		elif (op.index) == 1:
 			return "*"
-		elif (_hx_c.Type.enumIndex(op)) == 2:
+		elif (op.index) == 2:
 			return "/"
-		elif (_hx_c.Type.enumIndex(op)) == 3:
+		elif (op.index) == 3:
 			return "-"
-		elif (_hx_c.Type.enumIndex(op)) == 4:
+		elif (op.index) == 4:
 			return "="
-		elif (_hx_c.Type.enumIndex(op)) == 5:
+		elif (op.index) == 5:
 			return "=="
-		elif (_hx_c.Type.enumIndex(op)) == 6:
+		elif (op.index) == 6:
 			return "!="
-		elif (_hx_c.Type.enumIndex(op)) == 7:
+		elif (op.index) == 7:
 			return ">"
-		elif (_hx_c.Type.enumIndex(op)) == 8:
+		elif (op.index) == 8:
 			return ">="
-		elif (_hx_c.Type.enumIndex(op)) == 9:
+		elif (op.index) == 9:
 			return "<"
-		elif (_hx_c.Type.enumIndex(op)) == 10:
+		elif (op.index) == 10:
 			return "<="
-		elif (_hx_c.Type.enumIndex(op)) == 11:
+		elif (op.index) == 11:
 			return "&"
-		elif (_hx_c.Type.enumIndex(op)) == 12:
+		elif (op.index) == 12:
 			return "|"
-		elif (_hx_c.Type.enumIndex(op)) == 13:
+		elif (op.index) == 13:
 			return "^"
-		elif (_hx_c.Type.enumIndex(op)) == 14:
+		elif (op.index) == 14:
 			return "&&"
-		elif (_hx_c.Type.enumIndex(op)) == 15:
+		elif (op.index) == 15:
 			return "||"
-		elif (_hx_c.Type.enumIndex(op)) == 16:
+		elif (op.index) == 16:
 			return "<<"
-		elif (_hx_c.Type.enumIndex(op)) == 17:
+		elif (op.index) == 17:
 			return ">>"
-		elif (_hx_c.Type.enumIndex(op)) == 18:
+		elif (op.index) == 18:
 			return ">>>"
-		elif (_hx_c.Type.enumIndex(op)) == 19:
+		elif (op.index) == 19:
 			return "%"
-		elif (_hx_c.Type.enumIndex(op)) == 21:
+		elif (op.index) == 21:
 			return "..."
-		elif (_hx_c.Type.enumIndex(op)) == 22:
+		elif (op.index) == 22:
 			return "=>"
-		elif (_hx_c.Type.enumIndex(op)) == 20:
+		elif (op.index) == 20:
 			op1 = op.params[0]
 			return Std.string(self.printBinop(op1)) + "="
 	
@@ -8618,19 +7496,19 @@ class haxe_macro_Printer:
 				_this4 = None
 				_this5 = None
 				_this6 = _hx_c.python_internal_StringImpl.split(s, "\n")
-				_this5 = "\\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this6)))
+				_this5 = "\\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this6)))
 				
 				_this4 = _hx_c.python_internal_StringImpl.split(_this5, "\t")
 				
-				_this3 = "\\t".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this4)))
+				_this3 = "\\t".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this4)))
 				
 				_this2 = _hx_c.python_internal_StringImpl.split(_this3, "'")
 				
-				_this1 = "\\'".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+				_this1 = "\\'".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 				
 				_this = _hx_c.python_internal_StringImpl.split(_this1, "\"")
 				
-				return "\\\"".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+				return "\\\"".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 			
 			return Std.string("\"" + Std.string(_hx_local_0())) + "\""
 		
@@ -8638,23 +7516,23 @@ class haxe_macro_Printer:
 	
 
 	def printConstant(self,c):
-		if (_hx_c.Type.enumIndex(c)) == 2:
+		if (c.index) == 2:
 			s = c.params[0]
 			return self.printString(s)
 	
-		elif (_hx_c.Type.enumIndex(c)) == 3:
+		elif (c.index) == 3:
 			s1 = c.params[0]
 			return s1
 	
-		elif (_hx_c.Type.enumIndex(c)) == 0:
+		elif (c.index) == 0:
 			s1 = c.params[0]
 			return s1
 	
-		elif (_hx_c.Type.enumIndex(c)) == 1:
+		elif (c.index) == 1:
 			s1 = c.params[0]
 			return s1
 	
-		elif (_hx_c.Type.enumIndex(c)) == 4:
+		elif (c.index) == 4:
 			opt = c.params[1]
 			s2 = c.params[0]
 			return Std.string(Std.string("~/" + Std.string(s2)) + "/") + Std.string(opt)
@@ -8662,54 +7540,54 @@ class haxe_macro_Printer:
 		
 
 	def printTypeParam(self,param):
-		if (_hx_c.Type.enumIndex(param)) == 0:
+		if (param.index) == 0:
 			ct = param.params[0]
 			return self.printComplexType(ct)
 	
-		elif (_hx_c.Type.enumIndex(param)) == 1:
+		elif (param.index) == 1:
 			e = param.params[0]
 			return self.printExpr(e)
 	
 		
 
 	def printTypePath(self,tp):
-		def _hx_local_3():
+		def _hx_local_2():
 			def _hx_local_1():
 				def _hx_local_0():
-					_this = __builtin__.list(__builtin__.map(self.printTypeParam, tp.params))
-					return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+					_this = _hx_builtin.list(_hx_builtin.map(self.printTypeParam, tp.params))
+					return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
-				return Std.string("<" + Std.string(_hx_local_0())) + ">" if __builtin__.len(tp.params) > 0 else ""
+				return Std.string("<" + Std.string(_hx_local_0())) + ">" if _hx_builtin.len(tp.params) > 0 else ""
 			
-			return Std.string(Std.string(Std.string((Std.string(".".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, tp.pack)))) + "." if (__builtin__.len(tp.pack) > 0) else "")) + Std.string(tp.name)) + Std.string(("." + Std.string(tp.sub) if (tp.sub is not None) else ""))) + Std.string((_hx_local_1()))
+			return Std.string(Std.string(Std.string((Std.string(".".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, tp.pack)))) + "." if (_hx_builtin.len(tp.pack) > 0) else "")) + Std.string(tp.name)) + Std.string(("." + Std.string(tp.sub) if (tp.sub is not None) else ""))) + Std.string((_hx_local_1()))
 		
-		return _hx_local_3()
+		return _hx_local_2()
 	
 
 	def printComplexType(self,ct):
-		if (_hx_c.Type.enumIndex(ct)) == 0:
+		if (ct.index) == 0:
 			tp = ct.params[0]
 			return self.printTypePath(tp)
 	
-		elif (_hx_c.Type.enumIndex(ct)) == 1:
+		elif (ct.index) == 1:
 			ret = ct.params[1]
 			args = ct.params[0]
-			def _hx_local_3():
+			def _hx_local_2():
 				def _hx_local_1():
 					def _hx_local_0():
-						_this = __builtin__.list(__builtin__.map(self.printComplexType, args))
-						return " -> ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+						_this = _hx_builtin.list(_hx_builtin.map(self.printComplexType, args))
+						return " -> ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 					
-					return _hx_local_0() if __builtin__.len(args) > 0 else "Void"
+					return _hx_local_0() if _hx_builtin.len(args) > 0 else "Void"
 				
 				return Std.string(Std.string((_hx_local_1())) + " -> ") + Std.string(self.printComplexType(ret))
 			
-			return _hx_local_3()
+			return _hx_local_2()
 	
-		elif (_hx_c.Type.enumIndex(ct)) == 2:
+		elif (ct.index) == 2:
 			fields = ct.params[0]
-			def _hx_local_6():
-				def _hx_local_5():
+			def _hx_local_4():
+				def _hx_local_3():
 					_this1 = None
 					_g = []
 					_g1 = 0
@@ -8718,172 +7596,172 @@ class haxe_macro_Printer:
 						_g1 = _g1 + 1
 						x = Std.string(self.printField(f)) + "; "
 						_g.append(x)
-						__builtin__.len(_g)
+						_hx_builtin.len(_g)
 						
 					
 					
 					_this1 = _g
 					
-					return "".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+					return "".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 				
-				return Std.string("{ " + Std.string(_hx_local_5())) + "}"
+				return Std.string("{ " + Std.string(_hx_local_3())) + "}"
 			
-			return _hx_local_6()
+			return _hx_local_4()
 	
-		elif (_hx_c.Type.enumIndex(ct)) == 3:
+		elif (ct.index) == 3:
 			ct1 = ct.params[0]
 			return Std.string("(" + Std.string(self.printComplexType(ct1))) + ")"
 	
-		elif (_hx_c.Type.enumIndex(ct)) == 5:
+		elif (ct.index) == 5:
 			ct2 = ct.params[0]
 			return "?" + Std.string(self.printComplexType(ct2))
 	
-		elif (_hx_c.Type.enumIndex(ct)) == 4:
+		elif (ct.index) == 4:
 			fields1 = ct.params[1]
 			tpl = ct.params[0]
-			def _hx_local_10():
-				def _hx_local_9():
-					_this2 = __builtin__.list(__builtin__.map(self.printTypePath, tpl))
-					return " >, ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+			def _hx_local_7():
+				def _hx_local_6():
+					_this2 = _hx_builtin.list(_hx_builtin.map(self.printTypePath, tpl))
+					return " >, ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 				
-				def _hx_local_8():
-					_this3 = __builtin__.list(__builtin__.map(self.printField, fields1))
-					return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this3)))
+				def _hx_local_5():
+					_this3 = _hx_builtin.list(_hx_builtin.map(self.printField, fields1))
+					return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this3)))
 				
-				return Std.string(Std.string(Std.string("{> " + Std.string(_hx_local_9())) + ", ") + Std.string(_hx_local_8())) + " }"
+				return Std.string(Std.string(Std.string("{> " + Std.string(_hx_local_6())) + ", ") + Std.string(_hx_local_5())) + " }"
 			
-			return _hx_local_10()
+			return _hx_local_7()
 	
 		
 
 	def printMetadata(self,meta):
-		return Std.string("@" + Std.string(meta.name)) + Std.string((Std.string("(" + Std.string(self.printExprs(meta.params, ", "))) + ")" if (__builtin__.len(meta.params) > 0) else ""))
+		return Std.string("@" + Std.string(meta.name)) + Std.string((Std.string("(" + Std.string(self.printExprs(meta.params, ", "))) + ")" if (_hx_builtin.len(meta.params) > 0) else ""))
 
 	def printAccess(self,access):
-		if (_hx_c.Type.enumIndex(access)) == 2:
+		if (access.index) == 2:
 			return "static"
-		elif (_hx_c.Type.enumIndex(access)) == 0:
+		elif (access.index) == 0:
 			return "public"
-		elif (_hx_c.Type.enumIndex(access)) == 1:
+		elif (access.index) == 1:
 			return "private"
-		elif (_hx_c.Type.enumIndex(access)) == 3:
+		elif (access.index) == 3:
 			return "override"
-		elif (_hx_c.Type.enumIndex(access)) == 5:
+		elif (access.index) == 5:
 			return "inline"
-		elif (_hx_c.Type.enumIndex(access)) == 4:
+		elif (access.index) == 4:
 			return "dynamic"
-		elif (_hx_c.Type.enumIndex(access)) == 6:
+		elif (access.index) == 6:
 			return "macro"
 		
 
 	def printField(self,field):
-		def _hx_local_28():
-			def _hx_local_26():
-				def _hx_local_25():
-					_this = __builtin__.list(__builtin__.map(self.printMetadata, field.meta))
-					return ("\n" + Std.string(self.tabs)).join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+		def _hx_local_19():
+			def _hx_local_18():
+				def _hx_local_17():
+					_this = _hx_builtin.list(_hx_builtin.map(self.printMetadata, field.meta))
+					return ("\n" + Std.string(self.tabs)).join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
-				return Std.string(_hx_local_25()) + Std.string(("\n" + Std.string(self.tabs))) if field.meta is not None and __builtin__.len(field.meta) > 0 else ""
+				return Std.string(_hx_local_17()) + Std.string(("\n" + Std.string(self.tabs))) if field.meta is not None and _hx_builtin.len(field.meta) > 0 else ""
 			
-			def _hx_local_23():
-				def _hx_local_22():
-					_this1 = __builtin__.list(__builtin__.map(self.printAccess, field.access))
-					return " ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+			def _hx_local_16():
+				def _hx_local_15():
+					_this1 = _hx_builtin.list(_hx_builtin.map(self.printAccess, field.access))
+					return " ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 				
-				return Std.string(_hx_local_22()) + " " if field.access is not None and __builtin__.len(field.access) > 0 else ""
+				return Std.string(_hx_local_15()) + " " if field.access is not None and _hx_builtin.len(field.access) > 0 else ""
 			
 			def _hx_local_0():
 				_g = field.kind
-				def _hx_local_20():
-					def _hx_local_7():
-						def _hx_local_11():
-							def _hx_local_9():
-								def _hx_local_8():
+				def _hx_local_14():
+					def _hx_local_4():
+						def _hx_local_7():
+							def _hx_local_6():
+								def _hx_local_5():
 									func = _g.params[0]
 									return Std.string("function " + Std.string(field.name)) + Std.string(self.printFunction(func))
 								
-								return _hx_local_8()
+								return _hx_local_5()
 							
-							return _hx_local_9()
+							return _hx_local_6()
 						
-						_hx_local_1 = _hx_local_11
-						def _hx_local_15():
-							def _hx_local_13():
-								def _hx_local_12():
+						_hx_local_1 = _hx_local_7
+						def _hx_local_10():
+							def _hx_local_9():
+								def _hx_local_8():
 									eo1 = _g.params[3]
 									t1 = _g.params[2]
 									set = _g.params[1]
 									get = _g.params[0]
 									return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("var " + Std.string(field.name)) + "(") + Std.string(get)) + ", ") + Std.string(set)) + ")") + Std.string(self.opt(t1, self.printComplexType, " : "))) + Std.string(self.opt(eo1, self.printExpr, " = "))
 								
-								return _hx_local_12()
+								return _hx_local_8()
 							
-							return _hx_local_13()
+							return _hx_local_9()
 						
-						_hx_local_3 = _hx_local_15
-						def _hx_local_19():
-							def _hx_local_17():
-								def _hx_local_16():
+						_hx_local_2 = _hx_local_10
+						def _hx_local_13():
+							def _hx_local_12():
+								def _hx_local_11():
 									eo = _g.params[1]
 									t = _g.params[0]
 									return Std.string(Std.string("var " + Std.string(field.name)) + Std.string(self.opt(t, self.printComplexType, " : "))) + Std.string(self.opt(eo, self.printExpr, " = "))
 								
-								return _hx_local_16()
+								return _hx_local_11()
 							
-							return _hx_local_17()
+							return _hx_local_12()
 						
-						_hx_local_5 = _hx_local_19
-						return _hx_local_5() if (_hx_c.Type.enumIndex(_g)) == 0 else _hx_local_3() if (_hx_c.Type.enumIndex(_g)) == 2 else _hx_local_1() if (_hx_c.Type.enumIndex(_g)) == 1 else None
+						_hx_local_3 = _hx_local_13
+						return _hx_local_3() if (_g.index) == 0 else _hx_local_2() if (_g.index) == 2 else _hx_local_1() if (_g.index) == 1 else None
 					
-					return _hx_local_7()
+					return _hx_local_4()
 				
-				return _hx_local_20()
+				return _hx_local_14()
 			
-			return Std.string(Std.string(Std.string((Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("/**\n" + Std.string(self.tabs)) + Std.string(self.tabString)) + Std.string(_hx_c.StringTools.replace(field.doc, "\n", Std.string("\n" + Std.string(self.tabs)) + Std.string(self.tabString)))) + "\n") + Std.string(self.tabs)) + "**/\n") + Std.string(self.tabs) if (field.doc is not None and field.doc != "") else "")) + Std.string((_hx_local_26()))) + Std.string((_hx_local_23()))) + Std.string(_hx_local_0())
+			return Std.string(Std.string(Std.string((Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("/**\n" + Std.string(self.tabs)) + Std.string(self.tabString)) + Std.string(_hx_c.StringTools.replace(field.doc, "\n", Std.string("\n" + Std.string(self.tabs)) + Std.string(self.tabString)))) + "\n") + Std.string(self.tabs)) + "**/\n") + Std.string(self.tabs) if (field.doc is not None and field.doc != "") else "")) + Std.string((_hx_local_18()))) + Std.string((_hx_local_16()))) + Std.string(_hx_local_0())
 		
-		return _hx_local_28()
+		return _hx_local_19()
 	
 
 	def printTypeParamDecl(self,tpd):
-		def _hx_local_6():
-			def _hx_local_4():
-				def _hx_local_3():
-					_this = __builtin__.list(__builtin__.map(self.printTypeParamDecl, tpd.params))
-					return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+		def _hx_local_4():
+			def _hx_local_3():
+				def _hx_local_2():
+					_this = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, tpd.params))
+					return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
-				return Std.string("<" + Std.string(_hx_local_3())) + ">" if tpd.params is not None and __builtin__.len(tpd.params) > 0 else ""
+				return Std.string("<" + Std.string(_hx_local_2())) + ">" if tpd.params is not None and _hx_builtin.len(tpd.params) > 0 else ""
 			
 			def _hx_local_1():
 				def _hx_local_0():
-					_this1 = __builtin__.list(__builtin__.map(self.printComplexType, tpd.constraints))
-					return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+					_this1 = _hx_builtin.list(_hx_builtin.map(self.printComplexType, tpd.constraints))
+					return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 				
-				return Std.string(":(" + Std.string(_hx_local_0())) + ")" if tpd.constraints is not None and __builtin__.len(tpd.constraints) > 0 else ""
+				return Std.string(":(" + Std.string(_hx_local_0())) + ")" if tpd.constraints is not None and _hx_builtin.len(tpd.constraints) > 0 else ""
 			
-			return Std.string(Std.string(tpd.name) + Std.string((_hx_local_4()))) + Std.string((_hx_local_1()))
+			return Std.string(Std.string(tpd.name) + Std.string((_hx_local_3()))) + Std.string((_hx_local_1()))
 		
-		return _hx_local_6()
+		return _hx_local_4()
 	
 
 	def printFunctionArg(self,arg):
 		return Std.string(Std.string(Std.string(("?" if (arg.opt) else "")) + Std.string(arg.name)) + Std.string(self.opt(arg.type, self.printComplexType, " : "))) + Std.string(self.opt(arg.value, self.printExpr, " = "))
 
 	def printFunction(self,func):
-		def _hx_local_4():
+		def _hx_local_3():
 			def _hx_local_2():
 				def _hx_local_1():
-					_this = __builtin__.list(__builtin__.map(self.printTypeParamDecl, func.params))
-					return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+					_this = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, func.params))
+					return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
-				return Std.string("<" + Std.string(_hx_local_1())) + ">" if __builtin__.len(func.params) > 0 else ""
+				return Std.string("<" + Std.string(_hx_local_1())) + ">" if _hx_builtin.len(func.params) > 0 else ""
 			
 			def _hx_local_0():
-				_this1 = __builtin__.list(__builtin__.map(self.printFunctionArg, func.args))
-				return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+				_this1 = _hx_builtin.list(_hx_builtin.map(self.printFunctionArg, func.args))
+				return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 			
 			return Std.string(Std.string(Std.string(Std.string(Std.string((_hx_local_2())) + "( ") + Std.string(_hx_local_0())) + " )") + Std.string(self.opt(func.ret, self.printComplexType, " : "))) + Std.string(self.opt(func.expr, self.printExpr, " "))
 		
-		return _hx_local_4()
+		return _hx_local_3()
 	
 
 	def printVar(self,v):
@@ -8895,58 +7773,58 @@ class haxe_macro_Printer:
 			return "#NULL"
 		else:
 			_g = e.expr
-			if (_hx_c.Type.enumIndex(_g)) == 0:
+			if (_g.index) == 0:
 				c = _g.params[0]
 				return self.printConstant(c)
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 1:
+			elif (_g.index) == 1:
 				e2 = _g.params[1]
 				e1 = _g.params[0]
 				return Std.string(Std.string(Std.string("" + Std.string(self.printExpr(e1))) + "[") + Std.string(self.printExpr(e2))) + "]"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 2:
+			elif (_g.index) == 2:
 				e21 = _g.params[2]
 				e11 = _g.params[1]
 				op = _g.params[0]
 				return Std.string(Std.string(Std.string(Std.string("" + Std.string(self.printExpr(e11))) + " ") + Std.string(self.printBinop(op))) + " ") + Std.string(self.printExpr(e21))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 3:
+			elif (_g.index) == 3:
 				n = _g.params[1]
 				e12 = _g.params[0]
 				return Std.string(Std.string("" + Std.string(self.printExpr(e12))) + ".") + Std.string(n)
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 4:
+			elif (_g.index) == 4:
 				e13 = _g.params[0]
 				return Std.string("(" + Std.string(self.printExpr(e13))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 5:
+			elif (_g.index) == 5:
 				fl = _g.params[0]
 				def _hx_local_2():
 					def _hx_local_0():
 						def _hx_local_1(fld):
 							return Std.string(Std.string(Std.string("" + Std.string(fld.field)) + " : ") + Std.string(_g1.printExpr(fld.expr))) + " "
-						_this = __builtin__.list(__builtin__.map(_hx_local_1, fl))
-						return ",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+						_this = _hx_builtin.list(_hx_builtin.map(_hx_local_1, fl))
+						return ",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 					
 					return Std.string("{ " + Std.string(_hx_local_0())) + "}"
 				
 				return _hx_local_2()
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 6:
+			elif (_g.index) == 6:
 				el = _g.params[0]
 				return Std.string("[" + Std.string(self.printExprs(el, ", "))) + "]"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 7:
+			elif (_g.index) == 7:
 				el1 = _g.params[1]
 				e14 = _g.params[0]
 				return Std.string(Std.string(Std.string("" + Std.string(self.printExpr(e14))) + "(") + Std.string(self.printExprs(el1, ", "))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 8:
+			elif (_g.index) == 8:
 				el2 = _g.params[1]
 				tp = _g.params[0]
 				return Std.string(Std.string(Std.string("new " + Std.string(self.printTypePath(tp))) + "(") + Std.string(self.printExprs(el2, ", "))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 9:
+			elif (_g.index) == 9:
 				if (_g.params[1]) == True:
 					e15 = _g.params[2]
 					op1 = _g.params[0]
@@ -8958,7 +7836,7 @@ class haxe_macro_Printer:
 					return Std.string(self.printUnop(op2)) + Std.string(self.printExpr(e16))
 			
 				
-			elif (_hx_c.Type.enumIndex(_g)) == 11:
+			elif (_g.index) == 11:
 				func = _g.params[1]
 				no = _g.params[0]
 				if no is not None:
@@ -8968,18 +7846,18 @@ class haxe_macro_Printer:
 					return "function " + Std.string(self.printFunction(func1))
 				
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 10:
+			elif (_g.index) == 10:
 				vl = _g.params[0]
-				def _hx_local_5():
-					def _hx_local_4():
-						_this1 = __builtin__.list(__builtin__.map(self.printVar, vl))
-						return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+				def _hx_local_4():
+					def _hx_local_3():
+						_this1 = _hx_builtin.list(_hx_builtin.map(self.printVar, vl))
+						return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 					
-					return "var " + Std.string(_hx_local_4())
+					return "var " + Std.string(_hx_local_3())
 				
-				return _hx_local_5()
+				return _hx_local_4()
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 12:
+			elif (_g.index) == 12:
 				el3 = _g.params[0]
 				if (_hx_builtin.len(_g.params[0])) == 0:
 					return "{ }"
@@ -8991,23 +7869,23 @@ class haxe_macro_Printer:
 					return Std.string(s) + Std.string((Std.string(";\n" + Std.string(self.tabs)) + "}"))
 				
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 13:
+			elif (_g.index) == 13:
 				e22 = _g.params[1]
 				e17 = _g.params[0]
 				return Std.string(Std.string("for(" + Std.string(self.printExpr(e17))) + ") ") + Std.string(self.printExpr(e22))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 14:
+			elif (_g.index) == 14:
 				e23 = _g.params[1]
 				e18 = _g.params[0]
 				return Std.string(Std.string("" + Std.string(self.printExpr(e18))) + " in ") + Std.string(self.printExpr(e23))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 15:
+			elif (_g.index) == 15:
 				eelse = _g.params[2]
 				eif = _g.params[1]
 				econd = _g.params[0]
 				return Std.string(Std.string(Std.string(Std.string("if(" + Std.string(self.printExpr(econd))) + ") ") + Std.string(self.printExpr(eif))) + " ") + Std.string(self.opt(eelse, self.printExpr, "else "))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 16:
+			elif (_g.index) == 16:
 				if (_g.params[2]) == True:
 					econd1 = _g.params[0]
 					e19 = _g.params[1]
@@ -9019,7 +7897,7 @@ class haxe_macro_Printer:
 					return Std.string(Std.string(Std.string("do " + Std.string(self.printExpr(e110))) + " while(") + Std.string(self.printExpr(econd2))) + ")"
 			
 				
-			elif (_hx_c.Type.enumIndex(_g)) == 17:
+			elif (_g.index) == 17:
 				edef = _g.params[2]
 				cl = _g.params[1]
 				e111 = _g.params[0]
@@ -9029,8 +7907,8 @@ class haxe_macro_Printer:
 				def _hx_local_7():
 					def _hx_local_8(c1):
 						return Std.string(Std.string("case " + Std.string(_g1.printExprs(c1.values, ", "))) + Std.string((Std.string(" if(" + Std.string(_g1.printExpr(c1.guard))) + "): " if (c1.guard is not None) else ":"))) + Std.string((Std.string(_g1.opt(c1.expr, _g1.printExpr)) + ";" if (c1.expr is not None) else ""))
-					_this2 = __builtin__.list(__builtin__.map(_hx_local_8, cl))
-					return ("\n" + Std.string(self.tabs)).join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+					_this2 = _hx_builtin.list(_hx_builtin.map(_hx_local_8, cl))
+					return ("\n" + Std.string(self.tabs)).join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 				
 				s1 = Std.string(Std.string(Std.string("switch " + Std.string(self.printExpr(e111))) + " {\n") + Std.string(self.tabs)) + Std.string(_hx_local_7())
 				if edef is not None:
@@ -9040,37 +7918,37 @@ class haxe_macro_Printer:
 				return Std.string(s1) + Std.string((Std.string("\n" + Std.string(self.tabs)) + "}"))
 				
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 18:
+			elif (_g.index) == 18:
 				cl1 = _g.params[1]
 				e112 = _g.params[0]
-				def _hx_local_11():
-					def _hx_local_9():
-						def _hx_local_10(c2):
+				def _hx_local_12():
+					def _hx_local_10():
+						def _hx_local_11(c2):
 							return Std.string(Std.string(Std.string(Std.string(" catch(" + Std.string(c2.name)) + " : ") + Std.string(_g1.printComplexType(c2.type))) + ") ") + Std.string(_g1.printExpr(c2.expr))
-						_this3 = __builtin__.list(__builtin__.map(_hx_local_10, cl1))
-						return "".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this3)))
+						_this3 = _hx_builtin.list(_hx_builtin.map(_hx_local_11, cl1))
+						return "".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this3)))
 					
-					return Std.string("try " + Std.string(self.printExpr(e112))) + Std.string(_hx_local_9())
+					return Std.string("try " + Std.string(self.printExpr(e112))) + Std.string(_hx_local_10())
 				
-				return _hx_local_11()
+				return _hx_local_12()
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 19:
+			elif (_g.index) == 19:
 				eo = _g.params[0]
 				return "return" + Std.string(self.opt(eo, self.printExpr, " "))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 20:
+			elif (_g.index) == 20:
 				return "break"
-			elif (_hx_c.Type.enumIndex(_g)) == 21:
+			elif (_g.index) == 21:
 				return "continue"
-			elif (_hx_c.Type.enumIndex(_g)) == 22:
+			elif (_g.index) == 22:
 				e113 = _g.params[0]
 				return "untyped " + Std.string(self.printExpr(e113))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 23:
+			elif (_g.index) == 23:
 				e114 = _g.params[0]
 				return "throw " + Std.string(self.printExpr(e114))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 24:
+			elif (_g.index) == 24:
 				cto = _g.params[1]
 				e115 = _g.params[0]
 				if cto is not None:
@@ -9080,26 +7958,26 @@ class haxe_macro_Printer:
 					return "cast " + Std.string(self.printExpr(e116))
 				
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 25:
+			elif (_g.index) == 25:
 				e117 = _g.params[0]
 				return Std.string("#DISPLAY(" + Std.string(self.printExpr(e117))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 26:
+			elif (_g.index) == 26:
 				tp1 = _g.params[0]
 				return Std.string("#DISPLAY(" + Std.string(self.printTypePath(tp1))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 27:
+			elif (_g.index) == 27:
 				eelse1 = _g.params[2]
 				eif1 = _g.params[1]
 				econd3 = _g.params[0]
 				return Std.string(Std.string(Std.string(Std.string("" + Std.string(self.printExpr(econd3))) + " ? ") + Std.string(self.printExpr(eif1))) + " : ") + Std.string(self.printExpr(eelse1))
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 28:
+			elif (_g.index) == 28:
 				ct = _g.params[1]
 				e118 = _g.params[0]
 				return Std.string(Std.string(Std.string("(" + Std.string(self.printExpr(e118))) + " : ") + Std.string(self.printComplexType(ct))) + ")"
 			
-			elif (_hx_c.Type.enumIndex(_g)) == 29:
+			elif (_g.index) == 29:
 				e119 = _g.params[1]
 				meta = _g.params[0]
 				return Std.string(Std.string(self.printMetadata(meta)) + " ") + Std.string(self.printExpr(e119))
@@ -9109,36 +7987,36 @@ class haxe_macro_Printer:
 	
 
 	def printExprs(self,el,sep):
-		_this = __builtin__.list(__builtin__.map(self.printExpr, el))
-		return sep.join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+		_this = _hx_builtin.list(_hx_builtin.map(self.printExpr, el))
+		return sep.join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 	
 
 	def printExtension(self,tpl,fields):
-		def _hx_local_4():
-			def _hx_local_3():
-				_this = __builtin__.list(__builtin__.map(self.printTypePath, tpl))
-				return (Std.string(",\n" + Std.string(self.tabs)) + ">").join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+		def _hx_local_3():
+			def _hx_local_2():
+				_this = _hx_builtin.list(_hx_builtin.map(self.printTypePath, tpl))
+				return (Std.string(",\n" + Std.string(self.tabs)) + ">").join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 			
 			def _hx_local_1():
 				def _hx_local_0():
-					_this1 = __builtin__.list(__builtin__.map(self.printField, fields))
-					return (";\n" + Std.string(self.tabs)).join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+					_this1 = _hx_builtin.list(_hx_builtin.map(self.printField, fields))
+					return (";\n" + Std.string(self.tabs)).join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 				
-				return Std.string(Std.string("\n" + Std.string(self.tabs)) + Std.string(_hx_local_0())) + ";\n}" if __builtin__.len(fields) > 0 else "\n}"
+				return Std.string(Std.string("\n" + Std.string(self.tabs)) + Std.string(_hx_local_0())) + ";\n}" if _hx_builtin.len(fields) > 0 else "\n}"
 			
-			return Std.string(Std.string(Std.string(Std.string("{\n" + Std.string(self.tabs)) + ">") + Std.string(_hx_local_3())) + ",") + Std.string((_hx_local_1()))
+			return Std.string(Std.string(Std.string(Std.string("{\n" + Std.string(self.tabs)) + ">") + Std.string(_hx_local_2())) + ",") + Std.string((_hx_local_1()))
 		
-		return _hx_local_4()
+		return _hx_local_3()
 	
 
 	def printStructure(self,fields):
-		if __builtin__.len(fields) == 0:
+		if _hx_builtin.len(fields) == 0:
 			return "{ }"
 		else:
 			def _hx_local_1():
 				def _hx_local_0():
-					_this = __builtin__.list(__builtin__.map(self.printField, fields))
-					return (";\n" + Std.string(self.tabs)).join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+					_this = _hx_builtin.list(_hx_builtin.map(self.printField, fields))
+					return (";\n" + Std.string(self.tabs)).join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
 				return Std.string(Std.string("{\n" + Std.string(self.tabs)) + Std.string(_hx_local_0())) + ";\n}"
 			
@@ -9155,33 +8033,33 @@ class haxe_macro_Printer:
 		if t is None:
 			str = "#NULL"
 		else:
-			def _hx_local_128():
-				def _hx_local_127():
-					_this = __builtin__.list(__builtin__.map(self.printMetadata, t.meta))
-					return " ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			def _hx_local_87():
+				def _hx_local_86():
+					_this = _hx_builtin.list(_hx_builtin.map(self.printMetadata, t.meta))
+					return " ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 				
-				return Std.string(_hx_local_127()) + " " if t.meta is not None and __builtin__.len(t.meta) > 0 else ""
+				return Std.string(_hx_local_86()) + " " if t.meta is not None and _hx_builtin.len(t.meta) > 0 else ""
 			
 			def _hx_local_0():
 				_g = t.kind
-				def _hx_local_125():
-					def _hx_local_11():
-						def _hx_local_40():
-							def _hx_local_38():
-								def _hx_local_12():
+				def _hx_local_85():
+					def _hx_local_6():
+						def _hx_local_26():
+							def _hx_local_25():
+								def _hx_local_7():
 									to = _g.params[2]
 									_hx_from = _g.params[1]
 									tthis = _g.params[0]
-									def _hx_local_36():
-										def _hx_local_34():
-											def _hx_local_33():
-												_this10 = __builtin__.list(__builtin__.map(self.printTypeParamDecl, t.params))
-												return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this10)))
+									def _hx_local_24():
+										def _hx_local_23():
+											def _hx_local_22():
+												_this10 = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, t.params))
+												return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this10)))
 											
-											return Std.string("<" + Std.string(_hx_local_33())) + ">" if __builtin__.len(t.params) > 0 else ""
+											return Std.string("<" + Std.string(_hx_local_22())) + ">" if _hx_builtin.len(t.params) > 0 else ""
 										
-										def _hx_local_31():
-											def _hx_local_30():
+										def _hx_local_21():
+											def _hx_local_20():
 												_this11 = None
 												_g13 = []
 												_g24 = 0
@@ -9190,18 +8068,18 @@ class haxe_macro_Printer:
 													_g24 = _g24 + 1
 													x5 = " from " + Std.string(self.printComplexType(f2))
 													_g13.append(x5)
-													__builtin__.len(_g13)
+													_hx_builtin.len(_g13)
 													
 												
 												
 												_this11 = _g13
 												
-												return "".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this11)))
+												return "".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this11)))
 											
-											return "" if _hx_from is None else _hx_local_30()
+											return "" if _hx_from is None else _hx_local_20()
 										
-										def _hx_local_28():
-											def _hx_local_27():
+										def _hx_local_19():
+											def _hx_local_18():
 												_this12 = None
 												_g25 = []
 												_g34 = 0
@@ -9210,17 +8088,17 @@ class haxe_macro_Printer:
 													_g34 = _g34 + 1
 													x6 = " to " + Std.string(self.printComplexType(t1))
 													_g25.append(x6)
-													__builtin__.len(_g25)
+													_hx_builtin.len(_g25)
 													
 												
 												
 												_this12 = _g25
 												
-												return "".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this12)))
+												return "".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this12)))
 											
-											return "" if to is None else _hx_local_27()
+											return "" if to is None else _hx_local_18()
 										
-										def _hx_local_13():
+										def _hx_local_8():
 											_this13 = None
 											_g35 = []
 											_g42 = 0
@@ -9230,113 +8108,113 @@ class haxe_macro_Printer:
 												_g42 = _g42 + 1
 												x7 = None
 												fstr1 = self.printField(f3)
-												def _hx_local_14():
+												def _hx_local_9():
 													_g61 = f3.kind
-													def _hx_local_25():
-														def _hx_local_19():
-															def _hx_local_23():
-																def _hx_local_21():
-																	def _hx_local_20():
+													def _hx_local_17():
+														def _hx_local_12():
+															def _hx_local_15():
+																def _hx_local_14():
+																	def _hx_local_13():
 																		func2 = _g61.params[0]
 																		return ";" if (func2.expr is None) else ""
 																	
-																	return _hx_local_20()
+																	return _hx_local_13()
 																
-																return _hx_local_21()
+																return _hx_local_14()
 															
-															_hx_local_15 = _hx_local_23
-															def _hx_local_24():
+															_hx_local_10 = _hx_local_15
+															def _hx_local_16():
 																return ";"
-															_hx_local_17 = _hx_local_24
-															return _hx_local_17() if (_hx_c.Type.enumIndex(_g61)) == 2 or (_hx_c.Type.enumIndex(_g61)) == 0 else _hx_local_15() if (_hx_c.Type.enumIndex(_g61)) == 1 else ""
+															_hx_local_11 = _hx_local_16
+															return _hx_local_11() if (_g61.index) == 2 or (_g61.index) == 0 else _hx_local_10() if (_g61.index) == 1 else ""
 														
-														return _hx_local_19()
+														return _hx_local_12()
 													
-													return _hx_local_25()
+													return _hx_local_17()
 												
-												x7 = Std.string(Std.string(self.tabs) + Std.string(fstr1)) + Std.string(_hx_local_14())
+												x7 = Std.string(Std.string(self.tabs) + Std.string(fstr1)) + Std.string(_hx_local_9())
 												
 												_g35.append(x7)
-												__builtin__.len(_g35)
+												_hx_builtin.len(_g35)
 												
 											
 											
 											_this13 = _g35
 											
-											return "\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this13)))
+											return "\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this13)))
 										
-										return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("abstract " + Std.string(t.name)) + Std.string(("" if (tthis is None) else Std.string("(" + Std.string(self.printComplexType(tthis))) + ")"))) + Std.string((_hx_local_34()))) + Std.string((_hx_local_31()))) + Std.string((_hx_local_28()))) + " {\n") + Std.string(_hx_local_13())) + "\n}"
+										return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("abstract " + Std.string(t.name)) + Std.string(("" if (tthis is None) else Std.string("(" + Std.string(self.printComplexType(tthis))) + ")"))) + Std.string((_hx_local_23()))) + Std.string((_hx_local_21()))) + Std.string((_hx_local_19()))) + " {\n") + Std.string(_hx_local_8())) + "\n}"
 									
-									return _hx_local_36()
+									return _hx_local_24()
 								
-								return _hx_local_12()
+								return _hx_local_7()
 							
-							return _hx_local_38()
+							return _hx_local_25()
 						
-						_hx_local_1 = _hx_local_40
-						def _hx_local_62():
-							def _hx_local_60():
-								def _hx_local_41():
+						_hx_local_1 = _hx_local_26
+						def _hx_local_41():
+							def _hx_local_40():
+								def _hx_local_27():
 									ct = _g.params[0]
-									def _hx_local_58():
-										def _hx_local_56():
-											def _hx_local_55():
-												_this9 = __builtin__.list(__builtin__.map(self.printTypeParamDecl, t.params))
-												return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this9)))
+									def _hx_local_39():
+										def _hx_local_38():
+											def _hx_local_37():
+												_this9 = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, t.params))
+												return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this9)))
 											
-											return Std.string("<" + Std.string(_hx_local_55())) + ">" if __builtin__.len(t.params) > 0 else ""
+											return Std.string("<" + Std.string(_hx_local_37())) + ">" if _hx_builtin.len(t.params) > 0 else ""
 										
-										def _hx_local_46():
-											def _hx_local_50():
-												def _hx_local_48():
-													def _hx_local_47():
+										def _hx_local_30():
+											def _hx_local_33():
+												def _hx_local_32():
+													def _hx_local_31():
 														fields1 = ct.params[0]
 														return self.printStructure(fields1)
 													
-													return _hx_local_47()
+													return _hx_local_31()
 												
-												return _hx_local_48()
+												return _hx_local_32()
 											
-											_hx_local_42 = _hx_local_50
-											def _hx_local_54():
-												def _hx_local_52():
-													def _hx_local_51():
+											_hx_local_28 = _hx_local_33
+											def _hx_local_36():
+												def _hx_local_35():
+													def _hx_local_34():
 														fields = ct.params[1]
 														tpl = ct.params[0]
 														return self.printExtension(tpl, fields)
 													
-													return _hx_local_51()
+													return _hx_local_34()
 												
-												return _hx_local_52()
+												return _hx_local_35()
 											
-											_hx_local_44 = _hx_local_54
-											return _hx_local_44() if (_hx_c.Type.enumIndex(ct)) == 4 else _hx_local_42() if (_hx_c.Type.enumIndex(ct)) == 2 else self.printComplexType(ct)
+											_hx_local_29 = _hx_local_36
+											return _hx_local_29() if (ct.index) == 4 else _hx_local_28() if (ct.index) == 2 else self.printComplexType(ct)
 										
-										return Std.string(Std.string(Std.string(Std.string("typedef " + Std.string(t.name)) + Std.string((_hx_local_56()))) + " = ") + Std.string(_hx_local_46())) + ";"
+										return Std.string(Std.string(Std.string(Std.string("typedef " + Std.string(t.name)) + Std.string((_hx_local_38()))) + " = ") + Std.string(_hx_local_30())) + ";"
 									
-									return _hx_local_58()
+									return _hx_local_39()
 								
-								return _hx_local_41()
+								return _hx_local_27()
 							
-							return _hx_local_60()
+							return _hx_local_40()
 						
-						_hx_local_3 = _hx_local_62
-						def _hx_local_88():
-							def _hx_local_86():
-								def _hx_local_63():
+						_hx_local_2 = _hx_local_41
+						def _hx_local_59():
+							def _hx_local_58():
+								def _hx_local_42():
 									isInterface = _g.params[2]
 									interfaces = _g.params[1]
 									superClass = _g.params[0]
-									def _hx_local_84():
-										def _hx_local_82():
-											def _hx_local_81():
-												_this6 = __builtin__.list(__builtin__.map(self.printTypeParamDecl, t.params))
-												return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this6)))
+									def _hx_local_57():
+										def _hx_local_56():
+											def _hx_local_55():
+												_this6 = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, t.params))
+												return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this6)))
 											
-											return Std.string("<" + Std.string(_hx_local_81())) + ">" if __builtin__.len(t.params) > 0 else ""
+											return Std.string("<" + Std.string(_hx_local_55())) + ">" if _hx_builtin.len(t.params) > 0 else ""
 										
-										def _hx_local_79():
-											def _hx_local_78():
+										def _hx_local_54():
+											def _hx_local_53():
 												_this7 = None
 												if isInterface:
 													_g12 = []
@@ -9346,7 +8224,7 @@ class haxe_macro_Printer:
 														_g22 = _g22 + 1
 														x2 = " extends " + Std.string(self.printTypePath(tp))
 														_g12.append(x2)
-														__builtin__.len(_g12)
+														_hx_builtin.len(_g12)
 														
 													
 													
@@ -9360,17 +8238,17 @@ class haxe_macro_Printer:
 														_g32 = _g32 + 1
 														x3 = " implements " + Std.string(self.printTypePath(tp1))
 														_g23.append(x3)
-														__builtin__.len(_g23)
+														_hx_builtin.len(_g23)
 														
 													
 													
 													_this7 = _g23
 												
-												return "".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this7)))
+												return "".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this7)))
 											
-											return _hx_local_78() if interfaces is not None else ""
+											return _hx_local_53() if interfaces is not None else ""
 										
-										def _hx_local_64():
+										def _hx_local_43():
 											_this8 = None
 											_g33 = []
 											_g41 = 0
@@ -9380,60 +8258,60 @@ class haxe_macro_Printer:
 												_g41 = _g41 + 1
 												x4 = None
 												fstr = self.printField(f1)
-												def _hx_local_65():
+												def _hx_local_44():
 													_g6 = f1.kind
-													def _hx_local_76():
-														def _hx_local_70():
-															def _hx_local_74():
-																def _hx_local_72():
-																	def _hx_local_71():
+													def _hx_local_52():
+														def _hx_local_47():
+															def _hx_local_50():
+																def _hx_local_49():
+																	def _hx_local_48():
 																		func1 = _g6.params[0]
 																		return ";" if (func1.expr is None) else ""
 																	
-																	return _hx_local_71()
+																	return _hx_local_48()
 																
-																return _hx_local_72()
+																return _hx_local_49()
 															
-															_hx_local_66 = _hx_local_74
-															def _hx_local_75():
+															_hx_local_45 = _hx_local_50
+															def _hx_local_51():
 																return ";"
-															_hx_local_68 = _hx_local_75
-															return _hx_local_68() if (_hx_c.Type.enumIndex(_g6)) == 2 or (_hx_c.Type.enumIndex(_g6)) == 0 else _hx_local_66() if (_hx_c.Type.enumIndex(_g6)) == 1 else ""
+															_hx_local_46 = _hx_local_51
+															return _hx_local_46() if (_g6.index) == 2 or (_g6.index) == 0 else _hx_local_45() if (_g6.index) == 1 else ""
 														
-														return _hx_local_70()
+														return _hx_local_47()
 													
-													return _hx_local_76()
+													return _hx_local_52()
 												
-												x4 = Std.string(Std.string(self.tabs) + Std.string(fstr)) + Std.string(_hx_local_65())
+												x4 = Std.string(Std.string(self.tabs) + Std.string(fstr)) + Std.string(_hx_local_44())
 												
 												_g33.append(x4)
-												__builtin__.len(_g33)
+												_hx_builtin.len(_g33)
 												
 											
 											
 											_this8 = _g33
 											
-											return "\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this8)))
+											return "\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this8)))
 										
-										return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(("interface " if (isInterface) else "class ")) + Std.string(t.name)) + Std.string((_hx_local_82()))) + Std.string((" extends " + Std.string(self.printTypePath(superClass)) if (superClass is not None) else ""))) + Std.string((_hx_local_79()))) + " {\n") + Std.string(_hx_local_64())) + "\n}"
+										return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(("interface " if (isInterface) else "class ")) + Std.string(t.name)) + Std.string((_hx_local_56()))) + Std.string((" extends " + Std.string(self.printTypePath(superClass)) if (superClass is not None) else ""))) + Std.string((_hx_local_54()))) + " {\n") + Std.string(_hx_local_43())) + "\n}"
 									
-									return _hx_local_84()
+									return _hx_local_57()
 								
-								return _hx_local_63()
+								return _hx_local_42()
 							
-							return _hx_local_86()
+							return _hx_local_58()
 						
-						_hx_local_5 = _hx_local_88
-						def _hx_local_95():
-							def _hx_local_93():
-								def _hx_local_91():
-									def _hx_local_90():
-										_this4 = __builtin__.list(__builtin__.map(self.printTypeParamDecl, t.params))
-										return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this4)))
+						_hx_local_3 = _hx_local_59
+						def _hx_local_64():
+							def _hx_local_63():
+								def _hx_local_62():
+									def _hx_local_61():
+										_this4 = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, t.params))
+										return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this4)))
 									
-									return Std.string("<" + Std.string(_hx_local_90())) + ">" if __builtin__.len(t.params) > 0 else ""
+									return Std.string("<" + Std.string(_hx_local_61())) + ">" if _hx_builtin.len(t.params) > 0 else ""
 								
-								def _hx_local_89():
+								def _hx_local_60():
 									_this5 = None
 									_g11 = []
 									_g21 = 0
@@ -9443,30 +8321,30 @@ class haxe_macro_Printer:
 										_g21 = _g21 + 1
 										x1 = Std.string(Std.string(self.tabs) + Std.string(self.printField(f))) + ";"
 										_g11.append(x1)
-										__builtin__.len(_g11)
+										_hx_builtin.len(_g11)
 										
 										
 									
 									
 									_this5 = _g11
 									
-									return "\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this5)))
+									return "\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this5)))
 								
-								return Std.string(Std.string(Std.string(Std.string("typedef " + Std.string(t.name)) + Std.string((_hx_local_91()))) + " = {\n") + Std.string(_hx_local_89())) + "\n}"
+								return Std.string(Std.string(Std.string(Std.string("typedef " + Std.string(t.name)) + Std.string((_hx_local_62()))) + " = {\n") + Std.string(_hx_local_60())) + "\n}"
 							
-							return _hx_local_93()
+							return _hx_local_63()
 						
-						_hx_local_7 = _hx_local_95
-						def _hx_local_124():
-							def _hx_local_122():
-								def _hx_local_120():
-									def _hx_local_119():
-										_this1 = __builtin__.list(__builtin__.map(self.printTypeParamDecl, t.params))
-										return ", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+						_hx_local_4 = _hx_local_64
+						def _hx_local_84():
+							def _hx_local_83():
+								def _hx_local_82():
+									def _hx_local_81():
+										_this1 = _hx_builtin.list(_hx_builtin.map(self.printTypeParamDecl, t.params))
+										return ", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 									
-									return Std.string("<" + Std.string(_hx_local_119())) + ">" if __builtin__.len(t.params) > 0 else ""
+									return Std.string("<" + Std.string(_hx_local_81())) + ">" if _hx_builtin.len(t.params) > 0 else ""
 								
-								def _hx_local_96():
+								def _hx_local_65():
 									_this2 = None
 									_g1 = []
 									_g2 = 0
@@ -9475,70 +8353,70 @@ class haxe_macro_Printer:
 										field = _hx_array_get(_g3,_g2)
 										_g2 = _g2 + 1
 										x = None
-										def _hx_local_117():
-											def _hx_local_116():
-												_this3 = __builtin__.list(__builtin__.map(self.printMetadata, field.meta))
-												return " ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this3)))
+										def _hx_local_80():
+											def _hx_local_79():
+												_this3 = _hx_builtin.list(_hx_builtin.map(self.printMetadata, field.meta))
+												return " ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this3)))
 											
-											return Std.string(_hx_local_116()) + " " if field.meta is not None and __builtin__.len(field.meta) > 0 else ""
+											return Std.string(_hx_local_79()) + " " if field.meta is not None and _hx_builtin.len(field.meta) > 0 else ""
 										
-										def _hx_local_97():
+										def _hx_local_66():
 											_g4 = field.kind
-											def _hx_local_114():
-												def _hx_local_104():
-													def _hx_local_108():
-														def _hx_local_106():
-															def _hx_local_105():
+											def _hx_local_78():
+												def _hx_local_70():
+													def _hx_local_73():
+														def _hx_local_72():
+															def _hx_local_71():
 																func = _g4.params[0]
 																return Std.string(field.name) + Std.string(self.printFunction(func))
 															
-															return _hx_local_105()
+															return _hx_local_71()
 														
-														return _hx_local_106()
+														return _hx_local_72()
 													
-													_hx_local_98 = _hx_local_108
-													def _hx_local_112():
-														def _hx_local_110():
-															def _hx_local_109():
+													_hx_local_67 = _hx_local_73
+													def _hx_local_76():
+														def _hx_local_75():
+															def _hx_local_74():
 																raise _HxException("FProp is invalid for TDEnum.")
 																return None
 															
-															return _hx_local_109()
+															return _hx_local_74()
 														
-														return _hx_local_110()
+														return _hx_local_75()
 													
-													_hx_local_100 = _hx_local_112
-													def _hx_local_113():
+													_hx_local_68 = _hx_local_76
+													def _hx_local_77():
 														return field.name
-													_hx_local_102 = _hx_local_113
-													return _hx_local_102() if (_hx_c.Type.enumIndex(_g4)) == 0 else _hx_local_100() if (_hx_c.Type.enumIndex(_g4)) == 2 else _hx_local_98() if (_hx_c.Type.enumIndex(_g4)) == 1 else None
+													_hx_local_69 = _hx_local_77
+													return _hx_local_69() if (_g4.index) == 0 else _hx_local_68() if (_g4.index) == 2 else _hx_local_67() if (_g4.index) == 1 else None
 												
-												return _hx_local_104()
+												return _hx_local_70()
 											
-											return _hx_local_114()
+											return _hx_local_78()
 										
-										x = Std.string(Std.string(Std.string(Std.string(self.tabs) + Std.string((Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("/**\n" + Std.string(self.tabs)) + Std.string(self.tabString)) + Std.string(_hx_c.StringTools.replace(field.doc, "\n", Std.string("\n" + Std.string(self.tabs)) + Std.string(self.tabString)))) + "\n") + Std.string(self.tabs)) + "**/\n") + Std.string(self.tabs) if (field.doc is not None and field.doc != "") else ""))) + Std.string((_hx_local_117()))) + Std.string(_hx_local_97())) + ";"
+										x = Std.string(Std.string(Std.string(Std.string(self.tabs) + Std.string((Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("/**\n" + Std.string(self.tabs)) + Std.string(self.tabString)) + Std.string(_hx_c.StringTools.replace(field.doc, "\n", Std.string("\n" + Std.string(self.tabs)) + Std.string(self.tabString)))) + "\n") + Std.string(self.tabs)) + "**/\n") + Std.string(self.tabs) if (field.doc is not None and field.doc != "") else ""))) + Std.string((_hx_local_80()))) + Std.string(_hx_local_66())) + ";"
 										_g1.append(x)
-										__builtin__.len(_g1)
+										_hx_builtin.len(_g1)
 										
 									
 									
 									_this2 = _g1
 									
-									return "\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+									return "\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 								
-								return Std.string(Std.string(Std.string(Std.string("enum " + Std.string(t.name)) + Std.string((_hx_local_120()))) + " {\n") + Std.string(_hx_local_96())) + "\n}"
+								return Std.string(Std.string(Std.string(Std.string("enum " + Std.string(t.name)) + Std.string((_hx_local_82()))) + " {\n") + Std.string(_hx_local_65())) + "\n}"
 							
-							return _hx_local_122()
+							return _hx_local_83()
 						
-						_hx_local_9 = _hx_local_124
-						return _hx_local_9() if (_hx_c.Type.enumIndex(_g)) == 0 else _hx_local_7() if (_hx_c.Type.enumIndex(_g)) == 1 else _hx_local_5() if (_hx_c.Type.enumIndex(_g)) == 2 else _hx_local_3() if (_hx_c.Type.enumIndex(_g)) == 3 else _hx_local_1() if (_hx_c.Type.enumIndex(_g)) == 4 else None
+						_hx_local_5 = _hx_local_84
+						return _hx_local_5() if (_g.index) == 0 else _hx_local_4() if (_g.index) == 1 else _hx_local_3() if (_g.index) == 2 else _hx_local_2() if (_g.index) == 3 else _hx_local_1() if (_g.index) == 4 else None
 					
-					return _hx_local_11()
+					return _hx_local_6()
 				
-				return _hx_local_125()
+				return _hx_local_85()
 			
-			str = Std.string(Std.string(Std.string((Std.string("package " + Std.string(".".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, t.pack))))) + ";\n" if (printPackage and __builtin__.len(t.pack) > 0 and _hx_array_get(t.pack,0) != "") else "")) + Std.string((_hx_local_128()))) + Std.string(("extern " if (t.isExtern) else ""))) + Std.string(_hx_local_0())
+			str = Std.string(Std.string(Std.string((Std.string("package " + Std.string(".".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, t.pack))))) + ";\n" if (printPackage and _hx_builtin.len(t.pack) > 0 and _hx_array_get(t.pack,0) != "") else "")) + Std.string((_hx_local_87()))) + Std.string(("extern " if (t.isExtern) else ""))) + Std.string(_hx_local_0())
 		
 		self.tabs = old
 		return str
@@ -10124,27 +9002,6 @@ python_Tools._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=
 def python_Tools_hx_empty_init (_hx_o):
 	pass
 python_Tools._hx_empty_init = python_Tools_hx_empty_init
-# print python.internal.ArrayImpl.ArrayImpl
-class python_internal_ArrayImpl:
-
-	pass
-
-
-
-
-python_internal_ArrayImpl._hx_class = python_internal_ArrayImpl
-python_internal_ArrayImpl._hx_class_name = "python.internal.ArrayImpl"
-_hx_classes["python.internal.ArrayImpl"] = python_internal_ArrayImpl
-_hx_c.python_internal_ArrayImpl = python_internal_ArrayImpl
-python_internal_ArrayImpl._hx_fields = []
-python_internal_ArrayImpl._hx_props = []
-python_internal_ArrayImpl._hx_methods = []
-python_internal_ArrayImpl._hx_statics = ["get_length","concat","copy","iterator","indexOf","lastIndexOf","join","toString","pop","push","unshift","remove","shift","slice","sort","splice","map","filter","__get","__set","__unsafe_get","__unsafe_set"]
-python_internal_ArrayImpl._hx_interfaces = []
-python_internal_ArrayImpl._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
-def python_internal_ArrayImpl_hx_empty_init (_hx_o):
-	pass
-python_internal_ArrayImpl._hx_empty_init = python_internal_ArrayImpl_hx_empty_init
 # print python.internal.KeywordHandler.KeywordHandler
 class python_internal_KeywordHandler:
 
@@ -10166,28 +9023,7 @@ python_internal_KeywordHandler._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_Ano
 def python_internal_KeywordHandler_hx_empty_init (_hx_o):
 	pass
 python_internal_KeywordHandler._hx_empty_init = python_internal_KeywordHandler_hx_empty_init
-# print python.internal.StringImpl.StringImpl
-class python_internal_StringImpl:
-
-	pass
-
-
-
-
-python_internal_StringImpl._hx_class = python_internal_StringImpl
-python_internal_StringImpl._hx_class_name = "python.internal.StringImpl"
-_hx_classes["python.internal.StringImpl"] = python_internal_StringImpl
-_hx_c.python_internal_StringImpl = python_internal_StringImpl
-python_internal_StringImpl._hx_fields = []
-python_internal_StringImpl._hx_props = []
-python_internal_StringImpl._hx_methods = []
-python_internal_StringImpl._hx_statics = ["split","charCodeAt","charAt","lastIndexOf","fromCharCode"]
-python_internal_StringImpl._hx_interfaces = []
-python_internal_StringImpl._hx_meta = _hx_c._hx_AnonObject(obj=_hx_c._hx_AnonObject(),statics=_hx_c._hx_AnonObject(),fields=_hx_c._hx_AnonObject())
-def python_internal_StringImpl_hx_empty_init (_hx_o):
-	pass
-python_internal_StringImpl._hx_empty_init = python_internal_StringImpl_hx_empty_init
-# print python.lib.FuncTools.FuncTools
+# print python.lib.FuncTools._hx_functools
 # print python.lib.Inspect.Inspect
 # print python.lib.Random.Random
 # print python.lib.Re.MatchObject
@@ -10420,6 +9256,7 @@ python_lib_DictImpl._hx_empty_init = python_lib_DictImpl_hx_empty_init
 # print python.lib.io.RawIOBase.RawIOBase
 # print python.lib.io.FileIO.FileIO
 # print python.lib.io.TextIOBase.TextIOBase
+# print python.lib.io.StringIO.StringIO
 # print unit.MyAbstract.MyAbstract_Impl_
 class unit_MyAbstract_MyAbstract_Impl_:
 
@@ -12574,20 +11411,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if v != v2:
 			_hx_c.unit_Test.report(Std.string(Std.string(_hx_c.Std.string(v)) + " should be ") + Std.string(_hx_c.Std.string(v2)), pos)
@@ -12600,20 +11427,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if not (v != float("inf") and v != float("-inf") and not _hx_math.isnan(v)) or not (v2 != float("inf") and v2 != float("-inf") and not _hx_math.isnan(v2)):
 			self.eq(v, v2, pos)
@@ -12649,20 +11466,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		try:
 			f()
@@ -12682,20 +11489,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		try:
 			f()
@@ -12712,20 +11509,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		_g = 0
 		while _g < _hx_builtin.len(values):
@@ -12744,20 +11531,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if not _hx_c.Lambda.has(_hx_c.Type.getInstanceFields(c), n):
 			_hx_c.unit_Test.report(Std.string(Std.string(_hx_c.Type.getClassName(c)) + " should have member field ") + Std.string(n), pos)
@@ -12770,20 +11547,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if _hx_c.Lambda.has(_hx_c.Type.getInstanceFields(c), n):
 			_hx_c.unit_Test.report(Std.string(Std.string(_hx_c.Type.getClassName(c)) + " should not have member field ") + Std.string(n), pos)
@@ -12796,20 +11563,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if not _hx_c.Lambda.has(_hx_c.Type.getClassFields(c), n):
 			_hx_c.unit_Test.report(Std.string(Std.string(_hx_c.Type.getClassName(c)) + " should have static field ") + Std.string(n), pos)
@@ -12822,20 +11579,10 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		if _hx_c.Lambda.has(_hx_c.Type.getClassFields(c), n):
 			_hx_c.unit_Test.report(Std.string(Std.string(_hx_c.Type.getClassName(c)) + " should not have static field ") + Std.string(n), pos)
@@ -12851,7 +11598,7 @@ class unit_Test:
 		if pos is None:
 			pos = None
 		
-		if __builtin__.len(_hx_c.unit_Test.asyncWaits) >= _hx_c.unit_Test.AMAX:
+		if _hx_builtin.len(_hx_c.unit_Test.asyncWaits) >= _hx_c.unit_Test.AMAX:
 			def _hx_local_1(f1,f2,a1,v1,a2):
 				def _hx_local_0():
 					return f1(f2, a1, v1, a2)
@@ -12860,7 +11607,7 @@ class unit_Test:
 			x = (_hx_local_1)(self.async, f, args, v, pos)
 			_this = _hx_c.unit_Test.asyncCache
 			_this.append(x)
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 			
 			return
@@ -12868,24 +11615,14 @@ class unit_Test:
 		
 		_this1 = _hx_c.unit_Test.asyncWaits
 		_this1.append(pos)
-		__builtin__.len(_this1)
+		_hx_builtin.len(_this1)
 		
 		
-		def _hx_local_7(v2):
-			_hx_local_5 = None
-			def _hx_local_6():
-				nonlocal _hx_local_5
-				if _hx_local_5 is not None:
-					return _hx_local_5
-				
-				_hx_local_2 = _hx_c.unit_Test.count
-				_hx_local_3 = _hx_local_2
-				_hx_c.unit_Test.count = _hx_local_2 + 1
-				_hx_local_5 = _hx_local_3
-				return _hx_local_3
-			
-			_hx_local_4 = _hx_local_6
-			_hx_local_4()
+		def _hx_local_4(v2):
+			_hx_local_2 = _hx_c.unit_Test
+			_hx_local_3 = _hx_local_2.count
+			_hx_local_2.count = _hx_local_3 + 1
+			_hx_local_3
 			
 			if not _hx_c.python_internal_ArrayImpl.remove(_hx_c.unit_Test.asyncWaits, pos):
 				_hx_c.unit_Test.report("Double async result", pos)
@@ -12900,14 +11637,14 @@ class unit_Test:
 			
 			_hx_c.unit_Test.checkDone()
 		
-		f(args, _hx_local_7)
+		f(args, _hx_local_4)
 	
 
 	def asyncExc(self,seterror,f,args,pos = None):
 		if pos is None:
 			pos = None
 		
-		if __builtin__.len(_hx_c.unit_Test.asyncWaits) >= _hx_c.unit_Test.AMAX:
+		if _hx_builtin.len(_hx_c.unit_Test.asyncWaits) >= _hx_c.unit_Test.AMAX:
 			def _hx_local_1(f1,a1,f2,a2,a3):
 				def _hx_local_0():
 					return f1(a1, f2, a2, a3)
@@ -12916,7 +11653,7 @@ class unit_Test:
 			x = (_hx_local_1)(self.asyncExc, seterror, f, args, pos)
 			_this = _hx_c.unit_Test.asyncCache
 			_this.append(x)
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 			
 			return
@@ -12924,24 +11661,14 @@ class unit_Test:
 		
 		_this1 = _hx_c.unit_Test.asyncWaits
 		_this1.append(pos)
-		__builtin__.len(_this1)
+		_hx_builtin.len(_this1)
 		
 		
-		def _hx_local_7(e):
-			_hx_local_5 = None
-			def _hx_local_6():
-				nonlocal _hx_local_5
-				if _hx_local_5 is not None:
-					return _hx_local_5
-				
-				_hx_local_2 = _hx_c.unit_Test.count
-				_hx_local_3 = _hx_local_2
-				_hx_c.unit_Test.count = _hx_local_2 + 1
-				_hx_local_5 = _hx_local_3
-				return _hx_local_3
-			
-			_hx_local_4 = _hx_local_6
-			_hx_local_4()
+		def _hx_local_4(e):
+			_hx_local_2 = _hx_c.unit_Test
+			_hx_local_3 = _hx_local_2.count
+			_hx_local_2.count = _hx_local_3 + 1
+			_hx_local_3
 			
 			if _hx_c.python_internal_ArrayImpl.remove(_hx_c.unit_Test.asyncWaits, pos):
 				_hx_c.unit_Test.checkDone()
@@ -12950,22 +11677,12 @@ class unit_Test:
 				_hx_c.unit_Test.success = False
 			
 		
-		seterror(_hx_local_7)
-		def _hx_local_13(v):
-			_hx_local_11 = None
-			def _hx_local_12():
-				nonlocal _hx_local_11
-				if _hx_local_11 is not None:
-					return _hx_local_11
-				
-				_hx_local_8 = _hx_c.unit_Test.count
-				_hx_local_9 = _hx_local_8
-				_hx_c.unit_Test.count = _hx_local_8 + 1
-				_hx_local_11 = _hx_local_9
-				return _hx_local_9
-			
-			_hx_local_10 = _hx_local_12
-			_hx_local_10()
+		seterror(_hx_local_4)
+		def _hx_local_7(v):
+			_hx_local_5 = _hx_c.unit_Test
+			_hx_local_6 = _hx_local_5.count
+			_hx_local_5.count = _hx_local_6 + 1
+			_hx_local_6
 			
 			if _hx_c.python_internal_ArrayImpl.remove(_hx_c.unit_Test.asyncWaits, pos):
 				_hx_c.unit_Test.report("No exception occured", pos)
@@ -12977,7 +11694,7 @@ class unit_Test:
 				_hx_c.unit_Test.success = False
 			
 		
-		f(args, _hx_local_13)
+		f(args, _hx_local_7)
 	
 
 	def log(self,msg,pos = None):
@@ -13012,21 +11729,21 @@ class unit_TestBasetypes(unit_Test):
 		super().__init__()
 	def testArray(self):
 		a = [1, 2, 3]
-		self.eq(__builtin__.len(a), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 7 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
+		self.eq(_hx_builtin.len(a), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 7 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,0), 1, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 8 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,2), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 9 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,3), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 11 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,1000), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 12 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,-1), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 13 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		_hx_c.python_internal_ArrayImpl.remove(a, 2)
-		self.eq(__builtin__.len(a), 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 16 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
+		self.eq(_hx_builtin.len(a), 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 16 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,0), 1, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 17 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,1), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 18 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a,2), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 19 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		a1 = [1, 2, 3]
 		pos = 1
 		if pos < 0:
-			pos = __builtin__.len(a1) + pos
+			pos = _hx_builtin.len(a1) + pos
 		
 		if pos < 0:
 			pos = 0
@@ -13035,7 +11752,7 @@ class unit_TestBasetypes(unit_Test):
 		del a1[pos:pos + 1]
 		res
 		
-		self.eq(__builtin__.len(a1), 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 23 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
+		self.eq(_hx_builtin.len(a1), 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 23 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a1,0), 1, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 24 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a1,1), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 25 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
 		self.eq(_hx_array_get(a1,2), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 26 ,className = "unit.TestBasetypes" ,methodName = "testArray" ))
@@ -13045,23 +11762,23 @@ class unit_TestBasetypes(unit_Test):
 		self.eq("M", "M", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 30 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		def _hx_local_0():
 			c = 0
-			"".join(map(chr, [c]))
+			"".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
 		self.unspec(_hx_local_0)
 		def _hx_local_1():
 			c1 = -1
-			"".join(map(chr, [c1]))
+			"".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 		
 		self.unspec(_hx_local_1)
 		def _hx_local_2():
 			c2 = 256
-			"".join(map(chr, [c2]))
+			"".join(_hx_builtin.map(_hx_builtin.chr, [c2]))
 		
 		self.unspec(_hx_local_2)
 		self.eq(Std.string(None) + "x", "nullx", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 38 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		self.eq("x" + Std.string(None), "xnull", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 39 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		abc = _hx_c.python_internal_StringImpl.split("abc", "")
-		self.eq(__builtin__.len(abc), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 43 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
+		self.eq(_hx_builtin.len(abc), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 43 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		self.eq(_hx_array_get(abc,0), "a", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 44 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		self.eq(_hx_array_get(abc,1), "b", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 45 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 		self.eq(_hx_array_get(abc,2), "c", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 46 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
@@ -13145,64 +11862,64 @@ class unit_TestBasetypes(unit_Test):
 				i = tester.rfind("show me", 0, None + 1)
 				startLeft = None
 				if i == -1:
-					b = None + 1 - __builtin__.len("show me")
+					b = None + 1 - _hx_builtin.len("show me")
 					if _hx_math.isnan(0):
 						startLeft = 0
 					elif _hx_math.isnan(b):
 						startLeft = b
 					else:
-						startLeft = __builtin__.max(0, b)
+						startLeft = _hx_builtin.max(0, b)
 				
 				else:
 					startLeft = i + 1
-				check = tester.find("show me", startLeft, __builtin__.len(tester))
+				check = tester.find("show me", startLeft, _hx_builtin.len(tester))
 				return check if (check > i and check <= None) else i
 			
-			return tester.rfind("show me", 0, __builtin__.len(tester)) if None is None else _hx_local_3()
+			return tester.rfind("show me", 0, _hx_builtin.len(tester)) if None is None else _hx_local_3()
 		
 		self.eq(_hx_local_4(), 32, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 138 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
-		def _hx_local_7():
-			def _hx_local_6():
+		def _hx_local_6():
+			def _hx_local_5():
 				i1 = tester.rfind("show me", 0, 1 + 1)
 				startLeft1 = None
 				if i1 == -1:
-					b1 = 1 + 1 - __builtin__.len("show me")
+					b1 = 1 + 1 - _hx_builtin.len("show me")
 					if _hx_math.isnan(0):
 						startLeft1 = 0
 					elif _hx_math.isnan(b1):
 						startLeft1 = b1
 					else:
-						startLeft1 = __builtin__.max(0, b1)
+						startLeft1 = _hx_builtin.max(0, b1)
 				
 				else:
 					startLeft1 = i1 + 1
-				check1 = tester.find("show me", startLeft1, __builtin__.len(tester))
+				check1 = tester.find("show me", startLeft1, _hx_builtin.len(tester))
 				return check1 if (check1 > i1 and check1 <= 1) else i1
 			
-			return tester.rfind("show me", 0, __builtin__.len(tester)) if 1 is None else _hx_local_6()
+			return tester.rfind("show me", 0, _hx_builtin.len(tester)) if 1 is None else _hx_local_5()
 		
-		self.eq(_hx_local_7(), 0, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 139 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
-		def _hx_local_10():
-			def _hx_local_9():
+		self.eq(_hx_local_6(), 0, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 139 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
+		def _hx_local_8():
+			def _hx_local_7():
 				i2 = tester.rfind("show me", 0, 28 + 1)
 				startLeft2 = None
 				if i2 == -1:
-					b2 = 28 + 1 - __builtin__.len("show me")
+					b2 = 28 + 1 - _hx_builtin.len("show me")
 					if _hx_math.isnan(0):
 						startLeft2 = 0
 					elif _hx_math.isnan(b2):
 						startLeft2 = b2
 					else:
-						startLeft2 = __builtin__.max(0, b2)
+						startLeft2 = _hx_builtin.max(0, b2)
 				
 				else:
 					startLeft2 = i2 + 1
-				check2 = tester.find("show me", startLeft2, __builtin__.len(tester))
+				check2 = tester.find("show me", startLeft2, _hx_builtin.len(tester))
 				return check2 if (check2 > i2 and check2 <= 28) else i2
 			
-			return tester.rfind("show me", 0, __builtin__.len(tester)) if 28 is None else _hx_local_9()
+			return tester.rfind("show me", 0, _hx_builtin.len(tester)) if 28 is None else _hx_local_7()
 		
-		self.eq(_hx_local_10(), 13, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 140 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
+		self.eq(_hx_local_8(), 13, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 140 ,className = "unit.TestBasetypes" ,methodName = "testString" ))
 	
 
 	def testMath(self):
@@ -13237,11 +11954,11 @@ class unit_TestBasetypes(unit_Test):
 		self.eq(h.get("abcd"), 8546, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 209 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		self.eq(h.get("e"), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 210 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		k = _hx_c.Lambda.array(h)
-		k.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, k))), "-1#8546", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 214 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
+		k.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, k))), "-1#8546", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 214 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		k1 = _hx_c.Lambda.array(_hx_c._hx_AnonObject(iterator = h.keys ))
-		k1.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, k1))), "abcd#x", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 218 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
+		k1.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, k1))), "abcd#x", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 218 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		self.t(h.exists("x"), _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 220 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		self.t(h.exists("abcd"), _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 221 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
 		self.f(h.exists("e"), _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 222 ,className = "unit.TestBasetypes" ,methodName = "testStringMap" ))
@@ -13264,11 +11981,11 @@ class unit_TestBasetypes(unit_Test):
 		self.eq(h.h.get(-4815, None), 8546, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 240 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		self.eq(h.h.get(456, None), None, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 241 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		k = _hx_c.Lambda.array(h)
-		k.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, k))), "-1#8546", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 247 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
+		k.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, k))), "-1#8546", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 247 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		k1 = _hx_c.Lambda.array(_hx_c._hx_AnonObject(iterator = h.keys ))
-		k1.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, k1))), "-4815#0", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 251 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
+		k1.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, k1))), "-4815#0", _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 251 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		self.t(0 in h.h, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 253 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		self.t(-4815 in h.h, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 254 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
 		self.f(456 in h.h, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 255 ,className = "unit.TestBasetypes" ,methodName = "testIntMap" ))
@@ -13294,21 +12011,9 @@ class unit_TestBasetypes(unit_Test):
 		0
 		
 		x = 1
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal x
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = x
-			_hx_local_1 = _hx_local_0
-			x = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		_g = x
+		x = x + 1
 		
-		_g = _hx_local_2()
 		v = i.h.get(_g, None) + 4
 		i.set(_g, v)
 		v
@@ -13440,20 +12145,10 @@ class unit_TestBasetypes(unit_Test):
 			a = None
 			this1 = None
 			this1 = 1
-			_hx_local_4 = None
-			def _hx_local_5():
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter
-				_hx_local_2 = _hx_local_1
-				_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-			
-			_hx_local_3 = _hx_local_5
-			_hx_local_3()
+			_hx_local_1 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_
+			_hx_local_2 = _hx_local_1.counter
+			_hx_local_1.counter = _hx_local_2 + 1
+			_hx_local_2
 			
 			a = this1
 			
@@ -13461,55 +12156,35 @@ class unit_TestBasetypes(unit_Test):
 		
 		self.eq(_hx_local_0(), 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 438 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
 		self.eq(_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter, 1, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 439 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
-		def _hx_local_6():
+		def _hx_local_3():
 			a1 = None
 			this2 = None
 			this2 = 2
-			_hx_local_10 = None
-			def _hx_local_11():
-				nonlocal _hx_local_10
-				if _hx_local_10 is not None:
-					return _hx_local_10
-				
-				_hx_local_7 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter
-				_hx_local_8 = _hx_local_7
-				_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter = _hx_local_7 + 1
-				_hx_local_10 = _hx_local_8
-				return _hx_local_8
-			
-			_hx_local_9 = _hx_local_11
-			_hx_local_9()
+			_hx_local_4 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_
+			_hx_local_5 = _hx_local_4.counter
+			_hx_local_4.counter = _hx_local_5 + 1
+			_hx_local_5
 			
 			a1 = this2
 			
 			return a1 + 1
 		
-		self.eq(_hx_local_6(), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 440 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
+		self.eq(_hx_local_3(), 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 440 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
 		self.eq(_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter, 2, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 441 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
-		def _hx_local_12():
+		def _hx_local_6():
 			a2 = None
 			this3 = None
 			this3 = 3
-			_hx_local_16 = None
-			def _hx_local_17():
-				nonlocal _hx_local_16
-				if _hx_local_16 is not None:
-					return _hx_local_16
-				
-				_hx_local_13 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter
-				_hx_local_14 = _hx_local_13
-				_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter = _hx_local_13 + 1
-				_hx_local_16 = _hx_local_14
-				return _hx_local_14
-			
-			_hx_local_15 = _hx_local_17
-			_hx_local_15()
+			_hx_local_7 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_
+			_hx_local_8 = _hx_local_7.counter
+			_hx_local_7.counter = _hx_local_8 + 1
+			_hx_local_8
 			
 			a2 = this3
 			
 			return a2 + 1
 		
-		self.eq(_hx_local_12(), 4, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 442 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
+		self.eq(_hx_local_6(), 4, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 442 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
 		self.eq(_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter, 3, _hx_c._hx_AnonObject(fileName = "TestBasetypes.hx" ,lineNumber = 443 ,className = "unit.TestBasetypes" ,methodName = "testAbstractInline" ))
 	
 
@@ -13604,41 +12279,29 @@ class unit_TestBytes(unit_Test):
 		self.eq(b.length, 10, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 7 ,className = "unit.TestBytes" ,methodName = "test" ))
 		_g = 0
 		while _g < 10:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			self.eq(_hx_array_get(b.b,i), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 10 ,className = "unit.TestBytes" ,methodName = "test" ))
 		
 		
-		def _hx_local_4():
+		def _hx_local_0():
 			_hx_array_get(b.b,-1)
-		self.unspec(_hx_local_4)
-		def _hx_local_5():
+		self.unspec(_hx_local_0)
+		def _hx_local_1():
 			_hx_array_get(b.b,11)
-		self.unspec(_hx_local_5)
+		self.unspec(_hx_local_1)
 		_hx_array_set(b.b,1, 20 & 255)
 		self.eq(_hx_array_get(b.b,1), 20, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 14 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_6():
+		def _hx_local_2():
 			_hx_array_set(b.b,-1, 20 & 255)
-		self.unspec(_hx_local_6)
-		def _hx_local_7():
+		self.unspec(_hx_local_2)
+		def _hx_local_3():
 			_hx_array_set(b.b,11, 20 & 255)
-		self.unspec(_hx_local_7)
-		def _hx_local_8():
+		self.unspec(_hx_local_3)
+		def _hx_local_4():
 			_hx_array_set(b.b,0, 1000 & 255)
-		self.unspec(_hx_local_8)
+		self.unspec(_hx_local_4)
 		_hx_array_set(b.b,1, 63318 & 255)
 		self.eq(_hx_array_get(b.b,1), 86, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 19 ,className = "unit.TestBytes" ,methodName = "test" ))
 		b2 = _hx_c.haxe_io_Bytes.ofString("ABCD")
@@ -13657,24 +12320,24 @@ class unit_TestBytes(unit_Test):
 		self.eq(_hx_array_get(b.b,4), _hx_c.python_internal_StringImpl.charCodeAt("C", 0), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 35 ,className = "unit.TestBytes" ,methodName = "test" ))
 		self.eq(_hx_array_get(b.b,5), _hx_c.python_internal_StringImpl.charCodeAt("D", 0), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 36 ,className = "unit.TestBytes" ,methodName = "test" ))
 		self.eq(_hx_array_get(b.b,6), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 37 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_9():
+		def _hx_local_5():
 			b.blit(-1, b2, 1, 3)
-		self.exc(_hx_local_9, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 38 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_10():
+		self.exc(_hx_local_5, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 38 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_6():
 			b.blit(0, b2, 2, 3)
-		self.exc(_hx_local_10, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 39 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_11():
+		self.exc(_hx_local_6, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 39 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_7():
 			b.blit(9, b2, 1, 3)
-		self.exc(_hx_local_11, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 40 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_12():
+		self.exc(_hx_local_7, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 40 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_8():
 			b.blit(0, b2, -1, 3)
-		self.exc(_hx_local_12, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 41 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_13():
+		self.exc(_hx_local_8, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 41 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_9():
 			b.blit(0, b2, 1, -1)
-		self.exc(_hx_local_13, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 42 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_14():
+		self.exc(_hx_local_9, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 42 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_10():
 			b.blit(0, b2, 1, 20)
-		self.exc(_hx_local_14, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 43 ,className = "unit.TestBytes" ,methodName = "test" ))
+		self.exc(_hx_local_10, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 43 ,className = "unit.TestBytes" ,methodName = "test" ))
 		b.blit(4, b, 3, 3)
 		self.eq(_hx_array_get(b.b,2), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 46 ,className = "unit.TestBytes" ,methodName = "test" ))
 		self.eq(_hx_array_get(b.b,3), _hx_c.python_internal_StringImpl.charCodeAt("B", 0), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 47 ,className = "unit.TestBytes" ,methodName = "test" ))
@@ -13694,18 +12357,18 @@ class unit_TestBytes(unit_Test):
 		self.eq(bs.readString(0, 3), "One", _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 63 ,className = "unit.TestBytes" ,methodName = "test" ))
 		self.eq(bs.readString(4, bs.length - 4), "é accent", _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 64 ,className = "unit.TestBytes" ,methodName = "test" ))
 		self.eq(bs.readString(4, 2), "é", _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 65 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_15():
+		def _hx_local_11():
 			bs.readString(-1, 1)
-		self.exc(_hx_local_15, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 66 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_16():
+		self.exc(_hx_local_11, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 66 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_12():
 			bs.readString(1, 20)
-		self.exc(_hx_local_16, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 67 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_17():
+		self.exc(_hx_local_12, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 67 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_13():
 			bs.readString(4, 1)
-		self.unspec(_hx_local_17)
-		def _hx_local_18():
+		self.unspec(_hx_local_13)
+		def _hx_local_14():
 			bs.readString(1, 5)
-		self.unspec(_hx_local_18)
+		self.unspec(_hx_local_14)
 		self.eq(b2.toString(), "ABCD", _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 80 ,className = "unit.TestBytes" ,methodName = "test" ))
 		strings = ["ABCD", "ABDC", "ABCDE", "ABC", "BC", "AAAAAAAAA"]
 		_g1 = 0
@@ -13727,68 +12390,44 @@ class unit_TestBytes(unit_Test):
 		self.infos(None)
 		bs1 = _hx_c.haxe_io_Bytes.ofString("ABCDEFGH")
 		self.eq(bs1.sub(1, 3).compare(_hx_c.haxe_io_Bytes.ofString("BCD")), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 95 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_19():
+		def _hx_local_15():
 			bs1.sub(-1, 3)
-		self.exc(_hx_local_19, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 96 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_20():
+		self.exc(_hx_local_15, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 96 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_16():
 			bs1.sub(1, -1)
-		self.exc(_hx_local_20, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 97 ,className = "unit.TestBytes" ,methodName = "test" ))
-		def _hx_local_21():
+		self.exc(_hx_local_16, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 97 ,className = "unit.TestBytes" ,methodName = "test" ))
+		def _hx_local_17():
 			bs1.sub(1, 10)
-		self.exc(_hx_local_21, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 98 ,className = "unit.TestBytes" ,methodName = "test" ))
+		self.exc(_hx_local_17, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 98 ,className = "unit.TestBytes" ,methodName = "test" ))
 	
 
 	def testBuffer(self):
 		out = _hx_c.haxe_io_BytesBuffer()
-		self.eq(__builtin__.len(out.b), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 103 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
+		self.eq(_hx_builtin.len(out.b), 0, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 103 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
 		src = _hx_c.haxe_io_Bytes.ofString("ABCDEF")
 		b1 = out.b
 		b2 = src.b
 		_g1 = 0
 		_g = src.length
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			_this = out.b
 			_this.append(_hx_array_get(b2,i))
-			__builtin__.len(_this)
+			_hx_builtin.len(_this)
 			
 		
 		
 		
 		_g2 = 1
 		while _g2 < 6:
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal _g2
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = _g2
-				_hx_local_5 = _hx_local_4
-				_g2 = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			i1 = _g2
+			_g2 = _g2 + 1
 			
-			i1 = _hx_local_6()
 			_this1 = out.b
 			_this1.append(i1)
-			__builtin__.len(_this1)
+			_hx_builtin.len(_this1)
 			
 			
 		
@@ -13802,50 +12441,26 @@ class unit_TestBytes(unit_Test):
 		_g11 = 1
 		_g3 = 1 + 3
 		while _g11 < _g3:
-			_hx_local_11 = None
-			def _hx_local_10():
-				nonlocal _g11
-				nonlocal _hx_local_11
-				if _hx_local_11 is not None:
-					return _hx_local_11
-				
-				_hx_local_8 = _g11
-				_hx_local_9 = _hx_local_8
-				_g11 = _hx_local_8 + 1
-				_hx_local_11 = _hx_local_9
-				return _hx_local_9
-				
+			i2 = _g11
+			_g11 = _g11 + 1
 			
-			i2 = _hx_local_10()
 			_this2 = out.b
 			_this2.append(_hx_array_get(b21,i2))
-			__builtin__.len(_this2)
+			_hx_builtin.len(_this2)
 			
 		
 		
 		
-		self.eq(__builtin__.len(out.b), 14, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 108 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
+		self.eq(_hx_builtin.len(out.b), 14, _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 108 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
 		b = out.getBytes()
 		str = "ABCDEFBCD"
-		self.eq(b.length, __builtin__.len(str), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 111 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
+		self.eq(b.length, _hx_builtin.len(str), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 111 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
 		_g12 = 0
-		_g4 = __builtin__.len(str)
+		_g4 = _hx_builtin.len(str)
 		while _g12 < _g4:
-			_hx_local_15 = None
-			def _hx_local_14():
-				nonlocal _g12
-				nonlocal _hx_local_15
-				if _hx_local_15 is not None:
-					return _hx_local_15
-				
-				_hx_local_12 = _g12
-				_hx_local_13 = _hx_local_12
-				_g12 = _hx_local_12 + 1
-				_hx_local_15 = _hx_local_13
-				return _hx_local_13
-				
+			i3 = _g12
+			_g12 = _g12 + 1
 			
-			i3 = _hx_local_14()
 			self.eq(_hx_array_get(b.b,i3), _hx_c.python_internal_StringImpl.charCodeAt(str, i3), _hx_c._hx_AnonObject(fileName = "TestBytes.hx" ,lineNumber = 113 ,className = "unit.TestBytes" ,methodName = "testBuffer" ))
 		
 		
@@ -13929,15 +12544,15 @@ class unit_TestEReg(unit_Test):
 		block = _hx_c.EReg("\\s*\\{\\s*|\\s*\\}\\s*", "gm")
 		def _hx_local_2():
 			_this = block.split(test)
-			return __builtin__.len(_this)
+			return _hx_builtin.len(_this)
 		
 		self.eq(_hx_local_2(), 5, _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 63 ,className = "unit.TestEReg" ,methodName = "test" ))
 		def _hx_local_3():
 			_this1 = block.split(test)
-			return "\",\"".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+			return "\",\"".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 		
 		self.eq(Std.string("\"" + Std.string(_hx_local_3())) + "\"", "\"\",\"test\",\".blah\",\"something:someval\",\"\"", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 65 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_7(r3):
+		def _hx_local_6(r3):
 			def _hx_local_5():
 				def _hx_local_4():
 					_this2 = r3.matched(0)
@@ -13947,34 +12562,34 @@ class unit_TestEReg(unit_Test):
 			
 			return _hx_local_5()
 		
-		self.eq(_hx_c.EReg("a+", "g").map("aaabacx", _hx_local_7), "[aa]b[]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 68 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_11(r4):
-			def _hx_local_9():
-				def _hx_local_8():
+		self.eq(_hx_c.EReg("a+", "g").map("aaabacx", _hx_local_6), "[aa]b[]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 68 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_9(r4):
+			def _hx_local_8():
+				def _hx_local_7():
 					_this3 = r4.matched(0)
 					return _hx_c.python_Tools.substr(_this3, 1, None)
 				
-				return Std.string("[" + Std.string(_hx_local_8())) + "]"
+				return Std.string("[" + Std.string(_hx_local_7())) + "]"
 			
-			return _hx_local_9()
+			return _hx_local_8()
 		
-		self.eq(_hx_c.EReg("a+", "").map("aaabacx", _hx_local_11), "[aa]bacx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 69 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_12(r5):
+		self.eq(_hx_c.EReg("a+", "").map("aaabacx", _hx_local_9), "[aa]bacx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 69 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_10(r5):
 			return Std.string("[" + Std.string(r5.matched(1))) + "]"
-		self.eq(_hx_c.EReg("a+(b*)", "g").map("aaabacx", _hx_local_12), "[b][]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 71 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_13(r6):
+		self.eq(_hx_c.EReg("a+(b*)", "g").map("aaabacx", _hx_local_10), "[b][]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 71 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_11(r6):
 			return Std.string("[" + Std.string(r6.matchedRight())) + "]"
-		self.eq(_hx_c.EReg("a+", "g").map("aaabacx", _hx_local_13), "[bacx]b[cx]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 72 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_14(r7):
+		self.eq(_hx_c.EReg("a+", "g").map("aaabacx", _hx_local_11), "[bacx]b[cx]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 72 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_12(r7):
 			return Std.string("[" + Std.string(r7.matchedLeft())) + "]"
-		self.eq(_hx_c.EReg("a+", "g").map("aaabacxa", _hx_local_14), "[]b[aaab]cx[aaabacx]", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 76 ,className = "unit.TestEReg" ,methodName = "test" ))
+		self.eq(_hx_c.EReg("a+", "g").map("aaabacxa", _hx_local_12), "[]b[aaab]cx[aaabacx]", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 76 ,className = "unit.TestEReg" ,methodName = "test" ))
 		r8 = _hx_c.EReg("a+", "g")
-		def _hx_local_15(r9):
+		def _hx_local_13(r9):
 			return Std.string("[" + Std.string(r9.matchedLeft())) + "]"
-		self.eq(r8.map("aaabacx", _hx_local_15), "[]b[aaab]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 80 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_16(r10):
+		self.eq(r8.map("aaabacx", _hx_local_13), "[]b[aaab]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 80 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_14(r10):
 			return Std.string("[" + Std.string(r10.matchedLeft())) + "]"
-		self.eq(r8.map("aaabacx", _hx_local_16), "[]b[aaab]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 81 ,className = "unit.TestEReg" ,methodName = "test" ))
+		self.eq(r8.map("aaabacx", _hx_local_14), "[]b[aaab]cx", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 81 ,className = "unit.TestEReg" ,methodName = "test" ))
 		r11 = _hx_c.EReg("a+", "")
 		self.t(r11.matchSub("abab", 0), _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 85 ,className = "unit.TestEReg" ,methodName = "test" ))
 		self.eq(r11.matchedRight(), "bab", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 88 ,className = "unit.TestEReg" ,methodName = "test" ))
@@ -13992,12 +12607,12 @@ class unit_TestEReg(unit_Test):
 		self.t(r11.matchSub("bbaa", 2, 1), _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 106 ,className = "unit.TestEReg" ,methodName = "test" ))
 		self.eq(r11.matchedLeft(), "bb", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 107 ,className = "unit.TestEReg" ,methodName = "test" ))
 		self.eq(r11.matchedRight(), "a", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 108 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_17(r12):
+		def _hx_local_15(r12):
 			return Std.string("[" + Std.string(r12.matched(0))) + "]"
-		self.eq(_hx_c.EReg("x?", "g").map("aaabacx", _hx_local_17), "[]a[]a[]a[]b[]a[]c[x]", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 110 ,className = "unit.TestEReg" ,methodName = "test" ))
-		def _hx_local_18(x):
+		self.eq(_hx_c.EReg("x?", "g").map("aaabacx", _hx_local_15), "[]a[]a[]a[]b[]a[]c[x]", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 110 ,className = "unit.TestEReg" ,methodName = "test" ))
+		def _hx_local_16(x):
 			return Std.string(Std.string(Std.string(Std.string(Std.string(Std.string(Std.string("([" + Std.string(x.matchedLeft())) + "]") + "[") + Std.string(x.matched(0))) + "]") + "[") + Std.string(x.matchedRight())) + "])b"
-		f = _hx_local_18
+		f = _hx_local_16
 		r13 = _hx_c.EReg("$", "mg")
 		self.eq(r13.map("\n", f), "([][][\n])b\n", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 114 ,className = "unit.TestEReg" ,methodName = "test" ))
 		self.eq(r13.map("a", f), "a([a][][])b", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 115 ,className = "unit.TestEReg" ,methodName = "test" ))
@@ -14015,9 +12630,9 @@ class unit_TestEReg(unit_Test):
 		self.eq(r16.map("a", f), "([][][a])ba", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 132 ,className = "unit.TestEReg" ,methodName = "test" ))
 		self.eq(r16.map("aa\na", f), "([][][aa\na])baa\na", _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 133 ,className = "unit.TestEReg" ,methodName = "test" ))
 		r17 = _hx_c.EReg("a", "")
-		def _hx_local_19():
+		def _hx_local_17():
 			r17.matched(0)
-		self.exc(_hx_local_19, _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 136 ,className = "unit.TestEReg" ,methodName = "test" ))
+		self.exc(_hx_local_17, _hx_c._hx_AnonObject(fileName = "TestEReg.hx" ,lineNumber = 136 ,className = "unit.TestEReg" ,methodName = "test" ))
 	
 
 
@@ -14106,60 +12721,30 @@ class unit_TestGADT(unit_Test):
 		e3 = _hx_c.unit_Expr.EConst(_hx_c.unit_Constant.CFloat("12"))
 		eadd = _hx_c.unit_Expr.EBinop(_hx_c.unit_Binop.OpAdd, e1, e2)
 		s = _hx_c.unit_TestGADT.eval(eadd)
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TAbstract(Float,[])", "TAbstract(Float,[])", _hx_c._hx_AnonObject(fileName = "TestGADT.hx" ,lineNumber = 31 ,className = "unit.TestGADT" ,methodName = "testBasic" ))
 		
 		self.eq(s, 20, _hx_c._hx_AnonObject(fileName = "TestGADT.hx" ,lineNumber = 32 ,className = "unit.TestGADT" ,methodName = "testBasic" ))
 		eeq = _hx_c.unit_Expr.EBinop(_hx_c.unit_Binop.OpEq, e1, e2)
 		s1 = _hx_c.unit_TestGADT.eval(eeq)
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestGADT.hx" ,lineNumber = 36 ,className = "unit.TestGADT" ,methodName = "testBasic" ))
 		
 		self.eq(s1, False, _hx_c._hx_AnonObject(fileName = "TestGADT.hx" ,lineNumber = 37 ,className = "unit.TestGADT" ,methodName = "testBasic" ))
 		eeq1 = _hx_c.unit_Expr.EBinop(_hx_c.unit_Binop.OpEq, e1, e3)
 		s2 = _hx_c.unit_TestGADT.eval(eeq1)
-		_hx_local_13 = None
-		def _hx_local_14():
-			nonlocal _hx_local_13
-			if _hx_local_13 is not None:
-				return _hx_local_13
-			
-			_hx_local_10 = _hx_c.unit_Test.count
-			_hx_local_11 = _hx_local_10
-			_hx_c.unit_Test.count = _hx_local_10 + 1
-			_hx_local_13 = _hx_local_11
-			return _hx_local_11
-		
-		_hx_local_12 = _hx_local_14
-		_hx_local_12()
+		_hx_local_4 = _hx_c.unit_Test
+		_hx_local_5 = _hx_local_4.count
+		_hx_local_4.count = _hx_local_5 + 1
+		_hx_local_5
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestGADT.hx" ,lineNumber = 41 ,className = "unit.TestGADT" ,methodName = "testBasic" ))
 		
@@ -14432,7 +13017,7 @@ class unit_TestIO(unit_Test):
 		self.eq(b.length, 12, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 24 ,className = "unit.TestIO" ,methodName = "check" ))
 		_hx_array_set(b.b,1, 0 & 255)
 		o = _hx_c.haxe_io_BytesOutput()
-		self.eq(__builtin__.len(o.b.b), 0, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 28 ,className = "unit.TestIO" ,methodName = "check" ))
+		self.eq(_hx_builtin.len(o.b.b), 0, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 28 ,className = "unit.TestIO" ,methodName = "check" ))
 		o.set_bigEndian(endian)
 		self.eq(o.bigEndian, endian, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 31 ,className = "unit.TestIO" ,methodName = "check" ))
 		o.prepare(4)
@@ -14440,7 +13025,7 @@ class unit_TestIO(unit_Test):
 		o.writeByte(1)
 		o.writeByte(2)
 		o.writeByte(3)
-		self.eq(__builtin__.len(o.b.b), 4, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 38 ,className = "unit.TestIO" ,methodName = "check" ))
+		self.eq(_hx_builtin.len(o.b.b), 4, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 38 ,className = "unit.TestIO" ,methodName = "check" ))
 		o.write(b)
 		o.writeByte(55)
 		o.writeBytes(b, 3, 5)
@@ -14465,7 +13050,7 @@ class unit_TestIO(unit_Test):
 		o.writeByte(99)
 		str = "Héllo World !"
 		o.writeString(str)
-		self.eq(__builtin__.len(o.b.b), 86, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 61 ,className = "unit.TestIO" ,methodName = "check" ))
+		self.eq(_hx_builtin.len(o.b.b), 86, _hx_c._hx_AnonObject(fileName = "TestIO.hx" ,lineNumber = 61 ,className = "unit.TestIO" ,methodName = "check" ))
 		o.writeInt16(-12345)
 		def _hx_local_3():
 			o.writeInt16(1 << 15)
@@ -14688,46 +13273,39 @@ class unit_TestLocals(unit_Test):
 		super().__init__()
 	def testIncrDecr(self):
 		i = 5
-		_hx_local_3 = None
-		def _hx_local_2():
+		def _hx_local_1():
 			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			i = i + 1
+			return _hx_local_0
 			
 		
-		self.eq(_hx_local_2(), 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 7 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
+		self.eq(_hx_local_1(), 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 7 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
 		self.eq(i, 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 8 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
-		def _hx_local_5():
+		def _hx_local_3():
 			nonlocal i
-			_hx_local_4 = i
+			_hx_local_2 = i
 			i = i - 1
-			return _hx_local_4
+			return _hx_local_2
 			
 		
-		self.eq(_hx_local_5(), 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 9 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
+		self.eq(_hx_local_3(), 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 9 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
 		self.eq(i, 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 10 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
-		def _hx_local_6():
+		def _hx_local_4():
 			nonlocal i
 			i = i + 1
 			return i
 			
 		
-		self.eq(_hx_local_6(), 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 11 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
+		self.eq(_hx_local_4(), 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 11 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
 		self.eq(i, 6, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 12 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
-		def _hx_local_8():
+		def _hx_local_5():
 			nonlocal i
 			i = i - 1
 			return i
 			
 		
-		self.eq(_hx_local_8(), 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 13 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
+		self.eq(_hx_local_5(), 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 13 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
 		self.eq(i, 5, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 14 ,className = "unit.TestLocals" ,methodName = "testIncrDecr" ))
 	
 
@@ -14759,7 +13337,7 @@ class unit_TestLocals(unit_Test):
 		
 		self.eq(x, 0, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 41 ,className = "unit.TestLocals" ,methodName = "testScope" ))
 		_g2 = _hx_c.unit_MyEnum.D(_hx_c.unit_MyEnum.A)
-		if (_hx_c.Type.enumIndex(_g2)) == 3:
+		if (_g2.index) == 3:
 			x5 = _g2.params[0]
 			self.eq(x5, _hx_c.unit_MyEnum.A, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 45 ,className = "unit.TestLocals" ,methodName = "testScope" ))
 		
@@ -14783,47 +13361,28 @@ class unit_TestLocals(unit_Test):
 		funs = list()
 		_g = 0
 		while _g < 5:
-			_hx_local_3 = None
-			def _hx_local_2():
+			def _hx_local_1():
 				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
 				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+				_g = _g + 1
+				return _hx_local_0
 				
 			
-			i = [_hx_local_2()]
-			def _hx_local_5(i):
-				def _hx_local_4():
+			i = [_hx_local_1()]
+			def _hx_local_3(i):
+				def _hx_local_2():
 					return _hx_array_get(i,0)
-				return _hx_local_4
+				return _hx_local_2
 			
-			funs.append((_hx_local_5)(i))
-			__builtin__.len(funs)
+			funs.append((_hx_local_3)(i))
+			_hx_builtin.len(funs)
 		
 		
 		_g1 = 0
 		while _g1 < 5:
-			_hx_local_9 = None
-			def _hx_local_8():
-				nonlocal _g1
-				nonlocal _hx_local_9
-				if _hx_local_9 is not None:
-					return _hx_local_9
-				
-				_hx_local_6 = _g1
-				_hx_local_7 = _hx_local_6
-				_g1 = _hx_local_6 + 1
-				_hx_local_9 = _hx_local_7
-				return _hx_local_7
-				
+			k = _g1
+			_g1 = _g1 + 1
 			
-			k = _hx_local_8()
 			self.eq(_hx_array_get(funs,k)(), k, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 65 ,className = "unit.TestLocals" ,methodName = "testCapture" ))
 		
 		
@@ -14831,84 +13390,35 @@ class unit_TestLocals(unit_Test):
 		sum = 0
 		_g2 = 0
 		while _g2 < 5:
-			_hx_local_13 = None
-			def _hx_local_12():
-				nonlocal _g2
-				nonlocal _hx_local_13
-				if _hx_local_13 is not None:
-					return _hx_local_13
-				
-				_hx_local_10 = _g2
-				_hx_local_11 = _hx_local_10
-				_g2 = _hx_local_10 + 1
-				_hx_local_13 = _hx_local_11
-				return _hx_local_11
-				
+			i1 = _g2
+			_g2 = _g2 + 1
 			
-			i1 = _hx_local_12()
 			k1 = [0]
-			def _hx_local_25(k1):
-				def _hx_local_14():
-					_hx_local_18 = None
-					def _hx_local_19():
-						nonlocal _hx_local_18
-						if _hx_local_18 is not None:
-							return _hx_local_18
-						
-						_hx_local_15 = _hx_array_get(k1,0)
-						_hx_local_16 = _hx_local_15
-						_hx_array_set(k1,0, _hx_local_15 + 1)
-						_hx_local_18 = _hx_local_16
-						return _hx_local_16
+			def _hx_local_10(k1):
+				def _hx_local_4():
+					nonlocal sum
+					_hx_local_5 = k1
+					_hx_local_6 = 0
+					_hx_local_7 = _hx_array_get(_hx_local_5,_hx_local_6)
+					_hx_array_set(_hx_local_5,_hx_local_6, _hx_local_7 + 1)
+					_hx_local_7
 					
-					_hx_local_17 = _hx_local_19
-					_hx_local_17()
-					
-					_hx_local_23 = None
-					def _hx_local_24():
-						nonlocal sum
-						nonlocal sum
-						nonlocal _hx_local_23
-						if _hx_local_23 is not None:
-							return _hx_local_23
-						
-						_hx_local_20 = sum
-						_hx_local_21 = _hx_local_20
-						sum = _hx_local_20 + 1
-						_hx_local_23 = _hx_local_21
-						return _hx_local_21
-						
-						
-					
-					_hx_local_22 = _hx_local_24
-					_hx_local_22()
-					
+					sum = sum + 1
 					return _hx_array_get(k1,0)
+					
 				
-				return _hx_local_14
+				return _hx_local_4
 			
-			funs.append((_hx_local_25)(k1))
-			__builtin__.len(funs)
+			funs.append((_hx_local_10)(k1))
+			_hx_builtin.len(funs)
 			
 		
 		
 		_g3 = 0
 		while _g3 < 5:
-			_hx_local_29 = None
-			def _hx_local_28():
-				nonlocal _g3
-				nonlocal _hx_local_29
-				if _hx_local_29 is not None:
-					return _hx_local_29
-				
-				_hx_local_26 = _g3
-				_hx_local_27 = _hx_local_26
-				_g3 = _hx_local_26 + 1
-				_hx_local_29 = _hx_local_27
-				return _hx_local_27
-				
+			i2 = _g3
+			_g3 = _g3 + 1
 			
-			i2 = _hx_local_28()
 			self.eq(_hx_array_get(funs,i2)(), 1, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 75 ,className = "unit.TestLocals" ,methodName = "testCapture" ))
 		
 		
@@ -14917,81 +13427,50 @@ class unit_TestLocals(unit_Test):
 		sum1 = 0
 		_g4 = 0
 		while _g4 < 5:
-			_hx_local_33 = None
-			def _hx_local_32():
-				nonlocal _g4
-				nonlocal _hx_local_33
-				if _hx_local_33 is not None:
-					return _hx_local_33
-				
-				_hx_local_30 = _g4
-				_hx_local_31 = _hx_local_30
-				_g4 = _hx_local_30 + 1
-				_hx_local_33 = _hx_local_31
-				return _hx_local_31
-				
+			i3 = _g4
+			_g4 = _g4 + 1
 			
-			i3 = _hx_local_32()
 			j = [i3]
-			def _hx_local_40(j):
-				def _hx_local_34():
+			def _hx_local_17(j):
+				def _hx_local_11():
 					nonlocal sum1
 					sum1 = sum1 + _hx_array_get(j,0)
-					_hx_local_38 = None
-					def _hx_local_39():
-						nonlocal _hx_local_38
-						if _hx_local_38 is not None:
-							return _hx_local_38
-						
-						_hx_local_35 = _hx_array_get(j,0)
-						_hx_local_36 = _hx_local_35
-						_hx_array_set(j,0, _hx_local_35 + 1)
-						_hx_local_38 = _hx_local_36
-						return _hx_local_36
-					
-					_hx_local_37 = _hx_local_39
-					_hx_local_37()
+					_hx_local_13 = j
+					_hx_local_14 = 0
+					_hx_local_15 = _hx_array_get(_hx_local_13,_hx_local_14)
+					_hx_array_set(_hx_local_13,_hx_local_14, _hx_local_15 + 1)
+					_hx_local_15
 					
 					return _hx_array_get(j,0)
 					
 				
-				return _hx_local_34
+				return _hx_local_11
 			
-			def _hx_local_43(j):
-				def _hx_local_41():
+			def _hx_local_24(j):
+				def _hx_local_18():
 					nonlocal sum1
-					_hx_local_42 = _hx_array_get(j,0)
-					_hx_array_set(j,0, _hx_array_get(j,0) - 1)
-					_hx_local_42
+					_hx_local_19 = j
+					_hx_local_20 = 0
+					_hx_local_21 = _hx_array_get(_hx_local_19,_hx_local_20)
+					_hx_array_set(_hx_local_19,_hx_local_20, _hx_local_21 - 1)
+					_hx_local_21
 					
 					sum1 = sum1 - _hx_array_get(j,0)
 					return _hx_array_get(j,0)
 					
 				
-				return _hx_local_41
+				return _hx_local_18
 			
-			accesses.append(_hx_c._hx_AnonObject(inc = (_hx_local_40)(j) ,dec = (_hx_local_43)(j) ))
-			__builtin__.len(accesses)
+			accesses.append(_hx_c._hx_AnonObject(inc = (_hx_local_17)(j) ,dec = (_hx_local_24)(j) ))
+			_hx_builtin.len(accesses)
 			
 		
 		
 		_g5 = 0
 		while _g5 < 5:
-			_hx_local_47 = None
-			def _hx_local_46():
-				nonlocal _g5
-				nonlocal _hx_local_47
-				if _hx_local_47 is not None:
-					return _hx_local_47
-				
-				_hx_local_44 = _g5
-				_hx_local_45 = _hx_local_44
-				_g5 = _hx_local_44 + 1
-				_hx_local_47 = _hx_local_45
-				return _hx_local_45
-				
+			i4 = _g5
+			_g5 = _g5 + 1
 			
-			i4 = _hx_local_46()
 			a = _hx_array_get(accesses,i4)
 			self.eq(a.inc(), i4 + 1, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 90 ,className = "unit.TestLocals" ,methodName = "testCapture" ))
 			self.eq(sum1, i4, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 91 ,className = "unit.TestLocals" ,methodName = "testCapture" ))
@@ -15005,96 +13484,58 @@ class unit_TestLocals(unit_Test):
 		funs = list()
 		_g = 0
 		while _g < 5:
-			_hx_local_3 = None
-			def _hx_local_2():
+			def _hx_local_1():
 				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
 				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
+				_g = _g + 1
+				return _hx_local_0
 				
 			
-			i = [_hx_local_2()]
-			def _hx_local_15(i):
-				def _hx_local_4():
+			i = [_hx_local_1()]
+			def _hx_local_8(i):
+				def _hx_local_2():
 					tmp = list()
 					_g1 = 0
 					while _g1 < 5:
-						_hx_local_8 = None
-						def _hx_local_7():
+						def _hx_local_4():
 							nonlocal _g1
-							nonlocal _hx_local_8
-							if _hx_local_8 is not None:
-								return _hx_local_8
-							
-							_hx_local_5 = _g1
-							_hx_local_6 = _hx_local_5
-							_g1 = _hx_local_5 + 1
-							_hx_local_8 = _hx_local_6
-							return _hx_local_6
+							_hx_local_3 = _g1
+							_g1 = _g1 + 1
+							return _hx_local_3
 							
 						
-						j = [_hx_local_7()]
-						def _hx_local_10(j,i):
-							def _hx_local_9():
+						j = [_hx_local_4()]
+						def _hx_local_6(j,i):
+							def _hx_local_5():
 								return _hx_array_get(i,0) + _hx_array_get(j,0)
-							return _hx_local_9
+							return _hx_local_5
 						
-						tmp.append((_hx_local_10)(j, i))
-						__builtin__.len(tmp)
+						tmp.append((_hx_local_6)(j, i))
+						_hx_builtin.len(tmp)
 					
 					
 					sum = 0
 					_g11 = 0
 					while _g11 < 5:
-						_hx_local_14 = None
-						def _hx_local_13():
-							nonlocal _g11
-							nonlocal _hx_local_14
-							if _hx_local_14 is not None:
-								return _hx_local_14
-							
-							_hx_local_11 = _g11
-							_hx_local_12 = _hx_local_11
-							_g11 = _hx_local_11 + 1
-							_hx_local_14 = _hx_local_12
-							return _hx_local_12
-							
+						j1 = _g11
+						_g11 = _g11 + 1
 						
-						j1 = _hx_local_13()
 						sum = sum + _hx_array_get(tmp,j1)()
 					
 					
 					return sum
 				
-				return _hx_local_4
+				return _hx_local_2
 			
-			funs.append((_hx_local_15)(i))
-			__builtin__.len(funs)
+			funs.append((_hx_local_8)(i))
+			_hx_builtin.len(funs)
 		
 		
 		_g2 = 0
 		while _g2 < 5:
-			_hx_local_19 = None
-			def _hx_local_18():
-				nonlocal _g2
-				nonlocal _hx_local_19
-				if _hx_local_19 is not None:
-					return _hx_local_19
-				
-				_hx_local_16 = _g2
-				_hx_local_17 = _hx_local_16
-				_g2 = _hx_local_16 + 1
-				_hx_local_19 = _hx_local_17
-				return _hx_local_17
-				
+			i1 = _g2
+			_g2 = _g2 + 1
 			
-			i1 = _hx_local_18()
 			self.eq(_hx_array_get(funs,i1)(), i1 * 5 + 10, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 110 ,className = "unit.TestLocals" ,methodName = "testSubCapture" ))
 		
 		
@@ -15104,62 +13545,38 @@ class unit_TestLocals(unit_Test):
 		funs = list()
 		_g = 0
 		while _g < 5:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			if True:
 				j = [i]
-				def _hx_local_5(j):
-					def _hx_local_4(k):
+				def _hx_local_1(j):
+					def _hx_local_0(k):
 						return _hx_array_get(j,0)
-					return _hx_local_4
+					return _hx_local_0
 				
-				funs.append((_hx_local_5)(j))
-				__builtin__.len(funs)
+				funs.append((_hx_local_1)(j))
+				_hx_builtin.len(funs)
 				
 			
 			
 			if True:
-				def _hx_local_7():
-					def _hx_local_6(j1):
+				def _hx_local_3():
+					def _hx_local_2(j1):
 						return j1
-					return _hx_local_6
+					return _hx_local_2
 				
-				funs.append((_hx_local_7)())
-				__builtin__.len(funs)
+				funs.append((_hx_local_3)())
+				_hx_builtin.len(funs)
 			
 			
 		
 		
 		_g1 = 0
 		while _g1 < 5:
-			_hx_local_11 = None
-			def _hx_local_10():
-				nonlocal _g1
-				nonlocal _hx_local_11
-				if _hx_local_11 is not None:
-					return _hx_local_11
-				
-				_hx_local_8 = _g1
-				_hx_local_9 = _hx_local_8
-				_g1 = _hx_local_8 + 1
-				_hx_local_11 = _hx_local_9
-				return _hx_local_9
-				
+			k1 = _g1
+			_g1 = _g1 + 1
 			
-			k1 = _hx_local_10()
 			self.eq(_hx_array_get(funs,k1 * 2)(0), k1, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 124 ,className = "unit.TestLocals" ,methodName = "testParallelCapture" ))
 			self.eq(_hx_array_get(funs,k1 * 2 + 1)(k1), k1, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 125 ,className = "unit.TestLocals" ,methodName = "testParallelCapture" ))
 		
@@ -15170,44 +13587,20 @@ class unit_TestLocals(unit_Test):
 		funs = list()
 		_g = 0
 		while _g < 5:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
-			def _hx_local_4(i1):
+			def _hx_local_0(i1):
 				return i1
-			funs.append(_hx_local_4)
-			__builtin__.len(funs)
+			funs.append(_hx_local_0)
+			_hx_builtin.len(funs)
 		
 		
 		_g1 = 0
 		while _g1 < 5:
-			_hx_local_8 = None
-			def _hx_local_7():
-				nonlocal _g1
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = _g1
-				_hx_local_6 = _hx_local_5
-				_g1 = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-				
+			k = _g1
+			_g1 = _g1 + 1
 			
-			k = _hx_local_7()
 			self.eq(_hx_array_get(funs,k)(55), 55, _hx_c._hx_AnonObject(fileName = "TestLocals.hx" ,lineNumber = 134 ,className = "unit.TestLocals" ,methodName = "testPossibleBug" ))
 		
 		
@@ -15384,208 +13777,208 @@ class unit_TestMatch(unit_Test):
 			_g = True
 			_g1 = 1
 			_g2 = "foo"
-			def _hx_local_17():
-				def _hx_local_3():
-					def _hx_local_16():
-						def _hx_local_14():
-							def _hx_local_6():
-								def _hx_local_13():
-									def _hx_local_11():
-										def _hx_local_9():
-											def _hx_local_10():
+			def _hx_local_12():
+				def _hx_local_2():
+					def _hx_local_11():
+						def _hx_local_10():
+							def _hx_local_4():
+								def _hx_local_9():
+									def _hx_local_8():
+										def _hx_local_6():
+											def _hx_local_7():
 												return "0"
-											_hx_local_7 = _hx_local_10
-											return _hx_local_7() if (_g2) == "foo" else "1"
+											_hx_local_5 = _hx_local_7
+											return _hx_local_5() if (_g2) == "foo" else "1"
 										
-										return _hx_local_9()
+										return _hx_local_6()
 									
-									return _hx_local_11()
+									return _hx_local_8()
 								
-								_hx_local_4 = _hx_local_13
-								return _hx_local_4() if (_g1) == 1 else "_"
+								_hx_local_3 = _hx_local_9
+								return _hx_local_3() if (_g1) == 1 else "_"
 							
-							return _hx_local_6()
+							return _hx_local_4()
 						
-						return _hx_local_14()
+						return _hx_local_10()
 					
-					_hx_local_1 = _hx_local_16
+					_hx_local_1 = _hx_local_11
 					return _hx_local_1() if (_g) == True else "_"
 				
-				return _hx_local_3()
+				return _hx_local_2()
 			
-			return _hx_local_17()
+			return _hx_local_12()
 		
 		self.eq("0", _hx_local_0(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 181 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
-		def _hx_local_19():
+		def _hx_local_13():
 			_g3 = True
 			_g11 = 1
 			_g21 = "foo"
-			def _hx_local_36():
-				def _hx_local_22():
-					def _hx_local_35():
-						def _hx_local_33():
-							def _hx_local_25():
-								def _hx_local_32():
-									def _hx_local_30():
-										def _hx_local_28():
-											def _hx_local_29():
+			def _hx_local_25():
+				def _hx_local_15():
+					def _hx_local_24():
+						def _hx_local_23():
+							def _hx_local_17():
+								def _hx_local_22():
+									def _hx_local_21():
+										def _hx_local_19():
+											def _hx_local_20():
 												return "0"
-											_hx_local_26 = _hx_local_29
-											return _hx_local_26() if (_g21) == "foo" else "1"
+											_hx_local_18 = _hx_local_20
+											return _hx_local_18() if (_g21) == "foo" else "1"
 										
-										return _hx_local_28()
+										return _hx_local_19()
 									
-									return _hx_local_30()
+									return _hx_local_21()
 								
-								_hx_local_23 = _hx_local_32
-								return _hx_local_23() if (_g11) == 1 else "_"
+								_hx_local_16 = _hx_local_22
+								return _hx_local_16() if (_g11) == 1 else "_"
 							
-							return _hx_local_25()
+							return _hx_local_17()
 						
-						return _hx_local_33()
+						return _hx_local_23()
 					
-					_hx_local_20 = _hx_local_35
-					return _hx_local_20() if (_g3) == True else "_"
+					_hx_local_14 = _hx_local_24
+					return _hx_local_14() if (_g3) == True else "_"
 				
-				return _hx_local_22()
+				return _hx_local_15()
 			
-			return _hx_local_36()
+			return _hx_local_25()
 		
-		self.eq("0", _hx_local_19(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 187 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
-		def _hx_local_38():
+		self.eq("0", _hx_local_13(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 187 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
+		def _hx_local_26():
 			_g4 = True
 			_g12 = 1
 			_g22 = "bar"
-			def _hx_local_55():
-				def _hx_local_41():
-					def _hx_local_54():
-						def _hx_local_52():
-							def _hx_local_44():
-								def _hx_local_51():
-									def _hx_local_49():
-										def _hx_local_47():
-											def _hx_local_48():
+			def _hx_local_38():
+				def _hx_local_28():
+					def _hx_local_37():
+						def _hx_local_36():
+							def _hx_local_30():
+								def _hx_local_35():
+									def _hx_local_34():
+										def _hx_local_32():
+											def _hx_local_33():
 												return "0"
-											_hx_local_45 = _hx_local_48
-											return _hx_local_45() if (_g22) == "foo" else "1"
+											_hx_local_31 = _hx_local_33
+											return _hx_local_31() if (_g22) == "foo" else "1"
 										
-										return _hx_local_47()
+										return _hx_local_32()
 									
-									return _hx_local_49()
+									return _hx_local_34()
 								
-								_hx_local_42 = _hx_local_51
-								return _hx_local_42() if (_g12) == 1 else "_"
+								_hx_local_29 = _hx_local_35
+								return _hx_local_29() if (_g12) == 1 else "_"
 							
-							return _hx_local_44()
+							return _hx_local_30()
 						
-						return _hx_local_52()
+						return _hx_local_36()
 					
-					_hx_local_39 = _hx_local_54
-					return _hx_local_39() if (_g4) == True else "_"
+					_hx_local_27 = _hx_local_37
+					return _hx_local_27() if (_g4) == True else "_"
 				
-				return _hx_local_41()
+				return _hx_local_28()
 			
-			return _hx_local_55()
+			return _hx_local_38()
 		
-		self.eq("1", _hx_local_38(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 193 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
-		def _hx_local_57():
+		self.eq("1", _hx_local_26(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 193 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
+		def _hx_local_39():
 			_g5 = False
 			_g13 = 1
 			_g23 = "foo"
-			def _hx_local_74():
-				def _hx_local_60():
-					def _hx_local_73():
-						def _hx_local_71():
-							def _hx_local_63():
-								def _hx_local_70():
-									def _hx_local_68():
-										def _hx_local_66():
-											def _hx_local_67():
+			def _hx_local_51():
+				def _hx_local_41():
+					def _hx_local_50():
+						def _hx_local_49():
+							def _hx_local_43():
+								def _hx_local_48():
+									def _hx_local_47():
+										def _hx_local_45():
+											def _hx_local_46():
 												return "0"
-											_hx_local_64 = _hx_local_67
-											return _hx_local_64() if (_g23) == "foo" else "1"
+											_hx_local_44 = _hx_local_46
+											return _hx_local_44() if (_g23) == "foo" else "1"
 										
-										return _hx_local_66()
+										return _hx_local_45()
 									
-									return _hx_local_68()
+									return _hx_local_47()
 								
-								_hx_local_61 = _hx_local_70
-								return _hx_local_61() if (_g13) == 1 else "_"
+								_hx_local_42 = _hx_local_48
+								return _hx_local_42() if (_g13) == 1 else "_"
 							
-							return _hx_local_63()
+							return _hx_local_43()
 						
-						return _hx_local_71()
+						return _hx_local_49()
 					
-					_hx_local_58 = _hx_local_73
-					return _hx_local_58() if (_g5) == True else "_"
+					_hx_local_40 = _hx_local_50
+					return _hx_local_40() if (_g5) == True else "_"
 				
-				return _hx_local_60()
+				return _hx_local_41()
 			
-			return _hx_local_74()
+			return _hx_local_51()
 		
-		self.eq("_", _hx_local_57(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 199 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
-		def _hx_local_76():
+		self.eq("_", _hx_local_39(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 199 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
+		def _hx_local_52():
 			_g6 = 1
 			_g14 = 2
-			def _hx_local_99():
-				def _hx_local_81():
-					def _hx_local_91():
-						def _hx_local_89():
-							def _hx_local_86():
-								def _hx_local_87():
+			def _hx_local_68():
+				def _hx_local_55():
+					def _hx_local_62():
+						def _hx_local_61():
+							def _hx_local_58():
+								def _hx_local_59():
 									return "2"
-								_hx_local_82 = _hx_local_87
-								def _hx_local_88():
+								_hx_local_56 = _hx_local_59
+								def _hx_local_60():
 									return "1"
-								_hx_local_84 = _hx_local_88
-								return _hx_local_84() if (_g14) == 2 else _hx_local_82() if (_g14) == 1 else "_"
+								_hx_local_57 = _hx_local_60
+								return _hx_local_57() if (_g14) == 2 else _hx_local_56() if (_g14) == 1 else "_"
 							
-							return _hx_local_86()
+							return _hx_local_58()
 						
-						return _hx_local_89()
+						return _hx_local_61()
 					
-					_hx_local_77 = _hx_local_91
-					def _hx_local_98():
-						def _hx_local_96():
-							def _hx_local_94():
-								def _hx_local_95():
+					_hx_local_53 = _hx_local_62
+					def _hx_local_67():
+						def _hx_local_66():
+							def _hx_local_64():
+								def _hx_local_65():
 									return "1"
-								_hx_local_92 = _hx_local_95
-								return _hx_local_92() if (_g14) == 0 else "_"
+								_hx_local_63 = _hx_local_65
+								return _hx_local_63() if (_g14) == 0 else "_"
 							
-							return _hx_local_94()
+							return _hx_local_64()
 						
-						return _hx_local_96()
+						return _hx_local_66()
 					
-					_hx_local_79 = _hx_local_98
-					return _hx_local_79() if (_g6) == 0 else _hx_local_77() if (_g6) == 1 else "_"
+					_hx_local_54 = _hx_local_67
+					return _hx_local_54() if (_g6) == 0 else _hx_local_53() if (_g6) == 1 else "_"
 				
-				return _hx_local_81()
+				return _hx_local_55()
 			
-			return _hx_local_99()
+			return _hx_local_68()
 		
-		self.eq("1", _hx_local_76(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 205 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
+		self.eq("1", _hx_local_52(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 205 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
 		t = _hx_c.unit_A.TA("foo")
-		def _hx_local_105():
-			def _hx_local_106():
+		def _hx_local_71():
+			def _hx_local_72():
 				return "2"
-			_hx_local_101 = _hx_local_106
-			def _hx_local_113():
-				def _hx_local_111():
-					def _hx_local_109():
-						def _hx_local_110():
+			_hx_local_69 = _hx_local_72
+			def _hx_local_77():
+				def _hx_local_76():
+					def _hx_local_74():
+						def _hx_local_75():
 							return "0"
-						_hx_local_107 = _hx_local_110
-						return _hx_local_107() if (t.params[0]) == "foo" else "1"
+						_hx_local_73 = _hx_local_75
+						return _hx_local_73() if (t.params[0]) == "foo" else "1"
 					
-					return _hx_local_109()
+					return _hx_local_74()
 				
-				return _hx_local_111()
+				return _hx_local_76()
 			
-			_hx_local_103 = _hx_local_113
-			return _hx_local_103() if (_hx_c.Type.enumIndex(t)) == 0 else _hx_local_101() if (_hx_c.Type.enumIndex(t)) == 2 else None
+			_hx_local_70 = _hx_local_77
+			return _hx_local_70() if (t.index) == 0 else _hx_local_69() if (t.index) == 2 else None
 		
-		self.eq("0", _hx_local_105(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 212 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
+		self.eq("0", _hx_local_71(), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 212 ,className = "unit.TestMatch" ,methodName = "testBasic" ))
 	
 
 	def testTuple(self):
@@ -15741,23 +14134,11 @@ class unit_TestMatch(unit_Test):
 		test = _hx_local_0
 		results = ["_:0", "0", "0", "0", "2", "1", "2", "_:7", "3", "3", "_:10"]
 		_g1 = 0
-		_g = __builtin__.len(results)
+		_g = _hx_builtin.len(results)
 		while _g1 < _g:
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _g1
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _g1
-				_hx_local_2 = _hx_local_1
-				_g1 = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_3()
 			self.eq(_hx_array_get(results,i), test(i), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 247 ,className = "unit.TestMatch" ,methodName = "testGrouping" ))
 		
 		
@@ -15859,9 +14240,9 @@ class unit_TestMatch(unit_Test):
 				r1 = 2
 			else:
 				r1 = 3
-		elif (_hx_c.Type.enumIndex(t)) == 0:
+		elif (t.index) == 0:
 			r1 = 1
-		elif (_hx_c.Type.enumIndex(t)) == 1:
+		elif (t.index) == 1:
 			r1 = 4
 		
 		self.eq(r1, 3, _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 411 ,className = "unit.TestMatch" ,methodName = "testNullPattern" ))
@@ -15869,7 +14250,7 @@ class unit_TestMatch(unit_Test):
 		e2 = _hx_c._hx_AnonObject(expr = _hx_c.haxe_macro_ExprDef.EIf(_hx_c._hx_AnonObject(expr = _hx_c.haxe_macro_ExprDef.EConst(_hx_c.haxe_macro_Constant.CInt("1")) ,pos = _hx_c._hx_AnonObject(file = "../unit/TestMatch.hx" ,min = 10513 ,max = 10514 ) ), _hx_c._hx_AnonObject(expr = _hx_c.haxe_macro_ExprDef.EConst(_hx_c.haxe_macro_Constant.CInt("2")) ,pos = _hx_c._hx_AnonObject(file = "../unit/TestMatch.hx" ,min = 10516 ,max = 10517 ) ), _hx_c._hx_AnonObject(expr = _hx_c.haxe_macro_ExprDef.EConst(_hx_c.haxe_macro_Constant.CInt("3")) ,pos = _hx_c._hx_AnonObject(file = "../unit/TestMatch.hx" ,min = 10523 ,max = 10524 ) )) ,pos = _hx_c._hx_AnonObject(file = "../unit/TestMatch.hx" ,min = 10509 ,max = 10524 ) )
 		def _hx_local_0(e):
 			_g = e.expr
-			if (_hx_c.Type.enumIndex(_g)) == 15:
+			if (_g.index) == 15:
 				if _g.params[2] is None:
 					return 1
 				else:
@@ -15882,14 +14263,14 @@ class unit_TestMatch(unit_Test):
 		self.eq(2, matchIf(e2), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 423 ,className = "unit.TestMatch" ,methodName = "testNullPattern" ))
 		t1 = _hx_c.unit_Tree.Leaf("foo")
 		def _hx_local_1(t2):
-			if (_hx_c.Type.enumIndex(t2)) == 0:
+			if (t2.index) == 0:
 				e3 = t2.params[0]
 				if t2.params[0] is None:
 					return "null"
 				else:
 					return e3
 		
-			elif (_hx_c.Type.enumIndex(t2)) == 1:
+			elif (t2.index) == 1:
 				return "default"
 			
 		f = _hx_local_1
@@ -15954,7 +14335,7 @@ class unit_TestMatch(unit_Test):
 		self.eq(3, f(9), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 477 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(2, f(6), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 478 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(2, f(8), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 479 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
-		def _hx_local_4(t):
+		def _hx_local_3(t):
 			def _hx_local_2():
 				def _hx_local_1():
 					return t
@@ -15962,22 +14343,22 @@ class unit_TestMatch(unit_Test):
 			
 			return _hx_local_2()
 		
-		ref = _hx_local_4
-		def _hx_local_5(t1):
-			if (_hx_c.Type.enumIndex(t1)) == 0:
+		ref = _hx_local_3
+		def _hx_local_4(t1):
+			if (t1.index) == 0:
 				if (_hx_builtin.len(t1.params[1])) == 0:
 					__ex01 = t1.params[0]
 					_g1 = _hx_c.unit_TestMatch.deref(__ex01)
 					if (_g1) == "Foo":
 						return "Foo"
 					else:
-						if (_hx_c.Type.enumIndex(t1)) == 0:
+						if (t1.index) == 0:
 							__ex02 = t1.params[0]
 							_g11 = _hx_c.unit_TestMatch.deref(__ex02)
 							if (_g11) == "Baz" or (_g11) == "Bar":
 								return "BarBaz"
 							else:
-								if (_hx_c.Type.enumIndex(t1)) == 1:
+								if (t1.index) == 1:
 									if (_hx_builtin.len(t1.params[1])) == 0:
 										__ex03 = t1.params[0]
 										_g2 = _hx_c.unit_TestMatch.deref(__ex03)
@@ -15988,12 +14369,12 @@ class unit_TestMatch(unit_Test):
 							
 									else:
 										return "Other"
-								elif (_hx_c.Type.enumIndex(t1)) == 0:
+								elif (t1.index) == 0:
 									return "OtherString"
 								
 							
 					
-						elif (_hx_c.Type.enumIndex(t1)) == 1:
+						elif (t1.index) == 1:
 							if (_hx_builtin.len(t1.params[1])) == 0:
 								__ex04 = t1.params[0]
 								_g12 = _hx_c.unit_TestMatch.deref(__ex04)
@@ -16013,7 +14394,7 @@ class unit_TestMatch(unit_Test):
 					if (_g3) == "Baz" or (_g3) == "Bar":
 						return "BarBaz"
 					else:
-						if (_hx_c.Type.enumIndex(t1)) == 1:
+						if (t1.index) == 1:
 							if (_hx_builtin.len(t1.params[1])) == 0:
 								__ex06 = t1.params[0]
 								_g13 = _hx_c.unit_TestMatch.deref(__ex06)
@@ -16024,12 +14405,12 @@ class unit_TestMatch(unit_Test):
 					
 							else:
 								return "Other"
-						elif (_hx_c.Type.enumIndex(t1)) == 0:
+						elif (t1.index) == 0:
 							return "OtherString"
 						
 					
 		
-			elif (_hx_c.Type.enumIndex(t1)) == 1:
+			elif (t1.index) == 1:
 				if (_hx_builtin.len(t1.params[1])) == 0:
 					__ex07 = t1.params[0]
 					_g4 = _hx_c.unit_TestMatch.deref(__ex07)
@@ -16041,7 +14422,7 @@ class unit_TestMatch(unit_Test):
 				else:
 					return "Other"
 			
-		f1 = _hx_local_5
+		f1 = _hx_local_4
 		self.eq("Foo", f1(_hx_c.unit_MiniType.MTString(ref("Foo"), [])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 495 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq("BarBaz", f1(_hx_c.unit_MiniType.MTString(ref("Bar"), [])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 496 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq("BarBaz", f1(_hx_c.unit_MiniType.MTString(ref("Baz"), [])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 497 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
@@ -16049,7 +14430,7 @@ class unit_TestMatch(unit_Test):
 		self.eq("OtherString", f1(_hx_c.unit_MiniType.MTString(ref(""), [])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 499 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq("Int:12", f1(_hx_c.unit_MiniType.MTInt(ref(12), [])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 500 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq("Other", f1(_hx_c.unit_MiniType.MTInt(ref(12), [_hx_c.unit_MiniType.MTInt(ref(10), [])])), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 501 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
-		def _hx_local_6(i5):
+		def _hx_local_5(i5):
 			__ex08 = i5
 			arr = i5
 			if (_hx_builtin.len(i5)) == 1:
@@ -16058,7 +14439,7 @@ class unit_TestMatch(unit_Test):
 			
 			else:
 				_g5 = _hx_c.unit_TestMatch.isPair(__ex08)
-				if (_hx_c.Type.enumIndex(_g5)) == 0:
+				if (_g5.index) == 0:
 					p = _g5.params[0]
 					return p.a + p.b
 				
@@ -16068,14 +14449,14 @@ class unit_TestMatch(unit_Test):
 				
 			
 		
-		g = _hx_local_6
+		g = _hx_local_5
 		self.eq(3, g([]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 511 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(1, g([1]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 512 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(5, g([2, 3]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 513 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(3, g([2, 3, 4]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 514 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
-		def _hx_local_7(i6):
+		def _hx_local_6(i6):
 			return (i6 & 1) != 0
-		anon = _hx_c._hx_AnonObject(odd = _hx_local_7 )
+		anon = _hx_c._hx_AnonObject(odd = _hx_local_6 )
 		i7 = 9
 		r = None
 		__ex09 = i7
@@ -16101,31 +14482,31 @@ class unit_TestMatch(unit_Test):
 		
 		
 		self.eq(2, r, _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 527 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
-		def _hx_local_8(i11,i21):
+		def _hx_local_7(i11,i21):
 			return i11 * i21
-		mul = _hx_local_8
-		def _hx_local_13(i8):
+		mul = _hx_local_7
+		def _hx_local_12(i8):
 			__ex010 = i8
 			__ex011 = i8
 			if (i8) == 1:
 				return 1
 			else:
-				def _hx_local_10(f2,i12):
-					def _hx_local_9(i22):
+				def _hx_local_9(f2,i12):
+					def _hx_local_8(i22):
 						return f2(i12, i22)
-					return _hx_local_9
+					return _hx_local_8
 				
-				_g7 = (_hx_local_10)(mul, 4)(__ex010)
+				_g7 = (_hx_local_9)(mul, 4)(__ex010)
 				if (_g7) == 8:
 					return 2
 				else:
 					__ex012 = i8
-					def _hx_local_12(f3,i13):
-						def _hx_local_11(i23):
+					def _hx_local_11(f3,i13):
+						def _hx_local_10(i23):
 							return f3(i13, i23)
-						return _hx_local_11
+						return _hx_local_10
 					
-					_g14 = (_hx_local_12)(mul, 5)(__ex012)
+					_g14 = (_hx_local_11)(mul, 5)(__ex012)
 					if (_g14) == 15:
 						return 3
 					else:
@@ -16134,33 +14515,33 @@ class unit_TestMatch(unit_Test):
 				
 			
 		
-		check = _hx_local_13
+		check = _hx_local_12
 		self.eq(1, check(1), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 540 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(2, check(2), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 541 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(3, check(3), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 542 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(4, check(4), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 543 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
-		def _hx_local_15(pred):
-			def _hx_local_14(x1):
+		def _hx_local_14(pred):
+			def _hx_local_13(x1):
 				if pred(x1):
 					return _hx_c.haxe_ds_Option.Some(x1)
 				else:
 					return _hx_c.haxe_ds_Option._hx_None
-			return _hx_local_14
+			return _hx_local_13
 		
-		_hx_is = _hx_local_15
-		def _hx_local_17(pred1):
-			def _hx_local_16(x2):
+		_hx_is = _hx_local_14
+		def _hx_local_16(pred1):
+			def _hx_local_15(x2):
 				if not pred1(x2):
 					return _hx_c.haxe_ds_Option.Some(x2)
 				else:
 					return _hx_c.haxe_ds_Option._hx_None
-			return _hx_local_16
+			return _hx_local_15
 		
-		isNot = _hx_local_17
-		def _hx_local_18(i9,s,t2):
+		isNot = _hx_local_16
+		def _hx_local_17(i9,s,t2):
 			return _hx_c.Std.string(t2)
-		testArgs = _hx_local_18
-		def _hx_local_35(i10):
+		testArgs = _hx_local_17
+		def _hx_local_34(i10):
 			__ex013 = i10
 			__ex014 = i10
 			__ex015 = i10
@@ -16172,7 +14553,7 @@ class unit_TestMatch(unit_Test):
 			
 			else:
 				_g8 = _hx_c.unit_TestMatch.isPair(__ex013)
-				if (_hx_c.Type.enumIndex(_g8)) == 0:
+				if (_g8.index) == 0:
 					a = _g8.params[0].a
 					b = _g8.params[0].b
 					if a < 0:
@@ -16180,33 +14561,33 @@ class unit_TestMatch(unit_Test):
 					else:
 						__ex017 = i10
 						_g15 = _hx_c.unit_TestMatch.isPair(__ex017)
-						if (_hx_c.Type.enumIndex(_g15)) == 0:
+						if (_g15.index) == 0:
 							__ex018 = _g15.params[0].a
 							b1 = _g15.params[0].b
 							_g21 = _hx_is(_hx_c.unit_TestMatch.even)(__ex018)
-							if (_hx_c.Type.enumIndex(_g21)) == 0:
+							if (_g21.index) == 0:
 								a1 = _g21.params[0]
 								return a1 + b1
 							
 							else:
 								__ex019 = i10
 								_g31 = _hx_c.unit_TestMatch.isPair(__ex019)
-								if (_hx_c.Type.enumIndex(_g31)) == 0:
+								if (_g31.index) == 0:
 									__ex020 = _g31.params[0].a
 									b2 = _g31.params[0].b
 									_g41 = isNot(_hx_c.unit_TestMatch.even)(__ex020)
-									if (_hx_c.Type.enumIndex(_g41)) == 0:
+									if (_g41.index) == 0:
 										a2 = _g41.params[0]
 										return a2 * b2
 									
 									else:
 										__ex021 = i10
-										def _hx_local_20(f4,i14,s1):
-											def _hx_local_19(t3):
+										def _hx_local_19(f4,i14,s1):
+											def _hx_local_18(t3):
 												return f4(i14, s1, t3)
-											return _hx_local_19
+											return _hx_local_18
 										
-										_g51 = (_hx_local_20)(testArgs, 1, "foo")(__ex021)
+										_g51 = (_hx_local_19)(testArgs, 1, "foo")(__ex021)
 										if (_g51) == "[99,98,97]":
 											return 99
 										else:
@@ -16219,12 +14600,12 @@ class unit_TestMatch(unit_Test):
 								
 								else:
 									__ex022 = i10
-									def _hx_local_22(f5,i15,s2):
-										def _hx_local_21(t4):
+									def _hx_local_21(f5,i15,s2):
+										def _hx_local_20(t4):
 											return f5(i15, s2, t4)
-										return _hx_local_21
+										return _hx_local_20
 									
-									_g42 = (_hx_local_22)(testArgs, 1, "foo")(__ex022)
+									_g42 = (_hx_local_21)(testArgs, 1, "foo")(__ex022)
 									if (_g42) == "[99,98,97]":
 										return 99
 									else:
@@ -16240,22 +14621,22 @@ class unit_TestMatch(unit_Test):
 						else:
 							__ex023 = i10
 							_g22 = _hx_c.unit_TestMatch.isPair(__ex023)
-							if (_hx_c.Type.enumIndex(_g22)) == 0:
+							if (_g22.index) == 0:
 								__ex024 = _g22.params[0].a
 								b3 = _g22.params[0].b
 								_g32 = isNot(_hx_c.unit_TestMatch.even)(__ex024)
-								if (_hx_c.Type.enumIndex(_g32)) == 0:
+								if (_g32.index) == 0:
 									a3 = _g32.params[0]
 									return a3 * b3
 								
 								else:
 									__ex025 = i10
-									def _hx_local_24(f6,i16,s3):
-										def _hx_local_23(t5):
+									def _hx_local_23(f6,i16,s3):
+										def _hx_local_22(t5):
 											return f6(i16, s3, t5)
-										return _hx_local_23
+										return _hx_local_22
 									
-									_g43 = (_hx_local_24)(testArgs, 1, "foo")(__ex025)
+									_g43 = (_hx_local_23)(testArgs, 1, "foo")(__ex025)
 									if (_g43) == "[99,98,97]":
 										return 99
 									else:
@@ -16268,12 +14649,12 @@ class unit_TestMatch(unit_Test):
 							
 							else:
 								__ex026 = i10
-								def _hx_local_26(f7,i17,s4):
-									def _hx_local_25(t6):
+								def _hx_local_25(f7,i17,s4):
+									def _hx_local_24(t6):
 										return f7(i17, s4, t6)
-									return _hx_local_25
+									return _hx_local_24
 								
-								_g33 = (_hx_local_26)(testArgs, 1, "foo")(__ex026)
+								_g33 = (_hx_local_25)(testArgs, 1, "foo")(__ex026)
 								if (_g33) == "[99,98,97]":
 									return 99
 								else:
@@ -16290,33 +14671,33 @@ class unit_TestMatch(unit_Test):
 				else:
 					__ex017 = i10
 					_g15 = _hx_c.unit_TestMatch.isPair(__ex017)
-					if (_hx_c.Type.enumIndex(_g15)) == 0:
+					if (_g15.index) == 0:
 						__ex018 = _g15.params[0].a
 						b1 = _g15.params[0].b
 						_g21 = _hx_is(_hx_c.unit_TestMatch.even)(__ex018)
-						if (_hx_c.Type.enumIndex(_g21)) == 0:
+						if (_g21.index) == 0:
 							a1 = _g21.params[0]
 							return a1 + b1
 						
 						else:
 							__ex019 = i10
 							_g31 = _hx_c.unit_TestMatch.isPair(__ex019)
-							if (_hx_c.Type.enumIndex(_g31)) == 0:
+							if (_g31.index) == 0:
 								__ex020 = _g31.params[0].a
 								b2 = _g31.params[0].b
 								_g41 = isNot(_hx_c.unit_TestMatch.even)(__ex020)
-								if (_hx_c.Type.enumIndex(_g41)) == 0:
+								if (_g41.index) == 0:
 									a2 = _g41.params[0]
 									return a2 * b2
 								
 								else:
 									__ex021 = i10
-									def _hx_local_28(f4,i14,s1):
-										def _hx_local_27(t3):
+									def _hx_local_27(f4,i14,s1):
+										def _hx_local_26(t3):
 											return f4(i14, s1, t3)
-										return _hx_local_27
+										return _hx_local_26
 									
-									_g51 = (_hx_local_28)(testArgs, 1, "foo")(__ex021)
+									_g51 = (_hx_local_27)(testArgs, 1, "foo")(__ex021)
 									if (_g51) == "[99,98,97]":
 										return 99
 									else:
@@ -16329,12 +14710,12 @@ class unit_TestMatch(unit_Test):
 							
 							else:
 								__ex022 = i10
-								def _hx_local_30(f5,i15,s2):
-									def _hx_local_29(t4):
+								def _hx_local_29(f5,i15,s2):
+									def _hx_local_28(t4):
 										return f5(i15, s2, t4)
-									return _hx_local_29
+									return _hx_local_28
 								
-								_g42 = (_hx_local_30)(testArgs, 1, "foo")(__ex022)
+								_g42 = (_hx_local_29)(testArgs, 1, "foo")(__ex022)
 								if (_g42) == "[99,98,97]":
 									return 99
 								else:
@@ -16350,22 +14731,22 @@ class unit_TestMatch(unit_Test):
 					else:
 						__ex023 = i10
 						_g22 = _hx_c.unit_TestMatch.isPair(__ex023)
-						if (_hx_c.Type.enumIndex(_g22)) == 0:
+						if (_g22.index) == 0:
 							__ex024 = _g22.params[0].a
 							b3 = _g22.params[0].b
 							_g32 = isNot(_hx_c.unit_TestMatch.even)(__ex024)
-							if (_hx_c.Type.enumIndex(_g32)) == 0:
+							if (_g32.index) == 0:
 								a3 = _g32.params[0]
 								return a3 * b3
 							
 							else:
 								__ex025 = i10
-								def _hx_local_32(f6,i16,s3):
-									def _hx_local_31(t5):
+								def _hx_local_31(f6,i16,s3):
+									def _hx_local_30(t5):
 										return f6(i16, s3, t5)
-									return _hx_local_31
+									return _hx_local_30
 								
-								_g43 = (_hx_local_32)(testArgs, 1, "foo")(__ex025)
+								_g43 = (_hx_local_31)(testArgs, 1, "foo")(__ex025)
 								if (_g43) == "[99,98,97]":
 									return 99
 								else:
@@ -16378,12 +14759,12 @@ class unit_TestMatch(unit_Test):
 						
 						else:
 							__ex026 = i10
-							def _hx_local_34(f7,i17,s4):
-								def _hx_local_33(t6):
+							def _hx_local_33(f7,i17,s4):
+								def _hx_local_32(t6):
 									return f7(i17, s4, t6)
-								return _hx_local_33
+								return _hx_local_32
 							
-							_g33 = (_hx_local_34)(testArgs, 1, "foo")(__ex026)
+							_g33 = (_hx_local_33)(testArgs, 1, "foo")(__ex026)
 							if (_g33) == "[99,98,97]":
 								return 99
 							else:
@@ -16398,7 +14779,7 @@ class unit_TestMatch(unit_Test):
 				
 			
 		
-		h = _hx_local_35
+		h = _hx_local_34
 		self.eq(3, h([]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 567 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(1, h([1]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 568 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
 		self.eq(1, h([2]), _hx_c._hx_AnonObject(fileName = "TestMatch.hx" ,lineNumber = 569 ,className = "unit.TestMatch" ,methodName = "testExtractors" ))
@@ -16452,8 +14833,8 @@ class unit_TestMeta(unit_Test):
 			return None
 		
 		fl = _hx_c.Reflect.fields(o)
-		fl.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		return "#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fl)))
+		fl.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		return "#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fl)))
 	
 
 	def testMeta(self):
@@ -16494,8 +14875,8 @@ class unit_TestMeta(unit_Test):
 		self.eq(m.name, "bar", _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 63 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
 		self.eq(_hx_array_get(m.args,0), "1", _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 64 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
 		self.eq(_hx_array_get(m.args,1), "foo", _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 65 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
-		self.eq(__builtin__.len(_hx_c._hx_AnonObject(name = "foo" ,args = [] ).args), 0, _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 67 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
-		self.eq(__builtin__.len(_hx_c._hx_AnonObject(name = "foo" ,args = ["1"] ).args), 1, _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 68 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
+		self.eq(_hx_builtin.len(_hx_c._hx_AnonObject(name = "foo" ,args = [] ).args), 0, _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 67 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
+		self.eq(_hx_builtin.len(_hx_c._hx_AnonObject(name = "foo" ,args = ["1"] ).args), 1, _hx_c._hx_AnonObject(fileName = "TestMeta.hx" ,lineNumber = 68 ,className = "unit.TestMeta" ,methodName = "testExprMeta" ))
 	
 
 
@@ -16886,25 +15267,7 @@ class unit_TestMisc(unit_Test):
 			return x1
 		f1 = _hx_local_2
 		self.eq(f1(), 4, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 143 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
-		_hx_local_6 = None
-		def _hx_local_7():
-			nonlocal x1
-			nonlocal x1
-			nonlocal _hx_local_6
-			if _hx_local_6 is not None:
-				return _hx_local_6
-			
-			_hx_local_3 = x1
-			_hx_local_4 = _hx_local_3
-			x1 = _hx_local_3 + 1
-			_hx_local_6 = _hx_local_4
-			return _hx_local_4
-			
-			
-		
-		_hx_local_5 = _hx_local_7
-		_hx_local_5()
-		
+		x1 = x1 + 1
 		self.eq(f1(), 5, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 145 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
 		o = _hx_c._hx_AnonObject(f = f1 )
 		self.eq(o.f(), 5, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 148 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
@@ -16912,12 +15275,12 @@ class unit_TestMisc(unit_Test):
 		o1 = _hx_c._hx_AnonObject(add = c.add )
 		self.eq(o1.add(1, 2), 103, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 152 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
 		self.eq(o1.add, o1.add, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 153 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
-		def _hx_local_8(x2):
+		def _hx_local_4(x2):
 			if x2 == float("inf") or x2 == float("-inf"):
 				return float("nan")
 			else:
 				return _hx_math.cos(x2)
-		o2 = _hx_c._hx_AnonObject(cos = _hx_local_8 )
+		o2 = _hx_c._hx_AnonObject(cos = _hx_local_4 )
 		self.eq(o2.cos(0), 1., _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 156 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
 		c1 = _hx_c.unit_MyEnum.C
 		self.t(_hx_c.Type.enumEq(_hx_c.unit_MyEnum.C(1, "hello"), c1(1, "hello")), _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 160 ,className = "unit.TestMisc" ,methodName = "testClosure" ))
@@ -17199,276 +15562,171 @@ class unit_TestMisc(unit_Test):
 
 	def testIncr(self):
 		z = 0
-		_hx_local_3 = None
-		def _hx_local_2():
+		def _hx_local_1():
 			nonlocal z
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = z
-			_hx_local_1 = _hx_local_0
-			z = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			z = z + 1
+			return _hx_local_0
 			
 		
-		self.eq(_hx_local_2(), 0, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 397 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_1(), 0, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 397 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(z, 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 398 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
-		def _hx_local_4():
+		def _hx_local_2():
 			nonlocal z
 			z = z + 1
 			return z
 			
 		
-		self.eq(_hx_local_4(), 2, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 399 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_2(), 2, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 399 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(z, 2, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 400 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
-		_hx_local_9 = None
-		def _hx_local_10():
-			nonlocal z
-			nonlocal z
-			nonlocal _hx_local_9
-			if _hx_local_9 is not None:
-				return _hx_local_9
-			
-			_hx_local_6 = z
-			_hx_local_7 = _hx_local_6
-			z = _hx_local_6 + 1
-			_hx_local_9 = _hx_local_7
-			return _hx_local_7
-			
-			
-		
-		_hx_local_8 = _hx_local_10
-		_hx_local_8()
-		
+		z = z + 1
 		self.eq(z, 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 402 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		z = z + 1
 		self.eq(z, 4, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 404 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
-		def _hx_local_11():
+		def _hx_local_5():
 			nonlocal z
 			z = z + 3
 			return z
 			
 		
-		self.eq(_hx_local_11(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 406 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_5(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 406 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x = 0
 		arr = [3]
-		_hx_local_20 = None
-		def _hx_local_19():
-			nonlocal _hx_local_20
-			if _hx_local_20 is not None:
-				return _hx_local_20
-			
-			_hx_local_16 = None
-			def _hx_local_15():
+		def _hx_local_12():
+			def _hx_local_7():
 				nonlocal x
-				nonlocal _hx_local_16
-				if _hx_local_16 is not None:
-					return _hx_local_16
-				
-				_hx_local_13 = x
-				_hx_local_14 = _hx_local_13
-				x = _hx_local_13 + 1
-				_hx_local_16 = _hx_local_14
-				return _hx_local_14
+				_hx_local_6 = x
+				x = x + 1
+				return _hx_local_6
 				
 			
-			_hx_local_17 = _hx_array_get(arr,_hx_local_15())
-			_hx_local_18 = _hx_local_17
-			_hx_array_set(arr,_hx_local_15(), _hx_local_17 + 1)
-			_hx_local_20 = _hx_local_18
-			return _hx_local_18
+			_hx_local_8 = arr
+			_hx_local_9 = _hx_local_7()
+			_hx_local_10 = _hx_array_get(_hx_local_8,_hx_local_9)
+			_hx_array_set(_hx_local_8,_hx_local_9, _hx_local_10 + 1)
+			return _hx_local_10
 		
-		self.eq(_hx_local_19(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 410 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_12(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 410 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(x, 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 412 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr,0), 4, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 414 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x = 0
-		def _hx_local_25():
-			_hx_local_24 = None
-			def _hx_local_23():
+		def _hx_local_19():
+			def _hx_local_14():
 				nonlocal x
-				nonlocal _hx_local_24
-				if _hx_local_24 is not None:
-					return _hx_local_24
-				
-				_hx_local_21 = x
-				_hx_local_22 = _hx_local_21
-				x = _hx_local_21 + 1
-				_hx_local_24 = _hx_local_22
-				return _hx_local_22
+				_hx_local_13 = x
+				x = x + 1
+				return _hx_local_13
 				
 			
-			_hx_array_set(arr,_hx_local_23(), _hx_array_get(arr,_hx_local_23()) + 3)
-			return _hx_array_get(arr,_hx_local_23())
+			_hx_local_15 = arr
+			_hx_local_16 = _hx_local_14()
+			_hx_local_17 = _hx_array_get(_hx_local_15,_hx_local_16)
+			_hx_array_set(_hx_local_15,_hx_local_16, _hx_local_17 + 3)
+			return _hx_array_get(_hx_local_15,_hx_local_16)
 		
-		self.eq(_hx_local_25(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 416 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_19(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 416 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr,0), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 417 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x1 = 0
 		arr1 = [_hx_c._hx_AnonObject(v = 3 )]
-		_hx_local_34 = None
-		def _hx_local_33():
-			nonlocal _hx_local_34
-			if _hx_local_34 is not None:
-				return _hx_local_34
-			
-			_hx_local_30 = None
-			def _hx_local_29():
+		def _hx_local_24():
+			def _hx_local_21():
 				nonlocal x1
-				nonlocal _hx_local_30
-				if _hx_local_30 is not None:
-					return _hx_local_30
-				
-				_hx_local_27 = x1
-				_hx_local_28 = _hx_local_27
-				x1 = _hx_local_27 + 1
-				_hx_local_30 = _hx_local_28
-				return _hx_local_28
+				_hx_local_20 = x1
+				x1 = x1 + 1
+				return _hx_local_20
 				
 			
-			_hx_local_31 = _hx_array_get(arr1,_hx_local_29()).v
-			_hx_local_32 = _hx_local_31
-			_hx_array_get(arr1,_hx_local_29()).v = _hx_local_31 + 1
-			_hx_local_34 = _hx_local_32
-			return _hx_local_32
+			_hx_local_22 = _hx_array_get(arr1,_hx_local_21())
+			_hx_local_23 = _hx_local_22.v
+			_hx_local_22.v = _hx_local_23 + 1
+			return _hx_local_23
 		
-		self.eq(_hx_local_33(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 421 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_24(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 421 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(x1, 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 422 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr1,0).v, 4, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 423 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x1 = 0
-		def _hx_local_39():
-			_hx_local_38 = None
-			def _hx_local_37():
+		def _hx_local_29():
+			def _hx_local_26():
 				nonlocal x1
-				nonlocal _hx_local_38
-				if _hx_local_38 is not None:
-					return _hx_local_38
-				
-				_hx_local_35 = x1
-				_hx_local_36 = _hx_local_35
-				x1 = _hx_local_35 + 1
-				_hx_local_38 = _hx_local_36
-				return _hx_local_36
+				_hx_local_25 = x1
+				x1 = x1 + 1
+				return _hx_local_25
 				
 			
-			_hx_array_get(arr1,_hx_local_37()).v = _hx_array_get(arr1,_hx_local_37()).v + 3
-			return _hx_array_get(arr1,_hx_local_37()).v
+			_hx_local_27 = _hx_array_get(arr1,_hx_local_26())
+			_hx_local_28 = _hx_local_27.v
+			_hx_local_27.v = _hx_local_28 + 3
+			return _hx_local_27.v
 		
-		self.eq(_hx_local_39(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 427 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_29(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 427 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr1,0).v, 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 428 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x1 = 0
 		arr2 = [_hx_c._hx_AnonObject(v = 3 )]
-		_hx_local_48 = None
-		def _hx_local_47():
-			nonlocal _hx_local_48
-			if _hx_local_48 is not None:
-				return _hx_local_48
-			
-			_hx_local_44 = None
-			def _hx_local_43():
+		def _hx_local_34():
+			def _hx_local_31():
 				nonlocal x1
-				nonlocal _hx_local_44
-				if _hx_local_44 is not None:
-					return _hx_local_44
-				
-				_hx_local_41 = x1
-				_hx_local_42 = _hx_local_41
-				x1 = _hx_local_41 + 1
-				_hx_local_44 = _hx_local_42
-				return _hx_local_42
+				_hx_local_30 = x1
+				x1 = x1 + 1
+				return _hx_local_30
 				
 			
-			_hx_local_45 = _hx_array_get(arr2,_hx_local_43()).v
-			_hx_local_46 = _hx_local_45
-			_hx_array_get(arr2,_hx_local_43()).v = _hx_local_45 + 1
-			_hx_local_48 = _hx_local_46
-			return _hx_local_46
+			_hx_local_32 = _hx_array_get(arr2,_hx_local_31())
+			_hx_local_33 = _hx_local_32.v
+			_hx_local_32.v = _hx_local_33 + 1
+			return _hx_local_33
 		
-		self.eq(_hx_local_47(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 433 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_34(), 3, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 433 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(x1, 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 434 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr2,0).v, 4, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 435 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		x1 = 0
-		def _hx_local_53():
-			_hx_local_52 = None
-			def _hx_local_51():
+		def _hx_local_39():
+			def _hx_local_36():
 				nonlocal x1
-				nonlocal _hx_local_52
-				if _hx_local_52 is not None:
-					return _hx_local_52
-				
-				_hx_local_49 = x1
-				_hx_local_50 = _hx_local_49
-				x1 = _hx_local_49 + 1
-				_hx_local_52 = _hx_local_50
-				return _hx_local_50
+				_hx_local_35 = x1
+				x1 = x1 + 1
+				return _hx_local_35
 				
 			
-			_hx_array_get(arr2,_hx_local_51()).v = _hx_array_get(arr2,_hx_local_51()).v + 3
-			return _hx_array_get(arr2,_hx_local_51()).v
+			_hx_local_37 = _hx_array_get(arr2,_hx_local_36())
+			_hx_local_38 = _hx_local_37.v
+			_hx_local_37.v = _hx_local_38 + 3
+			return _hx_local_37.v
 		
-		self.eq(_hx_local_53(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 439 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
+		self.eq(_hx_local_39(), 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 439 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 		self.eq(_hx_array_get(arr2,0).v, 7, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 440 ,className = "unit.TestMisc" ,methodName = "testIncr" ))
 	
 
 	def testInitOrder(self):
 		i = 0
-		_hx_local_3 = None
-		def _hx_local_2():
+		def _hx_local_1():
 			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			i = i + 1
+			return _hx_local_0
 			
 		
-		_hx_local_7 = None
-		def _hx_local_6():
+		def _hx_local_3():
 			nonlocal i
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
+			_hx_local_2 = i
+			i = i + 1
+			return _hx_local_2
 			
+		
+		def _hx_local_5():
+			nonlocal i
 			_hx_local_4 = i
-			_hx_local_5 = _hx_local_4
-			i = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
+			i = i + 1
+			return _hx_local_4
 			
 		
-		_hx_local_11 = None
-		def _hx_local_10():
+		def _hx_local_7():
 			nonlocal i
-			nonlocal _hx_local_11
-			if _hx_local_11 is not None:
-				return _hx_local_11
-			
-			_hx_local_8 = i
-			_hx_local_9 = _hx_local_8
-			i = _hx_local_8 + 1
-			_hx_local_11 = _hx_local_9
-			return _hx_local_9
+			_hx_local_6 = i
+			i = i + 1
+			return _hx_local_6
 			
 		
-		_hx_local_15 = None
-		def _hx_local_14():
-			nonlocal i
-			nonlocal _hx_local_15
-			if _hx_local_15 is not None:
-				return _hx_local_15
-			
-			_hx_local_12 = i
-			_hx_local_13 = _hx_local_12
-			i = _hx_local_12 + 1
-			_hx_local_15 = _hx_local_13
-			return _hx_local_13
-			
-		
-		o = _hx_c._hx_AnonObject(y = _hx_local_2() ,x = _hx_local_6() ,z = _hx_local_10() ,blabla = _hx_local_14() )
+		o = _hx_c._hx_AnonObject(y = _hx_local_1() ,x = _hx_local_3() ,z = _hx_local_5() ,blabla = _hx_local_7() )
 		self.eq(o.y, 0, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 452 ,className = "unit.TestMisc" ,methodName = "testInitOrder" ))
 		self.eq(o.x, 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 453 ,className = "unit.TestMisc" ,methodName = "testInitOrder" ))
 		self.eq(o.z, 2, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 454 ,className = "unit.TestMisc" ,methodName = "testInitOrder" ))
@@ -17484,94 +15742,57 @@ class unit_TestMisc(unit_Test):
 	def testEvalAccessOrder(self):
 		a = [0, 0]
 		x = 0
-		_hx_local_7 = None
-		def _hx_local_9():
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
+		def _hx_local_6():
+			nonlocal x
+			nonlocal x
+			_hx_local_0 = x
+			x = x + 1
+			return _hx_local_0
 			
-			_hx_local_3 = None
-			def _hx_local_8():
-				nonlocal x
-				nonlocal x
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = x
-				_hx_local_1 = _hx_local_0
-				x = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
 			
-			_hx_local_2 = _hx_local_8
-			_hx_local_4 = _hx_array_get(a,_hx_local_2())
-			_hx_local_5 = _hx_local_4
-			_hx_array_set(a,_hx_local_2(), _hx_local_4 + 1)
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
 		
-		_hx_local_6 = _hx_local_9
-		_hx_local_6()
+		_hx_local_1 = _hx_local_6
+		_hx_local_2 = a
+		_hx_local_3 = _hx_local_1()
+		_hx_local_4 = _hx_array_get(_hx_local_2,_hx_local_3)
+		_hx_array_set(_hx_local_2,_hx_local_3, _hx_local_4 + 1)
+		_hx_local_4
 		
 		self.eq(_hx_array_get(a,0), 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 471 ,className = "unit.TestMisc" ,methodName = "testEvalAccessOrder" ))
 		self.eq(_hx_array_get(a,1), 0, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 472 ,className = "unit.TestMisc" ,methodName = "testEvalAccessOrder" ))
 		x1 = 0
 		a1 = list()
-		_hx_local_13 = None
-		def _hx_local_12():
+		def _hx_local_8():
 			nonlocal x1
-			nonlocal _hx_local_13
-			if _hx_local_13 is not None:
-				return _hx_local_13
-			
-			_hx_local_10 = x1
-			_hx_local_11 = _hx_local_10
-			x1 = _hx_local_10 + 1
-			_hx_local_13 = _hx_local_11
-			return _hx_local_11
+			_hx_local_7 = x1
+			x1 = x1 + 1
+			return _hx_local_7
 			
 		
-		_hx_local_17 = None
-		def _hx_local_16():
+		def _hx_local_10():
 			nonlocal x1
-			nonlocal _hx_local_17
-			if _hx_local_17 is not None:
-				return _hx_local_17
-			
-			_hx_local_14 = x1
-			_hx_local_15 = _hx_local_14
-			x1 = _hx_local_14 + 1
-			_hx_local_17 = _hx_local_15
-			return _hx_local_15
+			_hx_local_9 = x1
+			x1 = x1 + 1
+			return _hx_local_9
 			
 		
-		_hx_array_set(a1,_hx_local_12(), _hx_local_16())
+		_hx_array_set(a1,_hx_local_8(), _hx_local_10())
 		self.eq(_hx_array_get(a1,0), 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 477 ,className = "unit.TestMisc" ,methodName = "testEvalAccessOrder" ))
 		x2 = 0
-		def _hx_local_24():
-			def _hx_local_22():
-				_hx_local_21 = None
-				def _hx_local_20():
+		def _hx_local_14():
+			def _hx_local_13():
+				def _hx_local_12():
 					nonlocal x2
-					nonlocal _hx_local_21
-					if _hx_local_21 is not None:
-						return _hx_local_21
-					
-					_hx_local_18 = x2
-					_hx_local_19 = _hx_local_18
-					x2 = _hx_local_18 + 1
-					_hx_local_21 = _hx_local_19
-					return _hx_local_19
+					_hx_local_11 = x2
+					x2 = x2 + 1
+					return _hx_local_11
 					
 				
-				return _hx_local_20()
+				return _hx_local_12()
 			
-			return _hx_local_22()
+			return _hx_local_13()
 		
-		foo = _hx_local_24
+		foo = _hx_local_14
 		_hx_array_set(a1,foo(), foo())
 		self.eq(_hx_array_get(a1,0), 1, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 482 ,className = "unit.TestMisc" ,methodName = "testEvalAccessOrder" ))
 	
@@ -17589,47 +15810,47 @@ class unit_TestMisc(unit_Test):
 	
 
 	def testStringBuf(self):
-		b = _hx_StringIO()
+		b = _hx_c.StringBuf()
 		def _hx_local_0():
-			_this = b.getvalue()
-			return __builtin__.len(_this)
+			_this = b.b.getvalue()
+			return _hx_builtin.len(_this)
 		
 		self.eq(_hx_local_0(), 0, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 502 ,className = "unit.TestMisc" ,methodName = "testStringBuf" ))
 		s = _hx_c.Std.string(-45)
-		b.write(s)
+		b.b.write(s)
 		
 		s1 = _hx_c.Std.string(1.456)
-		b.write(s1)
+		b.b.write(s1)
 		
 		s2 = _hx_c.Std.string(None)
-		b.write(s2)
+		b.b.write(s2)
 		
 		s3 = _hx_c.Std.string(True)
-		b.write(s3)
+		b.b.write(s3)
 		
 		s4 = _hx_c.Std.string(False)
-		b.write(s4)
+		b.b.write(s4)
 		
 		s5 = _hx_c.Std.string("Hello!")
-		b.write(s5)
+		b.b.write(s5)
 		
 		s6 = None
 		if 2 is None:
 			s6 = _hx_c.python_Tools.substr("Bla", 1, None)
 		else:
 			s6 = _hx_c.python_Tools.substr("Bla", 1, 2)
-		b.write(s6)
+		b.b.write(s6)
 		
 		s7 = None
 		c = 82
-		s7 = "".join(map(chr, [c]))
+		s7 = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
-		b.write(s7)
+		b.b.write(s7)
 		
-		self.eq(b.getvalue(), "-451.456nulltruefalseHello!laR", _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 511 ,className = "unit.TestMisc" ,methodName = "testStringBuf" ))
+		self.eq(b.b.getvalue(), "-451.456nulltruefalseHello!laR", _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 511 ,className = "unit.TestMisc" ,methodName = "testStringBuf" ))
 		def _hx_local_1():
-			_this1 = b.getvalue()
-			return __builtin__.len(_this1)
+			_this1 = b.b.getvalue()
+			return _hx_builtin.len(_this1)
 		
 		self.eq(_hx_local_1(), 30, _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 512 ,className = "unit.TestMisc" ,methodName = "testStringBuf" ))
 	
@@ -17650,7 +15871,7 @@ class unit_TestMisc(unit_Test):
 	def testJSon(self):
 		_g = self
 		str = _hx_c.haxe_Json.stringify(_hx_c._hx_AnonObject(x = -4500 ,y = 1.456 ,a = ["hello", "wor'\"\n\t\rd"] ))
-		len = __builtin__.len(str) - 2
+		len = _hx_builtin.len(str) - 2
 		str = _hx_c.python_Tools.substr(str, 1, len)
 		
 		parts = _hx_c.python_internal_StringImpl.split(str, ",")
@@ -17658,7 +15879,7 @@ class unit_TestMisc(unit_Test):
 		self.t(_hx_c.python_internal_ArrayImpl.remove(parts, "\"y\":1.456"), _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 543 ,className = "unit.TestMisc" ,methodName = "testJSon" ))
 		self.t(_hx_c.python_internal_ArrayImpl.remove(parts, "\"a\":[\"hello\""), _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 544 ,className = "unit.TestMisc" ,methodName = "testJSon" ))
 		self.t(_hx_c.python_internal_ArrayImpl.remove(parts, "\"wor'\\\"\\n\\t\\rd\"]"), _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 545 ,className = "unit.TestMisc" ,methodName = "testJSon" ))
-		self.eq("#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, parts))), "", _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 546 ,className = "unit.TestMisc" ,methodName = "testJSon" ))
+		self.eq("#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, parts))), "", _hx_c._hx_AnonObject(fileName = "TestMisc.hx" ,lineNumber = 546 ,className = "unit.TestMisc" ,methodName = "testJSon" ))
 		def _hx_local_0(v,pos = None):
 			if pos is None:
 				pos = None
@@ -17803,19 +16024,24 @@ class unit_TestOps(unit_Test):
 		x = _hx_modf(x, 100)
 		self.eq(x, 1.5, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 61 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.t(_hx_math.isnan(_hx_modf(5.0, 0.0)), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 62 ,className = "unit.TestOps" ,methodName = "testOps" ))
-		def _hx_local_0():
-			def _hx_local_1():
+		def _hx_local_1():
+			def _hx_local_3():
 				nonlocal x
 				x = _hx_modf(x, 0.0)
 				return x
 				
 			
-			f = _hx_local_1()
+			f = _hx_local_3()
 			return _hx_math.isnan(f)
 		
-		self.t(_hx_local_0(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 63 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		self.t(_hx_local_1(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 63 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		x1 = [-101.5]
-		_hx_array_set(x1,0, _hx_modf(_hx_array_get(x1,0), 100))
+		_hx_local_4 = x1
+		_hx_local_5 = 0
+		_hx_local_6 = _hx_array_get(_hx_local_4,_hx_local_5)
+		_hx_array_set(_hx_local_4,_hx_local_5, _hx_modf(_hx_local_6, 100))
+		_hx_array_get(_hx_local_4,_hx_local_5)
+		
 		self.eq(_hx_array_get(x1,0), -1.5, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 71 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.eq(1 if (True) else 6 * 5, 1, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 72 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.eq(1 if (False) else 6 * 5, 30, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 73 ,className = "unit.TestOps" ,methodName = "testOps" ))
@@ -17826,64 +16052,57 @@ class unit_TestOps(unit_Test):
 		self.eq(0 if (-3 == 3) else 1, 1, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 80 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.t(True if (not True) else True, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 81 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		k = False
-		def _hx_local_7():
-			def _hx_local_3():
+		def _hx_local_10():
+			def _hx_local_8():
 				nonlocal k
 				k = False
 				return k
 				
 			
-			def _hx_local_5():
-				nonlocal k
-				k = True
-				return k
-				
-			
-			return _hx_local_3() if True else _hx_local_5()
-		
-		self.f(_hx_local_7(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 84 ,className = "unit.TestOps" ,methodName = "testOps" ))
-		self.f(k, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 85 ,className = "unit.TestOps" ,methodName = "testOps" ))
-		def _hx_local_11():
 			def _hx_local_9():
 				nonlocal k
 				k = True
 				return k
 				
 			
-			return False if _hx_local_9() else True
+			return _hx_local_8() if True else _hx_local_9()
 		
-		self.f(_hx_local_11(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 86 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		self.f(_hx_local_10(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 84 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		self.f(k, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 85 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		def _hx_local_12():
+			def _hx_local_11():
+				nonlocal k
+				k = True
+				return k
+				
+			
+			return False if _hx_local_11() else True
+		
+		self.f(_hx_local_12(), _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 86 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.t(k, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 87 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.t(True or False and False, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 89 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		x2 = 1
-		_hx_local_16 = None
-		def _hx_local_15():
+		def _hx_local_14():
 			nonlocal x2
-			nonlocal _hx_local_16
-			if _hx_local_16 is not None:
-				return _hx_local_16
-			
 			_hx_local_13 = x2
-			_hx_local_14 = _hx_local_13
-			x2 = _hx_local_13 + 1
-			_hx_local_16 = _hx_local_14
-			return _hx_local_14
+			x2 = x2 + 1
+			return _hx_local_13
 			
 		
-		self.eq(-_hx_local_15(), -1, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 92 ,className = "unit.TestOps" ,methodName = "testOps" ))
-		def _hx_local_18():
+		self.eq(-_hx_local_14(), -1, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 92 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		def _hx_local_16():
 			nonlocal x2
-			_hx_local_17 = x2
+			_hx_local_15 = x2
 			x2 = x2 - 1
-			return _hx_local_17
+			return _hx_local_15
 			
 		
-		self.eq(-_hx_local_18(), -2, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 93 ,className = "unit.TestOps" ,methodName = "testOps" ))
-		def _hx_local_19():
+		self.eq(-_hx_local_16(), -2, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 93 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		def _hx_local_17():
 			_this = "bla" + "x"
 			return _this.find("x") if (None is None) else _this.find("x", None)
 		
-		self.eq(_hx_local_19(), 3, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 95 ,className = "unit.TestOps" ,methodName = "testOps" ))
+		self.eq(_hx_local_17(), 3, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 95 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.eq(5 * 3 + 4, 19, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 97 ,className = "unit.TestOps" ,methodName = "testOps" ))
 		self.eq(5 * 3 + 4, 19, _hx_c._hx_AnonObject(fileName = "TestOps.hx" ,lineNumber = 98 ,className = "unit.TestOps" ,methodName = "testOps" ))
 	
@@ -17939,20 +16158,10 @@ class unit_TestOrder(unit_Test):
 	def testUsing(self):
 		self.eq(_hx_c.unit_Using3.usingTest("foo"), "3", _hx_c._hx_AnonObject(fileName = "TestOrder.hx" ,lineNumber = 17 ,className = "unit.TestOrder" ,methodName = "testUsing" ))
 		c = _hx_c.unit_E2.C1
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TEnum(unit.E2,[])", "TEnum(unit.E2,[])", _hx_c._hx_AnonObject(fileName = "TestOrder.hx" ,lineNumber = 21 ,className = "unit.TestOrder" ,methodName = "testUsing" ))
 		
@@ -18082,23 +16291,11 @@ class unit_TestReflect(unit_Test):
 		super().__init__()
 	def testTypes(self):
 		_g1 = 1
-		_g = __builtin__.len(_hx_c.unit_TestReflect.TYPES)
+		_g = _hx_builtin.len(_hx_c.unit_TestReflect.TYPES)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			t = _hx_array_get(_hx_c.unit_TestReflect.TYPES,i)
 			name = _hx_array_get(_hx_c.unit_TestReflect.TNAMES,i)
 			self.infos("type " + Std.string(name))
@@ -18161,23 +16358,11 @@ class unit_TestReflect(unit_Test):
 			pos = None
 		
 		_g1 = 0
-		_g = __builtin__.len(_hx_c.unit_TestReflect.TYPES)
+		_g = _hx_builtin.len(_hx_c.unit_TestReflect.TYPES)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			c = _hx_array_get(_hx_c.unit_TestReflect.TYPES,i)
 			self.infos(Std.string(Std.string(_hx_c.Std.string(v)) + " is ") + Std.string(_hx_array_get(_hx_c.unit_TestReflect.TNAMES,i)))
 			self.eq(_hx_c.Std._hx_is(v, c), c is not None and (c == t1 or c == t2) or c == _hx_c.Dynamic, pos)
@@ -18233,7 +16418,7 @@ class unit_TestReflect(unit_Test):
 		self.eq("A", "A", _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 204 ,className = "unit.TestReflect" ,methodName = "testConv" ))
 		def _hx_local_0():
 			c = 1024
-			"".join(map(chr, [c]))
+			"".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
 		self.unspec(_hx_local_0)
 		self.eq(_hx_c.python_internal_StringImpl.charCodeAt("A", 0), 65, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 206 ,className = "unit.TestReflect" ,methodName = "testConv" ))
@@ -18265,7 +16450,7 @@ class unit_TestReflect(unit_Test):
 		e = _hx_c.Type.createEnum(_hx_c.unit_MyEnum, "A")
 		self.eq(e, _hx_c.unit_MyEnum.A, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 233 ,className = "unit.TestReflect" ,methodName = "testCreate" ))
 		e1 = _hx_c.Type.createEnum(_hx_c.unit_MyEnum, "C", [55, "hello"])
-		if (_hx_c.Type.enumIndex(e1)) == 2:
+		if (e1.index) == 2:
 			s = e1.params[1]
 			i2 = e1.params[0]
 			self.eq(i2, 55, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 236 ,className = "unit.TestReflect" ,methodName = "testCreate" ))
@@ -18305,12 +16490,12 @@ class unit_TestReflect(unit_Test):
 			field = "_hx_" + "x"
 		else:
 			field = "x"
-		if __builtin__.hasattr(c, "set_" + Std.string(field)):
-			tmp = __builtin__.getattr(c, "set_" + Std.string(field))
+		if _hx_builtin.hasattr(c, "set_" + Std.string(field)):
+			tmp = _hx_builtin.getattr(c, "set_" + Std.string(field))
 			tmp(10)
 		
 		else:
-			__builtin__.setattr(c, field, 10)
+			_hx_builtin.setattr(c, field, 10)
 		
 		self.eq(c.get_x(), 10, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 278 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
 		self.eq(_hx_c.Reflect.getProperty(c, "x"), 10, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 279 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
@@ -18322,12 +16507,12 @@ class unit_TestReflect(unit_Test):
 			field1 = "_hx_" + "x"
 		else:
 			field1 = "x"
-		if __builtin__.hasattr(c1, "set_" + Std.string(field1)):
-			tmp1 = __builtin__.getattr(c1, "set_" + Std.string(field1))
+		if _hx_builtin.hasattr(c1, "set_" + Std.string(field1)):
+			tmp1 = _hx_builtin.getattr(c1, "set_" + Std.string(field1))
 			tmp1(10)
 		
 		else:
-			__builtin__.setattr(c1, field1, 10)
+			_hx_builtin.setattr(c1, field1, 10)
 		
 		self.eq(c1.get_x(), 10, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 286 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
 		self.eq(_hx_c.Reflect.getProperty(c1, "x"), 10, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 287 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
@@ -18341,24 +16526,24 @@ class unit_TestReflect(unit_Test):
 			field2 = "_hx_" + "x"
 		else:
 			field2 = "x"
-		if __builtin__.hasattr(c2, "set_" + Std.string(field2)):
-			tmp2 = __builtin__.getattr(c2, "set_" + Std.string(field2))
+		if _hx_builtin.hasattr(c2, "set_" + Std.string(field2)):
+			tmp2 = _hx_builtin.getattr(c2, "set_" + Std.string(field2))
 			tmp2(10)
 		
 		else:
-			__builtin__.setattr(c2, field2, 10)
+			_hx_builtin.setattr(c2, field2, 10)
 		
 		field3 = None
 		if _hx_c.python_internal_KeywordHandler.keywords.exists("y"):
 			field3 = "_hx_" + "y"
 		else:
 			field3 = "y"
-		if __builtin__.hasattr(c2, "set_" + Std.string(field3)):
-			tmp3 = __builtin__.getattr(c2, "set_" + Std.string(field3))
+		if _hx_builtin.hasattr(c2, "set_" + Std.string(field3)):
+			tmp3 = _hx_builtin.getattr(c2, "set_" + Std.string(field3))
 			tmp3(20)
 		
 		else:
-			__builtin__.setattr(c2, field3, 20)
+			_hx_builtin.setattr(c2, field3, 20)
 		
 		self.eq(c2.get_x(), 11, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 298 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
 		self.eq(_hx_c.Reflect.getProperty(c2, "x"), 11, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 299 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
@@ -18372,12 +16557,12 @@ class unit_TestReflect(unit_Test):
 			field4 = "_hx_" + "STAT_X"
 		else:
 			field4 = "STAT_X"
-		if __builtin__.hasattr(o, "set_" + Std.string(field4)):
-			tmp4 = __builtin__.getattr(o, "set_" + Std.string(field4))
+		if _hx_builtin.hasattr(o, "set_" + Std.string(field4)):
+			tmp4 = _hx_builtin.getattr(o, "set_" + Std.string(field4))
 			tmp4(8)
 		
 		else:
-			__builtin__.setattr(o, field4, 8)
+			_hx_builtin.setattr(o, field4, 8)
 		
 		self.eq(_hx_c.unit_ClassWithProp.STAT_X, 16, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 308 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
 		self.eq(_hx_c.Reflect.getProperty(_hx_c.unit_ClassWithProp, "STAT_X"), 16, _hx_c._hx_AnonObject(fileName = "TestReflect.hx" ,lineNumber = 309 ,className = "unit.TestReflect" ,methodName = "testGetProp" ))
@@ -18409,7 +16594,7 @@ class unit_TestResource(unit_Test):
 		super().__init__()
 	def testResources(self):
 		names = _hx_c.haxe_Resource.listNames()
-		self.eq(__builtin__.len(names), 2, _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 9 ,className = "unit.TestResource" ,methodName = "testResources" ))
+		self.eq(_hx_builtin.len(names), 2, _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 9 ,className = "unit.TestResource" ,methodName = "testResources" ))
 		if _hx_array_get(names,0) == "res1.txt":
 			self.eq(_hx_array_get(names,1), "res2.bin", _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 11 ,className = "unit.TestResource" ,methodName = "testResources" ))
 		else:
@@ -18427,49 +16612,25 @@ class unit_TestResource(unit_Test):
 		firsts = [77, 90, 144, 0, 3, 0, 0, 0, 4, 0, 0, 0, 255, 255, 0, 0, 184]
 		lasts = [214, 82, 3, 26, 44, 78, 69, 75, 79, 0, 28, 0, 0]
 		_g1 = 0
-		_g = __builtin__.len(firsts)
+		_g = _hx_builtin.len(firsts)
 		while _g1 < _g:
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _g1
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _g1
-				_hx_local_2 = _hx_local_1
-				_g1 = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_3()
 			self.eq(_hx_array_get(b.b,i), _hx_array_get(firsts,i), _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 29 ,className = "unit.TestResource" ,methodName = "testResources" ))
 		
 		
 		_g11 = 0
-		_g2 = __builtin__.len(lasts)
+		_g2 = _hx_builtin.len(lasts)
 		while _g11 < _g2:
-			_hx_local_8 = None
-			def _hx_local_7():
-				nonlocal _g11
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = _g11
-				_hx_local_6 = _hx_local_5
-				_g11 = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-				
+			i1 = _g11
+			_g11 = _g11 + 1
 			
-			i1 = _hx_local_7()
-			def _hx_local_9():
-				pos = b.length - __builtin__.len(lasts) + i1
+			def _hx_local_1():
+				pos = b.length - _hx_builtin.len(lasts) + i1
 				return _hx_array_get(b.b,pos)
 			
-			self.eq(_hx_local_9(), _hx_array_get(lasts,i1), _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 31 ,className = "unit.TestResource" ,methodName = "testResources" ))
+			self.eq(_hx_local_1(), _hx_array_get(lasts,i1), _hx_c._hx_AnonObject(fileName = "TestResource.hx" ,lineNumber = 31 ,className = "unit.TestResource" ,methodName = "testResources" ))
 		
 		
 	
@@ -18602,21 +16763,9 @@ class unit_TestSerialize(unit_Test):
 		_g1 = 0
 		_g2 = b1.length
 		while _g1 < _g2:
-			_hx_local_6 = None
-			def _hx_local_5():
-				nonlocal _g1
-				nonlocal _hx_local_6
-				if _hx_local_6 is not None:
-					return _hx_local_6
-				
-				_hx_local_3 = _g1
-				_hx_local_4 = _hx_local_3
-				_g1 = _hx_local_3 + 1
-				_hx_local_6 = _hx_local_4
-				return _hx_local_4
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_5()
 			_hx_array_set(b1.b,i, i % 10 & 255)
 		
 		
@@ -18626,12 +16775,12 @@ class unit_TestSerialize(unit_Test):
 		c21 = self.id(c)
 		_hx_c.haxe_Serializer.USE_CACHE = False
 		self.eq(c21.ref, c21, _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 129 ,className = "unit.TestSerialize" ,methodName = "test" ))
-		def _hx_local_7():
+		def _hx_local_3():
 			_hx_c.haxe_Unserializer.run(None)
-		self.exc(_hx_local_7, _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 133 ,className = "unit.TestSerialize" ,methodName = "test" ))
-		def _hx_local_8():
+		self.exc(_hx_local_3, _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 133 ,className = "unit.TestSerialize" ,methodName = "test" ))
+		def _hx_local_4():
 			_hx_c.haxe_Unserializer.run("")
-		self.exc(_hx_local_8, _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 136 ,className = "unit.TestSerialize" ,methodName = "test" ))
+		self.exc(_hx_local_4, _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 136 ,className = "unit.TestSerialize" ,methodName = "test" ))
 	
 
 	def doTestEnums(self):
@@ -18643,41 +16792,29 @@ class unit_TestSerialize(unit_Test):
 		self.t(_hx_c.Std._hx_is(self.id(c), _hx_c.unit_MyEnum), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 146 ,className = "unit.TestSerialize" ,methodName = "doTestEnums" ))
 		def _hx_local_0():
 			_g = self.id(c)
-			def _hx_local_5():
-				def _hx_local_3():
-					def _hx_local_4():
+			def _hx_local_4():
+				def _hx_local_2():
+					def _hx_local_3():
 						return True
-					_hx_local_1 = _hx_local_4
-					return _hx_local_1() if (_hx_c.Type.enumIndex(_g)) == 2 else False
+					_hx_local_1 = _hx_local_3
+					return _hx_local_1() if (_g.index) == 2 else False
 				
-				return _hx_local_3()
+				return _hx_local_2()
 			
-			return _hx_local_5()
+			return _hx_local_4()
 		
 		self.t(_hx_local_0(), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 147 ,className = "unit.TestSerialize" ,methodName = "doTestEnums" ))
 	
 
 	def doTestCollection(self,a):
 		a2 = self.id(a)
-		self.eq(__builtin__.len(a2), __builtin__.len(a), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 157 ,className = "unit.TestSerialize" ,methodName = "doTestCollection" ))
+		self.eq(_hx_builtin.len(a2), _hx_builtin.len(a), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 157 ,className = "unit.TestSerialize" ,methodName = "doTestCollection" ))
 		_g1 = 0
-		_g = __builtin__.len(a)
+		_g = _hx_builtin.len(a)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			self.eq(_hx_array_get(a2,i), _hx_array_get(a,i), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 160 ,className = "unit.TestSerialize" ,methodName = "doTestCollection" ))
 		
 		
@@ -18700,21 +16837,9 @@ class unit_TestSerialize(unit_Test):
 		_g1 = 0
 		_g = b.length
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			self.eq(_hx_array_get(b2.b,i), _hx_array_get(b.b,i), _hx_c._hx_AnonObject(fileName = "TestSerialize.hx" ,lineNumber = 181 ,className = "unit.TestSerialize" ,methodName = "doTestBytes" ))
 		
 		
@@ -18797,14 +16922,14 @@ class unit_C2:
 		return "1"
 
 	def set_propAcc(self,v):
-		def _hx_local_2():
+		def _hx_local_1():
 			def _hx_local_0():
 				self.propAcc = _hx_toUpperCase(v)
 				return self.propAcc
 			
 			return _hx_local_0()
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
 
 
@@ -19331,36 +17456,36 @@ class unit_TestSpecification(unit_Test):
 			return _hx_math.fabs(v2)
 		
 		self.feq(_hx_local_17(), float("inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 64 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else 1.0 if (_hx_math.isnan(1.0)) else __builtin__.min(0.0, 1.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 67 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else -1.0 if (_hx_math.isnan(-1.0)) else __builtin__.min(0.0, -1.0), -1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 68 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else 0.0 if (_hx_math.isnan(0.0)) else __builtin__.min(0.0, 0.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 69 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(1.0 if (_hx_math.isnan(1.0)) else 1.0 if (_hx_math.isnan(1.0)) else __builtin__.min(1.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 70 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else 1.0 if (_hx_math.isnan(1.0)) else _hx_builtin.min(0.0, 1.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 67 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else -1.0 if (_hx_math.isnan(-1.0)) else _hx_builtin.min(0.0, -1.0), -1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 68 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else 0.0 if (_hx_math.isnan(0.0)) else _hx_builtin.min(0.0, 0.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 69 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(1.0 if (_hx_math.isnan(1.0)) else 1.0 if (_hx_math.isnan(1.0)) else _hx_builtin.min(1.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 70 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_18():
 			b = float("-inf")
 			a = float("-inf")
-			return a if (_hx_math.isnan(a)) else b if (_hx_math.isnan(b)) else __builtin__.min(a, b)
+			return a if (_hx_math.isnan(a)) else b if (_hx_math.isnan(b)) else _hx_builtin.min(a, b)
 		
 		self.feq(_hx_local_18(), float("-inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 71 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_19():
 			b1 = float("inf")
 			a1 = float("-inf")
-			return a1 if (_hx_math.isnan(a1)) else b1 if (_hx_math.isnan(b1)) else __builtin__.min(a1, b1)
+			return a1 if (_hx_math.isnan(a1)) else b1 if (_hx_math.isnan(b1)) else _hx_builtin.min(a1, b1)
 		
 		self.feq(_hx_local_19(), float("-inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 72 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_20():
 			b2 = float("inf")
 			a2 = float("inf")
-			return a2 if (_hx_math.isnan(a2)) else b2 if (_hx_math.isnan(b2)) else __builtin__.min(a2, b2)
+			return a2 if (_hx_math.isnan(a2)) else b2 if (_hx_math.isnan(b2)) else _hx_builtin.min(a2, b2)
 		
 		self.feq(_hx_local_20(), float("inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 73 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_21():
 			a3 = float("inf")
-			return a3 if (_hx_math.isnan(a3)) else zero if (_hx_math.isnan(zero)) else __builtin__.min(a3, zero)
+			return a3 if (_hx_math.isnan(a3)) else zero if (_hx_math.isnan(zero)) else _hx_builtin.min(a3, zero)
 		
 		self.eq(_hx_local_21(), zero, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 74 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_22():
 			a4 = float("-inf")
-			return a4 if (_hx_math.isnan(a4)) else zero if (_hx_math.isnan(zero)) else __builtin__.min(a4, zero)
+			return a4 if (_hx_math.isnan(a4)) else zero if (_hx_math.isnan(zero)) else _hx_builtin.min(a4, zero)
 		
 		self.feq(_hx_local_22(), float("-inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 75 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_23():
@@ -19372,7 +17497,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b3):
 				f24 = b3
 			else:
-				f24 = __builtin__.min(a5, b3)
+				f24 = _hx_builtin.min(a5, b3)
 			
 			return _hx_math.isnan(f24)
 		
@@ -19386,7 +17511,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b4):
 				f25 = b4
 			else:
-				f25 = __builtin__.min(a6, b4)
+				f25 = _hx_builtin.min(a6, b4)
 			
 			return _hx_math.isnan(f25)
 		
@@ -19400,7 +17525,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b5):
 				f26 = b5
 			else:
-				f26 = __builtin__.min(a7, b5)
+				f26 = _hx_builtin.min(a7, b5)
 			
 			return _hx_math.isnan(f26)
 		
@@ -19413,7 +17538,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b6):
 				f27 = b6
 			else:
-				f27 = __builtin__.min(one, b6)
+				f27 = _hx_builtin.min(one, b6)
 			
 			return _hx_math.isnan(f27)
 		
@@ -19426,7 +17551,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b7):
 				f28 = b7
 			else:
-				f28 = __builtin__.min(zero, b7)
+				f28 = _hx_builtin.min(zero, b7)
 			
 			return _hx_math.isnan(f28)
 		
@@ -19440,7 +17565,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b8):
 				f29 = b8
 			else:
-				f29 = __builtin__.min(a8, b8)
+				f29 = _hx_builtin.min(a8, b8)
 			
 			return _hx_math.isnan(f29)
 		
@@ -19454,7 +17579,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b9):
 				f30 = b9
 			else:
-				f30 = __builtin__.min(a9, b9)
+				f30 = _hx_builtin.min(a9, b9)
 			
 			return _hx_math.isnan(f30)
 		
@@ -19467,7 +17592,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(one):
 				f31 = one
 			else:
-				f31 = __builtin__.min(a10, one)
+				f31 = _hx_builtin.min(a10, one)
 			
 			return _hx_math.isnan(f31)
 		
@@ -19480,41 +17605,41 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(zero):
 				f32 = zero
 			else:
-				f32 = __builtin__.min(a11, zero)
+				f32 = _hx_builtin.min(a11, zero)
 			
 			return _hx_math.isnan(f32)
 		
 		self.t(_hx_local_31(), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else 1.0 if (_hx_math.isnan(1.0)) else __builtin__.max(0.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 87 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else -1.0 if (_hx_math.isnan(-1.0)) else __builtin__.max(0.0, -1.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 88 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(0.0 if (_hx_math.isnan(0.0)) else 0.0 if (_hx_math.isnan(0.0)) else __builtin__.max(0.0, 0.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 89 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
-		self.feq(1.0 if (_hx_math.isnan(1.0)) else 1.0 if (_hx_math.isnan(1.0)) else __builtin__.max(1.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else 1.0 if (_hx_math.isnan(1.0)) else _hx_builtin.max(0.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 87 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else -1.0 if (_hx_math.isnan(-1.0)) else _hx_builtin.max(0.0, -1.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 88 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(0.0 if (_hx_math.isnan(0.0)) else 0.0 if (_hx_math.isnan(0.0)) else _hx_builtin.max(0.0, 0.0), 0.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 89 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
+		self.feq(1.0 if (_hx_math.isnan(1.0)) else 1.0 if (_hx_math.isnan(1.0)) else _hx_builtin.max(1.0, 1.0), 1.0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_32():
 			b10 = float("-inf")
 			a12 = float("-inf")
-			return a12 if (_hx_math.isnan(a12)) else b10 if (_hx_math.isnan(b10)) else __builtin__.max(a12, b10)
+			return a12 if (_hx_math.isnan(a12)) else b10 if (_hx_math.isnan(b10)) else _hx_builtin.max(a12, b10)
 		
 		self.feq(_hx_local_32(), float("-inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_33():
 			b11 = float("inf")
 			a13 = float("-inf")
-			return a13 if (_hx_math.isnan(a13)) else b11 if (_hx_math.isnan(b11)) else __builtin__.max(a13, b11)
+			return a13 if (_hx_math.isnan(a13)) else b11 if (_hx_math.isnan(b11)) else _hx_builtin.max(a13, b11)
 		
 		self.feq(_hx_local_33(), float("inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_34():
 			b12 = float("inf")
 			a14 = float("inf")
-			return a14 if (_hx_math.isnan(a14)) else b12 if (_hx_math.isnan(b12)) else __builtin__.max(a14, b12)
+			return a14 if (_hx_math.isnan(a14)) else b12 if (_hx_math.isnan(b12)) else _hx_builtin.max(a14, b12)
 		
 		self.feq(_hx_local_34(), float("inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 93 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_35():
 			a15 = float("inf")
-			return a15 if (_hx_math.isnan(a15)) else zero if (_hx_math.isnan(zero)) else __builtin__.max(a15, zero)
+			return a15 if (_hx_math.isnan(a15)) else zero if (_hx_math.isnan(zero)) else _hx_builtin.max(a15, zero)
 		
 		self.feq(_hx_local_35(), float("inf"), _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 94 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_36():
 			a16 = float("-inf")
-			return a16 if (_hx_math.isnan(a16)) else zero if (_hx_math.isnan(zero)) else __builtin__.max(a16, zero)
+			return a16 if (_hx_math.isnan(a16)) else zero if (_hx_math.isnan(zero)) else _hx_builtin.max(a16, zero)
 		
 		self.eq(_hx_local_36(), 0, _hx_c._hx_AnonObject(fileName = "Math.unit.hx" ,lineNumber = 95 ,className = "unit.TestSpecification" ,methodName = "testMath_unit_hx" ))
 		def _hx_local_37():
@@ -19526,7 +17651,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b13):
 				f33 = b13
 			else:
-				f33 = __builtin__.max(a17, b13)
+				f33 = _hx_builtin.max(a17, b13)
 			
 			return _hx_math.isnan(f33)
 		
@@ -19540,7 +17665,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b14):
 				f34 = b14
 			else:
-				f34 = __builtin__.max(a18, b14)
+				f34 = _hx_builtin.max(a18, b14)
 			
 			return _hx_math.isnan(f34)
 		
@@ -19554,7 +17679,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b15):
 				f35 = b15
 			else:
-				f35 = __builtin__.max(a19, b15)
+				f35 = _hx_builtin.max(a19, b15)
 			
 			return _hx_math.isnan(f35)
 		
@@ -19567,7 +17692,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b16):
 				f36 = b16
 			else:
-				f36 = __builtin__.max(one, b16)
+				f36 = _hx_builtin.max(one, b16)
 			
 			return _hx_math.isnan(f36)
 		
@@ -19580,7 +17705,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b17):
 				f37 = b17
 			else:
-				f37 = __builtin__.max(zero, b17)
+				f37 = _hx_builtin.max(zero, b17)
 			
 			return _hx_math.isnan(f37)
 		
@@ -19594,7 +17719,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b18):
 				f38 = b18
 			else:
-				f38 = __builtin__.max(a20, b18)
+				f38 = _hx_builtin.max(a20, b18)
 			
 			return _hx_math.isnan(f38)
 		
@@ -19608,7 +17733,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(b19):
 				f39 = b19
 			else:
-				f39 = __builtin__.max(a21, b19)
+				f39 = _hx_builtin.max(a21, b19)
 			
 			return _hx_math.isnan(f39)
 		
@@ -19621,7 +17746,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(one):
 				f40 = one
 			else:
-				f40 = __builtin__.max(a22, one)
+				f40 = _hx_builtin.max(a22, one)
 			
 			return _hx_math.isnan(f40)
 		
@@ -19634,7 +17759,7 @@ class unit_TestSpecification(unit_Test):
 			elif _hx_math.isnan(zero):
 				f41 = zero
 			else:
-				f41 = __builtin__.max(a23, zero)
+				f41 = _hx_builtin.max(a23, zero)
 			
 			return _hx_math.isnan(f41)
 		
@@ -20004,18 +18129,18 @@ class unit_TestSpecification(unit_Test):
 		self.eq("".lower(), "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		self.eq("a".lower(), "a", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		s = "foo1bar"
-		self.eq("" if (0 < 0 or 0 >= __builtin__.len(s)) else s[0], "f", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 22 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (1 < 0 or 1 >= __builtin__.len(s)) else s[1], "o", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 23 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (2 < 0 or 2 >= __builtin__.len(s)) else s[2], "o", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 24 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (3 < 0 or 3 >= __builtin__.len(s)) else s[3], "1", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (4 < 0 or 4 >= __builtin__.len(s)) else s[4], "b", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 26 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (5 < 0 or 5 >= __builtin__.len(s)) else s[5], "a", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (6 < 0 or 6 >= __builtin__.len(s)) else s[6], "r", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (7 < 0 or 7 >= __builtin__.len(s)) else s[7], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (-1 < 0 or -1 >= __builtin__.len(s)) else s[-1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (0 < 0 or 0 >= __builtin__.len("")) else ""[0], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (1 < 0 or 1 >= __builtin__.len("")) else ""[1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		self.eq("" if (-1 < 0 or -1 >= __builtin__.len("")) else ""[-1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 33 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (0 < 0 or 0 >= _hx_builtin.len(s)) else s[0], "f", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 22 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (1 < 0 or 1 >= _hx_builtin.len(s)) else s[1], "o", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 23 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (2 < 0 or 2 >= _hx_builtin.len(s)) else s[2], "o", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 24 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (3 < 0 or 3 >= _hx_builtin.len(s)) else s[3], "1", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (4 < 0 or 4 >= _hx_builtin.len(s)) else s[4], "b", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 26 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (5 < 0 or 5 >= _hx_builtin.len(s)) else s[5], "a", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (6 < 0 or 6 >= _hx_builtin.len(s)) else s[6], "r", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (7 < 0 or 7 >= _hx_builtin.len(s)) else s[7], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (-1 < 0 or -1 >= _hx_builtin.len(s)) else s[-1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (0 < 0 or 0 >= _hx_builtin.len("")) else ""[0], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (1 < 0 or 1 >= _hx_builtin.len("")) else ""[1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq("" if (-1 < 0 or -1 >= _hx_builtin.len("")) else ""[-1], "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 33 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		s1 = "foo1bar"
 		self.eq(_hx_c.python_internal_StringImpl.charCodeAt(s1, 0), 102, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		self.eq(_hx_c.python_internal_StringImpl.charCodeAt(s1, 1), 111, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
@@ -20051,379 +18176,379 @@ class unit_TestSpecification(unit_Test):
 				i = s3.rfind("r", 0, None + 1)
 				startLeft = None
 				if i == -1:
-					b = None + 1 - __builtin__.len("r")
+					b = None + 1 - _hx_builtin.len("r")
 					if _hx_math.isnan(0):
 						startLeft = 0
 					elif _hx_math.isnan(b):
 						startLeft = b
 					else:
-						startLeft = __builtin__.max(0, b)
+						startLeft = _hx_builtin.max(0, b)
 				
 				else:
 					startLeft = i + 1
-				check = s3.find("r", startLeft, __builtin__.len(s3))
+				check = s3.find("r", startLeft, _hx_builtin.len(s3))
 				return check if (check > i and check <= None) else i
 			
-			return s3.rfind("r", 0, __builtin__.len(s3)) if None is None else _hx_local_0()
+			return s3.rfind("r", 0, _hx_builtin.len(s3)) if None is None else _hx_local_0()
 		
 		self.eq(_hx_local_1(), 14, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 78 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_4():
-			def _hx_local_3():
+		def _hx_local_3():
+			def _hx_local_2():
 				i1 = s3.rfind("a", 0, None + 1)
 				startLeft1 = None
 				if i1 == -1:
-					b1 = None + 1 - __builtin__.len("a")
+					b1 = None + 1 - _hx_builtin.len("a")
 					if _hx_math.isnan(0):
 						startLeft1 = 0
 					elif _hx_math.isnan(b1):
 						startLeft1 = b1
 					else:
-						startLeft1 = __builtin__.max(0, b1)
+						startLeft1 = _hx_builtin.max(0, b1)
 				
 				else:
 					startLeft1 = i1 + 1
-				check1 = s3.find("a", startLeft1, __builtin__.len(s3))
+				check1 = s3.find("a", startLeft1, _hx_builtin.len(s3))
 				return check1 if (check1 > i1 and check1 <= None) else i1
 			
-			return s3.rfind("a", 0, __builtin__.len(s3)) if None is None else _hx_local_3()
+			return s3.rfind("a", 0, _hx_builtin.len(s3)) if None is None else _hx_local_2()
 		
-		self.eq(_hx_local_4(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 79 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_7():
-			def _hx_local_6():
+		self.eq(_hx_local_3(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 79 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_5():
+			def _hx_local_4():
 				i2 = s3.rfind("b", 0, None + 1)
 				startLeft2 = None
 				if i2 == -1:
-					b2 = None + 1 - __builtin__.len("b")
+					b2 = None + 1 - _hx_builtin.len("b")
 					if _hx_math.isnan(0):
 						startLeft2 = 0
 					elif _hx_math.isnan(b2):
 						startLeft2 = b2
 					else:
-						startLeft2 = __builtin__.max(0, b2)
+						startLeft2 = _hx_builtin.max(0, b2)
 				
 				else:
 					startLeft2 = i2 + 1
-				check2 = s3.find("b", startLeft2, __builtin__.len(s3))
+				check2 = s3.find("b", startLeft2, _hx_builtin.len(s3))
 				return check2 if (check2 > i2 and check2 <= None) else i2
 			
-			return s3.rfind("b", 0, __builtin__.len(s3)) if None is None else _hx_local_6()
+			return s3.rfind("b", 0, _hx_builtin.len(s3)) if None is None else _hx_local_4()
 		
-		self.eq(_hx_local_7(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_10():
-			def _hx_local_9():
+		self.eq(_hx_local_5(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_7():
+			def _hx_local_6():
 				i3 = s3.rfind("bar", 0, None + 1)
 				startLeft3 = None
 				if i3 == -1:
-					b3 = None + 1 - __builtin__.len("bar")
+					b3 = None + 1 - _hx_builtin.len("bar")
 					if _hx_math.isnan(0):
 						startLeft3 = 0
 					elif _hx_math.isnan(b3):
 						startLeft3 = b3
 					else:
-						startLeft3 = __builtin__.max(0, b3)
+						startLeft3 = _hx_builtin.max(0, b3)
 				
 				else:
 					startLeft3 = i3 + 1
-				check3 = s3.find("bar", startLeft3, __builtin__.len(s3))
+				check3 = s3.find("bar", startLeft3, _hx_builtin.len(s3))
 				return check3 if (check3 > i3 and check3 <= None) else i3
 			
-			return s3.rfind("bar", 0, __builtin__.len(s3)) if None is None else _hx_local_9()
+			return s3.rfind("bar", 0, _hx_builtin.len(s3)) if None is None else _hx_local_6()
 		
-		self.eq(_hx_local_10(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_13():
-			def _hx_local_12():
+		self.eq(_hx_local_7(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_9():
+			def _hx_local_8():
 				i4 = s3.rfind("foo", 0, None + 1)
 				startLeft4 = None
 				if i4 == -1:
-					b4 = None + 1 - __builtin__.len("foo")
+					b4 = None + 1 - _hx_builtin.len("foo")
 					if _hx_math.isnan(0):
 						startLeft4 = 0
 					elif _hx_math.isnan(b4):
 						startLeft4 = b4
 					else:
-						startLeft4 = __builtin__.max(0, b4)
+						startLeft4 = _hx_builtin.max(0, b4)
 				
 				else:
 					startLeft4 = i4 + 1
-				check4 = s3.find("foo", startLeft4, __builtin__.len(s3))
+				check4 = s3.find("foo", startLeft4, _hx_builtin.len(s3))
 				return check4 if (check4 > i4 and check4 <= None) else i4
 			
-			return s3.rfind("foo", 0, __builtin__.len(s3)) if None is None else _hx_local_12()
+			return s3.rfind("foo", 0, _hx_builtin.len(s3)) if None is None else _hx_local_8()
 		
-		self.eq(_hx_local_13(), 6, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_16():
-			def _hx_local_15():
+		self.eq(_hx_local_9(), 6, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_11():
+			def _hx_local_10():
 				i5 = s3.rfind("foofoo", 0, None + 1)
 				startLeft5 = None
 				if i5 == -1:
-					b5 = None + 1 - __builtin__.len("foofoo")
+					b5 = None + 1 - _hx_builtin.len("foofoo")
 					if _hx_math.isnan(0):
 						startLeft5 = 0
 					elif _hx_math.isnan(b5):
 						startLeft5 = b5
 					else:
-						startLeft5 = __builtin__.max(0, b5)
+						startLeft5 = _hx_builtin.max(0, b5)
 				
 				else:
 					startLeft5 = i5 + 1
-				check5 = s3.find("foofoo", startLeft5, __builtin__.len(s3))
+				check5 = s3.find("foofoo", startLeft5, _hx_builtin.len(s3))
 				return check5 if (check5 > i5 and check5 <= None) else i5
 			
-			return s3.rfind("foofoo", 0, __builtin__.len(s3)) if None is None else _hx_local_15()
+			return s3.rfind("foofoo", 0, _hx_builtin.len(s3)) if None is None else _hx_local_10()
 		
-		self.eq(_hx_local_16(), 3, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_19():
-			def _hx_local_18():
+		self.eq(_hx_local_11(), 3, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_13():
+			def _hx_local_12():
 				i6 = s3.rfind("f", 0, None + 1)
 				startLeft6 = None
 				if i6 == -1:
-					b6 = None + 1 - __builtin__.len("f")
+					b6 = None + 1 - _hx_builtin.len("f")
 					if _hx_math.isnan(0):
 						startLeft6 = 0
 					elif _hx_math.isnan(b6):
 						startLeft6 = b6
 					else:
-						startLeft6 = __builtin__.max(0, b6)
+						startLeft6 = _hx_builtin.max(0, b6)
 				
 				else:
 					startLeft6 = i6 + 1
-				check6 = s3.find("f", startLeft6, __builtin__.len(s3))
+				check6 = s3.find("f", startLeft6, _hx_builtin.len(s3))
 				return check6 if (check6 > i6 and check6 <= None) else i6
 			
-			return s3.rfind("f", 0, __builtin__.len(s3)) if None is None else _hx_local_18()
+			return s3.rfind("f", 0, _hx_builtin.len(s3)) if None is None else _hx_local_12()
 		
-		self.eq(_hx_local_19(), 6, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_22():
-			def _hx_local_21():
+		self.eq(_hx_local_13(), 6, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_15():
+			def _hx_local_14():
 				i7 = s3.rfind("barb", 0, None + 1)
 				startLeft7 = None
 				if i7 == -1:
-					b7 = None + 1 - __builtin__.len("barb")
+					b7 = None + 1 - _hx_builtin.len("barb")
 					if _hx_math.isnan(0):
 						startLeft7 = 0
 					elif _hx_math.isnan(b7):
 						startLeft7 = b7
 					else:
-						startLeft7 = __builtin__.max(0, b7)
+						startLeft7 = _hx_builtin.max(0, b7)
 				
 				else:
 					startLeft7 = i7 + 1
-				check7 = s3.find("barb", startLeft7, __builtin__.len(s3))
+				check7 = s3.find("barb", startLeft7, _hx_builtin.len(s3))
 				return check7 if (check7 > i7 and check7 <= None) else i7
 			
-			return s3.rfind("barb", 0, __builtin__.len(s3)) if None is None else _hx_local_21()
+			return s3.rfind("barb", 0, _hx_builtin.len(s3)) if None is None else _hx_local_14()
 		
-		self.eq(_hx_local_22(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_25():
-			def _hx_local_24():
+		self.eq(_hx_local_15(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_17():
+			def _hx_local_16():
 				i8 = s3.rfind("z", 0, None + 1)
 				startLeft8 = None
 				if i8 == -1:
-					b8 = None + 1 - __builtin__.len("z")
+					b8 = None + 1 - _hx_builtin.len("z")
 					if _hx_math.isnan(0):
 						startLeft8 = 0
 					elif _hx_math.isnan(b8):
 						startLeft8 = b8
 					else:
-						startLeft8 = __builtin__.max(0, b8)
+						startLeft8 = _hx_builtin.max(0, b8)
 				
 				else:
 					startLeft8 = i8 + 1
-				check8 = s3.find("z", startLeft8, __builtin__.len(s3))
+				check8 = s3.find("z", startLeft8, _hx_builtin.len(s3))
 				return check8 if (check8 > i8 and check8 <= None) else i8
 			
-			return s3.rfind("z", 0, __builtin__.len(s3)) if None is None else _hx_local_24()
+			return s3.rfind("z", 0, _hx_builtin.len(s3)) if None is None else _hx_local_16()
 		
-		self.eq(_hx_local_25(), -1, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 86 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_28():
-			def _hx_local_27():
+		self.eq(_hx_local_17(), -1, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 86 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_19():
+			def _hx_local_18():
 				i9 = s3.rfind("r", 0, 14 + 1)
 				startLeft9 = None
 				if i9 == -1:
-					b9 = 14 + 1 - __builtin__.len("r")
+					b9 = 14 + 1 - _hx_builtin.len("r")
 					if _hx_math.isnan(0):
 						startLeft9 = 0
 					elif _hx_math.isnan(b9):
 						startLeft9 = b9
 					else:
-						startLeft9 = __builtin__.max(0, b9)
+						startLeft9 = _hx_builtin.max(0, b9)
 				
 				else:
 					startLeft9 = i9 + 1
-				check9 = s3.find("r", startLeft9, __builtin__.len(s3))
+				check9 = s3.find("r", startLeft9, _hx_builtin.len(s3))
 				return check9 if (check9 > i9 and check9 <= 14) else i9
 			
-			return s3.rfind("r", 0, __builtin__.len(s3)) if 14 is None else _hx_local_27()
+			return s3.rfind("r", 0, _hx_builtin.len(s3)) if 14 is None else _hx_local_18()
 		
-		self.eq(_hx_local_28(), 14, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_31():
-			def _hx_local_30():
+		self.eq(_hx_local_19(), 14, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_21():
+			def _hx_local_20():
 				i10 = s3.rfind("r", 0, 13 + 1)
 				startLeft10 = None
 				if i10 == -1:
-					b10 = 13 + 1 - __builtin__.len("r")
+					b10 = 13 + 1 - _hx_builtin.len("r")
 					if _hx_math.isnan(0):
 						startLeft10 = 0
 					elif _hx_math.isnan(b10):
 						startLeft10 = b10
 					else:
-						startLeft10 = __builtin__.max(0, b10)
+						startLeft10 = _hx_builtin.max(0, b10)
 				
 				else:
 					startLeft10 = i10 + 1
-				check10 = s3.find("r", startLeft10, __builtin__.len(s3))
+				check10 = s3.find("r", startLeft10, _hx_builtin.len(s3))
 				return check10 if (check10 > i10 and check10 <= 13) else i10
 			
-			return s3.rfind("r", 0, __builtin__.len(s3)) if 13 is None else _hx_local_30()
+			return s3.rfind("r", 0, _hx_builtin.len(s3)) if 13 is None else _hx_local_20()
 		
-		self.eq(_hx_local_31(), 11, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_34():
-			def _hx_local_33():
+		self.eq(_hx_local_21(), 11, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_23():
+			def _hx_local_22():
 				i11 = s3.rfind("a", 0, 14 + 1)
 				startLeft11 = None
 				if i11 == -1:
-					b11 = 14 + 1 - __builtin__.len("a")
+					b11 = 14 + 1 - _hx_builtin.len("a")
 					if _hx_math.isnan(0):
 						startLeft11 = 0
 					elif _hx_math.isnan(b11):
 						startLeft11 = b11
 					else:
-						startLeft11 = __builtin__.max(0, b11)
+						startLeft11 = _hx_builtin.max(0, b11)
 				
 				else:
 					startLeft11 = i11 + 1
-				check11 = s3.find("a", startLeft11, __builtin__.len(s3))
+				check11 = s3.find("a", startLeft11, _hx_builtin.len(s3))
 				return check11 if (check11 > i11 and check11 <= 14) else i11
 			
-			return s3.rfind("a", 0, __builtin__.len(s3)) if 14 is None else _hx_local_33()
+			return s3.rfind("a", 0, _hx_builtin.len(s3)) if 14 is None else _hx_local_22()
 		
-		self.eq(_hx_local_34(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_37():
-			def _hx_local_36():
+		self.eq(_hx_local_23(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_25():
+			def _hx_local_24():
 				i12 = s3.rfind("a", 0, 13 + 1)
 				startLeft12 = None
 				if i12 == -1:
-					b12 = 13 + 1 - __builtin__.len("a")
+					b12 = 13 + 1 - _hx_builtin.len("a")
 					if _hx_math.isnan(0):
 						startLeft12 = 0
 					elif _hx_math.isnan(b12):
 						startLeft12 = b12
 					else:
-						startLeft12 = __builtin__.max(0, b12)
+						startLeft12 = _hx_builtin.max(0, b12)
 				
 				else:
 					startLeft12 = i12 + 1
-				check12 = s3.find("a", startLeft12, __builtin__.len(s3))
+				check12 = s3.find("a", startLeft12, _hx_builtin.len(s3))
 				return check12 if (check12 > i12 and check12 <= 13) else i12
 			
-			return s3.rfind("a", 0, __builtin__.len(s3)) if 13 is None else _hx_local_36()
+			return s3.rfind("a", 0, _hx_builtin.len(s3)) if 13 is None else _hx_local_24()
 		
-		self.eq(_hx_local_37(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 93 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_40():
-			def _hx_local_39():
+		self.eq(_hx_local_25(), 13, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 93 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_27():
+			def _hx_local_26():
 				i13 = s3.rfind("a", 0, 12 + 1)
 				startLeft13 = None
 				if i13 == -1:
-					b13 = 12 + 1 - __builtin__.len("a")
+					b13 = 12 + 1 - _hx_builtin.len("a")
 					if _hx_math.isnan(0):
 						startLeft13 = 0
 					elif _hx_math.isnan(b13):
 						startLeft13 = b13
 					else:
-						startLeft13 = __builtin__.max(0, b13)
+						startLeft13 = _hx_builtin.max(0, b13)
 				
 				else:
 					startLeft13 = i13 + 1
-				check13 = s3.find("a", startLeft13, __builtin__.len(s3))
+				check13 = s3.find("a", startLeft13, _hx_builtin.len(s3))
 				return check13 if (check13 > i13 and check13 <= 12) else i13
 			
-			return s3.rfind("a", 0, __builtin__.len(s3)) if 12 is None else _hx_local_39()
+			return s3.rfind("a", 0, _hx_builtin.len(s3)) if 12 is None else _hx_local_26()
 		
-		self.eq(_hx_local_40(), 10, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 94 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_43():
-			def _hx_local_42():
+		self.eq(_hx_local_27(), 10, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 94 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_29():
+			def _hx_local_28():
 				i14 = s3.rfind("bar", 0, 12 + 1)
 				startLeft14 = None
 				if i14 == -1:
-					b14 = 12 + 1 - __builtin__.len("bar")
+					b14 = 12 + 1 - _hx_builtin.len("bar")
 					if _hx_math.isnan(0):
 						startLeft14 = 0
 					elif _hx_math.isnan(b14):
 						startLeft14 = b14
 					else:
-						startLeft14 = __builtin__.max(0, b14)
+						startLeft14 = _hx_builtin.max(0, b14)
 				
 				else:
 					startLeft14 = i14 + 1
-				check14 = s3.find("bar", startLeft14, __builtin__.len(s3))
+				check14 = s3.find("bar", startLeft14, _hx_builtin.len(s3))
 				return check14 if (check14 > i14 and check14 <= 12) else i14
 			
-			return s3.rfind("bar", 0, __builtin__.len(s3)) if 12 is None else _hx_local_42()
+			return s3.rfind("bar", 0, _hx_builtin.len(s3)) if 12 is None else _hx_local_28()
 		
-		self.eq(_hx_local_43(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 95 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_46():
-			def _hx_local_45():
+		self.eq(_hx_local_29(), 12, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 95 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_31():
+			def _hx_local_30():
 				i15 = s3.rfind("bar", 0, 11 + 1)
 				startLeft15 = None
 				if i15 == -1:
-					b15 = 11 + 1 - __builtin__.len("bar")
+					b15 = 11 + 1 - _hx_builtin.len("bar")
 					if _hx_math.isnan(0):
 						startLeft15 = 0
 					elif _hx_math.isnan(b15):
 						startLeft15 = b15
 					else:
-						startLeft15 = __builtin__.max(0, b15)
+						startLeft15 = _hx_builtin.max(0, b15)
 				
 				else:
 					startLeft15 = i15 + 1
-				check15 = s3.find("bar", startLeft15, __builtin__.len(s3))
+				check15 = s3.find("bar", startLeft15, _hx_builtin.len(s3))
 				return check15 if (check15 > i15 and check15 <= 11) else i15
 			
-			return s3.rfind("bar", 0, __builtin__.len(s3)) if 11 is None else _hx_local_45()
+			return s3.rfind("bar", 0, _hx_builtin.len(s3)) if 11 is None else _hx_local_30()
 		
-		self.eq(_hx_local_46(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_49():
-			def _hx_local_48():
+		self.eq(_hx_local_31(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_33():
+			def _hx_local_32():
 				i16 = s3.rfind("bar", 0, 9 + 1)
 				startLeft16 = None
 				if i16 == -1:
-					b16 = 9 + 1 - __builtin__.len("bar")
+					b16 = 9 + 1 - _hx_builtin.len("bar")
 					if _hx_math.isnan(0):
 						startLeft16 = 0
 					elif _hx_math.isnan(b16):
 						startLeft16 = b16
 					else:
-						startLeft16 = __builtin__.max(0, b16)
+						startLeft16 = _hx_builtin.max(0, b16)
 				
 				else:
 					startLeft16 = i16 + 1
-				check16 = s3.find("bar", startLeft16, __builtin__.len(s3))
+				check16 = s3.find("bar", startLeft16, _hx_builtin.len(s3))
 				return check16 if (check16 > i16 and check16 <= 9) else i16
 			
-			return s3.rfind("bar", 0, __builtin__.len(s3)) if 9 is None else _hx_local_48()
+			return s3.rfind("bar", 0, _hx_builtin.len(s3)) if 9 is None else _hx_local_32()
 		
-		self.eq(_hx_local_49(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 97 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
-		def _hx_local_52():
-			def _hx_local_51():
+		self.eq(_hx_local_33(), 9, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 97 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		def _hx_local_35():
+			def _hx_local_34():
 				i17 = s3.rfind("bar", 0, 8 + 1)
 				startLeft17 = None
 				if i17 == -1:
-					b17 = 8 + 1 - __builtin__.len("bar")
+					b17 = 8 + 1 - _hx_builtin.len("bar")
 					if _hx_math.isnan(0):
 						startLeft17 = 0
 					elif _hx_math.isnan(b17):
 						startLeft17 = b17
 					else:
-						startLeft17 = __builtin__.max(0, b17)
+						startLeft17 = _hx_builtin.max(0, b17)
 				
 				else:
 					startLeft17 = i17 + 1
-				check17 = s3.find("bar", startLeft17, __builtin__.len(s3))
+				check17 = s3.find("bar", startLeft17, _hx_builtin.len(s3))
 				return check17 if (check17 > i17 and check17 <= 8) else i17
 			
-			return s3.rfind("bar", 0, __builtin__.len(s3)) if 8 is None else _hx_local_51()
+			return s3.rfind("bar", 0, _hx_builtin.len(s3)) if 8 is None else _hx_local_34()
 		
-		self.eq(_hx_local_52(), -1, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 98 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
+		self.eq(_hx_local_35(), -1, _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 98 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		s4 = "xfooxfooxxbarxbarxx"
 		self.eq(_hx_array_get(_hx_c.python_internal_StringImpl.split(s4, "x"),0), "", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 102 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.python_internal_StringImpl.split(s4, "x"),1), "foo", _hx_c._hx_AnonObject(fileName = "String.unit.hx" ,lineNumber = 102 ,className = "unit.TestSpecification" ,methodName = "testString_unit_hx" ))
@@ -20505,47 +18630,47 @@ class unit_TestSpecification(unit_Test):
 	
 
 	def testStringBuf_unit_hx(self):
-		x = _hx_StringIO()
-		self.eq(x.getvalue(), "", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		x = _hx_c.StringBuf()
+		self.eq(x.b.getvalue(), "", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
 		s = _hx_c.Std.string(None)
-		x.write(s)
+		x.b.write(s)
 		
-		self.eq(x.getvalue(), "null", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
-		x1 = _hx_StringIO()
+		self.eq(x.b.getvalue(), "null", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		x1 = _hx_c.StringBuf()
 		s1 = None
 		c = 32
-		s1 = "".join(map(chr, [c]))
+		s1 = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
-		x1.write(s1)
+		x1.b.write(s1)
 		
-		self.eq(x1.getvalue(), " ", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
-		x2 = _hx_StringIO()
+		self.eq(x1.b.getvalue(), " ", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		x2 = _hx_c.StringBuf()
 		s2 = None
 		if None is None:
 			s2 = _hx_c.python_Tools.substr("abcdefg", 1, None)
 		else:
 			s2 = _hx_c.python_Tools.substr("abcdefg", 1, None)
-		x2.write(s2)
+		x2.b.write(s2)
 		
-		self.eq(x2.getvalue(), "bcdefg", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 15 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
-		x3 = _hx_StringIO()
+		self.eq(x2.b.getvalue(), "bcdefg", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 15 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		x3 = _hx_c.StringBuf()
 		s3 = None
 		if None is None:
 			s3 = _hx_c.python_Tools.substr("abcdefg", 1, None)
 		else:
 			s3 = _hx_c.python_Tools.substr("abcdefg", 1, None)
-		x3.write(s3)
+		x3.b.write(s3)
 		
-		self.eq(x3.getvalue(), "bcdefg", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
-		x4 = _hx_StringIO()
+		self.eq(x3.b.getvalue(), "bcdefg", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		x4 = _hx_c.StringBuf()
 		s4 = None
 		if 3 is None:
 			s4 = _hx_c.python_Tools.substr("abcdefg", 1, None)
 		else:
 			s4 = _hx_c.python_Tools.substr("abcdefg", 1, 3)
-		x4.write(s4)
+		x4.b.write(s4)
 		
-		self.eq(x4.getvalue(), "bcd", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
+		self.eq(x4.b.getvalue(), "bcd", _hx_c._hx_AnonObject(fileName = "StringBuf.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testStringBuf_unit_hx" ))
 		def _hx_local_0(s5):
 			return s5
 		identityTest = _hx_local_0
@@ -20553,12 +18678,12 @@ class unit_TestSpecification(unit_Test):
 	
 
 	def testArray_unit_hx(self):
-		self.eq(__builtin__.len([]), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 2 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len([1]), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len([]), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 2 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len([1]), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a = []
 		_hx_array_set(a,4, 1)
-		self.eq(__builtin__.len(a), 5, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len([] + []), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a), 5, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len([] + []), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(([1] + []),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(([] + [1]),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(([1] + [2]),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 12 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
@@ -20569,54 +18694,54 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(([1, 2] + [2, 1]),2), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(([1, 2] + [2, 1]),3), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
-		self.eq("".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, [1, 2]))), "12", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq("x".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, []))), "", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq("x".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, [1]))), "1", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq("x".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, [1, 2]))), "1x2", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq("".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, []))), "", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq("".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, [1, 2]))), "12", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq("x".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, []))), "", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq("x".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, [1]))), "1", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq("x".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, [1, 2]))), "1x2", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq("".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, []))), "", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_0():
 			_this = [_hx_c.unit_TestSpecification_ClassWithToString(), _hx_c.unit_TestSpecification_ClassWithToStringChild(), _hx_c.unit_TestSpecification_ClassWithToStringChild2()]
-			return "_".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			return "_".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
 		self.eq(_hx_local_0(), "ClassWithToString.toString()_ClassWithToString.toString()_ClassWithToStringChild2.toString()", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_1():
 			_this1 = []
-			return None if (__builtin__.len(_this1) == 0) else _this1.pop()
+			return None if (_hx_builtin.len(_this1) == 0) else _this1.pop()
 		
 		self.eq(_hx_local_1(), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 24 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_2():
 			_this2 = [1]
-			return None if (__builtin__.len(_this2) == 0) else _this2.pop()
+			return None if (_hx_builtin.len(_this2) == 0) else _this2.pop()
 		
 		self.eq(_hx_local_2(), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a1 = [1, 2, 3]
 		b = a1
-		self.eq(None if (__builtin__.len(a1) == 0) else a1.pop(), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a1) == 0) else a1.pop(), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a1,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a1,1), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		self.eq(a1, b, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a1) == 0) else a1.pop(), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a1) == 0) else a1.pop(), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a1,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a1, b, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 33 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a1) == 0) else a1.pop(), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 34 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len(a1), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 35 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a1) == 0) else a1.pop(), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 34 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a1), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 35 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a1, b, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 36 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a1) == 0) else a1.pop(), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len(a1), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a1) == 0) else a1.pop(), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a1), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a1, b, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a2 = []
 		b1 = a2
 		def _hx_local_3():
 			a2.append(1)
-			return __builtin__.len(a2)
+			return _hx_builtin.len(a2)
 		
 		self.eq(_hx_local_3(), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 44 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a2, b1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 45 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a2,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 46 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_4():
 			a2.append(2)
-			return __builtin__.len(a2)
+			return _hx_builtin.len(a2)
 		
 		self.eq(_hx_local_4(), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 47 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a2, b1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 48 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
@@ -20625,7 +18750,7 @@ class unit_TestSpecification(unit_Test):
 		
 		def _hx_local_5():
 			a2.append(None)
-			return __builtin__.len(a2)
+			return _hx_builtin.len(a2)
 		
 		self.eq(_hx_local_5(), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 50 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a2,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 51 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
@@ -20642,35 +18767,35 @@ class unit_TestSpecification(unit_Test):
 		
 		a4 = []
 		a4.reverse()
-		self.eq(__builtin__.len(a4), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 61 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a4), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 61 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a5 = [1]
 		a5.reverse()
 		self.eq(_hx_array_get(a5,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 64 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_6():
 			_this3 = []
-			return None if (__builtin__.len(_this3) == 0) else _this3.pop(0)
+			return None if (_hx_builtin.len(_this3) == 0) else _this3.pop(0)
 		
 		self.eq(_hx_local_6(), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 67 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_7():
 			_this4 = [1]
-			return None if (__builtin__.len(_this4) == 0) else _this4.pop(0)
+			return None if (_hx_builtin.len(_this4) == 0) else _this4.pop(0)
 		
 		self.eq(_hx_local_7(), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 68 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a6 = [1, 2, 3]
 		b3 = a6
-		self.eq(None if (__builtin__.len(a6) == 0) else a6.pop(0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 71 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a6) == 0) else a6.pop(0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 71 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a6,0), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 72 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a6,1), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 72 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		self.eq(a6, b3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 73 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a6) == 0) else a6.pop(0), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 74 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a6) == 0) else a6.pop(0), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 74 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a6,0), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 75 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a6, b3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 76 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a6) == 0) else a6.pop(0), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 77 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len(a6), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 78 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a6) == 0) else a6.pop(0), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 77 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a6), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 78 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a6, b3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 79 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(None if (__builtin__.len(a6) == 0) else a6.pop(0), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(__builtin__.len(a6), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(None if (_hx_builtin.len(a6) == 0) else a6.pop(0), None, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a6), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(a6, b3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		i0 = _hx_c.unit_TestSpecification_IntWrap(1)
 		i1 = _hx_c.unit_TestSpecification_IntWrap(1)
@@ -20705,12 +18830,12 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(b4[-3:None],0), i3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 102 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_8():
 			_this5 = b4[-3:-3]
-			return __builtin__.len(_this5)
+			return _hx_builtin.len(_this5)
 		
 		self.eq(_hx_local_8(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 103 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_9():
 			_this6 = [1, 2, 3][2:1]
-			return __builtin__.len(_this6)
+			return _hx_builtin.len(_this6)
 		
 		self.eq(_hx_local_9(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 104 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		i01 = _hx_c.unit_TestSpecification_IntWrap(1)
@@ -20736,7 +18861,7 @@ class unit_TestSpecification(unit_Test):
 		a9 = None
 		pos = 0
 		if pos < 0:
-			pos = __builtin__.len(b5) + pos
+			pos = _hx_builtin.len(b5) + pos
 		
 		if pos < 0:
 			pos = 0
@@ -20746,7 +18871,7 @@ class unit_TestSpecification(unit_Test):
 		a9 = res
 		
 		b5 != a9
-		self.eq(__builtin__.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 125 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 125 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b5,0), i42, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b5,1), i02, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b5,2), i12, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
@@ -20754,10 +18879,10 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(b5,4), i02, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b5,5), i22, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
-		len = __builtin__.len(b5) - 1
+		len = _hx_builtin.len(b5) - 1
 		pos1 = 1
 		if pos1 < 0:
-			pos1 = __builtin__.len(b5) + pos1
+			pos1 = _hx_builtin.len(b5) + pos1
 		
 		if pos1 < 0:
 			pos1 = 0
@@ -20776,7 +18901,7 @@ class unit_TestSpecification(unit_Test):
 		
 		pos2 = 1
 		if pos2 < 0:
-			pos2 = __builtin__.len(a9) + pos2
+			pos2 = _hx_builtin.len(a9) + pos2
 		
 		if pos2 < 0:
 			pos2 = 0
@@ -20791,10 +18916,10 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(a9,3), i02, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 131 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a9,4), i22, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 131 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
-		self.eq(__builtin__.len(b5), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 132 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(b5), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 132 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		pos3 = 0
 		if pos3 < 0:
-			pos3 = __builtin__.len(a9) + pos3
+			pos3 = _hx_builtin.len(a9) + pos3
 		
 		if pos3 < 0:
 			pos3 = 0
@@ -20809,10 +18934,10 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(b5,3), i02, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 134 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b5,4), i22, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 134 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
-		self.eq(__builtin__.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 135 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 135 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		pos4 = 10
 		if pos4 < 0:
-			pos4 = __builtin__.len(b5) + pos4
+			pos4 = _hx_builtin.len(b5) + pos4
 		
 		if pos4 < 0:
 			pos4 = 0
@@ -20821,11 +18946,11 @@ class unit_TestSpecification(unit_Test):
 		del b5[pos4:pos4 + 10]
 		a9 = res4
 		
-		self.eq(__builtin__.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 137 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(a9), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 137 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		b5 = [i02, i12, i32, i02, i22]
 		pos5 = -2
 		if pos5 < 0:
-			pos5 = __builtin__.len(b5) + pos5
+			pos5 = _hx_builtin.len(b5) + pos5
 		
 		if pos5 < 0:
 			pos5 = 0
@@ -20843,7 +18968,7 @@ class unit_TestSpecification(unit_Test):
 		
 		a10 = [_hx_c.unit_TestSpecification_ClassWithToString(), _hx_c.unit_TestSpecification_ClassWithToStringChild(), _hx_c.unit_TestSpecification_ClassWithToStringChild2()]
 		comp = "ClassWithToString.toString(),ClassWithToString.toString(),ClassWithToStringChild2.toString()"
-		self.t(Std.string("[" + Std.string(",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, a10))))) + "]" == Std.string("[" + Std.string(comp)) + "]" or Std.string("[" + Std.string(",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, a10))))) + "]" == comp, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 146 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.t(Std.string("[" + Std.string(",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, a10))))) + "]" == Std.string("[" + Std.string(comp)) + "]" or Std.string("[" + Std.string(",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, a10))))) + "]" == comp, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 146 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		a11 = []
 		b6 = a11
 		a11.insert(0, 1)
@@ -20974,97 +19099,97 @@ class unit_TestSpecification(unit_Test):
 		i14 = _hx_c.unit_TestSpecification_IntWrap(1)
 		i24 = _hx_c.unit_TestSpecification_IntWrap(5)
 		a18 = [i04, i14, i24]
-		b7 = __builtin__.list(a18)
+		b7 = _hx_builtin.list(a18)
 		a18 != b7
 		self.eq(_hx_array_get(b7,0), i04, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 243 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b7,1), i14, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 243 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(b7,2), i24, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 243 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		a19 = []
-		b8 = __builtin__.list(a19)
+		b8 = _hx_builtin.list(a19)
 		a19 != b8
-		self.eq(__builtin__.len(b8), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 247 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(b8), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 247 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_10(i):
 			return i * 2
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.map(_hx_local_10, [1, 2, 3])),0), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.map(_hx_local_10, [1, 2, 3])),0), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_11(i5):
 			return i5 * 2
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.map(_hx_local_11, [1, 2, 3])),1), 4, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.map(_hx_local_11, [1, 2, 3])),1), 4, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_12(i6):
 			return i6 * 2
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.map(_hx_local_12, [1, 2, 3])),2), 6, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.map(_hx_local_12, [1, 2, 3])),2), 6, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 250 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		a20 = [_hx_c.unit_TestSpecification_IntWrap(1), _hx_c.unit_TestSpecification_IntWrap(2)]
 		def _hx_local_13(x):
 			return x
-		b9 = __builtin__.list(__builtin__.map(_hx_local_13, a20))
+		b9 = _hx_builtin.list(_hx_builtin.map(_hx_local_13, a20))
 		a20 != b9
-		self.eq(__builtin__.len(b9), __builtin__.len(a20), _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 254 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_builtin.len(b9), _hx_builtin.len(a20), _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 254 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a20,0), _hx_array_get(b9,0), _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 255 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		self.eq(_hx_array_get(a20,1), _hx_array_get(b9,1), _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 256 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_14(s):
 			return _hx_toUpperCase(s)
 		func = _hx_local_14
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.map(func, ["foo", "bar"])),0), "FOO", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 258 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.map(func, ["foo", "bar"])),1), "BAR", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 258 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.map(func, ["foo", "bar"])),0), "FOO", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 258 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.map(func, ["foo", "bar"])),1), "BAR", _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 258 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		def _hx_local_15():
-			_this7 = __builtin__.list(__builtin__.map(func, []))
-			return __builtin__.len(_this7)
+			_this7 = _hx_builtin.list(_hx_builtin.map(func, []))
+			return _hx_builtin.len(_this7)
 		
 		self.eq(_hx_local_15(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 259 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_16(i7):
 			return i7 < 3
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_16, [1, 2, 3, 4])),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 262 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_16, [1, 2, 3, 4])),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 262 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_17(i8):
 			return i8 < 3
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_17, [1, 2, 3, 4])),1), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 262 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_17, [1, 2, 3, 4])),1), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 262 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		def _hx_local_18(i9):
 			return True
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_18, [1, 2, 3, 4])),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_18, [1, 2, 3, 4])),0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_19(i10):
 			return True
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_19, [1, 2, 3, 4])),1), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_19, [1, 2, 3, 4])),1), 2, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_20(i15):
 			return True
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_20, [1, 2, 3, 4])),2), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_20, [1, 2, 3, 4])),2), 3, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_21(i16):
 			return True
-		self.eq(_hx_array_get(__builtin__.list(__builtin__.filter(_hx_local_21, [1, 2, 3, 4])),3), 4, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
+		self.eq(_hx_array_get(_hx_builtin.list(_hx_builtin.filter(_hx_local_21, [1, 2, 3, 4])),3), 4, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 263 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		
 		def _hx_local_22():
 			def _hx_local_23(i17):
 				return False
-			_this8 = __builtin__.list(__builtin__.filter(_hx_local_23, [1, 2, 3, 4]))
-			return __builtin__.len(_this8)
+			_this8 = _hx_builtin.list(_hx_builtin.filter(_hx_local_23, [1, 2, 3, 4]))
+			return _hx_builtin.len(_this8)
 		
 		self.eq(_hx_local_22(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 264 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_24():
 			def _hx_local_25(i18):
 				return True
-			_this9 = __builtin__.list(__builtin__.filter(_hx_local_25, []))
-			return __builtin__.len(_this9)
+			_this9 = _hx_builtin.list(_hx_builtin.filter(_hx_local_25, []))
+			return _hx_builtin.len(_this9)
 		
 		self.eq(_hx_local_24(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 265 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		def _hx_local_26():
 			def _hx_local_27(i19):
 				return False
-			_this10 = __builtin__.list(__builtin__.filter(_hx_local_27, []))
-			return __builtin__.len(_this10)
+			_this10 = _hx_builtin.list(_hx_builtin.filter(_hx_local_27, []))
+			return _hx_builtin.len(_this10)
 		
 		self.eq(_hx_local_26(), 0, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 266 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
 		arr = [_hx_c._hx_AnonObject(id = 1 ), _hx_c._hx_AnonObject(id = 2 ), _hx_c._hx_AnonObject(id = 3 ), _hx_c._hx_AnonObject(id = 4 ), _hx_c._hx_AnonObject(id = 5 )]
 		def _hx_local_28(i20):
 			return i20.id % 2 != 0
-		arr = __builtin__.list(__builtin__.filter(_hx_local_28, arr))
+		arr = _hx_builtin.list(_hx_builtin.filter(_hx_local_28, arr))
 		values = []
 		_g = 0
 		while _g < _hx_builtin.len(arr):
 			a21 = _hx_array_get(arr,_g)
 			_g = _g + 1
 			values.append(a21.id)
-			__builtin__.len(values)
+			_hx_builtin.len(values)
 		
 		
 		self.eq(_hx_array_get(values,0), 1, _hx_c._hx_AnonObject(fileName = "Array.unit.hx" ,lineNumber = 271 ,className = "unit.TestSpecification" ,methodName = "testArray_unit_hx" ))
@@ -21138,12 +19263,12 @@ class unit_TestSpecification(unit_Test):
 		self.eq(name(a), "Array", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(name(a2), "Array", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		a != a2
-		self.eq(__builtin__.len(a2), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_builtin.len(a2), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(_hx_array_get(a2,0), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		e = []
 		e2 = _hx_c.Lambda.array(e)
 		e != e2
-		self.eq(__builtin__.len(e2), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_builtin.len(e2), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		a1 = [1]
 		l = _hx_c.Lambda.list(a1)
 		self.eq(name(a1), "Array", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 18 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
@@ -21167,13 +19292,13 @@ class unit_TestSpecification(unit_Test):
 		self.eq(b.pop(), 6, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 36 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		a4 = [1, 2, 3]
 		total = 0
-		def _hx_local_2(index,i1):
+		def _hx_local_3(index,i1):
 			nonlocal total
 			total = total + index
 			return i1 * 2
 			
 		
-		myMap = _hx_local_2
+		myMap = _hx_local_3
 		b1 = _hx_c.Lambda.mapi(a4, myMap)
 		self.eq(total, 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 46 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(b1.length, 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 47 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
@@ -21184,27 +19309,27 @@ class unit_TestSpecification(unit_Test):
 		self.f(_hx_c.Lambda.has([1, 2, 3], 4), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 54 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.f(_hx_c.Lambda.has([], None), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 55 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.t(_hx_c.Lambda.has([None], None), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 56 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_3(i2):
+		def _hx_local_4(i2):
 			return i2 == 2
-		self.t(_hx_c.Lambda.exists([1, 2, 3], _hx_local_3), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 59 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_4(i3):
+		self.t(_hx_c.Lambda.exists([1, 2, 3], _hx_local_4), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 59 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_5(i3):
 			return i3 == 4
-		self.f(_hx_c.Lambda.exists([1, 2, 3], _hx_local_4), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 60 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_5(x):
+		self.f(_hx_c.Lambda.exists([1, 2, 3], _hx_local_5), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 60 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_6(x):
 			return True
-		self.f(_hx_c.Lambda.exists([], _hx_local_5), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 61 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_6(i4):
+		self.f(_hx_c.Lambda.exists([], _hx_local_6), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 61 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_7(i4):
 			return i4 % 2 == 0
-		self.t(_hx_c.Lambda.foreach([2, 4, 6], _hx_local_6), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 64 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_7(i5):
+		self.t(_hx_c.Lambda.foreach([2, 4, 6], _hx_local_7), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 64 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_8(i5):
 			return i5 % 2 == 0
-		self.f(_hx_c.Lambda.foreach([2, 4, 7], _hx_local_7), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 65 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_8(x1):
+		self.f(_hx_c.Lambda.foreach([2, 4, 7], _hx_local_8), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 65 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_9(x1):
 			return False
-		self.t(_hx_c.Lambda.foreach([], _hx_local_8), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.t(_hx_c.Lambda.foreach([], _hx_local_9), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		check = 0
 		sum = 0
-		def _hx_local_9(i6):
+		def _hx_local_11(i6):
 			nonlocal check
 			nonlocal sum
 			if check != i6 - 1:
@@ -21214,77 +19339,77 @@ class unit_TestSpecification(unit_Test):
 			sum = sum + i6
 			
 		
-		_hx_c.Lambda.iter([1, 2, 3], _hx_local_9)
+		_hx_c.Lambda.iter([1, 2, 3], _hx_local_11)
 		self.eq(check, 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 76 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(sum, 6, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 77 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_10(i7):
+		def _hx_local_12(i7):
 			raise _HxException("no call")
-		_hx_c.Lambda.iter([], _hx_local_10)
-		def _hx_local_11(i8):
+		_hx_c.Lambda.iter([], _hx_local_12)
+		def _hx_local_13(i8):
 			return i8 < 3
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_11)),0), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_12(i9):
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_13)),0), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_14(i9):
 			return i9 < 3
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_12)),1), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_14)),1), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		
-		def _hx_local_13(i10):
+		def _hx_local_15(i10):
 			return True
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_13)),0), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_14(i11):
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_15)),0), 1, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_16(i11):
 			return True
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_14)),1), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_15(i12):
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_16)),1), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_17(i12):
 			return True
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_15)),2), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_16(i13):
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_17)),2), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_18(i13):
 			return True
-		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_16)),3), 4, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_18)),3), 4, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		
-		def _hx_local_17():
-			def _hx_local_18(i14):
-				return False
-			_this = _hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_18))
-			return __builtin__.len(_this)
-		
-		self.eq(_hx_local_17(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		def _hx_local_19():
-			def _hx_local_20(i15):
+			def _hx_local_20(i14):
 				return False
-			_this1 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], _hx_local_20))
-			return __builtin__.len(_this1)
+			_this = _hx_c.Lambda.array(_hx_c.Lambda.filter([1, 2, 3, 4], _hx_local_20))
+			return _hx_builtin.len(_this)
 		
-		self.eq(_hx_local_19(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_local_19(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		def _hx_local_21():
-			def _hx_local_22(i16):
-				return True
-			_this2 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], _hx_local_22))
-			return __builtin__.len(_this2)
+			def _hx_local_22(i15):
+				return False
+			_this1 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], _hx_local_22))
+			return _hx_builtin.len(_this1)
 		
-		self.eq(_hx_local_21(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_local_21(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		def _hx_local_23():
-			_this3 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], None))
-			return __builtin__.len(_this3)
+			def _hx_local_24(i16):
+				return True
+			_this2 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], _hx_local_24))
+			return _hx_builtin.len(_this2)
 		
-		self.eq(_hx_local_23(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 86 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_24(s,acc):
+		self.eq(_hx_local_23(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_25():
+			_this3 = _hx_c.Lambda.array(_hx_c.Lambda.filter([], None))
+			return _hx_builtin.len(_this3)
+		
+		self.eq(_hx_local_25(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 86 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_26(s,acc):
 			return Std.string(s) + Std.string(acc)
-		self.eq(_hx_c.Lambda.fold(["b", "c", "d"], _hx_local_24, "a"), "dcba", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_25(s1,acc1):
+		self.eq(_hx_c.Lambda.fold(["b", "c", "d"], _hx_local_26, "a"), "dcba", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_27(s1,acc1):
 			return Std.string(s1) + Std.string(acc1)
-		self.eq(_hx_c.Lambda.fold([], _hx_local_25, "a"), "a", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_26(s2,acc2):
+		self.eq(_hx_c.Lambda.fold([], _hx_local_27, "a"), "a", _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_28(s2,acc2):
 			return Std.string(s2) + Std.string(acc2)
-		self.eq(_hx_c.Lambda.fold([], _hx_local_26, None), None, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_c.Lambda.fold([], _hx_local_28, None), None, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(_hx_c.Lambda.count([1, 2, 3]), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 95 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_27(x2):
+		def _hx_local_29(x2):
 			return False
-		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_27), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_28(x3):
+		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_29), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_30(x3):
 			return True
-		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_28), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 97 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
-		def _hx_local_29(x4):
+		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_30), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 97 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		def _hx_local_31(x4):
 			return x4 % 2 == 1
-		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_29), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 98 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_c.Lambda.count([1, 2, 3], _hx_local_31), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 98 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(_hx_c.Lambda.count([]), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 99 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.t(_hx_c.Lambda.empty([]), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 102 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.f(_hx_c.Lambda.empty([None]), _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 103 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
@@ -21309,11 +19434,11 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.concat([], [1, 2, 3])),1), 2, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 116 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Lambda.array(_hx_c.Lambda.concat([], [1, 2, 3])),2), 3, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 116 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 		
-		def _hx_local_30():
+		def _hx_local_32():
 			_this4 = _hx_c.Lambda.array(_hx_c.Lambda.concat([], []))
-			return __builtin__.len(_this4)
+			return _hx_builtin.len(_this4)
 		
-		self.eq(_hx_local_30(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 117 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
+		self.eq(_hx_local_32(), 0, _hx_c._hx_AnonObject(fileName = "Lambda.unit.hx" ,lineNumber = 117 ,className = "unit.TestSpecification" ,methodName = "testLambda_unit_hx" ))
 	
 
 	def testMap_unit_hx(self):
@@ -21345,9 +19470,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			val = _it.next()
 			values.append(val)
-			__builtin__.len(values)
+			_hx_builtin.len(values)
 		
-		self.eq(__builtin__.len(values), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(values), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values,0) == 3 or (_hx_array_get(values,0) == 2 or _hx_array_get(values,0) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values,1) == 3 or (_hx_array_get(values,1) == 2 or _hx_array_get(values,1) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values,2) == 3 or (_hx_array_get(values,2) == 2 or _hx_array_get(values,2) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21356,7 +19481,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			key = _it.next()
 			self.t(_hx_c.python_internal_ArrayImpl.remove(keys, key), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 35 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
-		self.eq(__builtin__.len(keys), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(keys), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(map.remove("bar"), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.f(map.remove("bar"), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(map.exists("foo"), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 40 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21381,9 +19506,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			val1 = _it.next()
 			values1.append(val1)
-			__builtin__.len(values1)
+			_hx_builtin.len(values1)
 		
-		self.eq(__builtin__.len(values1), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 63 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(values1), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 63 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values1,0) == 3 or (_hx_array_get(values1,0) == 2 or _hx_array_get(values1,0) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 64 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values1,1) == 3 or (_hx_array_get(values1,1) == 2 or _hx_array_get(values1,1) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 65 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values1,2) == 3 or (_hx_array_get(values1,2) == 2 or _hx_array_get(values1,2) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21392,7 +19517,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			key1 = _it.next()
 			self.t(_hx_c.python_internal_ArrayImpl.remove(keys1, key1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 69 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
-		self.eq(__builtin__.len(keys1), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 71 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(keys1), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 71 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(map1.remove(2), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 72 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.f(map1.remove(2), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 73 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(1 in map1.h, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 74 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21419,9 +19544,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			val2 = _it.next()
 			values2.append(val2)
-			__builtin__.len(values2)
+			_hx_builtin.len(values2)
 		
-		self.eq(__builtin__.len(values2), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 99 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(values2), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 99 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values2,0) == 3 or (_hx_array_get(values2,0) == 2 or _hx_array_get(values2,0) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 100 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values2,1) == 3 or (_hx_array_get(values2,1) == 2 or _hx_array_get(values2,1) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 101 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values2,2) == 3 or (_hx_array_get(values2,2) == 2 or _hx_array_get(values2,2) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 102 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21430,7 +19555,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			key2 = _it.next()
 			self.t(_hx_c.python_internal_ArrayImpl.remove(keys2, key2), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 105 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
-		self.eq(__builtin__.len(keys2), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 107 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(keys2), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 107 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(map5.remove(b), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 108 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.f(map5.remove(b), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 109 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(a in map5.h, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 110 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21457,9 +19582,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			val3 = _it.next()
 			values3.append(val3)
-			__builtin__.len(values3)
+			_hx_builtin.len(values3)
 		
-		self.eq(__builtin__.len(values3), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 135 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(values3), 3, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 135 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values3,0) == 3 or (_hx_array_get(values3,0) == 2 or _hx_array_get(values3,0) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 136 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values3,1) == 3 or (_hx_array_get(values3,1) == 2 or _hx_array_get(values3,1) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 137 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(_hx_array_get(values3,2) == 3 or (_hx_array_get(values3,2) == 2 or _hx_array_get(values3,2) == 1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 138 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21468,7 +19593,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			key3 = _it.next()
 			self.t(_hx_c.python_internal_ArrayImpl.remove(keys3, key3), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 141 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
-		self.eq(__builtin__.len(keys3), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 143 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
+		self.eq(_hx_builtin.len(keys3), 0, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 143 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(map6.remove(b1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 144 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.f(map6.remove(b1), _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 145 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
 		self.t(a1 in map6.h, _hx_c._hx_AnonObject(fileName = "Map.unit.hx" ,lineNumber = 146 ,className = "unit.TestSpecification" ,methodName = "testMap_unit_hx" ))
@@ -21495,7 +19620,7 @@ class unit_TestSpecification(unit_Test):
 		def _hx_local_1():
 			_hx_local_0 = None
 			try:
-				_hx_local_0 = a if (__builtin__.isinstance(a, list)) else None
+				_hx_local_0 = a if (_hx_builtin.isinstance(a, list)) else None
 			except Exception as _hx_e:
 				_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 				if True:
@@ -21509,7 +19634,7 @@ class unit_TestSpecification(unit_Test):
 		def _hx_local_3():
 			_hx_local_2 = None
 			try:
-				_hx_local_2 = "" if (__builtin__.isinstance("", list)) else None
+				_hx_local_2 = "" if (_hx_builtin.isinstance("", list)) else None
 			except Exception as _hx_e:
 				_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 				if True:
@@ -21526,7 +19651,7 @@ class unit_TestSpecification(unit_Test):
 				def _hx_local_6():
 					_hx_local_5 = None
 					try:
-						_hx_local_5 = v if (__builtin__.isinstance(v, _hx_c.String)) else None
+						_hx_local_5 = v if (_hx_builtin.isinstance(v, _hx_c.String)) else None
 					except Exception as _hx_e:
 						_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 						if True:
@@ -21541,48 +19666,48 @@ class unit_TestSpecification(unit_Test):
 			return _hx_local_7()
 		
 		self.eq(_hx_local_4(), None, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_9():
+		def _hx_local_8():
 			v1 = _hx_c.unit_MyChild1()
-			def _hx_local_12():
-				def _hx_local_11():
-					_hx_local_10 = None
+			def _hx_local_11():
+				def _hx_local_10():
+					_hx_local_9 = None
 					try:
-						_hx_local_10 = v1 if (__builtin__.isinstance(v1, _hx_c.unit_MyParent)) else None
+						_hx_local_9 = v1 if (_hx_builtin.isinstance(v1, _hx_c.unit_MyParent)) else None
 					except Exception as _hx_e:
 						_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 						if True:
 							e3 = _hx_e1
-							_hx_local_10 = None
+							_hx_local_9 = None
 						else:
 							raise _hx_e
-					return _hx_local_10
+					return _hx_local_9
 				
-				return _hx_local_11()
+				return _hx_local_10()
 			
-			return _hx_local_12()
+			return _hx_local_11()
 		
-		_hx_local_9() is not None
-		def _hx_local_14():
+		_hx_local_8() is not None
+		def _hx_local_12():
 			v2 = _hx_c.unit_MyChild1()
-			def _hx_local_17():
-				def _hx_local_16():
-					_hx_local_15 = None
+			def _hx_local_15():
+				def _hx_local_14():
+					_hx_local_13 = None
 					try:
-						_hx_local_15 = v2 if (__builtin__.isinstance(v2, _hx_c.unit_MyClass)) else None
+						_hx_local_13 = v2 if (_hx_builtin.isinstance(v2, _hx_c.unit_MyClass)) else None
 					except Exception as _hx_e:
 						_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 						if True:
 							e4 = _hx_e1
-							_hx_local_15 = None
+							_hx_local_13 = None
 						else:
 							raise _hx_e
-					return _hx_local_15
+					return _hx_local_13
 				
-				return _hx_local_16()
+				return _hx_local_14()
 			
-			return _hx_local_17()
+			return _hx_local_15()
 		
-		self.eq(_hx_local_14(), None, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		self.eq(_hx_local_12(), None, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		cwts = _hx_c.unit_TestSpecification_ClassWithToString()
 		cwtsc = _hx_c.unit_TestSpecification_ClassWithToStringChild()
 		cwtsc2 = _hx_c.unit_TestSpecification_ClassWithToStringChild2()
@@ -21624,26 +19749,26 @@ class unit_TestSpecification(unit_Test):
 		self.feq(_hx_c.Std.parseFloat("100.45"), 100.45, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 77 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		self.feq(_hx_c.Std.parseFloat("-100.01"), -100.01, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 78 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		self.feq(_hx_c.Std.parseFloat("100x123"), 100., _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 79 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_19():
+		def _hx_local_16():
 			f = _hx_c.Std.parseFloat("")
 			return _hx_math.isnan(f)
 		
-		self.t(_hx_local_19(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_20():
+		self.t(_hx_local_16(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 80 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		def _hx_local_17():
 			f1 = _hx_c.Std.parseFloat("abcd")
 			return _hx_math.isnan(f1)
 		
-		self.t(_hx_local_20(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_21():
+		self.t(_hx_local_17(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 81 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		def _hx_local_18():
 			f2 = _hx_c.Std.parseFloat("a10")
 			return _hx_math.isnan(f2)
 		
-		self.t(_hx_local_21(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_22():
+		self.t(_hx_local_18(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		def _hx_local_19():
 			f3 = _hx_c.Std.parseFloat(None)
 			return _hx_math.isnan(f3)
 		
-		self.t(_hx_local_22(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		self.t(_hx_local_19(), _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		self.feq(_hx_c.Std.parseFloat("5.3 "), 5.3, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		self.feq(_hx_c.Std.parseFloat("0.0"), 0., _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 		self.feq(_hx_c.Std.parseFloat("5.3 1"), 5.3, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 86 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
@@ -21663,42 +19788,66 @@ class unit_TestSpecification(unit_Test):
 					raise _hx_e
 		
 		self.t(x == 1 or x == 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 90 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_28():
-			def _hx_local_23():
+		def _hx_local_24():
+			def _hx_local_20():
 				x2 = _hx_c.python_lib_Random.random() * 1
-				def _hx_local_26():
-					def _hx_local_25():
-						_hx_local_24 = None
+				def _hx_local_23():
+					def _hx_local_22():
+						_hx_local_21 = None
 						try:
-							_hx_local_24 = int(x2)
+							_hx_local_21 = int(x2)
 						except Exception as _hx_e:
 							_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 							if True:
 								e6 = _hx_e1
-								_hx_local_24 = None
+								_hx_local_21 = None
 							else:
 								raise _hx_e
-						return _hx_local_24
+						return _hx_local_21
 					
-					return _hx_local_25()
+					return _hx_local_22()
 				
-				return _hx_local_26()
+				return _hx_local_23()
 			
-			return 0 if 1 <= 0 else _hx_local_23()
+			return 0 if 1 <= 0 else _hx_local_20()
 		
-		self.eq(_hx_local_28(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_35():
-			def _hx_local_30():
+		self.eq(_hx_local_24(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 91 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		def _hx_local_29():
+			def _hx_local_25():
 				x3 = _hx_c.python_lib_Random.random() * 0
-				def _hx_local_33():
-					def _hx_local_32():
-						_hx_local_31 = None
+				def _hx_local_28():
+					def _hx_local_27():
+						_hx_local_26 = None
 						try:
-							_hx_local_31 = int(x3)
+							_hx_local_26 = int(x3)
 						except Exception as _hx_e:
 							_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 							if True:
 								e7 = _hx_e1
+								_hx_local_26 = None
+							else:
+								raise _hx_e
+						return _hx_local_26
+					
+					return _hx_local_27()
+				
+				return _hx_local_28()
+			
+			return 0 if 0 <= 0 else _hx_local_25()
+		
+		self.eq(_hx_local_29(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		def _hx_local_34():
+			def _hx_local_30():
+				x4 = _hx_c.python_lib_Random.random() * -100
+				def _hx_local_33():
+					def _hx_local_32():
+						_hx_local_31 = None
+						try:
+							_hx_local_31 = int(x4)
+						except Exception as _hx_e:
+							_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
+							if True:
+								e8 = _hx_e1
 								_hx_local_31 = None
 							else:
 								raise _hx_e
@@ -21708,33 +19857,9 @@ class unit_TestSpecification(unit_Test):
 				
 				return _hx_local_33()
 			
-			return 0 if 0 <= 0 else _hx_local_30()
+			return 0 if -100 <= 0 else _hx_local_30()
 		
-		self.eq(_hx_local_35(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 92 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
-		def _hx_local_42():
-			def _hx_local_37():
-				x4 = _hx_c.python_lib_Random.random() * -100
-				def _hx_local_40():
-					def _hx_local_39():
-						_hx_local_38 = None
-						try:
-							_hx_local_38 = int(x4)
-						except Exception as _hx_e:
-							_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
-							if True:
-								e8 = _hx_e1
-								_hx_local_38 = None
-							else:
-								raise _hx_e
-						return _hx_local_38
-					
-					return _hx_local_39()
-				
-				return _hx_local_40()
-			
-			return 0 if -100 <= 0 else _hx_local_37()
-		
-		self.eq(_hx_local_42(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 93 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
+		self.eq(_hx_local_34(), 0, _hx_c._hx_AnonObject(fileName = "Std.unit.hx" ,lineNumber = 93 ,className = "unit.TestSpecification" ,methodName = "testStd_unit_hx" ))
 	
 
 	def testDate_unit_hx(self):
@@ -21838,36 +19963,36 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_c.StringTools.hex(-1, 8), "FFFFFFFF", _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 109 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		self.eq(_hx_c.StringTools.hex(-481400000, 8), "E34E6B40", _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 110 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		s1 = "foo1bar"
-		self.eq(-1 if (0 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,0)), 102, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 114 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (1 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,1)), 111, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 115 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (2 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,2)), 111, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 116 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (3 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,3)), 49, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 117 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (4 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,4)), 98, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 118 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (5 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,5)), 97, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 119 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (6 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,6)), 114, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 120 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (0 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,0)), 102, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 114 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (1 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,1)), 111, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 115 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (2 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,2)), 111, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 116 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (3 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,3)), 49, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 117 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (4 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,4)), 98, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 118 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (5 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,5)), 97, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 119 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (6 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,6)), 114, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 120 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		str1 = "abc"
-		self.eq(-1 if (0 >= __builtin__.len(str1)) else ord(_hx_array_get(str1,0)), 97, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 122 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (1 >= __builtin__.len(str1)) else ord(_hx_array_get(str1,1)), 98, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 123 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
-		self.eq(-1 if (2 >= __builtin__.len(str1)) else ord(_hx_array_get(str1,2)), 99, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 124 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (0 >= _hx_builtin.len(str1)) else ord(_hx_array_get(str1,0)), 97, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 122 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (1 >= _hx_builtin.len(str1)) else ord(_hx_array_get(str1,1)), 98, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 123 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
+		self.eq(-1 if (2 >= _hx_builtin.len(str1)) else ord(_hx_array_get(str1,2)), 99, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 124 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		def _hx_local_0():
 			s2 = None
 			c = 128
-			s2 = "".join(map(chr, [c]))
+			s2 = "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 			
-			return -1 if (0 >= __builtin__.len(s2)) else ord(_hx_array_get(s2,0))
+			return -1 if (0 >= _hx_builtin.len(s2)) else ord(_hx_array_get(s2,0))
 		
 		self.eq(_hx_local_0(), 128, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 125 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		def _hx_local_1():
 			s3 = None
 			c1 = 255
-			s3 = "".join(map(chr, [c1]))
+			s3 = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 			
-			return -1 if (0 >= __builtin__.len(s3)) else ord(_hx_array_get(s3,0))
+			return -1 if (0 >= _hx_builtin.len(s3)) else ord(_hx_array_get(s3,0))
 		
 		self.eq(_hx_local_1(), 255, _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 126 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		def _hx_local_2():
 			c2 = None
-			if 2 >= __builtin__.len(str1):
+			if 2 >= _hx_builtin.len(str1):
 				c2 = -1
 			else:
 				c2 = ord(_hx_array_get(str1,2))
@@ -21876,7 +20001,7 @@ class unit_TestSpecification(unit_Test):
 		self.f(_hx_local_2(), _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 127 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		def _hx_local_3():
 			c3 = None
-			if 3 >= __builtin__.len(str1):
+			if 3 >= _hx_builtin.len(str1):
 				c3 = -1
 			else:
 				c3 = ord(_hx_array_get(str1,3))
@@ -21885,7 +20010,7 @@ class unit_TestSpecification(unit_Test):
 		self.t(_hx_local_3(), _hx_c._hx_AnonObject(fileName = "StringTools.unit.hx" ,lineNumber = 128 ,className = "unit.TestSpecification" ,methodName = "testStringTools_unit_hx" ))
 		def _hx_local_4():
 			c4 = None
-			if 0 >= __builtin__.len(""):
+			if 0 >= _hx_builtin.len(""):
 				c4 = -1
 			else:
 				c4 = ord(_hx_array_get("",0))
@@ -21899,252 +20024,161 @@ class unit_TestSpecification(unit_Test):
 			return Std.string(Std.string(Std.string(Std.string("" + Std.string(_hx_c.Std.string(i1))) + ";") + Std.string(_hx_c.Std.string(i2))) + ";") + Std.string(_hx_c.Std.string(i3))
 		func = _hx_local_0
 		i = 0
-		_hx_local_4 = None
-		def _hx_local_3():
+		def _hx_local_2():
 			nonlocal i
-			nonlocal _hx_local_4
-			if _hx_local_4 is not None:
-				return _hx_local_4
-			
 			_hx_local_1 = i
-			_hx_local_2 = _hx_local_1
-			i = _hx_local_1 + 1
-			_hx_local_4 = _hx_local_2
-			return _hx_local_2
+			i = i + 1
+			return _hx_local_1
 			
 		
-		_hx_local_8 = None
-		def _hx_local_7():
+		def _hx_local_4():
 			nonlocal i
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
+			_hx_local_3 = i
+			i = i + 1
+			return _hx_local_3
 			
+		
+		def _hx_local_6():
+			nonlocal i
 			_hx_local_5 = i
-			_hx_local_6 = _hx_local_5
-			i = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
+			i = i + 1
+			return _hx_local_5
 			
 		
-		_hx_local_12 = None
-		def _hx_local_11():
+		self.eq(func(_hx_local_2(), _hx_local_4(), _hx_local_6()), "0;1;2", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
+		def _hx_local_8():
 			nonlocal i
-			nonlocal _hx_local_12
-			if _hx_local_12 is not None:
-				return _hx_local_12
+			_hx_local_7 = i
+			i = i + 1
+			return _hx_local_7
 			
+		
+		def _hx_local_10():
+			nonlocal i
 			_hx_local_9 = i
-			_hx_local_10 = _hx_local_9
-			i = _hx_local_9 + 1
-			_hx_local_12 = _hx_local_10
-			return _hx_local_10
+			i = i + 1
+			return _hx_local_9
 			
 		
-		self.eq(func(_hx_local_3(), _hx_local_7(), _hx_local_11()), "0;1;2", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
-		_hx_local_16 = None
-		def _hx_local_15():
+		def _hx_local_12():
 			nonlocal i
-			nonlocal _hx_local_16
-			if _hx_local_16 is not None:
-				return _hx_local_16
+			_hx_local_11 = i
+			i = i + 1
+			return _hx_local_11
 			
+		
+		a = [_hx_local_8(), _hx_local_10(), _hx_local_12()]
+		self.eq(";".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, a))), "3;4;5", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
+		def _hx_local_14():
+			nonlocal i
 			_hx_local_13 = i
-			_hx_local_14 = _hx_local_13
-			i = _hx_local_13 + 1
-			_hx_local_16 = _hx_local_14
-			return _hx_local_14
+			i = i + 1
+			return _hx_local_13
 			
 		
-		_hx_local_20 = None
-		def _hx_local_19():
+		def _hx_local_16():
 			nonlocal i
-			nonlocal _hx_local_20
-			if _hx_local_20 is not None:
-				return _hx_local_20
+			_hx_local_15 = i
+			i = i + 1
+			return _hx_local_15
 			
+		
+		def _hx_local_18():
+			nonlocal i
 			_hx_local_17 = i
-			_hx_local_18 = _hx_local_17
-			i = _hx_local_17 + 1
-			_hx_local_20 = _hx_local_18
-			return _hx_local_18
+			i = i + 1
+			return _hx_local_17
 			
 		
-		_hx_local_24 = None
-		def _hx_local_23():
-			nonlocal i
-			nonlocal _hx_local_24
-			if _hx_local_24 is not None:
-				return _hx_local_24
-			
-			_hx_local_21 = i
-			_hx_local_22 = _hx_local_21
-			i = _hx_local_21 + 1
-			_hx_local_24 = _hx_local_22
-			return _hx_local_22
-			
-		
-		a = [_hx_local_15(), _hx_local_19(), _hx_local_23()]
-		self.eq(";".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, a))), "3;4;5", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
-		_hx_local_28 = None
-		def _hx_local_27():
-			nonlocal i
-			nonlocal _hx_local_28
-			if _hx_local_28 is not None:
-				return _hx_local_28
-			
-			_hx_local_25 = i
-			_hx_local_26 = _hx_local_25
-			i = _hx_local_25 + 1
-			_hx_local_28 = _hx_local_26
-			return _hx_local_26
-			
-		
-		_hx_local_32 = None
-		def _hx_local_31():
-			nonlocal i
-			nonlocal _hx_local_32
-			if _hx_local_32 is not None:
-				return _hx_local_32
-			
-			_hx_local_29 = i
-			_hx_local_30 = _hx_local_29
-			i = _hx_local_29 + 1
-			_hx_local_32 = _hx_local_30
-			return _hx_local_30
-			
-		
-		_hx_local_36 = None
-		def _hx_local_35():
-			nonlocal i
-			nonlocal _hx_local_36
-			if _hx_local_36 is not None:
-				return _hx_local_36
-			
-			_hx_local_33 = i
-			_hx_local_34 = _hx_local_33
-			i = _hx_local_33 + 1
-			_hx_local_36 = _hx_local_34
-			return _hx_local_34
-			
-		
-		obj = _hx_c._hx_AnonObject(a = _hx_local_27() ,b = _hx_local_31() ,c = _hx_local_35() )
+		obj = _hx_c._hx_AnonObject(a = _hx_local_14() ,b = _hx_local_16() ,c = _hx_local_18() )
 		obj.a = 6
 		obj.b = 7
 		obj.c = 8
-		_hx_local_40 = None
-		def _hx_local_39():
+		def _hx_local_20():
 			nonlocal i
-			nonlocal _hx_local_40
-			if _hx_local_40 is not None:
-				return _hx_local_40
-			
-			_hx_local_37 = i
-			_hx_local_38 = _hx_local_37
-			i = _hx_local_37 + 1
-			_hx_local_40 = _hx_local_38
-			return _hx_local_38
+			_hx_local_19 = i
+			i = i + 1
+			return _hx_local_19
 			
 		
-		def _hx_local_41():
-			_hx_local_45 = None
-			def _hx_local_44():
+		def _hx_local_21():
+			def _hx_local_23():
 				nonlocal i
-				nonlocal _hx_local_45
-				if _hx_local_45 is not None:
-					return _hx_local_45
-				
-				_hx_local_42 = i
-				_hx_local_43 = _hx_local_42
-				i = _hx_local_42 + 1
-				_hx_local_45 = _hx_local_43
-				return _hx_local_43
+				_hx_local_22 = i
+				i = i + 1
+				return _hx_local_22
 				
 			
-			_hx_local_49 = None
-			def _hx_local_48():
+			def _hx_local_25():
 				nonlocal i
-				nonlocal _hx_local_49
-				if _hx_local_49 is not None:
-					return _hx_local_49
-				
-				_hx_local_46 = i
-				_hx_local_47 = _hx_local_46
-				i = _hx_local_46 + 1
-				_hx_local_49 = _hx_local_47
-				return _hx_local_47
+				_hx_local_24 = i
+				i = i + 1
+				return _hx_local_24
 				
 			
-			_this = [_hx_local_44(), _hx_local_48()]
-			return ";".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			_this = [_hx_local_23(), _hx_local_25()]
+			return ";".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
-		_hx_local_53 = None
-		def _hx_local_52():
+		def _hx_local_27():
 			nonlocal i
-			nonlocal _hx_local_53
-			if _hx_local_53 is not None:
-				return _hx_local_53
-			
-			_hx_local_50 = i
-			_hx_local_51 = _hx_local_50
-			i = _hx_local_50 + 1
-			_hx_local_53 = _hx_local_51
-			return _hx_local_51
+			_hx_local_26 = i
+			i = i + 1
+			return _hx_local_26
 			
 		
-		self.eq(func(_hx_local_39(), _hx_local_41(), _hx_local_52()), "9;10;11;12", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
+		self.eq(func(_hx_local_20(), _hx_local_21(), _hx_local_27()), "9;10;11;12", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
 		buf = []
-		def _hx_local_54():
+		def _hx_local_28():
 			buf.append(1)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 1
 		
-		a1 = _hx_local_54
-		def _hx_local_55():
+		a1 = _hx_local_28
+		def _hx_local_29():
 			buf.append(2)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 2
 		
-		b = _hx_local_55
-		def _hx_local_56():
+		b = _hx_local_29
+		def _hx_local_30():
 			buf.append(3)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 3
 		
-		c = _hx_local_56
-		def _hx_local_57():
+		c = _hx_local_30
+		def _hx_local_31():
 			buf.append(4)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 4
 		
-		d = _hx_local_57
-		def _hx_local_58():
+		d = _hx_local_31
+		def _hx_local_32():
 			buf.append(5)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 5
 		
-		e = _hx_local_58
-		def _hx_local_59():
+		e = _hx_local_32
+		def _hx_local_33():
 			buf.append(6)
-			__builtin__.len(buf)
+			_hx_builtin.len(buf)
 			
 			return 6
 		
-		f = _hx_local_59
-		def _hx_local_61():
+		f = _hx_local_33
+		def _hx_local_35():
 			nonlocal buf
 			buf = []
-			def _hx_local_60():
-				return "_".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, buf)))
-			return _hx_local_60
+			def _hx_local_34():
+				return "_".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, buf)))
+			return _hx_local_34
 			
 		
-		begin = _hx_local_61
+		begin = _hx_local_35
 		end = begin()
 		a1() + b() >= 0 and c() + d() >= 0
 		self.eq(end(), "1_2_3_4", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
@@ -22175,12 +20209,12 @@ class unit_TestSpecification(unit_Test):
 		end9 = begin()
 		a1() + b() >= 99 or c() + d() >= 99 or e() + f() >= 0
 		self.eq(end9(), "1_2_3_4_5_6", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 104 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
-		def _hx_local_62(x,y):
+		def _hx_local_36(x,y):
 			return []
-		arr = _hx_local_62
-		def _hx_local_63(x1,y1):
+		arr = _hx_local_36
+		def _hx_local_37(x1,y1):
 			return 0
-		idx = _hx_local_63
+		idx = _hx_local_37
 		end10 = begin()
 		_hx_array_get(arr(a1(), b()),idx(c(), d()))
 		self.eq(end10(), "1_2_3_4", _hx_c._hx_AnonObject(fileName = "EvaluationOrder.unit.hx" ,lineNumber = 118 ,className = "unit.TestSpecification" ,methodName = "testEvaluationOrder_unit_hx" ))
@@ -22188,37 +20222,37 @@ class unit_TestSpecification(unit_Test):
 
 	def testEnumFlags_unit_hx(self):
 		flags = 0
-		self.f((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
 		flags = 1
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags = flags | 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags = flags & 268435455 - (1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC))
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 15 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags = flags & 268435455 - (1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA))
-		self.f((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags = flags | 1 << _hx_c.unit_EnumFlagTest.EB.index
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags = flags & 268435455 - (1 << _hx_c.unit_EnumFlagTest.EC.index)
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 15 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags = flags & 268435455 - (1 << _hx_c.unit_EnumFlagTest.EA.index)
+		self.f((flags & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
 		flags1 = 0
-		self.f((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags1 & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
 		flags1 = 1
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags1 = flags1 | 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 33 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags1 = flags1 & 268435455 - (1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC))
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		flags1 = flags1 & 268435455 - (1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA))
-		self.f((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EA)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 41 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.t((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EB)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 42 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
-		self.f((flags1 & 1 << _hx_c.Type.enumIndex(_hx_c.unit_EnumFlagTest.EC)) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 43 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags1 = flags1 | 1 << _hx_c.unit_EnumFlagTest.EB.index
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 31 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 32 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags1 & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 33 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags1 = flags1 & 268435455 - (1 << _hx_c.unit_EnumFlagTest.EC.index)
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags1 & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		flags1 = flags1 & 268435455 - (1 << _hx_c.unit_EnumFlagTest.EA.index)
+		self.f((flags1 & 1 << _hx_c.unit_EnumFlagTest.EA.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 41 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.t((flags1 & 1 << _hx_c.unit_EnumFlagTest.EB.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 42 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
+		self.f((flags1 & 1 << _hx_c.unit_EnumFlagTest.EC.index) != 0, _hx_c._hx_AnonObject(fileName = "EnumFlags.unit.hx" ,lineNumber = 43 ,className = "unit.TestSpecification" ,methodName = "testEnumFlags_unit_hx" ))
 	
 
 	def testComplexTypeTools_macro_unit_hx(self):
@@ -22260,18 +20294,18 @@ class unit_TestSpecification(unit_Test):
 		extract1 = None
 		def _hx_local_0(e):
 			_g1 = e.expr
-			if (_hx_c.Type.enumIndex(_g1)) == 0:
-				if (_hx_c.Type.enumIndex(_g1.params[0])) == 2:
+			if (_g1.index) == 0:
+				if (_g1.params[0].index) == 2:
 					s = _g1.params[0].params[0]
 					strings.append(s)
-					__builtin__.len(strings)
+					_hx_builtin.len(strings)
 					
 			
-				elif (_hx_c.Type.enumIndex(_g1.params[0])) == 3:
+				elif (_g1.params[0].index) == 3:
 					s1 = _g1.params[0].params[0]
 					if _hx_c.python_internal_StringImpl.charCodeAt(s1, 0) >= 65 and _hx_c.python_internal_StringImpl.charCodeAt(s1, 0) <= 90:
 						upperIdents.append(s1)
-						__builtin__.len(upperIdents)
+						_hx_builtin.len(upperIdents)
 					
 					else:
 						_hx_c.haxe_macro_ExprTools.iter(e, extract1)
@@ -22379,7 +20413,7 @@ class unit_TestSpecification(unit_Test):
 		wrap = _hx_local_19
 		def _hx_local_20(e12):
 			_g2 = e12.expr
-			if (_hx_c.Type.enumIndex(_g2)) == 4:
+			if (_g2.index) == 4:
 				e13 = _g2.params[0]
 				return e13
 			
@@ -22430,88 +20464,71 @@ class unit_TestSpecification(unit_Test):
 		a = 2147483647
 		def _hx_local_0():
 			nonlocal a
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal a
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = a
-				_hx_local_2 = _hx_local_1
-				a = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			ret = a
+			a = a + 1
 			
-			ret = _hx_local_3()
 			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(a)
 			return ret
 			
 		
 		self.eq(_hx_local_0(), max, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(a, min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 7 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_5():
+		def _hx_local_1():
 			nonlocal a
-			def _hx_local_7():
-				nonlocal a
-				_hx_local_6 = a
-				a = a - 1
-				return _hx_local_6
-				
+			ret1 = a
+			a = a - 1
 			
-			ret1 = _hx_local_7()
 			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(a)
 			return ret1
 			
 		
-		self.eq(_hx_local_5(), min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		self.eq(_hx_local_1(), min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(a, max, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_10():
+		def _hx_local_3():
 			nonlocal a
-			def _hx_local_8():
+			def _hx_local_2():
 				nonlocal a
 				a = a + 1
 				return a
 				
 			
-			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_8())
+			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_2())
 			return a
 			
 		
-		self.eq(_hx_local_10(), min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_14():
+		self.eq(_hx_local_3(), min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		def _hx_local_5():
 			nonlocal a
-			def _hx_local_12():
+			def _hx_local_4():
 				nonlocal a
 				a = a - 1
 				return a
 				
 			
-			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_12())
+			a = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_4())
 			return a
 			
 		
-		self.eq(_hx_local_14(), max, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		self.eq(_hx_local_5(), max, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(max + min), -1, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(max + 1), min, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 14 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(max - min), -1, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_c.haxe_Int32_Int32_Impl_.subInt(min, 1), max, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 17 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_16():
+		def _hx_local_6():
 			b = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_c.haxe_Int32_Int32_Impl_.shlInt(max * (_hx_rshift(max, 16)), 16))
 			return _hx_c.haxe_Int32_Int32_Impl_.clamp(max * (max & 65535) + b)
 		
-		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_16()), 1, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_17():
+		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_6()), 1, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		def _hx_local_7():
 			b1 = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_c.haxe_Int32_Int32_Impl_.shlInt(max * (_hx_rshift(min, 16)), 16))
 			return _hx_c.haxe_Int32_Int32_Impl_.clamp(max * (min & 65535) + b1)
 		
-		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_17()), -2147483648, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
-		def _hx_local_18():
+		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_7()), -2147483648, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		def _hx_local_8():
 			b2 = _hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_c.haxe_Int32_Int32_Impl_.shlInt(max * (_hx_rshift(2, 16)), 16))
 			return _hx_c.haxe_Int32_Int32_Impl_.clamp(max * (2 & 65535) + b2)
 		
-		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_18()), -2, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
+		self.eq(_hx_c.haxe_Int32_Int32_Impl_.clamp(_hx_local_8()), -2, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_c.haxe_Int32_Int32_Impl_.shlInt(min, 1), 0, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 23 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(min >> 1, -1073741824, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 24 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
 		self.eq(_hx_rshift(min, 1), 1073741824, _hx_c._hx_AnonObject(fileName = "Int32.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testInt32_unit_hx" ))
@@ -22579,24 +20596,12 @@ class unit_TestSpecification(unit_Test):
 		_g1 = []
 		_g2 = 0
 		while _g2 < 30:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g2
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g2
-				_hx_local_1 = _hx_local_0
-				_g2 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g2
+			_g2 = _g2 + 1
 			
-			i = _hx_local_2()
 			if not i in test.h:
 				_g1.append(i)
-				__builtin__.len(_g1)
+				_hx_builtin.len(_g1)
 			
 			
 		
@@ -22629,7 +20634,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			key = _it.next()
 			_g22.append(key)
-			__builtin__.len(_g22)
+			_hx_builtin.len(_g22)
 		
 		r = _g22
 		
@@ -22650,7 +20655,7 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			val = _it.next()
 			_g3.append(val)
-			__builtin__.len(_g3)
+			_hx_builtin.len(_g3)
 		
 		r1 = _g3
 		
@@ -22844,9 +20849,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			k = _it.next()
 			a.append(k)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 		
-		self.eq(__builtin__.len(a), 3, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
+		self.eq(_hx_builtin.len(a), 3, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a,0) == k3 or (_hx_array_get(a,0) == k2 or _hx_array_get(a,0) == k1), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a,1) == k3 or (_hx_array_get(a,1) == k2 or _hx_array_get(a,1) == k1), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a,2) == k3 or (_hx_array_get(a,2) == k2 or _hx_array_get(a,2) == k1), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 40 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
@@ -22861,9 +20866,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			k4 = _it.next()
 			a1.append(k4)
-			__builtin__.len(a1)
+			_hx_builtin.len(a1)
 		
-		self.eq(__builtin__.len(a1), 3, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 53 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
+		self.eq(_hx_builtin.len(a1), 3, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 53 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a1,0) == "7" or (_hx_array_get(a1,0) == "8" or _hx_array_get(a1,0) == "9"), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 54 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a1,1) == "7" or (_hx_array_get(a1,1) == "8" or _hx_array_get(a1,1) == "9"), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 55 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a1,2) == "7" or (_hx_array_get(a1,2) == "8" or _hx_array_get(a1,2) == "9"), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 56 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
@@ -22885,9 +20890,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			k5 = _it.next()
 			a2.append(k5)
-			__builtin__.len(a2)
+			_hx_builtin.len(a2)
 		
-		self.eq(__builtin__.len(a2), 2, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 75 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
+		self.eq(_hx_builtin.len(a2), 2, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 75 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a2,0) == k3 or _hx_array_get(a2,0) == k1, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 76 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a2,1) == k3 or _hx_array_get(a2,1) == k1, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 77 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		a3 = []
@@ -22895,9 +20900,9 @@ class unit_TestSpecification(unit_Test):
 		while _it.hasNext():
 			k6 = _it.next()
 			a3.append(k6)
-			__builtin__.len(a3)
+			_hx_builtin.len(a3)
 		
-		self.eq(__builtin__.len(a3), 2, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
+		self.eq(_hx_builtin.len(a3), 2, _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 82 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a3,0) == "7" or _hx_array_get(a3,0) == "9", _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 83 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.t(_hx_array_get(a3,1) == "7" or _hx_array_get(a3,1) == "9", _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 84 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
 		self.f(o.remove(k2), _hx_c._hx_AnonObject(fileName = "ObjectMap.unit.hx" ,lineNumber = 85 ,className = "unit.TestSpecification" ,methodName = "testObjectMap_unit_hx" ))
@@ -22909,21 +20914,9 @@ class unit_TestSpecification(unit_Test):
 		this1 = list()
 		_g = 0
 		while _g < 3:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			_hx_array_set(this1,i, None)
 		
 		
@@ -22932,12 +20925,12 @@ class unit_TestSpecification(unit_Test):
 		vNullInt = None
 		vNullBool = None
 		vNullFloat = None
-		self.eq(__builtin__.len(vec), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
+		self.eq(_hx_builtin.len(vec), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 6 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,0), vNullInt, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 7 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,1), vNullInt, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,2), vNullInt, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		_hx_array_set(vec,1, 2)
-		self.eq(__builtin__.len(vec), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
+		self.eq(_hx_builtin.len(vec), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,0), vNullInt, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 12 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,1), 2, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 13 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec,2), vNullInt, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 14 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
@@ -22946,21 +20939,9 @@ class unit_TestSpecification(unit_Test):
 		this2 = list()
 		_g1 = 0
 		while _g1 < 3:
-			_hx_local_7 = None
-			def _hx_local_6():
-				nonlocal _g1
-				nonlocal _hx_local_7
-				if _hx_local_7 is not None:
-					return _hx_local_7
-				
-				_hx_local_4 = _g1
-				_hx_local_5 = _hx_local_4
-				_g1 = _hx_local_4 + 1
-				_hx_local_7 = _hx_local_5
-				return _hx_local_5
-				
+			i1 = _g1
+			_g1 = _g1 + 1
 			
-			i1 = _hx_local_6()
 			_hx_array_set(this2,i1, None)
 		
 		
@@ -22974,21 +20955,9 @@ class unit_TestSpecification(unit_Test):
 		this3 = list()
 		_g2 = 0
 		while _g2 < 3:
-			_hx_local_11 = None
-			def _hx_local_10():
-				nonlocal _g2
-				nonlocal _hx_local_11
-				if _hx_local_11 is not None:
-					return _hx_local_11
-				
-				_hx_local_8 = _g2
-				_hx_local_9 = _hx_local_8
-				_g2 = _hx_local_8 + 1
-				_hx_local_11 = _hx_local_9
-				return _hx_local_9
-				
+			i2 = _g2
+			_g2 = _g2 + 1
 			
-			i2 = _hx_local_10()
 			_hx_array_set(this3,i2, None)
 		
 		
@@ -23000,56 +20969,32 @@ class unit_TestSpecification(unit_Test):
 		arr = ["1", "2", "3"]
 		vec3 = None
 		vec4 = None
-		length = __builtin__.len(arr)
+		length = _hx_builtin.len(arr)
 		this4 = None
 		this4 = list()
 		_g3 = 0
 		while _g3 < length:
-			_hx_local_15 = None
-			def _hx_local_14():
-				nonlocal _g3
-				nonlocal _hx_local_15
-				if _hx_local_15 is not None:
-					return _hx_local_15
-				
-				_hx_local_12 = _g3
-				_hx_local_13 = _hx_local_12
-				_g3 = _hx_local_12 + 1
-				_hx_local_15 = _hx_local_13
-				return _hx_local_13
-				
+			i3 = _g3
+			_g3 = _g3 + 1
 			
-			i3 = _hx_local_14()
 			_hx_array_set(this4,i3, None)
 		
 		
 		vec4 = this4
 		
 		_g11 = 0
-		_g4 = __builtin__.len(arr)
+		_g4 = _hx_builtin.len(arr)
 		while _g11 < _g4:
-			_hx_local_19 = None
-			def _hx_local_18():
-				nonlocal _g11
-				nonlocal _hx_local_19
-				if _hx_local_19 is not None:
-					return _hx_local_19
-				
-				_hx_local_16 = _g11
-				_hx_local_17 = _hx_local_16
-				_g11 = _hx_local_16 + 1
-				_hx_local_19 = _hx_local_17
-				return _hx_local_17
-				
+			i4 = _g11
+			_g11 = _g11 + 1
 			
-			i4 = _hx_local_18()
 			_hx_array_set(vec4,i4, _hx_array_get(arr,i4))
 		
 		
 		vec3 = vec4
 		
 		arr != vec3
-		self.eq(__builtin__.len(vec3), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
+		self.eq(_hx_builtin.len(vec3), 3, _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 37 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec3,0), "1", _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 38 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec3,1), "2", _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 39 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		self.eq(_hx_array_get(vec3,2), "3", _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 40 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
@@ -23057,49 +21002,25 @@ class unit_TestSpecification(unit_Test):
 		vec5 = None
 		array = [tpl]
 		vec6 = None
-		length1 = __builtin__.len(array)
+		length1 = _hx_builtin.len(array)
 		this5 = None
 		this5 = list()
 		_g5 = 0
 		while _g5 < length1:
-			_hx_local_23 = None
-			def _hx_local_22():
-				nonlocal _g5
-				nonlocal _hx_local_23
-				if _hx_local_23 is not None:
-					return _hx_local_23
-				
-				_hx_local_20 = _g5
-				_hx_local_21 = _hx_local_20
-				_g5 = _hx_local_20 + 1
-				_hx_local_23 = _hx_local_21
-				return _hx_local_21
-				
+			i5 = _g5
+			_g5 = _g5 + 1
 			
-			i5 = _hx_local_22()
 			_hx_array_set(this5,i5, None)
 		
 		
 		vec6 = this5
 		
 		_g12 = 0
-		_g6 = __builtin__.len(array)
+		_g6 = _hx_builtin.len(array)
 		while _g12 < _g6:
-			_hx_local_27 = None
-			def _hx_local_26():
-				nonlocal _g12
-				nonlocal _hx_local_27
-				if _hx_local_27 is not None:
-					return _hx_local_27
-				
-				_hx_local_24 = _g12
-				_hx_local_25 = _hx_local_24
-				_g12 = _hx_local_24 + 1
-				_hx_local_27 = _hx_local_25
-				return _hx_local_25
-				
+			i6 = _g12
+			_g12 = _g12 + 1
 			
-			i6 = _hx_local_26()
 			_hx_array_set(vec6,i6, _hx_array_get(array,i6))
 		
 		
@@ -23109,49 +21030,25 @@ class unit_TestSpecification(unit_Test):
 		vec7 = None
 		array1 = ["1", "2", "3"]
 		vec8 = None
-		length2 = __builtin__.len(array1)
+		length2 = _hx_builtin.len(array1)
 		this6 = None
 		this6 = list()
 		_g7 = 0
 		while _g7 < length2:
-			_hx_local_31 = None
-			def _hx_local_30():
-				nonlocal _g7
-				nonlocal _hx_local_31
-				if _hx_local_31 is not None:
-					return _hx_local_31
-				
-				_hx_local_28 = _g7
-				_hx_local_29 = _hx_local_28
-				_g7 = _hx_local_28 + 1
-				_hx_local_31 = _hx_local_29
-				return _hx_local_29
-				
+			i7 = _g7
+			_g7 = _g7 + 1
 			
-			i7 = _hx_local_30()
 			_hx_array_set(this6,i7, None)
 		
 		
 		vec8 = this6
 		
 		_g13 = 0
-		_g8 = __builtin__.len(array1)
+		_g8 = _hx_builtin.len(array1)
 		while _g13 < _g8:
-			_hx_local_35 = None
-			def _hx_local_34():
-				nonlocal _g13
-				nonlocal _hx_local_35
-				if _hx_local_35 is not None:
-					return _hx_local_35
-				
-				_hx_local_32 = _g13
-				_hx_local_33 = _hx_local_32
-				_g13 = _hx_local_32 + 1
-				_hx_local_35 = _hx_local_33
-				return _hx_local_33
-				
+			i8 = _g13
+			_g13 = _g13 + 1
 			
-			i8 = _hx_local_34()
 			_hx_array_set(vec8,i8, _hx_array_get(array1,i8))
 		
 		
@@ -23167,54 +21064,35 @@ class unit_TestSpecification(unit_Test):
 		self.eq(_hx_array_get(vec21,2), "3", _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 58 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
 		_hx_array_set(vec21,1, "4")
 		self.eq(_hx_array_get(vec21,1), "4", _hx_c._hx_AnonObject(fileName = "Vector.unit.hx" ,lineNumber = 60 ,className = "unit.TestSpecification" ,methodName = "testVector_unit_hx" ))
-		_hx_array_set(vec21,0, Std.string(_hx_array_get(vec21,0)) + "a")
+		_hx_local_0 = vec21
+		_hx_local_1 = 0
+		_hx_local_2 = _hx_array_get(_hx_local_0,_hx_local_1)
+		_hx_array_set(_hx_local_0,_hx_local_1, Std.string(_hx_local_2) + "a")
+		_hx_array_get(_hx_local_0,_hx_local_1)
+		
 		_hx_array_set(vec21,0, "1a")
 		vec31 = None
 		array2 = [0, 1, 2, 3, 4, 5, 6]
 		vec9 = None
-		length3 = __builtin__.len(array2)
+		length3 = _hx_builtin.len(array2)
 		this7 = None
 		this7 = list()
 		_g9 = 0
 		while _g9 < length3:
-			_hx_local_39 = None
-			def _hx_local_38():
-				nonlocal _g9
-				nonlocal _hx_local_39
-				if _hx_local_39 is not None:
-					return _hx_local_39
-				
-				_hx_local_36 = _g9
-				_hx_local_37 = _hx_local_36
-				_g9 = _hx_local_36 + 1
-				_hx_local_39 = _hx_local_37
-				return _hx_local_37
-				
+			i9 = _g9
+			_g9 = _g9 + 1
 			
-			i9 = _hx_local_38()
 			_hx_array_set(this7,i9, None)
 		
 		
 		vec9 = this7
 		
 		_g14 = 0
-		_g10 = __builtin__.len(array2)
+		_g10 = _hx_builtin.len(array2)
 		while _g14 < _g10:
-			_hx_local_43 = None
-			def _hx_local_42():
-				nonlocal _g14
-				nonlocal _hx_local_43
-				if _hx_local_43 is not None:
-					return _hx_local_43
-				
-				_hx_local_40 = _g14
-				_hx_local_41 = _hx_local_40
-				_g14 = _hx_local_40 + 1
-				_hx_local_43 = _hx_local_41
-				return _hx_local_41
-				
+			i10 = _g14
+			_g14 = _g14 + 1
 			
-			i10 = _hx_local_42()
 			_hx_array_set(vec9,i10, _hx_array_get(array2,i10))
 		
 		
@@ -23225,21 +21103,9 @@ class unit_TestSpecification(unit_Test):
 		this8 = list()
 		_g15 = 0
 		while _g15 < 5:
-			_hx_local_47 = None
-			def _hx_local_46():
-				nonlocal _g15
-				nonlocal _hx_local_47
-				if _hx_local_47 is not None:
-					return _hx_local_47
-				
-				_hx_local_44 = _g15
-				_hx_local_45 = _hx_local_44
-				_g15 = _hx_local_44 + 1
-				_hx_local_47 = _hx_local_45
-				return _hx_local_45
-				
+			i11 = _g15
+			_g15 = _g15 + 1
 			
-			i11 = _hx_local_46()
 			_hx_array_set(this8,i11, None)
 		
 		
@@ -23273,7 +21139,7 @@ class unit_TestSpecification(unit_Test):
 		self.eq(None if (gs.head is None) else gs.head.elt, None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 3 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		def _hx_local_0():
 			k = gs.head
-			def _hx_local_4():
+			def _hx_local_3():
 				def _hx_local_2():
 					def _hx_local_1():
 						gs.head = k.next
@@ -23283,119 +21149,119 @@ class unit_TestSpecification(unit_Test):
 				
 				return _hx_local_2()
 			
-			return _hx_local_4()
+			return _hx_local_3()
 		
 		self.eq(_hx_local_0(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 4 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.f(gs.remove(None), _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 5 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		gs.head = _hx_c.haxe_ds_GenericCell("foo", gs.head)
 		self.f(gs.head is None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 7 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.eq(None if (gs.head is None) else gs.head.elt, "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 8 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
-		def _hx_local_6():
+		def _hx_local_4():
 			k1 = gs.head
-			def _hx_local_10():
-				def _hx_local_8():
-					def _hx_local_7():
+			def _hx_local_7():
+				def _hx_local_6():
+					def _hx_local_5():
 						gs.head = k1.next
 						return k1.elt
 					
-					return None if k1 is None else _hx_local_7()
+					return None if k1 is None else _hx_local_5()
 				
-				return _hx_local_8()
+				return _hx_local_6()
 			
-			return _hx_local_10()
+			return _hx_local_7()
 		
-		self.eq(_hx_local_6(), "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_4(), "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 9 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.t(gs.head is None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 10 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.eq(None if (gs.head is None) else gs.head.elt, None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 11 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
-		def _hx_local_12():
+		def _hx_local_8():
 			k2 = gs.head
-			def _hx_local_16():
-				def _hx_local_14():
-					def _hx_local_13():
+			def _hx_local_11():
+				def _hx_local_10():
+					def _hx_local_9():
 						gs.head = k2.next
 						return k2.elt
 					
-					return None if k2 is None else _hx_local_13()
+					return None if k2 is None else _hx_local_9()
 				
-				return _hx_local_14()
+				return _hx_local_10()
 			
-			return _hx_local_16()
+			return _hx_local_11()
 		
-		self.eq(_hx_local_12(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 12 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_8(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 12 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		gs.head = _hx_c.haxe_ds_GenericCell("foo", gs.head)
 		self.eq(None if (gs.head is None) else gs.head.elt, "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 14 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.t(gs.remove("foo"), _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 15 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.t(gs.head is None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 16 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		gs.head = _hx_c.haxe_ds_GenericCell("foo", gs.head)
 		gs.head = _hx_c.haxe_ds_GenericCell("bar", gs.head)
-		def _hx_local_18():
+		def _hx_local_12():
 			k3 = gs.head
-			def _hx_local_22():
-				def _hx_local_20():
-					def _hx_local_19():
+			def _hx_local_15():
+				def _hx_local_14():
+					def _hx_local_13():
 						gs.head = k3.next
 						return k3.elt
 					
-					return None if k3 is None else _hx_local_19()
+					return None if k3 is None else _hx_local_13()
 				
-				return _hx_local_20()
+				return _hx_local_14()
 			
-			return _hx_local_22()
+			return _hx_local_15()
 		
-		self.eq(_hx_local_18(), "bar", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_12(), "bar", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 19 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.eq(None if (gs.head is None) else gs.head.elt, "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 20 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
-		def _hx_local_24():
+		def _hx_local_16():
 			k4 = gs.head
-			def _hx_local_28():
-				def _hx_local_26():
-					def _hx_local_25():
+			def _hx_local_19():
+				def _hx_local_18():
+					def _hx_local_17():
 						gs.head = k4.next
 						return k4.elt
 					
-					return None if k4 is None else _hx_local_25()
+					return None if k4 is None else _hx_local_17()
 				
-				return _hx_local_26()
+				return _hx_local_18()
 			
-			return _hx_local_28()
+			return _hx_local_19()
 		
-		self.eq(_hx_local_24(), "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_16(), "foo", _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 21 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		gs.head = _hx_c.haxe_ds_GenericCell(None, gs.head)
 		gs.head = _hx_c.haxe_ds_GenericCell(None, gs.head)
 		self.f(gs.head is None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 24 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.eq(None if (gs.head is None) else gs.head.elt, None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
-		def _hx_local_30():
+		def _hx_local_20():
 			k5 = gs.head
-			def _hx_local_34():
-				def _hx_local_32():
-					def _hx_local_31():
+			def _hx_local_23():
+				def _hx_local_22():
+					def _hx_local_21():
 						gs.head = k5.next
 						return k5.elt
 					
-					return None if k5 is None else _hx_local_31()
+					return None if k5 is None else _hx_local_21()
 				
-				return _hx_local_32()
+				return _hx_local_22()
 			
-			return _hx_local_34()
+			return _hx_local_23()
 		
-		self.eq(_hx_local_30(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 26 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_20(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 26 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.t(gs.remove(None), _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 27 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.t(gs.head is None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 		self.eq(None if (gs.head is None) else gs.head.elt, None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 29 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
-		def _hx_local_36():
+		def _hx_local_24():
 			k6 = gs.head
-			def _hx_local_40():
-				def _hx_local_38():
-					def _hx_local_37():
+			def _hx_local_27():
+				def _hx_local_26():
+					def _hx_local_25():
 						gs.head = k6.next
 						return k6.elt
 					
-					return None if k6 is None else _hx_local_37()
+					return None if k6 is None else _hx_local_25()
 				
-				return _hx_local_38()
+				return _hx_local_26()
 			
-			return _hx_local_40()
+			return _hx_local_27()
 		
-		self.eq(_hx_local_36(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
+		self.eq(_hx_local_24(), None, _hx_c._hx_AnonObject(fileName = "GenericStack.unit.hx" ,lineNumber = 30 ,className = "unit.TestSpecification" ,methodName = "testGenericStack_unit_hx" ))
 	
 
 	def testPath_unit_hx(self):
@@ -23637,7 +21503,7 @@ class unit_TestSpecification(unit_Test):
 			self.t(_hx_c.python_internal_ArrayImpl.remove(requiredFields, f), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 95 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		
 		
-		self.eq(__builtin__.len(requiredFields), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(requiredFields), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 96 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		fields1 = _hx_c.Type.getInstanceFields(_hx_c.unit_CChild)
 		requiredFields1 = ["func", "v", "prop"]
 		_g1 = 0
@@ -23647,7 +21513,7 @@ class unit_TestSpecification(unit_Test):
 			self.t(_hx_c.python_internal_ArrayImpl.remove(requiredFields1, f1), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 100 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		
 		
-		self.eq(__builtin__.len(requiredFields1), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 101 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(requiredFields1), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 101 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		cdyn = _hx_c.unit_CDyn()
 		cdyn.foo = "1"
 		field = None
@@ -23655,7 +21521,7 @@ class unit_TestSpecification(unit_Test):
 			field = "_hx_" + "bar"
 		else:
 			field = "bar"
-		__builtin__.setattr(cdyn, field, 1)
+		_hx_builtin.setattr(cdyn, field, 1)
 		
 		fields2 = _hx_c.Type.getInstanceFields(_hx_c.Type.getClass(cdyn))
 		requiredFields2 = ["func", "v", "prop"]
@@ -23666,7 +21532,7 @@ class unit_TestSpecification(unit_Test):
 			self.t(_hx_c.python_internal_ArrayImpl.remove(requiredFields2, f2), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 108 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		
 		
-		self.eq(__builtin__.len(requiredFields2), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 109 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(requiredFields2), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 109 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		fields3 = _hx_c.Type.getClassFields(_hx_c.unit_C)
 		requiredFields3 = ["staticFunc", "staticVar", "staticProp"]
 		_g3 = 0
@@ -23676,7 +21542,7 @@ class unit_TestSpecification(unit_Test):
 			self.t(_hx_c.python_internal_ArrayImpl.remove(requiredFields3, f3), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 113 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		
 		
-		self.eq(__builtin__.len(requiredFields3), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 114 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(requiredFields3), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 114 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		fields4 = _hx_c.Type.getClassFields(_hx_c.unit_CChild)
 		requiredFields4 = []
 		_g4 = 0
@@ -23686,7 +21552,7 @@ class unit_TestSpecification(unit_Test):
 			self.t(_hx_c.python_internal_ArrayImpl.remove(requiredFields4, f4), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 118 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		
 		
-		self.eq(__builtin__.len(requiredFields4), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 119 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(requiredFields4), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 119 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.getEnumConstructs(_hx_c.unit_TestSpecification_E),0), "NoArgs", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 122 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.getEnumConstructs(_hx_c.unit_TestSpecification_E),1), "OneArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 122 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.getEnumConstructs(_hx_c.unit_TestSpecification_E),2), "RecArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 122 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
@@ -23701,24 +21567,52 @@ class unit_TestSpecification(unit_Test):
 		self.f(_hx_c.Type.enumEq(_hx_c.unit_TestSpecification_E.NoArgs, _hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 134 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.f(_hx_c.Type.enumEq(_hx_c.unit_TestSpecification_E.OneArg(1), _hx_c.unit_TestSpecification_E.OneArg(2)), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 135 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.f(_hx_c.Type.enumEq(_hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(1)), _hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(2))), _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 136 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumConstructor(_hx_c.unit_TestSpecification_E.NoArgs), "NoArgs", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 139 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumConstructor(_hx_c.unit_TestSpecification_E.OneArg(1)), "OneArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 140 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumConstructor(_hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(1))), "RecArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 141 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumConstructor(_hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")), "MultipleArgs", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 142 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_c.unit_TestSpecification_E.NoArgs.tag, "NoArgs", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 139 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		def _hx_local_0():
-			_this = _hx_c.Type.enumParameters(_hx_c.unit_TestSpecification_E.NoArgs)
-			return __builtin__.len(_this)
+			e2 = _hx_c.unit_TestSpecification_E.OneArg(1)
+			return e2.tag
 		
-		self.eq(_hx_local_0(), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 145 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_array_get(_hx_c.Type.enumParameters(_hx_c.unit_TestSpecification_E.OneArg(1)),0), 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 146 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_array_get(_hx_c.Type.enumParameters(_hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.NoArgs)),0), _hx_c.unit_TestSpecification_E.NoArgs, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 147 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_array_get(_hx_c.Type.enumParameters(_hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")),0), 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 148 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_array_get(_hx_c.Type.enumParameters(_hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")),1), "foo", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 148 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_local_0(), "OneArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 140 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_1():
+			e3 = _hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(1))
+			return e3.tag
 		
-		self.eq(_hx_c.Type.enumIndex(_hx_c.unit_TestSpecification_E.NoArgs), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 151 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumIndex(_hx_c.unit_TestSpecification_E.OneArg(1)), 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 152 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumIndex(_hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(1))), 2, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 153 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
-		self.eq(_hx_c.Type.enumIndex(_hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")), 3, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 154 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_local_1(), "RecArg", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 141 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_2():
+			e4 = _hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")
+			return e4.tag
+		
+		self.eq(_hx_local_2(), "MultipleArgs", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 142 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(_hx_builtin.len(_hx_c.unit_TestSpecification_E.NoArgs.params), 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 145 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_3():
+			e5 = _hx_c.unit_TestSpecification_E.OneArg(1)
+			return e5.params
+		
+		self.eq(_hx_array_get((_hx_local_3()),0), 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 146 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_4():
+			e6 = _hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.NoArgs)
+			return e6.params
+		
+		self.eq(_hx_array_get((_hx_local_4()),0), _hx_c.unit_TestSpecification_E.NoArgs, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 147 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_5():
+			e7 = _hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")
+			return e7.params
+		
+		self.eq(_hx_array_get((_hx_local_5()),0), 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 148 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_6():
+			e8 = _hx_c.unit_TestSpecification_E.MultipleArgs(1, "foo")
+			return e8.params
+		
+		self.eq(_hx_array_get((_hx_local_6()),1), "foo", _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 148 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		
+		self.eq(0, 0, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 151 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(1, 1, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 152 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		def _hx_local_7():
+			e9 = _hx_c.unit_TestSpecification_E.RecArg(_hx_c.unit_TestSpecification_E.OneArg(1))
+			return e9.index
+		
+		self.eq(_hx_local_7(), 2, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 153 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
+		self.eq(3, 3, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 154 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.allEnums(_hx_c.unit_TestSpecification_E),0), _hx_c.unit_TestSpecification_E.NoArgs, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 157 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.allEnums(_hx_c.haxe_macro_ExprDef),0), _hx_c.haxe_macro_ExprDef.EBreak, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 158 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
 		self.eq(_hx_array_get(_hx_c.Type.allEnums(_hx_c.haxe_macro_ExprDef),1), _hx_c.haxe_macro_ExprDef.EContinue, _hx_c._hx_AnonObject(fileName = "Type.unit.hx" ,lineNumber = 158 ,className = "unit.TestSpecification" ,methodName = "testType_unit_hx" ))
@@ -23745,7 +21639,7 @@ class unit_TestSpecification(unit_Test):
 			field = "_hx_" + "a"
 		else:
 			field = "a"
-		__builtin__.setattr(x, field, 2)
+		_hx_builtin.setattr(x, field, 2)
 		
 		self.eq(x.a, 2, _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 23 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		field1 = None
@@ -23753,7 +21647,7 @@ class unit_TestSpecification(unit_Test):
 			field1 = "_hx_" + "c"
 		else:
 			field1 = "c"
-		__builtin__.setattr(x, field1, "foo")
+		_hx_builtin.setattr(x, field1, "foo")
 		
 		self.eq(_hx_c.Reflect.field(x, "c"), "foo", _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 25 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		c1 = _hx_c.unit_C2()
@@ -23762,7 +21656,7 @@ class unit_TestSpecification(unit_Test):
 			field2 = "_hx_" + "v"
 		else:
 			field2 = "v"
-		__builtin__.setattr(c1, field2, "bar")
+		_hx_builtin.setattr(c1, field2, "bar")
 		
 		self.eq(c1.v, "bar", _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 28 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		c2 = _hx_c.unit_C2()
@@ -23774,12 +21668,12 @@ class unit_TestSpecification(unit_Test):
 			field3 = "_hx_" + "a"
 		else:
 			field3 = "a"
-		if __builtin__.hasattr(x, "set_" + Std.string(field3)):
-			tmp = __builtin__.getattr(x, "set_" + Std.string(field3))
+		if _hx_builtin.hasattr(x, "set_" + Std.string(field3)):
+			tmp = _hx_builtin.getattr(x, "set_" + Std.string(field3))
 			tmp(2)
 		
 		else:
-			__builtin__.setattr(x, field3, 2)
+			_hx_builtin.setattr(x, field3, 2)
 		
 		self.eq(x.a, 2, _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 45 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		field4 = None
@@ -23787,12 +21681,12 @@ class unit_TestSpecification(unit_Test):
 			field4 = "_hx_" + "c"
 		else:
 			field4 = "c"
-		if __builtin__.hasattr(x, "set_" + Std.string(field4)):
-			tmp1 = __builtin__.getattr(x, "set_" + Std.string(field4))
+		if _hx_builtin.hasattr(x, "set_" + Std.string(field4)):
+			tmp1 = _hx_builtin.getattr(x, "set_" + Std.string(field4))
 			tmp1("foo")
 		
 		else:
-			__builtin__.setattr(x, field4, "foo")
+			_hx_builtin.setattr(x, field4, "foo")
 		
 		self.eq(_hx_c.Reflect.field(x, "c"), "foo", _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 47 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		c3 = _hx_c.unit_C2()
@@ -23801,12 +21695,12 @@ class unit_TestSpecification(unit_Test):
 			field5 = "_hx_" + "v"
 		else:
 			field5 = "v"
-		if __builtin__.hasattr(c3, "set_" + Std.string(field5)):
-			tmp2 = __builtin__.getattr(c3, "set_" + Std.string(field5))
+		if _hx_builtin.hasattr(c3, "set_" + Std.string(field5)):
+			tmp2 = _hx_builtin.getattr(c3, "set_" + Std.string(field5))
 			tmp2("bar")
 		
 		else:
-			__builtin__.setattr(c3, field5, "bar")
+			_hx_builtin.setattr(c3, field5, "bar")
 		
 		self.eq(c3.v, "bar", _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 50 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		field6 = None
@@ -23814,12 +21708,12 @@ class unit_TestSpecification(unit_Test):
 			field6 = "_hx_" + "propAcc"
 		else:
 			field6 = "propAcc"
-		if __builtin__.hasattr(c3, "set_" + Std.string(field6)):
-			tmp3 = __builtin__.getattr(c3, "set_" + Std.string(field6))
+		if _hx_builtin.hasattr(c3, "set_" + Std.string(field6)):
+			tmp3 = _hx_builtin.getattr(c3, "set_" + Std.string(field6))
 			tmp3("abc")
 		
 		else:
-			__builtin__.setattr(c3, field6, "abc")
+			_hx_builtin.setattr(c3, field6, "abc")
 		
 		self.eq(_hx_c.Reflect.field(c3, "propAcc"), "ABC", _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 58 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		names = ["a", "b", "c"]
@@ -23831,7 +21725,7 @@ class unit_TestSpecification(unit_Test):
 			_hx_c.python_internal_ArrayImpl.remove(names, name)
 		
 		
-		self.eq(__builtin__.len(names), 0, _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
+		self.eq(_hx_builtin.len(names), 0, _hx_c._hx_AnonObject(fileName = "Reflect.unit.hx" ,lineNumber = 66 ,className = "unit.TestSpecification" ,methodName = "testReflect_unit_hx" ))
 		c4 = _hx_c.unit_C2()
 		def _hx_local_0():
 			return 1
@@ -23942,30 +21836,30 @@ class unit_TestType(unit_Test):
 		self.eq(_hx_c.Type.getClassName(_hx_c.unit_MyClass), name, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 41 ,className = "unit.TestType" ,methodName = "testType" ))
 		def _hx_local_0():
 			_this = _hx_c.Type.getClassFields(_hx_c.unit_MyClass)
-			return __builtin__.len(_this)
+			return _hx_builtin.len(_this)
 		
 		self.eq(_hx_local_0(), 0, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 42 ,className = "unit.TestType" ,methodName = "testType" ))
 	
 
 	def testFields(self):
 		sfields = _hx_c.Type.getClassFields(_hx_c.unit_MySubClass)
-		self.eq(__builtin__.len(sfields), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 47 ,className = "unit.TestType" ,methodName = "testFields" ))
+		self.eq(_hx_builtin.len(sfields), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 47 ,className = "unit.TestType" ,methodName = "testFields" ))
 		self.eq(_hx_array_get(sfields,0), "XXX", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 48 ,className = "unit.TestType" ,methodName = "testFields" ))
 		fields = ["add", "get", "intValue", "ref", "set", "stringValue", "val"]
 		fl = _hx_c.Type.getInstanceFields(_hx_c.unit_MyClass)
-		fl.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fl))), "|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fields))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 53 ,className = "unit.TestType" ,methodName = "testFields" ))
+		fl.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fl))), "|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fields))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 53 ,className = "unit.TestType" ,methodName = "testFields" ))
 		fl1 = _hx_c.Type.getInstanceFields(_hx_c.unit_MySubClass)
-		fl1.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fl1))), "|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fields))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 57 ,className = "unit.TestType" ,methodName = "testFields" ))
+		fl1.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fl1))), "|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fields))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 57 ,className = "unit.TestType" ,methodName = "testFields" ))
 		fl2 = _hx_c.Type.getInstanceFields(_hx_c.unit_VarProps)
 		fields1 = ["get_x", "get_y", "set_x", "set_y", "set_z", "y", "z"]
-		fl2.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fl2))), "|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fields1))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 74 ,className = "unit.TestType" ,methodName = "testFields" ))
+		fl2.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fl2))), "|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fields1))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 74 ,className = "unit.TestType" ,methodName = "testFields" ))
 		fl3 = _hx_c.Type.getClassFields(_hx_c.unit_VarProps)
 		fields2 = ["SY", "get_SX", "get_SY", "set_SX", "set_SY"]
-		fl3.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(_hx_c.Reflect.compare))
-		self.eq("|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fl3))), "|".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fields2))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 81 ,className = "unit.TestType" ,methodName = "testFields" ))
+		fl3.sort(key=_hx_functools.cmp_to_key(_hx_c.Reflect.compare))
+		self.eq("|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fl3))), "|".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fields2))), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 81 ,className = "unit.TestType" ,methodName = "testFields" ))
 	
 
 	def testEnumEq(self):
@@ -23999,7 +21893,7 @@ class unit_TestType(unit_Test):
 	def testAllField(self):
 		def _hx_local_0():
 			_this = _hx_c.Type.allEnums(_hx_c.unit_MyEnum)
-			return "#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			return "#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
 		self.eq(_hx_local_0(), "A#B", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 125 ,className = "unit.TestType" ,methodName = "testAllField" ))
 	
@@ -24019,309 +21913,129 @@ class unit_TestType(unit_Test):
 		tnullbase = None
 		tchild1 = None
 		ts = None
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 155 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 156 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_13 = None
-		def _hx_local_14():
-			nonlocal _hx_local_13
-			if _hx_local_13 is not None:
-				return _hx_local_13
-			
-			_hx_local_10 = _hx_c.unit_Test.count
-			_hx_local_11 = _hx_local_10
-			_hx_c.unit_Test.count = _hx_local_10 + 1
-			_hx_local_13 = _hx_local_11
-			return _hx_local_11
-		
-		_hx_local_12 = _hx_local_14
-		_hx_local_12()
+		_hx_local_4 = _hx_c.unit_Test
+		_hx_local_5 = _hx_local_4.count
+		_hx_local_4.count = _hx_local_5 + 1
+		_hx_local_5
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 157 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_18 = None
-		def _hx_local_19():
-			nonlocal _hx_local_18
-			if _hx_local_18 is not None:
-				return _hx_local_18
-			
-			_hx_local_15 = _hx_c.unit_Test.count
-			_hx_local_16 = _hx_local_15
-			_hx_c.unit_Test.count = _hx_local_15 + 1
-			_hx_local_18 = _hx_local_16
-			return _hx_local_16
-		
-		_hx_local_17 = _hx_local_19
-		_hx_local_17()
+		_hx_local_6 = _hx_c.unit_Test
+		_hx_local_7 = _hx_local_6.count
+		_hx_local_6.count = _hx_local_7 + 1
+		_hx_local_7
 		
 		self.eq("TInst(Array,[TInst(unit.I1,[])])", "TInst(Array,[TInst(unit.I1,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 158 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_23 = None
-		def _hx_local_24():
-			nonlocal _hx_local_23
-			if _hx_local_23 is not None:
-				return _hx_local_23
-			
-			_hx_local_20 = _hx_c.unit_Test.count
-			_hx_local_21 = _hx_local_20
-			_hx_c.unit_Test.count = _hx_local_20 + 1
-			_hx_local_23 = _hx_local_21
-			return _hx_local_21
-		
-		_hx_local_22 = _hx_local_24
-		_hx_local_22()
+		_hx_local_8 = _hx_c.unit_Test
+		_hx_local_9 = _hx_local_8.count
+		_hx_local_8.count = _hx_local_9 + 1
+		_hx_local_9
 		
 		self.eq("TInst(Array,[TInst(unit.I1,[])])", "TInst(Array,[TInst(unit.I1,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 159 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_28 = None
-		def _hx_local_29():
-			nonlocal _hx_local_28
-			if _hx_local_28 is not None:
-				return _hx_local_28
-			
-			_hx_local_25 = _hx_c.unit_Test.count
-			_hx_local_26 = _hx_local_25
-			_hx_c.unit_Test.count = _hx_local_25 + 1
-			_hx_local_28 = _hx_local_26
-			return _hx_local_26
-		
-		_hx_local_27 = _hx_local_29
-		_hx_local_27()
+		_hx_local_10 = _hx_c.unit_Test
+		_hx_local_11 = _hx_local_10.count
+		_hx_local_10.count = _hx_local_11 + 1
+		_hx_local_11
 		
 		self.eq("TInst(Array,[TInst(unit.I1,[])])", "TInst(Array,[TInst(unit.I1,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 161 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_33 = None
-		def _hx_local_34():
-			nonlocal _hx_local_33
-			if _hx_local_33 is not None:
-				return _hx_local_33
-			
-			_hx_local_30 = _hx_c.unit_Test.count
-			_hx_local_31 = _hx_local_30
-			_hx_c.unit_Test.count = _hx_local_30 + 1
-			_hx_local_33 = _hx_local_31
-			return _hx_local_31
-		
-		_hx_local_32 = _hx_local_34
-		_hx_local_32()
+		_hx_local_12 = _hx_c.unit_Test
+		_hx_local_13 = _hx_local_12.count
+		_hx_local_12.count = _hx_local_13 + 1
+		_hx_local_13
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 162 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_38 = None
-		def _hx_local_39():
-			nonlocal _hx_local_38
-			if _hx_local_38 is not None:
-				return _hx_local_38
-			
-			_hx_local_35 = _hx_c.unit_Test.count
-			_hx_local_36 = _hx_local_35
-			_hx_c.unit_Test.count = _hx_local_35 + 1
-			_hx_local_38 = _hx_local_36
-			return _hx_local_36
-		
-		_hx_local_37 = _hx_local_39
-		_hx_local_37()
+		_hx_local_14 = _hx_c.unit_Test
+		_hx_local_15 = _hx_local_14.count
+		_hx_local_14.count = _hx_local_15 + 1
+		_hx_local_15
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 163 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_43 = None
-		def _hx_local_44():
-			nonlocal _hx_local_43
-			if _hx_local_43 is not None:
-				return _hx_local_43
-			
-			_hx_local_40 = _hx_c.unit_Test.count
-			_hx_local_41 = _hx_local_40
-			_hx_c.unit_Test.count = _hx_local_40 + 1
-			_hx_local_43 = _hx_local_41
-			return _hx_local_41
-		
-		_hx_local_42 = _hx_local_44
-		_hx_local_42()
+		_hx_local_16 = _hx_c.unit_Test
+		_hx_local_17 = _hx_local_16.count
+		_hx_local_16.count = _hx_local_17 + 1
+		_hx_local_17
 		
 		self.eq("TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])", "TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 165 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_48 = None
-		def _hx_local_49():
-			nonlocal _hx_local_48
-			if _hx_local_48 is not None:
-				return _hx_local_48
-			
-			_hx_local_45 = _hx_c.unit_Test.count
-			_hx_local_46 = _hx_local_45
-			_hx_c.unit_Test.count = _hx_local_45 + 1
-			_hx_local_48 = _hx_local_46
-			return _hx_local_46
-		
-		_hx_local_47 = _hx_local_49
-		_hx_local_47()
+		_hx_local_18 = _hx_c.unit_Test
+		_hx_local_19 = _hx_local_18.count
+		_hx_local_18.count = _hx_local_19 + 1
+		_hx_local_19
 		
 		self.eq("TInst(Array,[TAbstract(Bool,[])])", "TInst(Array,[TAbstract(Bool,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 167 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_53 = None
-		def _hx_local_54():
-			nonlocal _hx_local_53
-			if _hx_local_53 is not None:
-				return _hx_local_53
-			
-			_hx_local_50 = _hx_c.unit_Test.count
-			_hx_local_51 = _hx_local_50
-			_hx_c.unit_Test.count = _hx_local_50 + 1
-			_hx_local_53 = _hx_local_51
-			return _hx_local_51
-		
-		_hx_local_52 = _hx_local_54
-		_hx_local_52()
+		_hx_local_20 = _hx_c.unit_Test
+		_hx_local_21 = _hx_local_20.count
+		_hx_local_20.count = _hx_local_21 + 1
+		_hx_local_21
 		
 		self.eq("TInst(Array,[TAbstract(Bool,[])])", "TInst(Array,[TAbstract(Bool,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 168 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_58 = None
-		def _hx_local_59():
-			nonlocal _hx_local_58
-			if _hx_local_58 is not None:
-				return _hx_local_58
-			
-			_hx_local_55 = _hx_c.unit_Test.count
-			_hx_local_56 = _hx_local_55
-			_hx_c.unit_Test.count = _hx_local_55 + 1
-			_hx_local_58 = _hx_local_56
-			return _hx_local_56
-		
-		_hx_local_57 = _hx_local_59
-		_hx_local_57()
+		_hx_local_22 = _hx_c.unit_Test
+		_hx_local_23 = _hx_local_22.count
+		_hx_local_22.count = _hx_local_23 + 1
+		_hx_local_23
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 169 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_63 = None
-		def _hx_local_64():
-			nonlocal _hx_local_63
-			if _hx_local_63 is not None:
-				return _hx_local_63
-			
-			_hx_local_60 = _hx_c.unit_Test.count
-			_hx_local_61 = _hx_local_60
-			_hx_c.unit_Test.count = _hx_local_60 + 1
-			_hx_local_63 = _hx_local_61
-			return _hx_local_61
-		
-		_hx_local_62 = _hx_local_64
-		_hx_local_62()
+		_hx_local_24 = _hx_c.unit_Test
+		_hx_local_25 = _hx_local_24.count
+		_hx_local_24.count = _hx_local_25 + 1
+		_hx_local_25
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 171 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_68 = None
-		def _hx_local_69():
-			nonlocal _hx_local_68
-			if _hx_local_68 is not None:
-				return _hx_local_68
-			
-			_hx_local_65 = _hx_c.unit_Test.count
-			_hx_local_66 = _hx_local_65
-			_hx_c.unit_Test.count = _hx_local_65 + 1
-			_hx_local_68 = _hx_local_66
-			return _hx_local_66
-		
-		_hx_local_67 = _hx_local_69
-		_hx_local_67()
+		_hx_local_26 = _hx_c.unit_Test
+		_hx_local_27 = _hx_local_26.count
+		_hx_local_26.count = _hx_local_27 + 1
+		_hx_local_27
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 172 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_73 = None
-		def _hx_local_74():
-			nonlocal _hx_local_73
-			if _hx_local_73 is not None:
-				return _hx_local_73
-			
-			_hx_local_70 = _hx_c.unit_Test.count
-			_hx_local_71 = _hx_local_70
-			_hx_c.unit_Test.count = _hx_local_70 + 1
-			_hx_local_73 = _hx_local_71
-			return _hx_local_71
-		
-		_hx_local_72 = _hx_local_74
-		_hx_local_72()
+		_hx_local_28 = _hx_c.unit_Test
+		_hx_local_29 = _hx_local_28.count
+		_hx_local_28.count = _hx_local_29 + 1
+		_hx_local_29
 		
 		self.eq("TInst(Array,[TInst(unit.Base,[])])", "TInst(Array,[TInst(unit.Base,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 173 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_78 = None
-		def _hx_local_79():
-			nonlocal _hx_local_78
-			if _hx_local_78 is not None:
-				return _hx_local_78
-			
-			_hx_local_75 = _hx_c.unit_Test.count
-			_hx_local_76 = _hx_local_75
-			_hx_c.unit_Test.count = _hx_local_75 + 1
-			_hx_local_78 = _hx_local_76
-			return _hx_local_76
-		
-		_hx_local_77 = _hx_local_79
-		_hx_local_77()
+		_hx_local_30 = _hx_c.unit_Test
+		_hx_local_31 = _hx_local_30.count
+		_hx_local_30.count = _hx_local_31 + 1
+		_hx_local_31
 		
 		self.eq("TInst(Array,[TInst(unit.Child1,[])])", "TInst(Array,[TInst(unit.Child1,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 174 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_83 = None
-		def _hx_local_84():
-			nonlocal _hx_local_83
-			if _hx_local_83 is not None:
-				return _hx_local_83
-			
-			_hx_local_80 = _hx_c.unit_Test.count
-			_hx_local_81 = _hx_local_80
-			_hx_c.unit_Test.count = _hx_local_80 + 1
-			_hx_local_83 = _hx_local_81
-			return _hx_local_81
-		
-		_hx_local_82 = _hx_local_84
-		_hx_local_82()
+		_hx_local_32 = _hx_c.unit_Test
+		_hx_local_33 = _hx_local_32.count
+		_hx_local_32.count = _hx_local_33 + 1
+		_hx_local_33
 		
 		self.eq("TInst(Array,[TAnonymous(<anonymous>)])", "TInst(Array,[TAnonymous(<anonymous>)])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 175 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_88 = None
-		def _hx_local_89():
-			nonlocal _hx_local_88
-			if _hx_local_88 is not None:
-				return _hx_local_88
-			
-			_hx_local_85 = _hx_c.unit_Test.count
-			_hx_local_86 = _hx_local_85
-			_hx_c.unit_Test.count = _hx_local_85 + 1
-			_hx_local_88 = _hx_local_86
-			return _hx_local_86
-		
-		_hx_local_87 = _hx_local_89
-		_hx_local_87()
+		_hx_local_34 = _hx_c.unit_Test
+		_hx_local_35 = _hx_local_34.count
+		_hx_local_34.count = _hx_local_35 + 1
+		_hx_local_35
 		
 		self.eq("TInst(Array,[TAnonymous(<anonymous>)])", "TInst(Array,[TAnonymous(<anonymous>)])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 176 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
@@ -24329,309 +22043,129 @@ class unit_TestType(unit_Test):
 		ti11 = None
 		tnullbool1 = None
 		ts1 = None
-		_hx_local_93 = None
-		def _hx_local_94():
-			nonlocal _hx_local_93
-			if _hx_local_93 is not None:
-				return _hx_local_93
-			
-			_hx_local_90 = _hx_c.unit_Test.count
-			_hx_local_91 = _hx_local_90
-			_hx_c.unit_Test.count = _hx_local_90 + 1
-			_hx_local_93 = _hx_local_91
-			return _hx_local_91
-		
-		_hx_local_92 = _hx_local_94
-		_hx_local_92()
+		_hx_local_36 = _hx_c.unit_Test
+		_hx_local_37 = _hx_local_36.count
+		_hx_local_36.count = _hx_local_37 + 1
+		_hx_local_37
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 189 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_98 = None
-		def _hx_local_99():
-			nonlocal _hx_local_98
-			if _hx_local_98 is not None:
-				return _hx_local_98
-			
-			_hx_local_95 = _hx_c.unit_Test.count
-			_hx_local_96 = _hx_local_95
-			_hx_c.unit_Test.count = _hx_local_95 + 1
-			_hx_local_98 = _hx_local_96
-			return _hx_local_96
-		
-		_hx_local_97 = _hx_local_99
-		_hx_local_97()
+		_hx_local_38 = _hx_c.unit_Test
+		_hx_local_39 = _hx_local_38.count
+		_hx_local_38.count = _hx_local_39 + 1
+		_hx_local_39
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 190 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_103 = None
-		def _hx_local_104():
-			nonlocal _hx_local_103
-			if _hx_local_103 is not None:
-				return _hx_local_103
-			
-			_hx_local_100 = _hx_c.unit_Test.count
-			_hx_local_101 = _hx_local_100
-			_hx_c.unit_Test.count = _hx_local_100 + 1
-			_hx_local_103 = _hx_local_101
-			return _hx_local_101
-		
-		_hx_local_102 = _hx_local_104
-		_hx_local_102()
+		_hx_local_40 = _hx_c.unit_Test
+		_hx_local_41 = _hx_local_40.count
+		_hx_local_40.count = _hx_local_41 + 1
+		_hx_local_41
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 194 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_108 = None
-		def _hx_local_109():
-			nonlocal _hx_local_108
-			if _hx_local_108 is not None:
-				return _hx_local_108
-			
-			_hx_local_105 = _hx_c.unit_Test.count
-			_hx_local_106 = _hx_local_105
-			_hx_c.unit_Test.count = _hx_local_105 + 1
-			_hx_local_108 = _hx_local_106
-			return _hx_local_106
-		
-		_hx_local_107 = _hx_local_109
-		_hx_local_107()
+		_hx_local_42 = _hx_c.unit_Test
+		_hx_local_43 = _hx_local_42.count
+		_hx_local_42.count = _hx_local_43 + 1
+		_hx_local_43
 		
 		self.eq("TInst(unit.I1,[])", "TInst(unit.I1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 198 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_113 = None
-		def _hx_local_114():
-			nonlocal _hx_local_113
-			if _hx_local_113 is not None:
-				return _hx_local_113
-			
-			_hx_local_110 = _hx_c.unit_Test.count
-			_hx_local_111 = _hx_local_110
-			_hx_c.unit_Test.count = _hx_local_110 + 1
-			_hx_local_113 = _hx_local_111
-			return _hx_local_111
-		
-		_hx_local_112 = _hx_local_114
-		_hx_local_112()
+		_hx_local_44 = _hx_c.unit_Test
+		_hx_local_45 = _hx_local_44.count
+		_hx_local_44.count = _hx_local_45 + 1
+		_hx_local_45
 		
 		self.eq("TInst(unit.I1,[])", "TInst(unit.I1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 199 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_118 = None
-		def _hx_local_119():
-			nonlocal _hx_local_118
-			if _hx_local_118 is not None:
-				return _hx_local_118
-			
-			_hx_local_115 = _hx_c.unit_Test.count
-			_hx_local_116 = _hx_local_115
-			_hx_c.unit_Test.count = _hx_local_115 + 1
-			_hx_local_118 = _hx_local_116
-			return _hx_local_116
-		
-		_hx_local_117 = _hx_local_119
-		_hx_local_117()
+		_hx_local_46 = _hx_c.unit_Test
+		_hx_local_47 = _hx_local_46.count
+		_hx_local_46.count = _hx_local_47 + 1
+		_hx_local_47
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 201 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_123 = None
-		def _hx_local_124():
-			nonlocal _hx_local_123
-			if _hx_local_123 is not None:
-				return _hx_local_123
-			
-			_hx_local_120 = _hx_c.unit_Test.count
-			_hx_local_121 = _hx_local_120
-			_hx_c.unit_Test.count = _hx_local_120 + 1
-			_hx_local_123 = _hx_local_121
-			return _hx_local_121
-		
-		_hx_local_122 = _hx_local_124
-		_hx_local_122()
+		_hx_local_48 = _hx_c.unit_Test
+		_hx_local_49 = _hx_local_48.count
+		_hx_local_48.count = _hx_local_49 + 1
+		_hx_local_49
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 202 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_128 = None
-		def _hx_local_129():
-			nonlocal _hx_local_128
-			if _hx_local_128 is not None:
-				return _hx_local_128
-			
-			_hx_local_125 = _hx_c.unit_Test.count
-			_hx_local_126 = _hx_local_125
-			_hx_c.unit_Test.count = _hx_local_125 + 1
-			_hx_local_128 = _hx_local_126
-			return _hx_local_126
-		
-		_hx_local_127 = _hx_local_129
-		_hx_local_127()
+		_hx_local_50 = _hx_c.unit_Test
+		_hx_local_51 = _hx_local_50.count
+		_hx_local_50.count = _hx_local_51 + 1
+		_hx_local_51
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 203 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_133 = None
-		def _hx_local_134():
-			nonlocal _hx_local_133
-			if _hx_local_133 is not None:
-				return _hx_local_133
-			
-			_hx_local_130 = _hx_c.unit_Test.count
-			_hx_local_131 = _hx_local_130
-			_hx_c.unit_Test.count = _hx_local_130 + 1
-			_hx_local_133 = _hx_local_131
-			return _hx_local_131
-		
-		_hx_local_132 = _hx_local_134
-		_hx_local_132()
+		_hx_local_52 = _hx_c.unit_Test
+		_hx_local_53 = _hx_local_52.count
+		_hx_local_52.count = _hx_local_53 + 1
+		_hx_local_53
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 204 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_138 = None
-		def _hx_local_139():
-			nonlocal _hx_local_138
-			if _hx_local_138 is not None:
-				return _hx_local_138
-			
-			_hx_local_135 = _hx_c.unit_Test.count
-			_hx_local_136 = _hx_local_135
-			_hx_c.unit_Test.count = _hx_local_135 + 1
-			_hx_local_138 = _hx_local_136
-			return _hx_local_136
-		
-		_hx_local_137 = _hx_local_139
-		_hx_local_137()
+		_hx_local_54 = _hx_c.unit_Test
+		_hx_local_55 = _hx_local_54.count
+		_hx_local_54.count = _hx_local_55 + 1
+		_hx_local_55
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 208 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_143 = None
-		def _hx_local_144():
-			nonlocal _hx_local_143
-			if _hx_local_143 is not None:
-				return _hx_local_143
-			
-			_hx_local_140 = _hx_c.unit_Test.count
-			_hx_local_141 = _hx_local_140
-			_hx_c.unit_Test.count = _hx_local_140 + 1
-			_hx_local_143 = _hx_local_141
-			return _hx_local_141
-		
-		_hx_local_142 = _hx_local_144
-		_hx_local_142()
+		_hx_local_56 = _hx_c.unit_Test
+		_hx_local_57 = _hx_local_56.count
+		_hx_local_56.count = _hx_local_57 + 1
+		_hx_local_57
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 209 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_148 = None
-		def _hx_local_149():
-			nonlocal _hx_local_148
-			if _hx_local_148 is not None:
-				return _hx_local_148
-			
-			_hx_local_145 = _hx_c.unit_Test.count
-			_hx_local_146 = _hx_local_145
-			_hx_c.unit_Test.count = _hx_local_145 + 1
-			_hx_local_148 = _hx_local_146
-			return _hx_local_146
-		
-		_hx_local_147 = _hx_local_149
-		_hx_local_147()
+		_hx_local_58 = _hx_c.unit_Test
+		_hx_local_59 = _hx_local_58.count
+		_hx_local_58.count = _hx_local_59 + 1
+		_hx_local_59
 		
 		self.eq("TInst(unit.I1,[])", "TInst(unit.I1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 210 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_153 = None
-		def _hx_local_154():
-			nonlocal _hx_local_153
-			if _hx_local_153 is not None:
-				return _hx_local_153
-			
-			_hx_local_150 = _hx_c.unit_Test.count
-			_hx_local_151 = _hx_local_150
-			_hx_c.unit_Test.count = _hx_local_150 + 1
-			_hx_local_153 = _hx_local_151
-			return _hx_local_151
-		
-		_hx_local_152 = _hx_local_154
-		_hx_local_152()
+		_hx_local_60 = _hx_c.unit_Test
+		_hx_local_61 = _hx_local_60.count
+		_hx_local_60.count = _hx_local_61 + 1
+		_hx_local_61
 		
 		self.eq("TInst(unit.I1,[])", "TInst(unit.I1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 211 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_158 = None
-		def _hx_local_159():
-			nonlocal _hx_local_158
-			if _hx_local_158 is not None:
-				return _hx_local_158
-			
-			_hx_local_155 = _hx_c.unit_Test.count
-			_hx_local_156 = _hx_local_155
-			_hx_c.unit_Test.count = _hx_local_155 + 1
-			_hx_local_158 = _hx_local_156
-			return _hx_local_156
-		
-		_hx_local_157 = _hx_local_159
-		_hx_local_157()
+		_hx_local_62 = _hx_c.unit_Test
+		_hx_local_63 = _hx_local_62.count
+		_hx_local_62.count = _hx_local_63 + 1
+		_hx_local_63
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 213 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_163 = None
-		def _hx_local_164():
-			nonlocal _hx_local_163
-			if _hx_local_163 is not None:
-				return _hx_local_163
-			
-			_hx_local_160 = _hx_c.unit_Test.count
-			_hx_local_161 = _hx_local_160
-			_hx_c.unit_Test.count = _hx_local_160 + 1
-			_hx_local_163 = _hx_local_161
-			return _hx_local_161
-		
-		_hx_local_162 = _hx_local_164
-		_hx_local_162()
+		_hx_local_64 = _hx_c.unit_Test
+		_hx_local_65 = _hx_local_64.count
+		_hx_local_64.count = _hx_local_65 + 1
+		_hx_local_65
 		
 		self.eq("TAbstract(Bool,[])", "TAbstract(Bool,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 214 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_168 = None
-		def _hx_local_169():
-			nonlocal _hx_local_168
-			if _hx_local_168 is not None:
-				return _hx_local_168
-			
-			_hx_local_165 = _hx_c.unit_Test.count
-			_hx_local_166 = _hx_local_165
-			_hx_c.unit_Test.count = _hx_local_165 + 1
-			_hx_local_168 = _hx_local_166
-			return _hx_local_166
-		
-		_hx_local_167 = _hx_local_169
-		_hx_local_167()
+		_hx_local_66 = _hx_c.unit_Test
+		_hx_local_67 = _hx_local_66.count
+		_hx_local_66.count = _hx_local_67 + 1
+		_hx_local_67
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 215 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_173 = None
-		def _hx_local_174():
-			nonlocal _hx_local_173
-			if _hx_local_173 is not None:
-				return _hx_local_173
-			
-			_hx_local_170 = _hx_c.unit_Test.count
-			_hx_local_171 = _hx_local_170
-			_hx_c.unit_Test.count = _hx_local_170 + 1
-			_hx_local_173 = _hx_local_171
-			return _hx_local_171
-		
-		_hx_local_172 = _hx_local_174
-		_hx_local_172()
+		_hx_local_68 = _hx_c.unit_Test
+		_hx_local_69 = _hx_local_68.count
+		_hx_local_68.count = _hx_local_69 + 1
+		_hx_local_69
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 216 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
-		_hx_local_178 = None
-		def _hx_local_179():
-			nonlocal _hx_local_178
-			if _hx_local_178 is not None:
-				return _hx_local_178
-			
-			_hx_local_175 = _hx_c.unit_Test.count
-			_hx_local_176 = _hx_local_175
-			_hx_c.unit_Test.count = _hx_local_175 + 1
-			_hx_local_178 = _hx_local_176
-			return _hx_local_176
-		
-		_hx_local_177 = _hx_local_179
-		_hx_local_177()
+		_hx_local_70 = _hx_c.unit_Test
+		_hx_local_71 = _hx_local_70.count
+		_hx_local_70.count = _hx_local_71 + 1
+		_hx_local_71
 		
 		self.eq("TInst(Array,[TAnonymous(<anonymous>)])", "TInst(Array,[TAnonymous(<anonymous>)])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 218 ,className = "unit.TestType" ,methodName = "testUnifyMin" ))
 		
@@ -24662,421 +22196,281 @@ class unit_TestType(unit_Test):
 		def _hx_local_7(b3):
 			return 0
 		tstring = _hx_local_7
-		_hx_local_11 = None
-		def _hx_local_12():
-			nonlocal _hx_local_11
-			if _hx_local_11 is not None:
-				return _hx_local_11
-			
-			_hx_local_8 = _hx_c.unit_Test.count
-			_hx_local_9 = _hx_local_8
-			_hx_c.unit_Test.count = _hx_local_8 + 1
-			_hx_local_11 = _hx_local_9
-			return _hx_local_9
-		
-		_hx_local_10 = _hx_local_12
-		_hx_local_10()
+		_hx_local_8 = _hx_c.unit_Test
+		_hx_local_9 = _hx_local_8.count
+		_hx_local_8.count = _hx_local_9 + 1
+		_hx_local_9
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 239 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_16 = None
-		def _hx_local_17():
-			nonlocal _hx_local_16
-			if _hx_local_16 is not None:
-				return _hx_local_16
-			
-			_hx_local_13 = _hx_c.unit_Test.count
-			_hx_local_14 = _hx_local_13
-			_hx_c.unit_Test.count = _hx_local_13 + 1
-			_hx_local_16 = _hx_local_14
-			return _hx_local_14
-		
-		_hx_local_15 = _hx_local_17
-		_hx_local_15()
+		_hx_local_10 = _hx_c.unit_Test
+		_hx_local_11 = _hx_local_10.count
+		_hx_local_10.count = _hx_local_11 + 1
+		_hx_local_11
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 240 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_21 = None
-		def _hx_local_22():
-			nonlocal _hx_local_21
-			if _hx_local_21 is not None:
-				return _hx_local_21
-			
-			_hx_local_18 = _hx_c.unit_Test.count
-			_hx_local_19 = _hx_local_18
-			_hx_c.unit_Test.count = _hx_local_18 + 1
-			_hx_local_21 = _hx_local_19
-			return _hx_local_19
-		
-		_hx_local_20 = _hx_local_22
-		_hx_local_20()
+		_hx_local_12 = _hx_c.unit_Test
+		_hx_local_13 = _hx_local_12.count
+		_hx_local_12.count = _hx_local_13 + 1
+		_hx_local_13
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 241 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_26 = None
-		def _hx_local_27():
-			nonlocal _hx_local_26
-			if _hx_local_26 is not None:
-				return _hx_local_26
-			
-			_hx_local_23 = _hx_c.unit_Test.count
-			_hx_local_24 = _hx_local_23
-			_hx_c.unit_Test.count = _hx_local_23 + 1
-			_hx_local_26 = _hx_local_24
-			return _hx_local_24
-		
-		_hx_local_25 = _hx_local_27
-		_hx_local_25()
+		_hx_local_14 = _hx_c.unit_Test
+		_hx_local_15 = _hx_local_14.count
+		_hx_local_14.count = _hx_local_15 + 1
+		_hx_local_15
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 242 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_31 = None
-		def _hx_local_32():
-			nonlocal _hx_local_31
-			if _hx_local_31 is not None:
-				return _hx_local_31
-			
-			_hx_local_28 = _hx_c.unit_Test.count
-			_hx_local_29 = _hx_local_28
-			_hx_c.unit_Test.count = _hx_local_28 + 1
-			_hx_local_31 = _hx_local_29
-			return _hx_local_29
-		
-		_hx_local_30 = _hx_local_32
-		_hx_local_30()
+		_hx_local_16 = _hx_c.unit_Test
+		_hx_local_17 = _hx_local_16.count
+		_hx_local_16.count = _hx_local_17 + 1
+		_hx_local_17
 		
 		self.eq("TFun([],TAbstract(Int,[]))", "TFun([],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 246 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_36 = None
-		def _hx_local_37():
-			nonlocal _hx_local_36
-			if _hx_local_36 is not None:
-				return _hx_local_36
-			
-			_hx_local_33 = _hx_c.unit_Test.count
-			_hx_local_34 = _hx_local_33
-			_hx_c.unit_Test.count = _hx_local_33 + 1
-			_hx_local_36 = _hx_local_34
-			return _hx_local_34
-		
-		_hx_local_35 = _hx_local_37
-		_hx_local_35()
+		_hx_local_18 = _hx_c.unit_Test
+		_hx_local_19 = _hx_local_18.count
+		_hx_local_18.count = _hx_local_19 + 1
+		_hx_local_19
 		
 		self.eq("TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 250 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_41 = None
-		def _hx_local_42():
-			nonlocal _hx_local_41
-			if _hx_local_41 is not None:
-				return _hx_local_41
-			
-			_hx_local_38 = _hx_c.unit_Test.count
-			_hx_local_39 = _hx_local_38
-			_hx_c.unit_Test.count = _hx_local_38 + 1
-			_hx_local_41 = _hx_local_39
-			return _hx_local_39
-		
-		_hx_local_40 = _hx_local_42
-		_hx_local_40()
+		_hx_local_20 = _hx_c.unit_Test
+		_hx_local_21 = _hx_local_20.count
+		_hx_local_20.count = _hx_local_21 + 1
+		_hx_local_21
 		
 		self.eq("TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 251 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_46 = None
-		def _hx_local_47():
-			nonlocal _hx_local_46
-			if _hx_local_46 is not None:
-				return _hx_local_46
-			
-			_hx_local_43 = _hx_c.unit_Test.count
-			_hx_local_44 = _hx_local_43
-			_hx_c.unit_Test.count = _hx_local_43 + 1
-			_hx_local_46 = _hx_local_44
-			return _hx_local_44
-		
-		_hx_local_45 = _hx_local_47
-		_hx_local_45()
+		_hx_local_22 = _hx_c.unit_Test
+		_hx_local_23 = _hx_local_22.count
+		_hx_local_22.count = _hx_local_23 + 1
+		_hx_local_23
 		
 		self.eq("TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 255 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_51 = None
-		def _hx_local_52():
-			nonlocal _hx_local_51
-			if _hx_local_51 is not None:
-				return _hx_local_51
-			
-			_hx_local_48 = _hx_c.unit_Test.count
-			_hx_local_49 = _hx_local_48
-			_hx_c.unit_Test.count = _hx_local_48 + 1
-			_hx_local_51 = _hx_local_49
-			return _hx_local_49
-		
-		_hx_local_50 = _hx_local_52
-		_hx_local_50()
+		_hx_local_24 = _hx_c.unit_Test
+		_hx_local_25 = _hx_local_24.count
+		_hx_local_24.count = _hx_local_25 + 1
+		_hx_local_25
 		
 		self.eq("TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 256 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_56 = None
-		def _hx_local_57():
-			nonlocal _hx_local_56
-			if _hx_local_56 is not None:
-				return _hx_local_56
-			
-			_hx_local_53 = _hx_c.unit_Test.count
-			_hx_local_54 = _hx_local_53
-			_hx_c.unit_Test.count = _hx_local_53 + 1
-			_hx_local_56 = _hx_local_54
-			return _hx_local_54
-		
-		_hx_local_55 = _hx_local_57
-		_hx_local_55()
+		_hx_local_26 = _hx_c.unit_Test
+		_hx_local_27 = _hx_local_26.count
+		_hx_local_26.count = _hx_local_27 + 1
+		_hx_local_27
 		
 		self.eq("TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 257 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_61 = None
-		def _hx_local_62():
-			nonlocal _hx_local_61
-			if _hx_local_61 is not None:
-				return _hx_local_61
-			
-			_hx_local_58 = _hx_c.unit_Test.count
-			_hx_local_59 = _hx_local_58
-			_hx_c.unit_Test.count = _hx_local_58 + 1
-			_hx_local_61 = _hx_local_59
-			return _hx_local_59
-		
-		_hx_local_60 = _hx_local_62
-		_hx_local_60()
+		_hx_local_28 = _hx_c.unit_Test
+		_hx_local_29 = _hx_local_28.count
+		_hx_local_28.count = _hx_local_29 + 1
+		_hx_local_29
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 261 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_66 = None
-		def _hx_local_67():
-			nonlocal _hx_local_66
-			if _hx_local_66 is not None:
-				return _hx_local_66
-			
-			_hx_local_63 = _hx_c.unit_Test.count
-			_hx_local_64 = _hx_local_63
-			_hx_c.unit_Test.count = _hx_local_63 + 1
-			_hx_local_66 = _hx_local_64
-			return _hx_local_64
-		
-		_hx_local_65 = _hx_local_67
-		_hx_local_65()
+		_hx_local_30 = _hx_c.unit_Test
+		_hx_local_31 = _hx_local_30.count
+		_hx_local_30.count = _hx_local_31 + 1
+		_hx_local_31
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 262 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_71 = None
-		def _hx_local_72():
-			nonlocal _hx_local_71
-			if _hx_local_71 is not None:
-				return _hx_local_71
-			
-			_hx_local_68 = _hx_c.unit_Test.count
-			_hx_local_69 = _hx_local_68
-			_hx_c.unit_Test.count = _hx_local_68 + 1
-			_hx_local_71 = _hx_local_69
-			return _hx_local_69
-		
-		_hx_local_70 = _hx_local_72
-		_hx_local_70()
+		_hx_local_32 = _hx_c.unit_Test
+		_hx_local_33 = _hx_local_32.count
+		_hx_local_32.count = _hx_local_33 + 1
+		_hx_local_33
 		
 		self.eq("TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 263 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		_hx_local_76 = None
-		def _hx_local_77():
-			nonlocal _hx_local_76
-			if _hx_local_76 is not None:
-				return _hx_local_76
-			
-			_hx_local_73 = _hx_c.unit_Test.count
-			_hx_local_74 = _hx_local_73
-			_hx_c.unit_Test.count = _hx_local_73 + 1
-			_hx_local_76 = _hx_local_74
-			return _hx_local_74
-		
-		_hx_local_75 = _hx_local_77
-		_hx_local_75()
+		_hx_local_34 = _hx_c.unit_Test
+		_hx_local_35 = _hx_local_34.count
+		_hx_local_34.count = _hx_local_35 + 1
+		_hx_local_35
 		
 		self.eq("TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))", "TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 264 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		
-		def _hx_local_79(f):
-			def _hx_local_78(a4,b4,c4):
+		def _hx_local_37(f):
+			def _hx_local_36(a4,b4,c4):
 				return f(a4, b4, c4)
-			return _hx_local_78
+			return _hx_local_36
 		
-		self.eq(1, (_hx_local_79)(func)(1, "2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 268 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_81(f1,a5):
-			def _hx_local_80(b5,c5):
+		self.eq(1, (_hx_local_37)(func)(1, "2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 268 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_39(f1,a5):
+			def _hx_local_38(b5,c5):
 				return f1(a5, b5, c5)
-			return _hx_local_80
+			return _hx_local_38
 		
-		self.eq(2, (_hx_local_81)(func, 2)("2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 269 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_83(f2,a6,b6):
-			def _hx_local_82(c6):
+		self.eq(2, (_hx_local_39)(func, 2)("2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 269 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_41(f2,a6,b6):
+			def _hx_local_40(c6):
 				return f2(a6, b6, c6)
-			return _hx_local_82
+			return _hx_local_40
 		
-		self.eq(2, (_hx_local_83)(func, 2, "3")(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 270 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_85(f3,a7,b7,c7):
-			def _hx_local_84():
+		self.eq(2, (_hx_local_41)(func, 2, "3")(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 270 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_43(f3,a7,b7,c7):
+			def _hx_local_42():
 				return f3(a7, b7, c7)
-			return _hx_local_84
+			return _hx_local_42
 		
-		self.eq(2, (_hx_local_85)(func, 2, "3", 4)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 271 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_87(f4,b8,c8):
-			def _hx_local_86(a8):
+		self.eq(2, (_hx_local_43)(func, 2, "3", 4)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 271 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_45(f4,b8,c8):
+			def _hx_local_44(a8):
 				return f4(a8, b8, c8)
-			return _hx_local_86
+			return _hx_local_44
 		
-		self.eq(1, (_hx_local_87)(func, "2", 3)(1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 273 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_89(f5,b9):
-			def _hx_local_88(a9,c9):
+		self.eq(1, (_hx_local_45)(func, "2", 3)(1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 273 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_47(f5,b9):
+			def _hx_local_46(a9,c9):
 				return f5(a9, b9, c9)
-			return _hx_local_88
+			return _hx_local_46
 		
-		self.eq(1, (_hx_local_89)(func, "2")(1, 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 274 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_91(f6):
-			def _hx_local_90(a10,b10,c10):
+		self.eq(1, (_hx_local_47)(func, "2")(1, 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 274 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_49(f6):
+			def _hx_local_48(a10,b10,c10):
 				return f6(a10, b10, c10)
-			return _hx_local_90
+			return _hx_local_48
 		
-		self.eq(1, (_hx_local_91)(func)(1, "2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 275 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_93(f7,b11):
-			def _hx_local_92(a11,c11):
+		self.eq(1, (_hx_local_49)(func)(1, "2", 3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 275 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_51(f7,b11):
+			def _hx_local_50(a11,c11):
 				return f7(a11, b11, c11)
-			return _hx_local_92
+			return _hx_local_50
 		
-		self.eq(1, (_hx_local_93)(func, "2")(1, 2), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 277 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_95(f8,b12,c12):
-			def _hx_local_94(a12):
+		self.eq(1, (_hx_local_51)(func, "2")(1, 2), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 277 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_53(f8,b12,c12):
+			def _hx_local_52(a12):
 				return f8(a12, b12, c12)
-			return _hx_local_94
+			return _hx_local_52
 		
-		def _hx_local_97(f9):
-			def _hx_local_96(a13,b13,c13):
+		def _hx_local_55(f9):
+			def _hx_local_54(a13,b13,c13):
 				return f9(a13, b13, c13)
-			return _hx_local_96
+			return _hx_local_54
 		
-		self.eq(1, (_hx_local_95)((_hx_local_97)(func), "2", 3)(1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 279 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_99(f10,b14,c14):
-			def _hx_local_98():
+		self.eq(1, (_hx_local_53)((_hx_local_55)(func), "2", 3)(1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 279 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_57(f10,b14,c14):
+			def _hx_local_56():
 				return f10(b14, c14)
-			return _hx_local_98
+			return _hx_local_56
 		
-		def _hx_local_101(f11,a14):
-			def _hx_local_100(b15,c15):
+		def _hx_local_59(f11,a14):
+			def _hx_local_58(b15,c15):
 				return f11(a14, b15, c15)
-			return _hx_local_100
+			return _hx_local_58
 		
-		self.eq(1, (_hx_local_99)((_hx_local_101)(func, 1), "2", 3)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 280 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_103(f12,b16):
-			def _hx_local_102(c16):
+		self.eq(1, (_hx_local_57)((_hx_local_59)(func, 1), "2", 3)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 280 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_61(f12,b16):
+			def _hx_local_60(c16):
 				return f12(b16, c16)
-			return _hx_local_102
+			return _hx_local_60
 		
-		def _hx_local_105(f13,a15):
-			def _hx_local_104(b17,c17):
+		def _hx_local_63(f13,a15):
+			def _hx_local_62(b17,c17):
 				return f13(a15, b17, c17)
-			return _hx_local_104
+			return _hx_local_62
 		
-		self.eq(1, (_hx_local_103)((_hx_local_105)(func, 1), "2")(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 281 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_107(f14,a16):
-			def _hx_local_106(c18):
+		self.eq(1, (_hx_local_61)((_hx_local_63)(func, 1), "2")(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 281 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_65(f14,a16):
+			def _hx_local_64(c18):
 				return f14(a16, c18)
-			return _hx_local_106
+			return _hx_local_64
 		
-		def _hx_local_109(f15,b18):
-			def _hx_local_108(a17,c19):
+		def _hx_local_67(f15,b18):
+			def _hx_local_66(a17,c19):
 				return f15(a17, b18, c19)
-			return _hx_local_108
+			return _hx_local_66
 		
-		self.eq(1, (_hx_local_107)((_hx_local_109)(func, "2"), 1)(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 282 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		self.eq(1, (_hx_local_65)((_hx_local_67)(func, "2"), 1)(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 282 ,className = "unit.TestType" ,methodName = "testCallback" ))
 		a18 = 5
 		b19 = "foo"
-		def _hx_local_111(f16,a19):
-			def _hx_local_110(b20,c20):
+		def _hx_local_69(f16,a19):
+			def _hx_local_68(b20,c20):
 				return f16(a19, b20, c20)
-			return _hx_local_110
+			return _hx_local_68
 		
-		cb = (_hx_local_111)(func, a18)
+		cb = (_hx_local_69)(func, a18)
 		a18 = 6
-		def _hx_local_112(a20,b21,c21):
+		def _hx_local_70(a20,b21,c21):
 			raise _HxException("error")
-		func = _hx_local_112
+		func = _hx_local_70
 		self.eq(5, cb(b19, 0), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 289 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_113(a21,b22,c22 = 2):
+		def _hx_local_71(a21,b22,c22 = 2):
 			if c22 is None:
 				c22 = 2
 			
 			return a21 + b22 + c22
 		
-		optfunc = _hx_local_113
-		def _hx_local_115(f17,a22):
-			def _hx_local_114(b23):
+		optfunc = _hx_local_71
+		def _hx_local_73(f17,a22):
+			def _hx_local_72(b23):
 				return f17(a22, b23)
-			return _hx_local_114
+			return _hx_local_72
 		
-		self.eq(6, (_hx_local_115)(optfunc, 1)(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 292 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_117(f18,a23,b24):
-			def _hx_local_116():
+		self.eq(6, (_hx_local_73)(optfunc, 1)(3), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 292 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_75(f18,a23,b24):
+			def _hx_local_74():
 				return f18(a23, b24)
-			return _hx_local_116
+			return _hx_local_74
 		
-		self.eq(6, (_hx_local_117)(optfunc, 1, 3)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 293 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_119(f19):
-			def _hx_local_118(a24,b25,c23 = None):
+		self.eq(6, (_hx_local_75)(optfunc, 1, 3)(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 293 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_77(f19):
+			def _hx_local_76(a24,b25,c23 = None):
 				return f19(a24, b25, c23)
-			return _hx_local_118
+			return _hx_local_76
 		
-		self.eq(7, (_hx_local_119)(optfunc)(1, 2, 4), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 295 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_121(f20,b26):
-			def _hx_local_120(a25,c24 = None):
+		self.eq(7, (_hx_local_77)(optfunc)(1, 2, 4), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 295 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_79(f20,b26):
+			def _hx_local_78(a25,c24 = None):
 				return f20(a25, b26, c24)
-			return _hx_local_120
+			return _hx_local_78
 		
-		self.eq(7, (_hx_local_121)(optfunc, 2)(1, 4), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 296 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_122(x,p = None):
+		self.eq(7, (_hx_local_79)(optfunc, 2)(1, 4), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 296 ,className = "unit.TestType" ,methodName = "testCallback" ))
+		def _hx_local_80(x,p = None):
 			if p is None:
 				p = None
 			
 			return "foo" + Std.string(x)
 		
-		foo = _hx_local_122
-		def _hx_local_124(f22,x1):
-			def _hx_local_123():
+		foo = _hx_local_80
+		def _hx_local_82(f22,x1):
+			def _hx_local_81():
 				return f22(x1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 299 ,className = "unit.TestType" ,methodName = "testCallback" ))
-			return _hx_local_123
+			return _hx_local_81
 		
-		f21 = (_hx_local_124)(foo, 0)
+		f21 = (_hx_local_82)(foo, 0)
 		self.eq("foo0", f21(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 300 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_125(bar = 2):
+		def _hx_local_83(bar = 2):
 			if bar is None:
 				bar = 2
 			
 			return bar
 		
-		foo1 = _hx_local_125
-		def _hx_local_127(f23):
-			def _hx_local_126(a110 = None):
+		foo1 = _hx_local_83
+		def _hx_local_85(f23):
+			def _hx_local_84(a110 = None):
 				return f23(a110)
-			return _hx_local_126
+			return _hx_local_84
 		
-		l = (_hx_local_127)(foo1)
+		l = (_hx_local_85)(foo1)
 		self.eq(2, l(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 308 ,className = "unit.TestType" ,methodName = "testCallback" ))
-		def _hx_local_128(bar1 = 2):
+		def _hx_local_86(bar1 = 2):
 			if bar1 is None:
 				bar1 = 2
 			
 			return bar1
 		
-		foo2 = _hx_local_128
-		def _hx_local_130(f24):
-			def _hx_local_129(a111 = None):
+		foo2 = _hx_local_86
+		def _hx_local_88(f24):
+			def _hx_local_87(a111 = None):
 				return f24(a111)
-			return _hx_local_129
+			return _hx_local_87
 		
-		l1 = (_hx_local_130)(foo2)
+		l1 = (_hx_local_88)(foo2)
 		self.eq(2, l1(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 314 ,className = "unit.TestType" ,methodName = "testCallback" ))
 	
 
@@ -25094,37 +22488,17 @@ class unit_TestType(unit_Test):
 		b = "bar"
 		self.f(False, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 322 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		self.f(False, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 323 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
-		_hx_local_4 = None
-		def _hx_local_5():
-			nonlocal _hx_local_4
-			if _hx_local_4 is not None:
-				return _hx_local_4
-			
-			_hx_local_1 = _hx_c.unit_Test.count
-			_hx_local_2 = _hx_local_1
-			_hx_c.unit_Test.count = _hx_local_1 + 1
-			_hx_local_4 = _hx_local_2
-			return _hx_local_2
-		
-		_hx_local_3 = _hx_local_5
-		_hx_local_3()
+		_hx_local_1 = _hx_c.unit_Test
+		_hx_local_2 = _hx_local_1.count
+		_hx_local_1.count = _hx_local_2 + 1
+		_hx_local_2
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 324 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		
-		_hx_local_9 = None
-		def _hx_local_10():
-			nonlocal _hx_local_9
-			if _hx_local_9 is not None:
-				return _hx_local_9
-			
-			_hx_local_6 = _hx_c.unit_Test.count
-			_hx_local_7 = _hx_local_6
-			_hx_c.unit_Test.count = _hx_local_6 + 1
-			_hx_local_9 = _hx_local_7
-			return _hx_local_7
-		
-		_hx_local_8 = _hx_local_10
-		_hx_local_8()
+		_hx_local_3 = _hx_c.unit_Test
+		_hx_local_4 = _hx_local_3.count
+		_hx_local_3.count = _hx_local_4 + 1
+		_hx_local_4
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 325 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		
@@ -25136,20 +22510,10 @@ class unit_TestType(unit_Test):
 		self.t(True, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 331 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		self.t(True, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 332 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		self.t(True, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 333 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
-		_hx_local_14 = None
-		def _hx_local_15():
-			nonlocal _hx_local_14
-			if _hx_local_14 is not None:
-				return _hx_local_14
-			
-			_hx_local_11 = _hx_c.unit_Test.count
-			_hx_local_12 = _hx_local_11
-			_hx_c.unit_Test.count = _hx_local_11 + 1
-			_hx_local_14 = _hx_local_12
-			return _hx_local_12
-		
-		_hx_local_13 = _hx_local_15
-		_hx_local_13()
+		_hx_local_5 = _hx_c.unit_Test
+		_hx_local_6 = _hx_local_5.count
+		_hx_local_5.count = _hx_local_6 + 1
+		_hx_local_6
 		
 		self.eq("TAnonymous(<anonymous>)", "TAnonymous(<anonymous>)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 334 ,className = "unit.TestType" ,methodName = "testConstantAnonCovariance" ))
 		
@@ -25163,59 +22527,29 @@ class unit_TestType(unit_Test):
 		c1 = None
 		c2_1 = None
 		c = _hx_c.unit_Cov2()
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TInst(unit.Child1,[])", "TInst(unit.Child1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 347 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		
 		self.t(_hx_c.Std._hx_is(c.covariant(), _hx_c.unit_Child1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 348 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		self.t(_hx_c.Std._hx_is((c).covariant(), _hx_c.unit_Child1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 349 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		br = c
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 353 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		
 		self.t(_hx_c.Std._hx_is(br.covariant(), _hx_c.unit_Child1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 354 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		ir = c
-		_hx_local_13 = None
-		def _hx_local_14():
-			nonlocal _hx_local_13
-			if _hx_local_13 is not None:
-				return _hx_local_13
-			
-			_hx_local_10 = _hx_c.unit_Test.count
-			_hx_local_11 = _hx_local_10
-			_hx_c.unit_Test.count = _hx_local_10 + 1
-			_hx_local_13 = _hx_local_11
-			return _hx_local_11
-		
-		_hx_local_12 = _hx_local_14
-		_hx_local_12()
+		_hx_local_4 = _hx_c.unit_Test
+		_hx_local_5 = _hx_local_4.count
+		_hx_local_4.count = _hx_local_5 + 1
+		_hx_local_5
 		
 		self.eq("TInst(unit.Base,[])", "TInst(unit.Base,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 358 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		
@@ -25223,20 +22557,10 @@ class unit_TestType(unit_Test):
 		dr = c
 		self.t(_hx_c.Std._hx_is(dr.covariant(), _hx_c.unit_Child1), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 363 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		c3 = _hx_c.unit_Cov3()
-		_hx_local_18 = None
-		def _hx_local_19():
-			nonlocal _hx_local_18
-			if _hx_local_18 is not None:
-				return _hx_local_18
-			
-			_hx_local_15 = _hx_c.unit_Test.count
-			_hx_local_16 = _hx_local_15
-			_hx_c.unit_Test.count = _hx_local_15 + 1
-			_hx_local_18 = _hx_local_16
-			return _hx_local_16
-		
-		_hx_local_17 = _hx_local_19
-		_hx_local_17()
+		_hx_local_6 = _hx_c.unit_Test
+		_hx_local_7 = _hx_local_6.count
+		_hx_local_6.count = _hx_local_7 + 1
+		_hx_local_7
 		
 		self.eq("TInst(unit.Child2_1,[])", "TInst(unit.Child2_1,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 367 ,className = "unit.TestType" ,methodName = "testCovariantReturn" ))
 		
@@ -25251,37 +22575,17 @@ class unit_TestType(unit_Test):
 			None
 		c1 = _hx_local_1
 		c = _hx_c.unit_Ctrv2()
-		_hx_local_5 = None
-		def _hx_local_6():
-			nonlocal _hx_local_5
-			if _hx_local_5 is not None:
-				return _hx_local_5
-			
-			_hx_local_2 = _hx_c.unit_Test.count
-			_hx_local_3 = _hx_local_2
-			_hx_c.unit_Test.count = _hx_local_2 + 1
-			_hx_local_5 = _hx_local_3
-			return _hx_local_3
-		
-		_hx_local_4 = _hx_local_6
-		_hx_local_4()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))", "TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 377 ,className = "unit.TestType" ,methodName = "testContravariantArgs" ))
 		
-		_hx_local_10 = None
-		def _hx_local_11():
-			nonlocal _hx_local_10
-			if _hx_local_10 is not None:
-				return _hx_local_10
-			
-			_hx_local_7 = _hx_c.unit_Test.count
-			_hx_local_8 = _hx_local_7
-			_hx_c.unit_Test.count = _hx_local_7 + 1
-			_hx_local_10 = _hx_local_8
-			return _hx_local_8
-		
-		_hx_local_9 = _hx_local_11
-		_hx_local_9()
+		_hx_local_4 = _hx_c.unit_Test
+		_hx_local_5 = _hx_local_4.count
+		_hx_local_4.count = _hx_local_5 + 1
+		_hx_local_5
 		
 		self.eq("TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))", "TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 378 ,className = "unit.TestType" ,methodName = "testContravariantArgs" ))
 		
@@ -25344,54 +22648,24 @@ class unit_TestType(unit_Test):
 			return ""
 		
 		foo = _hx_local_0
-		_hx_local_4 = None
-		def _hx_local_5():
-			nonlocal _hx_local_4
-			if _hx_local_4 is not None:
-				return _hx_local_4
-			
-			_hx_local_1 = _hx_c.unit_Test.count
-			_hx_local_2 = _hx_local_1
-			_hx_c.unit_Test.count = _hx_local_1 + 1
-			_hx_local_4 = _hx_local_2
-			return _hx_local_2
-		
-		_hx_local_3 = _hx_local_5
-		_hx_local_3()
+		_hx_local_1 = _hx_c.unit_Test
+		_hx_local_2 = _hx_local_1.count
+		_hx_local_1.count = _hx_local_2 + 1
+		_hx_local_2
 		
 		self.eq("TInst(String,[])", "TInst(String,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 435 ,className = "unit.TestType" ,methodName = "testOptionalParamsSkip" ))
 		
-		_hx_local_9 = None
-		def _hx_local_10():
-			nonlocal _hx_local_9
-			if _hx_local_9 is not None:
-				return _hx_local_9
-			
-			_hx_local_6 = _hx_c.unit_Test.count
-			_hx_local_7 = _hx_local_6
-			_hx_c.unit_Test.count = _hx_local_6 + 1
-			_hx_local_9 = _hx_local_7
-			return _hx_local_7
-		
-		_hx_local_8 = _hx_local_10
-		_hx_local_8()
+		_hx_local_3 = _hx_c.unit_Test
+		_hx_local_4 = _hx_local_3.count
+		_hx_local_3.count = _hx_local_4 + 1
+		_hx_local_4
 		
 		self.eq("TInst(String,[])", "TInst(String,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 436 ,className = "unit.TestType" ,methodName = "testOptionalParamsSkip" ))
 		
-		_hx_local_14 = None
-		def _hx_local_15():
-			nonlocal _hx_local_14
-			if _hx_local_14 is not None:
-				return _hx_local_14
-			
-			_hx_local_11 = _hx_c.unit_Test.count
-			_hx_local_12 = _hx_local_11
-			_hx_c.unit_Test.count = _hx_local_11 + 1
-			_hx_local_14 = _hx_local_12
-			return _hx_local_12
-		
-		_hx_local_13 = _hx_local_15
-		_hx_local_13()
+		_hx_local_5 = _hx_c.unit_Test
+		_hx_local_6 = _hx_local_5.count
+		_hx_local_5.count = _hx_local_6 + 1
+		_hx_local_6
 		
 		self.eq("TInst(String,[])", "TInst(String,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 437 ,className = "unit.TestType" ,methodName = "testOptionalParamsSkip" ))
 		
@@ -25439,37 +22713,17 @@ class unit_TestType(unit_Test):
 	
 
 	def testInline(self):
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TAbstract(Void,[])", "TAbstract(Void,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 516 ,className = "unit.TestType" ,methodName = "testInline" ))
 		
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TAbstract(Void,[])", "TAbstract(Void,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 517 ,className = "unit.TestType" ,methodName = "testInline" ))
 		
@@ -25483,30 +22737,30 @@ class unit_TestType(unit_Test):
 
 	def testMacroRest(self):
 		r = [1, 2, 3]
-		self.eq(__builtin__.len(r), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 531 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 531 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 532 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r,1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 533 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r,2), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 534 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		r1 = [1, [2, 3]]
-		self.eq(__builtin__.len(r1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 537 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 537 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r1,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 538 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(_hx_array_get(r1,1),0), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 539 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(_hx_array_get(r1,1),1), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 540 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		r2 = [1]
-		self.eq(__builtin__.len(r2), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 543 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r2), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 543 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r2,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 544 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		r3 = [1, 2, 3, 4]
-		self.eq(__builtin__.len(r3), 4, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 547 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r3), 4, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 547 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r3,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 548 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r3,1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 549 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r3,2), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 550 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r3,3), 4, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 551 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		r4 = [1, 2]
-		self.eq(__builtin__.len(r4), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 554 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r4), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 554 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r4,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 555 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r4,1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 556 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		r5 = [1, 2, [3]]
-		self.eq(__builtin__.len(r5), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 559 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
+		self.eq(_hx_builtin.len(r5), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 559 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r5,0), 1, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 560 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(r5,1), 2, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 561 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
 		self.eq(_hx_array_get(_hx_array_get(r5,2),0), 3, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 562 ,className = "unit.TestType" ,methodName = "testMacroRest" ))
@@ -25625,20 +22879,10 @@ class unit_TestType(unit_Test):
 		_g.set(3, 4)
 		map = _g
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])", "TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 708 ,className = "unit.TestType" ,methodName = "testOpArrow" ))
 		
@@ -25652,20 +22896,10 @@ class unit_TestType(unit_Test):
 		_g1.set("3", 4)
 		map1 = _g1
 		
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])", "TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 715 ,className = "unit.TestType" ,methodName = "testOpArrow" ))
 		
@@ -25681,20 +22915,10 @@ class unit_TestType(unit_Test):
 		_g2.set(b, 4)
 		map2 = _g2
 		
-		_hx_local_13 = None
-		def _hx_local_14():
-			nonlocal _hx_local_13
-			if _hx_local_13 is not None:
-				return _hx_local_13
-			
-			_hx_local_10 = _hx_c.unit_Test.count
-			_hx_local_11 = _hx_local_10
-			_hx_c.unit_Test.count = _hx_local_10 + 1
-			_hx_local_13 = _hx_local_11
-			return _hx_local_11
-		
-		_hx_local_12 = _hx_local_14
-		_hx_local_12()
+		_hx_local_4 = _hx_c.unit_Test
+		_hx_local_5 = _hx_local_4.count
+		_hx_local_4.count = _hx_local_5 + 1
+		_hx_local_5
 		
 		self.eq("TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])", "TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 724 ,className = "unit.TestType" ,methodName = "testOpArrow" ))
 		
@@ -25733,40 +22957,20 @@ class unit_TestType(unit_Test):
 		ms2 = "bar"
 		msum = Std.string(_hx_c.Std.string(ms1)) + Std.string(_hx_c.Std.string(ms2))
 		self.eq(msum, "foobar", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 786 ,className = "unit.TestType" ,methodName = "testAbstractOverload" ))
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TAbstract(unit.MyString,[])", "TAbstract(unit.MyString,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 787 ,className = "unit.TestType" ,methodName = "testAbstractOverload" ))
 		
 		self.t(_hx_c.Std._hx_is(msum, _hx_c.String), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 788 ,className = "unit.TestType" ,methodName = "testAbstractOverload" ))
 		msum2 = Std.string(_hx_c.Std.string(ms1)) + Std.string(1)
 		self.eq(msum2, "foo1", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 791 ,className = "unit.TestType" ,methodName = "testAbstractOverload" ))
-		_hx_local_8 = None
-		def _hx_local_9():
-			nonlocal _hx_local_8
-			if _hx_local_8 is not None:
-				return _hx_local_8
-			
-			_hx_local_5 = _hx_c.unit_Test.count
-			_hx_local_6 = _hx_local_5
-			_hx_c.unit_Test.count = _hx_local_5 + 1
-			_hx_local_8 = _hx_local_6
-			return _hx_local_6
-		
-		_hx_local_7 = _hx_local_9
-		_hx_local_7()
+		_hx_local_2 = _hx_c.unit_Test
+		_hx_local_3 = _hx_local_2.count
+		_hx_local_2.count = _hx_local_3 + 1
+		_hx_local_3
 		
 		self.eq("TAbstract(unit.MyString,[])", "TAbstract(unit.MyString,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 792 ,className = "unit.TestType" ,methodName = "testAbstractOverload" ))
 		
@@ -25783,20 +22987,10 @@ class unit_TestType(unit_Test):
 		self.eq(Std.string(Std.string(Std.string(Std.string(Std.string("(" + Std.string(vec2.x)) + ",") + Std.string(vec2.y)) + ",") + Std.string(vec2.z)) + ")", "(-1,-2,-3)", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 806 ,className = "unit.TestType" ,methodName = "testAbstractUnop" ))
 		my = 12
 		self.eq(_hx_c.unit_MyAbstract_MyInt2_Impl_.get(-my), -12, _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 809 ,className = "unit.TestType" ,methodName = "testAbstractUnop" ))
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _hx_c.unit_Test.count
-			_hx_local_1 = _hx_local_0
-			_hx_c.unit_Test.count = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
+		_hx_local_0 = _hx_c.unit_Test
+		_hx_local_1 = _hx_local_0.count
+		_hx_local_0.count = _hx_local_1 + 1
+		_hx_local_1
 		
 		self.eq("TAbstract(unit.MyInt2,[])", "TAbstract(unit.MyInt2,[])", _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 810 ,className = "unit.TestType" ,methodName = "testAbstractUnop" ))
 		
@@ -25836,7 +23030,7 @@ class unit_TestType(unit_Test):
 			field = "_hx_" + "foo"
 		else:
 			field = "foo"
-		__builtin__.setattr(mr, field, 11)
+		_hx_builtin.setattr(mr, field, 11)
 		
 		11
 		
@@ -25847,7 +23041,7 @@ class unit_TestType(unit_Test):
 			field1 = "_hx_" + "foo"
 		else:
 			field1 = "foo"
-		__builtin__.setattr(mr, field1, value)
+		_hx_builtin.setattr(mr, field1, value)
 		
 		value
 		
@@ -25859,7 +23053,7 @@ class unit_TestType(unit_Test):
 			field2 = "_hx_" + "bar"
 		else:
 			field2 = "bar"
-		__builtin__.setattr(mr, field2, value2)
+		_hx_builtin.setattr(mr, field2, value2)
 		
 		value1 = value2
 		
@@ -25868,7 +23062,7 @@ class unit_TestType(unit_Test):
 			field3 = "_hx_" + "baz"
 		else:
 			field3 = "baz"
-		__builtin__.setattr(mr, field3, value1)
+		_hx_builtin.setattr(mr, field3, value1)
 		
 		value1
 		
@@ -25880,23 +23074,23 @@ class unit_TestType(unit_Test):
 			field4 = "_hx_" + Std.string(v)
 		else:
 			field4 = v
-		__builtin__.setattr(mr, field4, 1)
+		_hx_builtin.setattr(mr, field4, 1)
 		
 		1
 		
-		def _hx_local_0():
+		def _hx_local_1():
 			nonlocal v
 			v = Std.string(v) + "h"
 			return v
 			
 		
-		key = _hx_local_0()
+		key = _hx_local_1()
 		field5 = None
 		if _hx_c.python_internal_KeywordHandler.keywords.exists(key):
 			field5 = "_hx_" + Std.string(key)
 		else:
 			field5 = key
-		__builtin__.setattr(mr, field5, 2)
+		_hx_builtin.setattr(mr, field5, 2)
 		
 		2
 		
@@ -25907,24 +23101,24 @@ class unit_TestType(unit_Test):
 			field6 = "_hx_" + "hhhh"
 		else:
 			field6 = "hhhh"
-		__builtin__.setattr(mr, field6, 0)
+		_hx_builtin.setattr(mr, field6, 0)
 		
 		0
 		
-		def _hx_local_2():
+		def _hx_local_3():
 			nonlocal v
 			v = Std.string(v) + "h"
 			return v
 			
 		
-		_g = _hx_local_2()
+		_g = _hx_local_3()
 		value3 = python_Boot._add_dynamic(_hx_c.Reflect.field(mr, _g),4)
 		field7 = None
 		if _hx_c.python_internal_KeywordHandler.keywords.exists(_g):
 			field7 = "_hx_" + Std.string(_g)
 		else:
 			field7 = _g
-		__builtin__.setattr(mr, field7, value3)
+		_hx_builtin.setattr(mr, field7, value3)
 		
 		value3
 		
@@ -25943,7 +23137,7 @@ class unit_TestType(unit_Test):
 			field8 = "_hx_" + "101"
 		else:
 			field8 = "101"
-		__builtin__.setattr(mr, field8, value4)
+		_hx_builtin.setattr(mr, field8, value4)
 		
 		value4
 		
@@ -25967,9 +23161,9 @@ class unit_TestType(unit_Test):
 	def testExposingAbstract(self):
 		ea = []
 		ea.append(12)
-		__builtin__.len(ea)
+		_hx_builtin.len(ea)
 		
-		self.eq(12, None if (__builtin__.len(ea) == 0) else ea.pop(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 878 ,className = "unit.TestType" ,methodName = "testExposingAbstract" ))
+		self.eq(12, None if (_hx_builtin.len(ea) == 0) else ea.pop(), _hx_c._hx_AnonObject(fileName = "TestType.hx" ,lineNumber = 878 ,className = "unit.TestType" ,methodName = "testExposingAbstract" ))
 	
 
 
@@ -26034,13 +23228,13 @@ class unit_TestXML(unit_Test):
 		self.eq(x.exists("other"), False, _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 35 ,className = "unit.TestXML" ,methodName = "testBasic" ))
 		def _hx_local_0():
 			_this = _hx_c.Lambda.array(_hx_c._hx_AnonObject(iterator = x.attributes ))
-			return "#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			return "#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
 		self.eq(_hx_local_0(), "href", _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 36 ,className = "unit.TestXML" ,methodName = "testBasic" ))
 		x.remove("href")
 		def _hx_local_1():
 			_this1 = _hx_c.Lambda.array(_hx_c._hx_AnonObject(iterator = x.attributes ))
-			return "#".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this1)))
+			return "#".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this1)))
 		
 		self.eq(_hx_local_1(), "", _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 38 ,className = "unit.TestXML" ,methodName = "testBasic" ))
 		self.eq(x.toString(), "<b>World<b/></b>", _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 39 ,className = "unit.TestXML" ,methodName = "testBasic" ))
@@ -26068,7 +23262,7 @@ class unit_TestXML(unit_Test):
 	def testWhitespaces(self):
 		x = _hx_c.Xml.parse("<a> </a><b></b> \n <c/>")
 		childs = _hx_c.Lambda.array(x)
-		self.eq(__builtin__.len(childs), 4, _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 96 ,className = "unit.TestXML" ,methodName = "testWhitespaces" ))
+		self.eq(_hx_builtin.len(childs), 4, _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 96 ,className = "unit.TestXML" ,methodName = "testWhitespaces" ))
 		d = _hx_array_get(childs,2)
 		self.eq(d.nodeType, _hx_c.Xml.PCData, _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 99 ,className = "unit.TestXML" ,methodName = "testWhitespaces" ))
 		self.eq(d.get_nodeValue(), " \n ", _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 100 ,className = "unit.TestXML" ,methodName = "testWhitespaces" ))
@@ -26082,7 +23276,7 @@ class unit_TestXML(unit_Test):
 			_this1 = x.toString()
 			_this = _hx_c.python_internal_StringImpl.split(_this1, "\n")
 			
-			return "\\n".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+			return "\\n".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 		
 		self.eq(_hx_local_0(), "<a> </a><b></b> \\n <c/>", _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 111 ,className = "unit.TestXML" ,methodName = "testWhitespaces" ))
 		c = el.next()
@@ -26210,30 +23404,18 @@ class unit_TestXML(unit_Test):
 
 	def testEntities(self):
 		entities = ["&lt;", "&gt;", "&quot;", "&amp;", "&apos;", "&nbsp;", "&euro;", "&#64;", "&#244;", "&#x3F;", "&#xFF;"]
-		values = __builtin__.list(entities)
+		values = _hx_builtin.list(entities)
 		def _hx_local_0():
 			c = 160
-			return "".join(map(chr, [c]))
+			return "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
 		values = ["<", ">", "\"", "&", "'", _hx_local_0(), "&euro;", "@", "ô", "?", "ÿ"]
 		_g1 = 0
-		_g = __builtin__.len(entities)
+		_g = _hx_builtin.len(entities)
 		while _g1 < _g:
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _g1
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _g1
-				_hx_local_2 = _hx_local_1
-				_g1 = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_3()
 			self.infos(_hx_array_get(entities,i))
 			self.eq(_hx_c.Xml.parse(_hx_array_get(entities,i)).firstChild().get_nodeValue(), _hx_array_get(values,i), _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 217 ,className = "unit.TestXML" ,methodName = "testEntities" ))
 		
@@ -26244,31 +23426,19 @@ class unit_TestXML(unit_Test):
 		entities = ["&lt;", "&gt;", "&quot;", "&amp;", "&apos;", "&euro;", "&#64;", "&#244;", "&#x3F;", "&#xFF;"]
 		def _hx_local_0():
 			c = 244
-			return "".join(map(chr, [c]))
+			return "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
 		def _hx_local_1():
 			c1 = 255
-			return "".join(map(chr, [c1]))
+			return "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 		
 		values = ["<", ">", "\"", "&", "'", "&euro;", "@", _hx_local_0(), "?", _hx_local_1()]
 		_g1 = 0
-		_g = __builtin__.len(entities)
+		_g = _hx_builtin.len(entities)
 		while _g1 < _g:
-			_hx_local_5 = None
-			def _hx_local_4():
-				nonlocal _g1
-				nonlocal _hx_local_5
-				if _hx_local_5 is not None:
-					return _hx_local_5
-				
-				_hx_local_2 = _g1
-				_hx_local_3 = _hx_local_2
-				_g1 = _hx_local_2 + 1
-				_hx_local_5 = _hx_local_3
-				return _hx_local_3
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_4()
 			self.infos(_hx_array_get(entities,i))
 			self.eq(_hx_c.haxe_xml_Parser.parse(_hx_array_get(entities,i)).firstChild().get_nodeValue(), _hx_array_get(values,i), _hx_c._hx_AnonObject(fileName = "TestXML.hx" ,lineNumber = 227 ,className = "unit.TestXML" ,methodName = "testCustomXmlParser" ))
 		
@@ -26310,7 +23480,7 @@ def Boot_statics_isClass(o):
 	return o is not None and (o == _hx_c.String or _hx_c.python_lib_Inspect.isclass(o))
 python_Boot.isClass = Boot_statics_isClass
 def Boot_statics_isAnonObject(o):
-	return __builtin__.isinstance(o, _hx_c._hx_AnonObject)
+	return _hx_builtin.isinstance(o, _hx_c._hx_AnonObject)
 python_Boot.isAnonObject = Boot_statics_isAnonObject
 def Boot_statics__add_dynamic(a,b):
 	if _hx_c.python_Boot.builtin.isinstance(a, str) or _hx_c.python_Boot.builtin.isinstance(b, str):
@@ -26326,7 +23496,7 @@ def Boot_statics___string_rec(o,s):
 	if o is None:
 		return "null"
 	
-	if __builtin__.len(s) >= 5:
+	if _hx_builtin.len(s) >= 5:
 		return "<...>"
 	
 	if _hx_c.python_Boot.builtin.isinstance(o, str):
@@ -26343,7 +23513,7 @@ def Boot_statics___string_rec(o,s):
 	
 	if _hx_c.python_Boot.builtin.isinstance(o, float):
 		try:
-			if o == __builtin__.int(o):
+			if o == _hx_builtin.int(o):
 				def _hx_local_1():
 					def _hx_local_0():
 						v = o
@@ -26368,26 +23538,14 @@ def Boot_statics___string_rec(o,s):
 	
 	if _hx_c.python_Boot.builtin.isinstance(o, list):
 		o1 = o
-		l = __builtin__.len(o1)
+		l = _hx_builtin.len(o1)
 		st = "["
 		s = Std.string(s) + "\t"
 		_g = 0
 		while _g < l:
-			_hx_local_6 = None
-			def _hx_local_5():
-				nonlocal _g
-				nonlocal _hx_local_6
-				if _hx_local_6 is not None:
-					return _hx_local_6
-				
-				_hx_local_3 = _g
-				_hx_local_4 = _hx_local_3
-				_g = _hx_local_3 + 1
-				_hx_local_6 = _hx_local_4
-				return _hx_local_4
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_5()
 			prefix = ""
 			if i > 0:
 				prefix = ","
@@ -26423,13 +23581,13 @@ def Boot_statics___string_rec(o,s):
 					_g11 = _g11 + 1
 					x = Std.string(Std.string("" + Std.string(f)) + " : ") + Std.string(_hx_c.python_Boot.__string_rec(_hx_c.Reflect.field(o, f), Std.string(s) + "\t"))
 					_g1.append(x)
-					__builtin__.len(_g1)
+					_hx_builtin.len(_g1)
 					
 				
 				
 				fieldsStr = _g1
 				
-				toStr = Std.string("{ " + Std.string(", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fieldsStr))))) + " }"
+				toStr = Std.string("{ " + Std.string(", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fieldsStr))))) + " }"
 			
 			except Exception as _hx_e:
 				_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
@@ -26451,21 +23609,9 @@ def Boot_statics___string_rec(o,s):
 				paramsStr = ""
 				_g2 = 0
 				while _g2 < l1:
-					_hx_local_10 = None
-					def _hx_local_9():
-						nonlocal _g2
-						nonlocal _hx_local_10
-						if _hx_local_10 is not None:
-							return _hx_local_10
-						
-						_hx_local_7 = _g2
-						_hx_local_8 = _hx_local_7
-						_g2 = _hx_local_7 + 1
-						_hx_local_10 = _hx_local_8
-						return _hx_local_8
-						
+					i1 = _g2
+					_g2 = _g2 + 1
 					
-					i1 = _hx_local_9()
 					prefix1 = ""
 					if i1 > 0:
 						prefix1 = ","
@@ -26489,13 +23635,13 @@ def Boot_statics___string_rec(o,s):
 				_g12 = _g12 + 1
 				x1 = Std.string(Std.string("" + Std.string(f1)) + " : ") + Std.string(_hx_c.python_Boot.__string_rec(_hx_c.Reflect.field(o, f1), Std.string(s) + "\t"))
 				_g3.append(x1)
-				__builtin__.len(_g3)
+				_hx_builtin.len(_g3)
 				
 			
 			
 			fieldsStr1 = _g3
 			
-			toStr1 = Std.string(Std.string(Std.string(_hx_c.Std.string(o._hx_class_name)) + "( ") + Std.string(", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fieldsStr1))))) + " )"
+			toStr1 = Std.string(Std.string(Std.string(_hx_c.Std.string(o._hx_class_name)) + "( ") + Std.string(", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fieldsStr1))))) + " )"
 			return toStr1
 		
 		
@@ -26509,13 +23655,13 @@ def Boot_statics___string_rec(o,s):
 				_g13 = _g13 + 1
 				x2 = Std.string(Std.string("" + Std.string(f2)) + " : ") + Std.string(_hx_c.python_Boot.__string_rec(_hx_c.Reflect.field(o, f2), Std.string(s) + "\t"))
 				_g4.append(x2)
-				__builtin__.len(_g4)
+				_hx_builtin.len(_g4)
 				
 			
 			
 			fieldsStr2 = _g4
 			
-			toStr2 = Std.string(Std.string(Std.string("#" + Std.string(_hx_c.Std.string(o._hx_class_name))) + "( ") + Std.string(", ".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, fieldsStr2))))) + " )"
+			toStr2 = Std.string(Std.string(Std.string("#" + Std.string(_hx_c.Std.string(o._hx_class_name))) + "( ") + Std.string(", ".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, fieldsStr2))))) + " )"
 			return toStr2
 		
 		
@@ -26549,9 +23695,9 @@ def Boot_statics___string_rec(o,s):
 	
 	else:
 		try:
-			def _hx_local_11(_):
+			def _hx_local_6(_):
 				return True
-			_hx_c.python_Boot.inspect.getmembers(o, _hx_local_11)
+			_hx_c.python_Boot.inspect.getmembers(o, _hx_local_6)
 			return _hx_c.python_Boot.builtin.str(o)
 	
 		except Exception as _hx_e:
@@ -26568,11 +23714,168 @@ import inspect as inspect
 _hx_c.inspect = inspect
 
 _hx_c.python_Boot.inspect = inspect
-import builtins as builtin
-_hx_c.builtin = builtin
-
-_hx_c.python_Boot.builtin = builtin
+_hx_c.python_Boot.builtin = _hx_builtin
 	
+def ArrayImpl_statics_get_length(x):
+	return _hx_builtin.len(x)
+python_internal_ArrayImpl.get_length = ArrayImpl_statics_get_length
+def ArrayImpl_statics_concat(a1,a2):
+	return a1 + a2
+python_internal_ArrayImpl.concat = ArrayImpl_statics_concat
+def ArrayImpl_statics_copy(x):
+	return _hx_builtin.list(x)
+python_internal_ArrayImpl.copy = ArrayImpl_statics_copy
+def ArrayImpl_statics_iterator(x):
+	it = x.__iter__()
+	return _hx_c.python_HaxeIterator(it)
+	
+python_internal_ArrayImpl.iterator = ArrayImpl_statics_iterator
+def ArrayImpl_statics_indexOf(a,x,fromIndex = None):
+	if fromIndex is None:
+		fromIndex = None
+	
+	l = None
+	if fromIndex is None:
+		l = 0
+	elif fromIndex < 0:
+		l = _hx_builtin.len(a) + fromIndex
+	else:
+		l = fromIndex
+	if l < 0:
+		l = 0
+	
+	_g1 = l
+	_g = _hx_builtin.len(a)
+	while _g1 < _g:
+		i = _g1
+		_g1 = _g1 + 1
+		
+		if _hx_array_get(a,i) == x:
+			return i
+		
+	
+	
+	return -1
+	
+python_internal_ArrayImpl.indexOf = ArrayImpl_statics_indexOf
+def ArrayImpl_statics_lastIndexOf(a,x,fromIndex = None):
+	if fromIndex is None:
+		fromIndex = None
+	
+	l = None
+	if fromIndex is None:
+		l = _hx_builtin.len(a)
+	elif fromIndex < 0:
+		l = _hx_builtin.len(a) + fromIndex + 1
+	else:
+		l = fromIndex + 1
+	if l > _hx_builtin.len(a):
+		l = _hx_builtin.len(a)
+	
+	def _hx_local_0():
+		nonlocal l
+		l = l - 1
+		return l
+		
+	
+	while _hx_local_0() > -1:
+		if _hx_array_get(a,l) == x:
+			return l
+		
+	return -1
+	
+python_internal_ArrayImpl.lastIndexOf = ArrayImpl_statics_lastIndexOf
+def ArrayImpl_statics_join(x,sep):
+	return sep.join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, x)))
+python_internal_ArrayImpl.join = ArrayImpl_statics_join
+def ArrayImpl_statics_toString(x):
+	return Std.string("[" + Std.string(",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, x))))) + "]"
+python_internal_ArrayImpl.toString = ArrayImpl_statics_toString
+def ArrayImpl_statics_pop(x):
+	if _hx_builtin.len(x) == 0:
+		return None
+	else:
+		return x.pop()
+python_internal_ArrayImpl.pop = ArrayImpl_statics_pop
+def ArrayImpl_statics_push(x,e):
+	x.append(e)
+	return _hx_builtin.len(x)
+	
+python_internal_ArrayImpl.push = ArrayImpl_statics_push
+def ArrayImpl_statics_unshift(x,e):
+	return x.insert(0, e)
+python_internal_ArrayImpl.unshift = ArrayImpl_statics_unshift
+def ArrayImpl_statics_remove(x,e):
+	try:
+		x.remove(e)
+		return True
+	
+	except Exception as _hx_e:
+		_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
+		if True:
+			e1 = _hx_e1
+			return False
+		else:
+			raise _hx_e
+python_internal_ArrayImpl.remove = ArrayImpl_statics_remove
+def ArrayImpl_statics_shift(x):
+	if _hx_builtin.len(x) == 0:
+		return None
+	
+	return x.pop(0)
+	
+python_internal_ArrayImpl.shift = ArrayImpl_statics_shift
+def ArrayImpl_statics_slice(x,pos,end = None):
+	if end is None:
+		end = None
+	
+	return x[pos:end]
+	
+python_internal_ArrayImpl.slice = ArrayImpl_statics_slice
+def ArrayImpl_statics_sort(x,f):
+	return x.sort(key=_hx_functools.cmp_to_key(f))
+python_internal_ArrayImpl.sort = ArrayImpl_statics_sort
+def ArrayImpl_statics_splice(x,pos,len):
+	if pos < 0:
+		pos = _hx_builtin.len(x) + pos
+	
+	if pos < 0:
+		pos = 0
+	
+	res = x[pos:pos + len]
+	del x[pos:pos + len]
+	return res
+	
+python_internal_ArrayImpl.splice = ArrayImpl_statics_splice
+def ArrayImpl_statics_map(x,f):
+	return _hx_builtin.list(_hx_builtin.map(f, x))
+python_internal_ArrayImpl.map = ArrayImpl_statics_map
+def ArrayImpl_statics_filter(x,f):
+	return _hx_builtin.list(_hx_builtin.filter(f, x))
+python_internal_ArrayImpl.filter = ArrayImpl_statics_filter
+def ArrayImpl_statics___get(x,idx):
+	_hx_a = x
+	if idx >= _hx_builtin.len(_hx_a) or idx < 0:
+		return None
+	else:
+		return _hx_array_get(x,idx)
+	
+python_internal_ArrayImpl.__get = ArrayImpl_statics___get
+def ArrayImpl_statics___set(x,idx,v):
+	_hx_a = x
+	_hx_array_set(_hx_a,idx, v)
+	return v
+	
+python_internal_ArrayImpl.__set = ArrayImpl_statics___set
+def ArrayImpl_statics___unsafe_get(x,idx):
+	return _hx_array_get(x,idx)
+python_internal_ArrayImpl.__unsafe_get = ArrayImpl_statics___unsafe_get
+def ArrayImpl_statics___unsafe_set(x,idx,val):
+	_hx_array_set(x,idx, val)
+	return val
+	
+python_internal_ArrayImpl.__unsafe_set = ArrayImpl_statics___unsafe_set
+
 def Date_statics_now():
 	d = _hx_c.Date(1970, 0, 1, 0, 0, 0)
 	d.date = _hx_c.python_lib_datetime_DateTime.now()
@@ -26589,7 +23892,7 @@ def Date_statics_UTC(year,month,day,hour,min,sec):
 	return _hx_c.python_lib_datetime_DateTime(year, month + 1, day, hour, min, sec, 0, _hx_c.python_lib_datetime_Timezone.utc).timestamp() * 1000.0
 Date.UTC = Date_statics_UTC
 def Date_statics_fromString(s):
-	_g = __builtin__.len(s)
+	_g = _hx_builtin.len(s)
 	if (_g) == 8:
 		k = _hx_c.python_internal_StringImpl.split(s, ":")
 		d = _hx_c.Date(0, 0, 0, _hx_c.Std.parseInt(_hx_array_get(k,0)), _hx_c.Std.parseInt(_hx_array_get(k,1)), _hx_c.Std.parseInt(_hx_array_get(k,2)))
@@ -26660,30 +23963,30 @@ def DateTools_statics___format_get(d,e):
 	elif (e) == "R":
 		return _hx_c.DateTools.__format(d, "%H:%M")
 	elif (e) == "s":
-		def _hx_local_9():
-			def _hx_local_4():
+		def _hx_local_7():
+			def _hx_local_3():
 				x = d.date.timestamp() * 1000.0 / 1000
-				def _hx_local_7():
-					def _hx_local_6():
-						_hx_local_5 = None
+				def _hx_local_6():
+					def _hx_local_5():
+						_hx_local_4 = None
 						try:
-							_hx_local_5 = int(x)
+							_hx_local_4 = int(x)
 						except Exception as _hx_e:
 							_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 							if True:
 								e2 = _hx_e1
-								_hx_local_5 = None
+								_hx_local_4 = None
 							else:
 								raise _hx_e
-						return _hx_local_5
+						return _hx_local_4
 					
-					return _hx_local_6()
+					return _hx_local_5()
 				
-				return _hx_local_7()
+				return _hx_local_6()
 			
-			return _hx_c.Std.string(_hx_local_4())
+			return _hx_c.Std.string(_hx_local_3())
 		
-		return _hx_local_9()
+		return _hx_local_7()
 	
 	elif (e) == "S":
 		return _hx_c.StringTools.lpad(_hx_c.Std.string(d.date.second), "0", 2)
@@ -26708,7 +24011,7 @@ def DateTools_statics___format_get(d,e):
 		raise _HxException(Std.string("Date.format %" + Std.string(e)) + "- not implemented yet.")
 DateTools.__format_get = DateTools_statics___format_get
 def DateTools_statics___format(d,f):
-	r = _hx_StringIO()
+	r = _hx_c.StringBuf()
 	p = 0
 	while True:
 		np = None
@@ -26725,26 +24028,26 @@ def DateTools_statics___format(d,f):
 			s = _hx_c.python_Tools.substr(f, p, None)
 		else:
 			s = _hx_c.python_Tools.substr(f, p, len)
-		r.write(s)
+		r.b.write(s)
 		
 		
 		x = _hx_c.DateTools.__format_get(d, _hx_c.python_Tools.substr(f, np + 1, 1))
 		s1 = _hx_c.Std.string(x)
-		r.write(s1)
+		r.b.write(s1)
 		
 		
 		p = np + 2
 	
-	len1 = __builtin__.len(f) - p
+	len1 = _hx_builtin.len(f) - p
 	s2 = None
 	if len1 is None:
 		s2 = _hx_c.python_Tools.substr(f, p, None)
 	else:
 		s2 = _hx_c.python_Tools.substr(f, p, len1)
-	r.write(s2)
+	r.b.write(s2)
 	
 	
-	return r.getvalue()
+	return r.b.getvalue()
 	
 DateTools.__format = DateTools_statics___format
 def DateTools_statics_format(d,f):
@@ -26856,7 +24159,7 @@ def Lambda_statics_array(it):
 	while _it.hasNext():
 		i = _it.next()
 		a.append(i)
-		__builtin__.len(a)
+		_hx_builtin.len(a)
 	
 	return a
 	
@@ -26885,21 +24188,14 @@ def Lambda_statics_mapi(it,f):
 	_it = _hx_functools.partial(HxOverrides_iterator, it)()
 	while _it.hasNext():
 		x = _it.next()
-		_hx_local_3 = None
-		def _hx_local_2():
+		def _hx_local_1():
 			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			i = i + 1
+			return _hx_local_0
 			
 		
-		l.add(f(_hx_local_2(), x))
+		l.add(f(_hx_local_1(), x))
 	
 	return l
 	
@@ -26968,49 +24264,13 @@ def Lambda_statics_count(it,pred = None):
 		_it = _hx_functools.partial(HxOverrides_iterator, it)()
 		while _it.hasNext():
 			_ = _it.next()
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal n
-				nonlocal n
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = n
-				_hx_local_1 = _hx_local_0
-				n = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-	
+			n = n + 1
 	else:
 		_it = _hx_functools.partial(HxOverrides_iterator, it)()
 		while _it.hasNext():
 			x = _it.next()
 			if pred(x):
-				_hx_local_8 = None
-				def _hx_local_9():
-					nonlocal n
-					nonlocal n
-					nonlocal _hx_local_8
-					if _hx_local_8 is not None:
-						return _hx_local_8
-					
-					_hx_local_5 = n
-					_hx_local_6 = _hx_local_5
-					n = _hx_local_5 + 1
-					_hx_local_8 = _hx_local_6
-					return _hx_local_6
-					
-					
-				
-				_hx_local_7 = _hx_local_9
-				_hx_local_7()
-	
+				n = n + 1
 			
 	return n
 	
@@ -27026,25 +24286,7 @@ def Lambda_statics_indexOf(it,v):
 		if v == v2:
 			return i
 		
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal i
-			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-			
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-		
+		i = i + 1
 	
 	return -1
 	
@@ -27133,7 +24375,7 @@ def Reflect_statics_hasField(o,field):
 		field1 = "_hx_" + Std.string(field)
 	else:
 		field1 = field
-	return __builtin__.hasattr(o, field1)
+	return _hx_builtin.hasattr(o, field1)
 	
 Reflect.hasField = Reflect_statics_hasField
 def Reflect_statics_field(o,field):
@@ -27145,8 +24387,8 @@ def Reflect_statics_field(o,field):
 		field1 = "_hx_" + Std.string(field)
 	else:
 		field1 = field
-	if __builtin__.hasattr(o, field1):
-		return __builtin__.getattr(o, field1)
+	if _hx_builtin.hasattr(o, field1):
+		return _hx_builtin.getattr(o, field1)
 	else:
 		return None
 	
@@ -27157,7 +24399,7 @@ def Reflect_statics_setField(o,field,value):
 		field1 = "_hx_" + Std.string(field)
 	else:
 		field1 = field
-	return __builtin__.setattr(o, field1, value)
+	return _hx_builtin.setattr(o, field1, value)
 	
 Reflect.setField = Reflect_statics_setField
 def Reflect_statics_getProperty(o,field):
@@ -27171,7 +24413,7 @@ def Reflect_statics_getProperty(o,field):
 		return None
 	else:
 		tmp = _hx_c.Reflect.field(o, "get_" + Std.string(field1))
-		if tmp is not None and __builtin__.callable(tmp):
+		if tmp is not None and _hx_builtin.callable(tmp):
 			return tmp()
 		else:
 			return _hx_c.Reflect.field(o, field1)
@@ -27184,17 +24426,17 @@ def Reflect_statics_setProperty(o,field,value):
 		field1 = "_hx_" + Std.string(field)
 	else:
 		field1 = field
-	if __builtin__.hasattr(o, "set_" + Std.string(field1)):
-		tmp = __builtin__.getattr(o, "set_" + Std.string(field1))
+	if _hx_builtin.hasattr(o, "set_" + Std.string(field1)):
+		tmp = _hx_builtin.getattr(o, "set_" + Std.string(field1))
 		return tmp(value)
 	
 	else:
-		return __builtin__.setattr(o, field1, value)
+		return _hx_builtin.setattr(o, field1, value)
 	
 Reflect.setProperty = Reflect_statics_setProperty
 def Reflect_statics_callMethod(o,func,args):
 	args1 = args
-	if __builtin__.callable(func):
+	if _hx_builtin.callable(func):
 		return func(*args1)
 	else:
 		return None
@@ -27203,21 +24445,21 @@ Reflect.callMethod = Reflect_statics_callMethod
 def Reflect_statics_fields(o):
 	a = []
 	if o is not None:
-		if __builtin__.hasattr(o, "_hx_fields"):
+		if _hx_builtin.hasattr(o, "_hx_fields"):
 			fields = o._hx_fields
-			return __builtin__.list(fields)
+			return _hx_builtin.list(fields)
 		
 		
-		if __builtin__.isinstance(o, _hx_c._hx_AnonObject):
-			d = __builtin__.getattr(o, "__dict__")
+		if _hx_builtin.isinstance(o, _hx_c._hx_AnonObject):
+			d = _hx_builtin.getattr(o, "__dict__")
 			keys = d.keys()
 			handler = _hx_c.python_internal_KeywordHandler.unhandleKeywords
 			for k in keys:
 				a.append(handler(k))
 		
-		elif __builtin__.hasattr(o, "__dict__"):
+		elif _hx_builtin.hasattr(o, "__dict__"):
 			a1 = []
-			d1 = __builtin__.getattr(o, "__dict__")
+			d1 = _hx_builtin.getattr(o, "__dict__")
 			keys1 = d1.keys()
 			for k in keys:
 				a.append(k)
@@ -27259,14 +24501,14 @@ def Reflect_statics_compareMethods(f1,f2):
 Reflect.compareMethods = Reflect_statics_compareMethods
 def Reflect_statics_isObject(v):
 	_g = _hx_c.Type.typeof(v)
-	if (_hx_c.Type.enumIndex(_g)) == 6 or (_hx_c.Type.enumIndex(_g)) == 4:
+	if (_g.index) == 6 or (_g.index) == 4:
 		return True
 	else:
 		return False
 	
 Reflect.isObject = Reflect_statics_isObject
 def Reflect_statics_isEnumValue(v):
-	return v != _hx_c.Enum and __builtin__.isinstance(v, _hx_c.Enum)
+	return v != _hx_c.Enum and _hx_builtin.isinstance(v, _hx_c.Enum)
 Reflect.isEnumValue = Reflect_statics_isEnumValue
 def Reflect_statics_deleteField(o,field):
 	if not _hx_c.Reflect.hasField(o, field):
@@ -27289,7 +24531,7 @@ def Reflect_statics_copy(o):
 			field = "_hx_" + Std.string(f)
 		else:
 			field = f
-		__builtin__.setattr(o2, field, value)
+		_hx_builtin.setattr(o2, field, value)
 	
 	
 	return o2
@@ -27301,7 +24543,7 @@ Reflect.makeVarArgs = Reflect_statics_makeVarArgs
 
 def Std_statics_instance(v,c):
 	try:
-		if __builtin__.isinstance(v, c):
+		if _hx_builtin.isinstance(v, c):
 			return v
 		else:
 			return None
@@ -27323,15 +24565,15 @@ def Std_statics__hx_is(v,t):
 	if t == Dynamic:
 		return True
 	
-	isBool = __builtin__.isinstance(v, bool)
+	isBool = _hx_builtin.isinstance(v, bool)
 	if t == Bool and isBool:
 		return True
 	
-	if not isBool and t != Bool and t == Int and __builtin__.isinstance(v, int):
+	if not isBool and t != Bool and t == Int and _hx_builtin.isinstance(v, int):
 		return True
 	
-	vIsFloat = __builtin__.isinstance(v, float)
-	def _hx_local_5():
+	vIsFloat = _hx_builtin.isinstance(v, float)
+	def _hx_local_4():
 		f = v
 		return f != float("inf") and f != float("-inf") and not _hx_math.isnan(f)
 	
@@ -27355,56 +24597,56 @@ def Std_statics__hx_is(v,t):
 		
 		return _hx_local_3()
 	
-	if not isBool and vIsFloat and t == Int and _hx_local_5() and v == _hx_local_0():
+	if not isBool and vIsFloat and t == Int and _hx_local_4() and v == _hx_local_0():
 		return True
 	
-	if not isBool and t == Float and __builtin__.isinstance(v, (float,int)):
+	if not isBool and t == Float and _hx_builtin.isinstance(v, (float,int)):
 		return True
 	
 	if t == str:
-		return __builtin__.isinstance(v, _hx_c.String)
+		return _hx_builtin.isinstance(v, _hx_c.String)
 	
-	if t == _hx_c.Enum and _hx_c.python_lib_Inspect.isclass(v) and __builtin__.hasattr(v, "_hx_constructs"):
+	if t == _hx_c.Enum and _hx_c.python_lib_Inspect.isclass(v) and _hx_builtin.hasattr(v, "_hx_constructs"):
 		return True
 	
 	if t == _hx_c.Enum:
 		return False
 	
-	if t == _hx_c.Date and __builtin__.isinstance(v, _hx_c.Date):
+	if t == _hx_c.Date and _hx_builtin.isinstance(v, _hx_c.Date):
 		return True
 	
 	if t == _hx_c.Date:
 		return False
 	
-	if __builtin__.isinstance(v, _hx_c.Date):
+	if _hx_builtin.isinstance(v, _hx_c.Date):
 		return False
 	
-	if t == _hx_c.Class and not __builtin__.isinstance(v, _hx_c.Enum) and _hx_c.python_lib_Inspect.isclass(v) and __builtin__.hasattr(v, "_hx_class_name") and not __builtin__.hasattr(v, "_hx_constructs"):
+	if t == _hx_c.Class and not _hx_builtin.isinstance(v, _hx_c.Enum) and _hx_c.python_lib_Inspect.isclass(v) and _hx_builtin.hasattr(v, "_hx_class_name") and not _hx_builtin.hasattr(v, "_hx_constructs"):
 		return True
 	
 	if t == _hx_c.Class:
 		return False
 	
-	def _hx_local_7():
-		_hx_local_6 = None
+	def _hx_local_6():
+		_hx_local_5 = None
 		try:
-			_hx_local_6 = __builtin__.isinstance(v, t)
+			_hx_local_5 = _hx_builtin.isinstance(v, t)
 		except Exception as _hx_e:
 			_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
 			if True:
 				e1 = _hx_e1
-				_hx_local_6 = False
+				_hx_local_5 = False
 			else:
 				raise _hx_e
-		return _hx_local_6
+		return _hx_local_5
 	
-	if _hx_local_7():
+	if _hx_local_6():
 		return True
 	
 	if _hx_c.python_lib_Inspect.isclass(t):
 		loop = None
 		loop1 = None
-		def _hx_local_8(intf):
+		def _hx_local_7(intf):
 			f1 = _hx_c.Reflect.field(intf, "_hx_interfaces")
 			if f1 is not None:
 				_g = 0
@@ -27426,7 +24668,7 @@ def Std_statics__hx_is(v,t):
 			else:
 				return False
 		
-		loop1 = _hx_local_8
+		loop1 = _hx_local_7
 		loop = loop1
 		
 		return loop(v.__class__)
@@ -27504,25 +24746,13 @@ Std.parseInt = Std_statics_parseInt
 def Std_statics_shortenPossibleNumber(x):
 	r = ""
 	_g1 = 0
-	_g = __builtin__.len(x)
+	_g = _hx_builtin.len(x)
 	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g1
+		_g1 = _g1 + 1
 		
-		i = _hx_local_2()
 		c = None
-		if i < 0 or i >= __builtin__.len(x):
+		if i < 0 or i >= _hx_builtin.len(x):
 			c = ""
 		else:
 			c = x[i]
@@ -27573,10 +24803,62 @@ def Std_statics_random(x):
 	
 Std.random = Std_statics_random
 
+def StringImpl_statics_split(s,d):
+	if d == "":
+		return _hx_builtin.list(s)
+	else:
+		return s.split(d)
+python_internal_StringImpl.split = StringImpl_statics_split
+def StringImpl_statics_charCodeAt(s,index):
+	if s is None or _hx_builtin.len(s) == 0 or index < 0 or index >= _hx_builtin.len(s):
+		return None
+	else:
+		return ord(s[index])
+python_internal_StringImpl.charCodeAt = StringImpl_statics_charCodeAt
+def StringImpl_statics_charAt(s,index):
+	if index < 0 or index >= _hx_builtin.len(s):
+		return ""
+	else:
+		return s[index]
+python_internal_StringImpl.charAt = StringImpl_statics_charAt
+def StringImpl_statics_lastIndexOf(s,str,startIndex = None):
+	if startIndex is None:
+		startIndex = None
+	
+	if startIndex is None:
+		return s.rfind(str, 0, _hx_builtin.len(s))
+	else:
+		i = s.rfind(str, 0, startIndex + 1)
+		startLeft = None
+		if i == -1:
+			b = startIndex + 1 - _hx_builtin.len(str)
+			if _hx_math.isnan(0):
+				startLeft = 0
+			elif _hx_math.isnan(b):
+				startLeft = b
+			else:
+				startLeft = _hx_builtin.max(0, b)
+		
+		else:
+			startLeft = i + 1
+		check = s.find(str, startLeft, _hx_builtin.len(s))
+		if check > i and check <= startIndex:
+			return check
+		else:
+			return i
+	
+	
+python_internal_StringImpl.lastIndexOf = StringImpl_statics_lastIndexOf
+def StringImpl_statics_fromCharCode(code):
+	c = code
+	return "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
+	
+python_internal_StringImpl.fromCharCode = StringImpl_statics_fromCharCode
+
 from builtins import str as String
 _hx_c.String = String
 	
-from io import StringIO as _hx_StringIO
+
 def StringTools_statics_urlEncode(s):
 	from urllib.parse import quote
 	return quote(s)
@@ -27596,25 +24878,25 @@ def StringTools_statics_htmlEscape(s,quotes = None):
 	_this2 = None
 	_this3 = None
 	_this4 = _hx_c.python_internal_StringImpl.split(s, "&")
-	_this3 = "&amp;".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this4)))
+	_this3 = "&amp;".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this4)))
 	
 	_this2 = _hx_c.python_internal_StringImpl.split(_this3, "<")
 	
-	_this1 = "&lt;".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+	_this1 = "&lt;".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 	
 	_this = _hx_c.python_internal_StringImpl.split(_this1, ">")
 	
-	s = "&gt;".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+	s = "&gt;".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 	
 	if quotes:
 		_this5 = None
 		_this6 = None
 		_this7 = _hx_c.python_internal_StringImpl.split(s, "\"")
-		_this6 = "&quot;".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this7)))
+		_this6 = "&quot;".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this7)))
 		
 		_this5 = _hx_c.python_internal_StringImpl.split(_this6, "'")
 		
-		return "&#039;".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this5)))
+		return "&#039;".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this5)))
 	
 	else:
 		return s
@@ -27630,44 +24912,44 @@ def StringTools_statics_htmlUnescape(s):
 	_this6 = None
 	_this7 = None
 	_this8 = _hx_c.python_internal_StringImpl.split(s, "&gt;")
-	_this7 = ">".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this8)))
+	_this7 = ">".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this8)))
 	
 	_this6 = _hx_c.python_internal_StringImpl.split(_this7, "&lt;")
 	
-	_this5 = "<".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this6)))
+	_this5 = "<".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this6)))
 	
 	_this4 = _hx_c.python_internal_StringImpl.split(_this5, "&quot;")
 	
-	_this3 = "\"".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this4)))
+	_this3 = "\"".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this4)))
 	
 	_this2 = _hx_c.python_internal_StringImpl.split(_this3, "&#039;")
 	
-	_this1 = "'".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this2)))
+	_this1 = "'".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this2)))
 	
 	_this = _hx_c.python_internal_StringImpl.split(_this1, "&amp;")
 	
-	return "&".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+	return "&".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 	
 StringTools.htmlUnescape = StringTools_statics_htmlUnescape
 def StringTools_statics_startsWith(s,start):
 	def _hx_local_1():
 		def _hx_local_0():
-			len = __builtin__.len(start)
+			len = _hx_builtin.len(start)
 			return _hx_c.python_Tools.substr(s, 0, len)
 		
-		return __builtin__.len(s) >= __builtin__.len(start) and _hx_local_0() == start
+		return _hx_builtin.len(s) >= _hx_builtin.len(start) and _hx_local_0() == start
 	
 	return _hx_local_1()
 	
 StringTools.startsWith = StringTools_statics_startsWith
 def StringTools_statics_endsWith(s,end):
-	elen = __builtin__.len(end)
-	slen = __builtin__.len(s)
+	elen = _hx_builtin.len(end)
+	slen = _hx_builtin.len(s)
 	return slen >= elen and _hx_c.python_Tools.substr(s, slen - elen, elen) == end
 	
 StringTools.endsWith = StringTools_statics_endsWith
 def StringTools_statics_isSpace(s,pos):
-	if __builtin__.len(s) == 0 or pos < 0 or pos >= __builtin__.len(s):
+	if _hx_builtin.len(s) == 0 or pos < 0 or pos >= _hx_builtin.len(s):
 		return False
 	
 	c = _hx_c.python_internal_StringImpl.charCodeAt(s, pos)
@@ -27675,28 +24957,10 @@ def StringTools_statics_isSpace(s,pos):
 	
 StringTools.isSpace = StringTools_statics_isSpace
 def StringTools_statics_ltrim(s):
-	l = __builtin__.len(s)
+	l = _hx_builtin.len(s)
 	r = 0
 	while r < l and _hx_c.StringTools.isSpace(s, r):
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal r
-			nonlocal r
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = r
-			_hx_local_1 = _hx_local_0
-			r = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-			
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-	
+		r = r + 1
 	if r > 0:
 		return _hx_c.python_Tools.substr(s, r, l - r)
 	else:
@@ -27704,28 +24968,10 @@ def StringTools_statics_ltrim(s):
 	
 StringTools.ltrim = StringTools_statics_ltrim
 def StringTools_statics_rtrim(s):
-	l = __builtin__.len(s)
+	l = _hx_builtin.len(s)
 	r = 0
 	while r < l and _hx_c.StringTools.isSpace(s, l - r - 1):
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal r
-			nonlocal r
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = r
-			_hx_local_1 = _hx_local_0
-			r = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-			
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-	
+		r = r + 1
 	if r > 0:
 		return _hx_c.python_Tools.substr(s, 0, l - r)
 	else:
@@ -27736,26 +24982,26 @@ def StringTools_statics_trim(s):
 	return _hx_c.StringTools.ltrim(_hx_c.StringTools.rtrim(s))
 StringTools.trim = StringTools_statics_trim
 def StringTools_statics_lpad(s,c,l):
-	if __builtin__.len(c) <= 0:
+	if _hx_builtin.len(c) <= 0:
 		return s
 	
-	while __builtin__.len(s) < l:
+	while _hx_builtin.len(s) < l:
 		s = Std.string(c) + Std.string(s)
 	return s
 	
 StringTools.lpad = StringTools_statics_lpad
 def StringTools_statics_rpad(s,c,l):
-	if __builtin__.len(c) <= 0:
+	if _hx_builtin.len(c) <= 0:
 		return s
 	
-	while __builtin__.len(s) < l:
+	while _hx_builtin.len(s) < l:
 		s = Std.string(s) + Std.string(c)
 	return s
 	
 StringTools.rpad = StringTools_statics_rpad
 def StringTools_statics_replace(s,sub,by):
 	_this = _hx_c.python_internal_StringImpl.split(s, sub)
-	return by.join(__builtin__.list(__builtin__.map(_hx_c.Std.string, _this)))
+	return by.join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, _this)))
 	
 StringTools.replace = StringTools_statics_replace
 def StringTools_statics_hex(n,digits = None):
@@ -27767,7 +25013,7 @@ def StringTools_statics_hex(n,digits = None):
 	while True:
 		def _hx_local_0():
 			index = n & 15
-			return "" if (index < 0 or index >= __builtin__.len(hexChars)) else hexChars[index]
+			return "" if (index < 0 or index >= _hx_builtin.len(hexChars)) else hexChars[index]
 		
 		s = Std.string(_hx_local_0()) + Std.string(s)
 		n = _hx_rshift(n, 4)
@@ -27775,25 +25021,13 @@ def StringTools_statics_hex(n,digits = None):
 			break
 		
 	
-	if digits is not None and __builtin__.len(s) < digits:
-		diff = digits - __builtin__.len(s)
+	if digits is not None and _hx_builtin.len(s) < digits:
+		diff = digits - _hx_builtin.len(s)
 		_g = 0
 		while _g < diff:
-			_hx_local_4 = None
-			def _hx_local_3():
-				nonlocal _g
-				nonlocal _hx_local_4
-				if _hx_local_4 is not None:
-					return _hx_local_4
-				
-				_hx_local_1 = _g
-				_hx_local_2 = _hx_local_1
-				_g = _hx_local_1 + 1
-				_hx_local_4 = _hx_local_2
-				return _hx_local_2
-				
+			_ = _g
+			_g = _g + 1
 			
-			_ = _hx_local_3()
 			s = "0" + Std.string(s)
 		
 		
@@ -27803,7 +25037,7 @@ def StringTools_statics_hex(n,digits = None):
 	
 StringTools.hex = StringTools_statics_hex
 def StringTools_statics_fastCodeAt(s,index):
-	if index >= __builtin__.len(s):
+	if index >= _hx_builtin.len(s):
 		return -1
 	else:
 		return ord(_hx_array_get(s,index))
@@ -27822,10 +25056,10 @@ def Type_statics_getClass(o):
 	if _hx_c.python_Boot.isAnonObject(o):
 		return None
 	
-	if __builtin__.hasattr(o, "_hx_class"):
+	if _hx_builtin.hasattr(o, "_hx_class"):
 		return o._hx_class
 	
-	if __builtin__.hasattr(o, "__class__"):
+	if _hx_builtin.hasattr(o, "__class__"):
 		return o.__class__
 	else:
 		return None
@@ -27843,7 +25077,7 @@ def Type_statics_getSuperClass(c):
 		return None
 	
 	try:
-		if __builtin__.hasattr(c, "_hx_super"):
+		if _hx_builtin.hasattr(c, "_hx_super"):
 			return c._hx_super
 		
 		return __python_array_get(c.__bases__, 0)
@@ -27859,7 +25093,7 @@ def Type_statics_getSuperClass(c):
 	
 Type.getSuperClass = Type_statics_getSuperClass
 def Type_statics_getClassName(c):
-	if __builtin__.hasattr(c, "_hx_class_name"):
+	if _hx_builtin.hasattr(c, "_hx_class_name"):
 		return c._hx_class_name
 	else:
 		if c == list:
@@ -27910,14 +25144,14 @@ def Type_statics_resolveEnum(name):
 		return _hx_c.Bool
 	
 	o = _hx_c.Type.resolveClass(name)
-	if __builtin__.hasattr(o, "_hx_constructs"):
+	if _hx_builtin.hasattr(o, "_hx_constructs"):
 		return o
 	else:
 		return None
 	
 Type.resolveEnum = Type_statics_resolveEnum
 def Type_statics_createInstance(cl,args):
-	l = __builtin__.len(args)
+	l = _hx_builtin.len(args)
 	if (l) == 0:
 		return cl()
 	elif (l) == 1:
@@ -27950,7 +25184,7 @@ def Type_statics_createEmptyInstance(cl):
 		if sc is not None:
 			callInit1(sc)
 		
-		if __builtin__.hasattr(cl1, "_hx_empty_init"):
+		if _hx_builtin.hasattr(cl1, "_hx_empty_init"):
 			cl1._hx_empty_init(i)
 		
 	
@@ -27976,7 +25210,7 @@ def Type_statics_createEnum(e,constr,params = None):
 		return _hx_c.Reflect.callMethod(e, f, params)
 	
 	
-	if params is not None and __builtin__.len(params) != 0:
+	if params is not None and _hx_builtin.len(params) != 0:
 		raise _HxException(Std.string("Constructor " + Std.string(constr)) + " does not need parameters")
 	
 	return f
@@ -27995,7 +25229,7 @@ def Type_statics_createEnumIndex(e,index,params = None):
 Type.createEnumIndex = Type_statics_createEnumIndex
 def Type_statics_getInstanceFields(c):
 	f = None
-	if __builtin__.hasattr(c, "_hx_fields"):
+	if _hx_builtin.hasattr(c, "_hx_fields"):
 		x = c._hx_fields
 		x2 = c._hx_methods
 		f = x + x2
@@ -28025,7 +25259,7 @@ def Type_statics_getInstanceFields(c):
 			_g11 = _g11 + 1
 			if not scMap.exists(f11):
 				scArr.append(f11)
-				__builtin__.len(scArr)
+				_hx_builtin.len(scArr)
 			
 			
 		
@@ -28035,17 +25269,17 @@ def Type_statics_getInstanceFields(c):
 	
 Type.getInstanceFields = Type_statics_getInstanceFields
 def Type_statics_getClassFields(c):
-	if __builtin__.hasattr(c, "_hx_statics"):
+	if _hx_builtin.hasattr(c, "_hx_statics"):
 		x = c._hx_statics
-		return __builtin__.list(x)
+		return _hx_builtin.list(x)
 	
 	else:
 		return []
 Type.getClassFields = Type_statics_getClassFields
 def Type_statics_getEnumConstructs(e):
-	if __builtin__.hasattr(e, "_hx_constructs"):
+	if _hx_builtin.hasattr(e, "_hx_constructs"):
 		x = e._hx_constructs
-		return __builtin__.list(x)
+		return _hx_builtin.list(x)
 	
 	else:
 		return []
@@ -28053,23 +25287,23 @@ Type.getEnumConstructs = Type_statics_getEnumConstructs
 def Type_statics_typeof(v):
 	if v is None:
 		return _hx_c.ValueType.TNull
-	elif __builtin__.isinstance(v, bool):
+	elif _hx_builtin.isinstance(v, bool):
 		return _hx_c.ValueType.TBool
-	elif __builtin__.isinstance(v, int):
+	elif _hx_builtin.isinstance(v, int):
 		return _hx_c.ValueType.TInt
-	elif __builtin__.isinstance(v, float):
+	elif _hx_builtin.isinstance(v, float):
 		return _hx_c.ValueType.TFloat
-	elif __builtin__.isinstance(v, _hx_c.String):
+	elif _hx_builtin.isinstance(v, _hx_c.String):
 		return _hx_c.ValueType.TClass(_hx_c.String)
-	elif __builtin__.isinstance(v, list):
+	elif _hx_builtin.isinstance(v, list):
 		return _hx_c.ValueType.TClass(list)
-	elif __builtin__.isinstance(v, _hx_c._hx_AnonObject) or _hx_c.python_lib_Inspect.isclass(v):
+	elif _hx_builtin.isinstance(v, _hx_c._hx_AnonObject) or _hx_c.python_lib_Inspect.isclass(v):
 		return _hx_c.ValueType.TObject
-	elif __builtin__.isinstance(v, _hx_c.Enum):
+	elif _hx_builtin.isinstance(v, _hx_c.Enum):
 		return _hx_c.ValueType.TEnum(v.__class__)
-	elif __builtin__.isinstance(v, type) or __builtin__.hasattr(v, "_hx_class"):
+	elif _hx_builtin.isinstance(v, type) or _hx_builtin.hasattr(v, "_hx_class"):
 		return _hx_c.ValueType.TClass(v.__class__)
-	elif __builtin__.callable(v):
+	elif _hx_builtin.callable(v):
 		return _hx_c.ValueType.TFunction
 	else:
 		return _hx_c.ValueType.TUnknown
@@ -28087,27 +25321,15 @@ def Type_statics_enumEq(a,b):
 		
 		p1 = a.params
 		p2 = b.params
-		if __builtin__.len(p1) != __builtin__.len(p2):
+		if _hx_builtin.len(p1) != _hx_builtin.len(p2):
 			return False
 		
 		_g1 = 0
-		_g = __builtin__.len(p1)
+		_g = _hx_builtin.len(p1)
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			if not _hx_c.Type.enumEq(_hx_array_get(p1,i), _hx_array_get(p2,i)):
 				return False
 			
@@ -28128,37 +25350,13 @@ def Type_statics_enumEq(a,b):
 	
 Type.enumEq = Type_statics_enumEq
 def Type_statics_enumConstructor(e):
-	try:
-		return e.tag
-	except Exception as _hx_e:
-		_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
-		if True:
-			e1 = _hx_e1
-			return None
-		else:
-			raise _hx_e
+	return e.tag
 Type.enumConstructor = Type_statics_enumConstructor
 def Type_statics_enumParameters(e):
-	try:
-		return e.params
-	except Exception as _hx_e:
-		_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
-		if True:
-			e1 = _hx_e1
-			return None
-		else:
-			raise _hx_e
+	return e.params
 Type.enumParameters = Type_statics_enumParameters
 def Type_statics_enumIndex(e):
-	try:
-		return e.index
-	except Exception as _hx_e:
-		_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
-		if True:
-			e1 = _hx_e1
-			return None
-		else:
-			raise _hx_e
+	return e.index
 Type.enumIndex = Type_statics_enumIndex
 def Type_statics_allEnums(e):
 	ctors = _hx_c.Type.getEnumConstructs(e)
@@ -28170,7 +25368,7 @@ def Type_statics_allEnums(e):
 		v = _hx_c.Reflect.field(e, ctor)
 		if _hx_c.Std._hx_is(v, e):
 			ret.append(v)
-			__builtin__.len(ret)
+			_hx_builtin.len(ret)
 		
 		
 	
@@ -28262,22 +25460,22 @@ def CallStack_statics_callStack():
 			if fullName is not None:
 				idx = None
 				if None is None:
-					idx = fullName.rfind(".", 0, __builtin__.len(fullName))
+					idx = fullName.rfind(".", 0, _hx_builtin.len(fullName))
 				else:
 					i = fullName.rfind(".", 0, None + 1)
 					startLeft = None
 					if i == -1:
-						b = None + 1 - __builtin__.len(".")
+						b = None + 1 - _hx_builtin.len(".")
 						if _hx_math.isnan(0):
 							startLeft = 0
 						elif _hx_math.isnan(b):
 							startLeft = b
 						else:
-							startLeft = __builtin__.max(0, b)
+							startLeft = _hx_builtin.max(0, b)
 					
 					else:
 						startLeft = i + 1
-					check = fullName.find(".", startLeft, __builtin__.len(fullName))
+					check = fullName.find(".", startLeft, _hx_builtin.len(fullName))
 					if check > i and check <= None:
 						idx = check
 					else:
@@ -28293,7 +25491,7 @@ def CallStack_statics_callStack():
 			
 			x = _hx_c.haxe_StackItem.FilePos(method, site.getFileName(), site.getLineNumber())
 			stack.append(x)
-			__builtin__.len(stack)
+			_hx_builtin.len(stack)
 			
 			
 		
@@ -28302,7 +25500,7 @@ def CallStack_statics_callStack():
 	
 	Error.prepareStackTrace = _hx_local_0
 	a = _hx_c.haxe_CallStack.makeStack("Error"().stack)
-	if __builtin__.len(a) == 0:
+	if _hx_builtin.len(a) == 0:
 		None
 	else:
 		a.pop(0)
@@ -28314,83 +25512,83 @@ def CallStack_statics_exceptionStack():
 	return []
 haxe_CallStack.exceptionStack = CallStack_statics_exceptionStack
 def CallStack_statics_toString(stack):
-	b = _hx_StringIO()
+	b = _hx_c.StringBuf()
 	_g = 0
 	while _g < _hx_builtin.len(stack):
 		s = _hx_array_get(stack,_g)
 		_g = _g + 1
 		s1 = _hx_c.Std.string("\nCalled from ")
-		b.write(s1)
+		b.b.write(s1)
 		
 		_hx_c.haxe_CallStack.itemToString(b, s)
 	
 	
-	return b.getvalue()
+	return b.b.getvalue()
 	
 haxe_CallStack.toString = CallStack_statics_toString
 def CallStack_statics_itemToString(b,s):
-	if (_hx_c.Type.enumIndex(s)) == 0:
+	if (s.index) == 0:
 		s1 = _hx_c.Std.string("a C function")
-		b.write(s1)
+		b.b.write(s1)
 	
-	elif (_hx_c.Type.enumIndex(s)) == 1:
+	elif (s.index) == 1:
 		m = s.params[0]
 		s2 = _hx_c.Std.string("module ")
-		b.write(s2)
+		b.b.write(s2)
 		
 		s3 = _hx_c.Std.string(m)
-		b.write(s3)
+		b.b.write(s3)
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(s)) == 2:
+	elif (s.index) == 2:
 		line = s.params[2]
 		file = s.params[1]
 		s4 = s.params[0]
 		if s4 is not None:
 			_hx_c.haxe_CallStack.itemToString(b, s4)
 			s5 = _hx_c.Std.string(" (")
-			b.write(s5)
+			b.b.write(s5)
 			
 		
 		
 		s6 = _hx_c.Std.string(file)
-		b.write(s6)
+		b.b.write(s6)
 		
 		s7 = _hx_c.Std.string(" line ")
-		b.write(s7)
+		b.b.write(s7)
 		
 		s8 = _hx_c.Std.string(line)
-		b.write(s8)
+		b.b.write(s8)
 		
 		if s4 is not None:
 			s9 = _hx_c.Std.string(")")
-			b.write(s9)
+			b.b.write(s9)
 		
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(s)) == 3:
+	elif (s.index) == 3:
 		meth = s.params[1]
 		cname = s.params[0]
 		s10 = _hx_c.Std.string(cname)
-		b.write(s10)
+		b.b.write(s10)
 		
 		s11 = _hx_c.Std.string(".")
-		b.write(s11)
+		b.b.write(s11)
 		
 		s12 = _hx_c.Std.string(meth)
-		b.write(s12)
+		b.b.write(s12)
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(s)) == 4:
+	elif (s.index) == 4:
 		n = s.params[0]
 		s13 = _hx_c.Std.string("local function #")
-		b.write(s13)
+		b.b.write(s13)
 		
 		s14 = _hx_c.Std.string(n)
-		b.write(s14)
+		b.b.write(s14)
 		
 		
 	
@@ -28406,7 +25604,7 @@ def CallStack_statics_makeStack(s):
 			_g = _g + 1
 			x = _hx_c.haxe_StackItem.Module(line)
 			m.append(x)
-			__builtin__.len(m)
+			_hx_builtin.len(m)
 			
 			
 		
@@ -28425,13 +25623,13 @@ def EnumFlags_Impl__statics__new(i = 0):
 	
 haxe_EnumFlags_EnumFlags_Impl_._new = EnumFlags_Impl__statics__new
 def EnumFlags_Impl__statics_has(this1,v):
-	return (this1 & 1 << _hx_c.Type.enumIndex(v)) != 0
+	return (this1 & 1 << v.index) != 0
 haxe_EnumFlags_EnumFlags_Impl_.has = EnumFlags_Impl__statics_has
 def EnumFlags_Impl__statics_set(this1,v):
-	this1 = this1 | 1 << _hx_c.Type.enumIndex(v)
+	this1 = this1 | 1 << v.index
 haxe_EnumFlags_EnumFlags_Impl_.set = EnumFlags_Impl__statics_set
 def EnumFlags_Impl__statics_unset(this1,v):
-	this1 = this1 & 268435455 - (1 << _hx_c.Type.enumIndex(v))
+	this1 = this1 & 268435455 - (1 << v.index)
 haxe_EnumFlags_EnumFlags_Impl_.unset = EnumFlags_Impl__statics_unset
 def EnumFlags_Impl__statics_ofInt(i):
 	return i
@@ -28441,8 +25639,8 @@ def EnumFlags_Impl__statics_toInt(this1):
 haxe_EnumFlags_EnumFlags_Impl_.toInt = EnumFlags_Impl__statics_toInt
 
 def Int32_Impl__statics_preIncrement(this1):
-	def _hx_local_4():
-		def _hx_local_2():
+	def _hx_local_2():
+		def _hx_local_1():
 			nonlocal this1
 			def _hx_local_0():
 				nonlocal this1
@@ -28454,34 +25652,22 @@ def Int32_Impl__statics_preIncrement(this1):
 			return this1
 			
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
-	return _hx_local_4()
+	return _hx_local_2()
 	
 haxe_Int32_Int32_Impl_.preIncrement = Int32_Impl__statics_preIncrement
 def Int32_Impl__statics_postIncrement(this1):
-	_hx_local_3 = None
-	def _hx_local_2():
-		nonlocal this1
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = this1
-		_hx_local_1 = _hx_local_0
-		this1 = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-		
+	ret = this1
+	this1 = this1 + 1
 	
-	ret = _hx_local_2()
 	this1 = _hx_c.haxe_Int32_Int32_Impl_.clamp(this1)
 	return ret
 	
 haxe_Int32_Int32_Impl_.postIncrement = Int32_Impl__statics_postIncrement
 def Int32_Impl__statics_preDecrement(this1):
-	def _hx_local_4():
-		def _hx_local_2():
+	def _hx_local_2():
+		def _hx_local_1():
 			nonlocal this1
 			def _hx_local_0():
 				nonlocal this1
@@ -28493,20 +25679,15 @@ def Int32_Impl__statics_preDecrement(this1):
 			return this1
 			
 		
-		return _hx_local_2()
+		return _hx_local_1()
 	
-	return _hx_local_4()
+	return _hx_local_2()
 	
 haxe_Int32_Int32_Impl_.preDecrement = Int32_Impl__statics_preDecrement
 def Int32_Impl__statics_postDecrement(this1):
-	def _hx_local_1():
-		nonlocal this1
-		_hx_local_0 = this1
-		this1 = this1 - 1
-		return _hx_local_0
-		
+	ret = this1
+	this1 = this1 - 1
 	
-	ret = _hx_local_1()
 	this1 = _hx_c.haxe_Int32_Int32_Impl_.clamp(this1)
 	return ret
 	
@@ -28586,36 +25767,18 @@ haxe_Int64.ofInt = Int64_statics_ofInt
 def Int64_statics_toInt(x):
 	if x.high != 0:
 		if x.high < 0:
-			def _hx_local_6():
+			def _hx_local_2():
 				def _hx_local_0():
 					high = _hx_c.haxe_Int64.i32(~x.high)
 					low = _hx_c.haxe_Int64.i32(-x.low)
 					if low == 0:
-						_hx_local_4 = None
-						def _hx_local_5():
-							nonlocal high
-							nonlocal high
-							nonlocal _hx_local_4
-							if _hx_local_4 is not None:
-								return _hx_local_4
-							
-							_hx_local_1 = high
-							_hx_local_2 = _hx_local_1
-							high = _hx_local_1 + 1
-							_hx_local_4 = _hx_local_2
-							return _hx_local_2
-							
-							
-						
-						_hx_local_3 = _hx_local_5
-						_hx_local_3()
-					
+						high = high + 1
 					
 					return _hx_c.haxe_Int64(high, low)
 				
 				return -_hx_c.haxe_Int64.toInt(_hx_local_0())
 			
-			return _hx_local_6()
+			return _hx_local_2()
 		
 		
 		raise _HxException("Overflow")
@@ -28634,25 +25797,7 @@ def Int64_statics_add(a,b):
 	high = _hx_c.haxe_Int64.i32(a.high + b.high)
 	low = _hx_c.haxe_Int64.i32(a.low + b.low)
 	if _hx_c.haxe_Int64.uicompare(low, a.low) < 0:
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal high
-			nonlocal high
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = high
-			_hx_local_1 = _hx_local_0
-			high = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-			
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-	
+		high = high + 1
 	
 	return _hx_c.haxe_Int64(high, low)
 	
@@ -28661,10 +25806,7 @@ def Int64_statics_sub(a,b):
 	high = _hx_c.haxe_Int64.i32(a.high - b.high)
 	low = _hx_c.haxe_Int64.i32(a.low - b.low)
 	if _hx_c.haxe_Int64.uicompare(a.low, b.low) < 0:
-		_hx_local_0 = high
 		high = high - 1
-		_hx_local_0
-	
 	
 	return _hx_c.haxe_Int64(high, low)
 	
@@ -28760,25 +25902,7 @@ def Int64_statics_div(a,b):
 		high = _hx_c.haxe_Int64.i32(~a.high)
 		low = _hx_c.haxe_Int64.i32(-a.low)
 		if low == 0:
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal high
-				nonlocal high
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = high
-				_hx_local_1 = _hx_local_0
-				high = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-		
+			high = high + 1
 		
 		a = _hx_c.haxe_Int64(high, low)
 	
@@ -28787,25 +25911,7 @@ def Int64_statics_div(a,b):
 		high1 = _hx_c.haxe_Int64.i32(~b.high)
 		low1 = _hx_c.haxe_Int64.i32(-b.low)
 		if low1 == 0:
-			_hx_local_8 = None
-			def _hx_local_9():
-				nonlocal high1
-				nonlocal high1
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = high1
-				_hx_local_6 = _hx_local_5
-				high1 = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-				
-				
-			
-			_hx_local_7 = _hx_local_9
-			_hx_local_7()
-		
+			high1 = high1 + 1
 		
 		b = _hx_c.haxe_Int64(high1, low1)
 	
@@ -28815,25 +25921,7 @@ def Int64_statics_div(a,b):
 		high2 = _hx_c.haxe_Int64.i32(~q.high)
 		low2 = _hx_c.haxe_Int64.i32(-q.low)
 		if low2 == 0:
-			_hx_local_13 = None
-			def _hx_local_14():
-				nonlocal high2
-				nonlocal high2
-				nonlocal _hx_local_13
-				if _hx_local_13 is not None:
-					return _hx_local_13
-				
-				_hx_local_10 = high2
-				_hx_local_11 = _hx_local_10
-				high2 = _hx_local_10 + 1
-				_hx_local_13 = _hx_local_11
-				return _hx_local_11
-				
-				
-			
-			_hx_local_12 = _hx_local_14
-			_hx_local_12()
-		
+			high2 = high2 + 1
 		
 		return _hx_c.haxe_Int64(high2, low2)
 	
@@ -28856,25 +25944,7 @@ def Int64_statics_mod(a,b):
 		high = _hx_c.haxe_Int64.i32(~a.high)
 		low = _hx_c.haxe_Int64.i32(-a.low)
 		if low == 0:
-			_hx_local_3 = None
-			def _hx_local_4():
-				nonlocal high
-				nonlocal high
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = high
-				_hx_local_1 = _hx_local_0
-				high = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
-				
-			
-			_hx_local_2 = _hx_local_4
-			_hx_local_2()
-		
+			high = high + 1
 		
 		a = _hx_c.haxe_Int64(high, low)
 	
@@ -28883,25 +25953,7 @@ def Int64_statics_mod(a,b):
 		high1 = _hx_c.haxe_Int64.i32(~b.high)
 		low1 = _hx_c.haxe_Int64.i32(-b.low)
 		if low1 == 0:
-			_hx_local_8 = None
-			def _hx_local_9():
-				nonlocal high1
-				nonlocal high1
-				nonlocal _hx_local_8
-				if _hx_local_8 is not None:
-					return _hx_local_8
-				
-				_hx_local_5 = high1
-				_hx_local_6 = _hx_local_5
-				high1 = _hx_local_5 + 1
-				_hx_local_8 = _hx_local_6
-				return _hx_local_6
-				
-				
-			
-			_hx_local_7 = _hx_local_9
-			_hx_local_7()
-		
+			high1 = high1 + 1
 		
 		b = _hx_c.haxe_Int64(high1, low1)
 	
@@ -28911,25 +25963,7 @@ def Int64_statics_mod(a,b):
 		high2 = _hx_c.haxe_Int64.i32(~m.high)
 		low2 = _hx_c.haxe_Int64.i32(-m.low)
 		if low2 == 0:
-			_hx_local_13 = None
-			def _hx_local_14():
-				nonlocal high2
-				nonlocal high2
-				nonlocal _hx_local_13
-				if _hx_local_13 is not None:
-					return _hx_local_13
-				
-				_hx_local_10 = high2
-				_hx_local_11 = _hx_local_10
-				high2 = _hx_local_10 + 1
-				_hx_local_13 = _hx_local_11
-				return _hx_local_11
-				
-				
-			
-			_hx_local_12 = _hx_local_14
-			_hx_local_12()
-		
+			high2 = high2 + 1
 		
 		return _hx_c.haxe_Int64(high2, low2)
 	
@@ -28990,25 +26024,7 @@ def Int64_statics_neg(a):
 	high = _hx_c.haxe_Int64.i32(~a.high)
 	low = _hx_c.haxe_Int64.i32(-a.low)
 	if low == 0:
-		_hx_local_3 = None
-		def _hx_local_4():
-			nonlocal high
-			nonlocal high
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = high
-			_hx_local_1 = _hx_local_0
-			high = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-			
-		
-		_hx_local_2 = _hx_local_4
-		_hx_local_2()
-	
+		high = high + 1
 	
 	return _hx_c.haxe_Int64(high, low)
 	
@@ -29068,8 +26084,8 @@ def Log_statics_trace(v,infos = None):
 	str = None
 	if infos is not None:
 		str = Std.string(Std.string(Std.string(Std.string(infos.fileName) + ":") + Std.string(_hx_c.Std.string(infos.lineNumber))) + ": ") + Std.string(_hx_c.Std.string(v))
-		if __builtin__.hasattr(infos, "customParams"):
-			str = Std.string(str) + Std.string("," + Std.string(",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, infos.customParams)))))
+		if _hx_builtin.hasattr(infos, "customParams"):
+			str = Std.string(str) + Std.string("," + Std.string(",".join(_hx_builtin.list(_hx_builtin.map(_hx_c.Std.string, infos.customParams)))))
 		
 	
 	else:
@@ -29087,7 +26103,7 @@ def Resource_statics_listNames():
 	def _hx_local_0():
 		p = None
 		_this = _hx_c.haxe_Resource.content.keys()
-		p = __builtin__.iter(_this)
+		p = _hx_builtin.iter(_this)
 		
 		return _hx_c.python_HaxeIterator(p)
 	
@@ -29095,7 +26111,7 @@ def Resource_statics_listNames():
 	while _it.hasNext():
 		k = _it.next()
 		names.append(k)
-		__builtin__.len(names)
+		_hx_builtin.len(names)
 	
 	return names
 	
@@ -29104,7 +26120,7 @@ def Resource_statics_getString(name):
 	def _hx_local_0():
 		p = None
 		_this = _hx_c.haxe_Resource.content.keys()
-		p = __builtin__.iter(_this)
+		p = _hx_builtin.iter(_this)
 		
 		return _hx_c.python_HaxeIterator(p)
 	
@@ -29123,7 +26139,7 @@ def Resource_statics_getBytes(name):
 	def _hx_local_0():
 		p = None
 		_this = _hx_c.haxe_Resource.content.keys()
-		p = __builtin__.iter(_this)
+		p = _hx_builtin.iter(_this)
 		
 		return _hx_c.python_HaxeIterator(p)
 	
@@ -29150,8 +26166,8 @@ def Serializer_statics_run(v):
 	
 haxe_Serializer.run = Serializer_statics_run
 
-import builtins as __builtin__
-_hx_c.__builtin__ = __builtin__
+import builtins as python_lib_Builtin
+_hx_c.python_lib_Builtin = python_lib_Builtin
 	
 import re as python_lib_Re
 _hx_c.python_lib_Re = python_lib_Re
@@ -29191,28 +26207,16 @@ haxe_Unserializer.CODES = None
 def Unserializer_statics_initCodes():
 	codes = list()
 	_g1 = 0
-	_g = __builtin__.len(_hx_c.haxe_Unserializer.BASE64)
+	_g = _hx_builtin.len(_hx_c.haxe_Unserializer.BASE64)
 	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g1
+		_g1 = _g1 + 1
 		
-		i = _hx_local_2()
-		def _hx_local_4():
+		def _hx_local_0():
 			s = _hx_c.haxe_Unserializer.BASE64
-			return -1 if (i >= __builtin__.len(s)) else ord(_hx_array_get(s,i))
+			return -1 if (i >= _hx_builtin.len(s)) else ord(_hx_array_get(s,i))
 		
-		_hx_array_set(codes,_hx_local_4(), i)
+		_hx_array_set(codes,_hx_local_0(), i)
 	
 	
 	return codes
@@ -29226,23 +26230,11 @@ def Bytes_statics_alloc(length):
 	a = list()
 	_g = 0
 	while _g < length:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		a.append(0)
-		__builtin__.len(a)
+		_hx_builtin.len(a)
 	
 	
 	return _hx_c.haxe_io_Bytes(length, a)
@@ -29251,72 +26243,60 @@ haxe_io_Bytes.alloc = Bytes_statics_alloc
 def Bytes_statics_ofString(s):
 	a = list()
 	_g1 = 0
-	_g = __builtin__.len(s)
+	_g = _hx_builtin.len(s)
 	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g1
+		_g1 = _g1 + 1
 		
-		i = _hx_local_2()
 		c = None
-		if i >= __builtin__.len(s):
+		if i >= _hx_builtin.len(s):
 			c = -1
 		else:
 			c = ord(_hx_array_get(s,i))
 		if c <= 127:
 			a.append(c)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 		
 		elif c <= 2047:
 			a.append(192 | c >> 6)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 		
 		elif c <= 65535:
 			a.append(224 | c >> 12)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c >> 6 & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 		
 		else:
 			a.append(240 | c >> 18)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c >> 12 & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c >> 6 & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 			a.append(128 | c & 63)
-			__builtin__.len(a)
+			_hx_builtin.len(a)
 			
 		
 	
 	
-	return _hx_c.haxe_io_Bytes(__builtin__.len(a), a)
+	return _hx_c.haxe_io_Bytes(_hx_builtin.len(a), a)
 	
 haxe_io_Bytes.ofString = Bytes_statics_ofString
 def Bytes_statics_ofData(b):
-	return _hx_c.haxe_io_Bytes(__builtin__.len(b), b)
+	return _hx_c.haxe_io_Bytes(_hx_builtin.len(b), b)
 haxe_io_Bytes.ofData = Bytes_statics_ofData
 def Bytes_statics_fastGet(b,pos):
 	return _hx_array_get(b,pos)
@@ -29333,21 +26313,9 @@ def Base64_statics_encode(bytes,complement = True):
 		_g1 = 0
 		_g = (3 - bytes.length * 4 % 3) % 3
 		while _g1 < _g:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g1
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g1
-				_hx_local_1 = _hx_local_0
-				_g1 = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g1
+			_g1 = _g1 + 1
 			
-			i = _hx_local_2()
 			str = Std.string(str) + "="
 		
 	
@@ -29361,7 +26329,7 @@ def Base64_statics_decode(str,complement = True):
 	
 	if complement:
 		def _hx_local_0():
-			index = __builtin__.len(str) - 1
+			index = _hx_builtin.len(str) - 1
 			return _hx_c.python_internal_StringImpl.charCodeAt(str, index)
 		
 		while _hx_local_0() == 61:
@@ -29395,87 +26363,27 @@ def Md5_statics_make(b):
 	p = 0
 	_g = 0
 	while _g < 4:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
-		_hx_local_7 = None
-		def _hx_local_6():
-			nonlocal p
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = p
-			_hx_local_5 = _hx_local_4
-			p = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
+		pos = p
+		p = p + 1
 		
-		pos = _hx_local_6()
 		_hx_array_set(out.b,pos, _hx_array_get(h,i) & 255 & 255)
 		
-		_hx_local_11 = None
-		def _hx_local_10():
-			nonlocal p
-			nonlocal _hx_local_11
-			if _hx_local_11 is not None:
-				return _hx_local_11
-			
-			_hx_local_8 = p
-			_hx_local_9 = _hx_local_8
-			p = _hx_local_8 + 1
-			_hx_local_11 = _hx_local_9
-			return _hx_local_9
-			
+		pos1 = p
+		p = p + 1
 		
-		pos1 = _hx_local_10()
 		_hx_array_set(out.b,pos1, _hx_array_get(h,i) >> 8 & 255 & 255)
 		
-		_hx_local_15 = None
-		def _hx_local_14():
-			nonlocal p
-			nonlocal _hx_local_15
-			if _hx_local_15 is not None:
-				return _hx_local_15
-			
-			_hx_local_12 = p
-			_hx_local_13 = _hx_local_12
-			p = _hx_local_12 + 1
-			_hx_local_15 = _hx_local_13
-			return _hx_local_13
-			
+		pos2 = p
+		p = p + 1
 		
-		pos2 = _hx_local_14()
 		_hx_array_set(out.b,pos2, _hx_array_get(h,i) >> 16 & 255 & 255)
 		
-		_hx_local_19 = None
-		def _hx_local_18():
-			nonlocal p
-			nonlocal _hx_local_19
-			if _hx_local_19 is not None:
-				return _hx_local_19
-			
-			_hx_local_16 = p
-			_hx_local_17 = _hx_local_16
-			p = _hx_local_16 + 1
-			_hx_local_19 = _hx_local_17
-			return _hx_local_17
-			
+		pos3 = p
+		p = p + 1
 		
-		pos3 = _hx_local_18()
 		_hx_array_set(out.b,pos3, _hx_rshift(_hx_array_get(h,i), 24) & 255)
 		
 	
@@ -29489,48 +26397,28 @@ def Md5_statics_bytes2blks(b):
 	blksSize = nblk * 16
 	_g = 0
 	while _g < blksSize:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(blks,i, 0)
 	
 	
 	i1 = 0
 	while i1 < b.length:
-		_hx_array_set(blks,i1 >> 2, _hx_array_get(blks,i1 >> 2) | _hx_array_get(b.b,i1) << (((b.length << 3) + i1 & 3) << 3))
-		_hx_local_7 = None
-		def _hx_local_8():
-			nonlocal i1
-			nonlocal i1
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = i1
-			_hx_local_5 = _hx_local_4
-			i1 = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
-			
+		_hx_local_0 = blks
+		_hx_local_1 = i1 >> 2
+		_hx_local_2 = _hx_array_get(_hx_local_0,_hx_local_1)
+		_hx_array_set(_hx_local_0,_hx_local_1, _hx_local_2 | _hx_array_get(b.b,i1) << (((b.length << 3) + i1 & 3) << 3))
+		_hx_array_get(_hx_local_0,_hx_local_1)
 		
-		_hx_local_6 = _hx_local_8
-		_hx_local_6()
-		
+		i1 = i1 + 1
 	
-	_hx_array_set(blks,i1 >> 2, _hx_array_get(blks,i1 >> 2) | 128 << (b.length * 8 + i1) % 4 * 8)
+	_hx_local_5 = blks
+	_hx_local_6 = i1 >> 2
+	_hx_local_7 = _hx_array_get(_hx_local_5,_hx_local_6)
+	_hx_array_set(_hx_local_5,_hx_local_6, _hx_local_7 | 128 << (b.length * 8 + i1) % 4 * 8)
+	_hx_array_get(_hx_local_5,_hx_local_6)
+	
 	l = b.length * 8
 	k = nblk * 16 - 2
 	_hx_array_set(blks,k, l & 255)
@@ -29541,54 +26429,34 @@ def Md5_statics_bytes2blks(b):
 	
 haxe_crypto_Md5.bytes2blks = Md5_statics_bytes2blks
 def Md5_statics_str2blks(str):
-	nblk = (__builtin__.len(str) + 8 >> 6) + 1
+	nblk = (_hx_builtin.len(str) + 8 >> 6) + 1
 	blks = list()
 	blksSize = nblk * 16
 	_g = 0
 	while _g < blksSize:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(blks,i, 0)
 	
 	
 	i1 = 0
-	while i1 < __builtin__.len(str):
-		_hx_array_set(blks,i1 >> 2, _hx_array_get(blks,i1 >> 2) | _hx_c.python_internal_StringImpl.charCodeAt(str, i1) << (__builtin__.len(str) * 8 + i1) % 4 * 8)
-		_hx_local_7 = None
-		def _hx_local_8():
-			nonlocal i1
-			nonlocal i1
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = i1
-			_hx_local_5 = _hx_local_4
-			i1 = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
-			
+	while i1 < _hx_builtin.len(str):
+		_hx_local_0 = blks
+		_hx_local_1 = i1 >> 2
+		_hx_local_2 = _hx_array_get(_hx_local_0,_hx_local_1)
+		_hx_array_set(_hx_local_0,_hx_local_1, _hx_local_2 | _hx_c.python_internal_StringImpl.charCodeAt(str, i1) << (_hx_builtin.len(str) * 8 + i1) % 4 * 8)
+		_hx_array_get(_hx_local_0,_hx_local_1)
 		
-		_hx_local_6 = _hx_local_8
-		_hx_local_6()
-		
+		i1 = i1 + 1
 	
-	_hx_array_set(blks,i1 >> 2, _hx_array_get(blks,i1 >> 2) | 128 << (__builtin__.len(str) * 8 + i1) % 4 * 8)
-	l = __builtin__.len(str) * 8
+	_hx_local_5 = blks
+	_hx_local_6 = i1 >> 2
+	_hx_local_7 = _hx_array_get(_hx_local_5,_hx_local_6)
+	_hx_array_set(_hx_local_5,_hx_local_6, _hx_local_7 | 128 << (_hx_builtin.len(str) * 8 + i1) % 4 * 8)
+	_hx_array_get(_hx_local_5,_hx_local_6)
+	
+	l = _hx_builtin.len(str) * 8
 	k = nblk * 16 - 2
 	_hx_array_set(blks,k, l & 255)
 	_hx_array_set(blks,k, _hx_array_get(blks,k) | (_hx_rshift(l, 8) & 255) << 8)
@@ -29610,87 +26478,27 @@ def Sha1_statics_make(b):
 	p = 0
 	_g = 0
 	while _g < 5:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
-		_hx_local_7 = None
-		def _hx_local_6():
-			nonlocal p
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = p
-			_hx_local_5 = _hx_local_4
-			p = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
+		pos = p
+		p = p + 1
 		
-		pos = _hx_local_6()
 		_hx_array_set(out.b,pos, _hx_rshift(_hx_array_get(h,i), 24) & 255)
 		
-		_hx_local_11 = None
-		def _hx_local_10():
-			nonlocal p
-			nonlocal _hx_local_11
-			if _hx_local_11 is not None:
-				return _hx_local_11
-			
-			_hx_local_8 = p
-			_hx_local_9 = _hx_local_8
-			p = _hx_local_8 + 1
-			_hx_local_11 = _hx_local_9
-			return _hx_local_9
-			
+		pos1 = p
+		p = p + 1
 		
-		pos1 = _hx_local_10()
 		_hx_array_set(out.b,pos1, _hx_array_get(h,i) >> 16 & 255 & 255)
 		
-		_hx_local_15 = None
-		def _hx_local_14():
-			nonlocal p
-			nonlocal _hx_local_15
-			if _hx_local_15 is not None:
-				return _hx_local_15
-			
-			_hx_local_12 = p
-			_hx_local_13 = _hx_local_12
-			p = _hx_local_12 + 1
-			_hx_local_15 = _hx_local_13
-			return _hx_local_13
-			
+		pos2 = p
+		p = p + 1
 		
-		pos2 = _hx_local_14()
 		_hx_array_set(out.b,pos2, _hx_array_get(h,i) >> 8 & 255 & 255)
 		
-		_hx_local_19 = None
-		def _hx_local_18():
-			nonlocal p
-			nonlocal _hx_local_19
-			if _hx_local_19 is not None:
-				return _hx_local_19
-			
-			_hx_local_16 = p
-			_hx_local_17 = _hx_local_16
-			p = _hx_local_16 + 1
-			_hx_local_19 = _hx_local_17
-			return _hx_local_17
-			
+		pos3 = p
+		p = p + 1
 		
-		pos3 = _hx_local_18()
 		_hx_array_set(out.b,pos3, _hx_array_get(h,i) & 255 & 255)
 		
 	
@@ -29699,55 +26507,31 @@ def Sha1_statics_make(b):
 	
 haxe_crypto_Sha1.make = Sha1_statics_make
 def Sha1_statics_str2blks(s):
-	nblk = (__builtin__.len(s) + 8 >> 6) + 1
+	nblk = (_hx_builtin.len(s) + 8 >> 6) + 1
 	blks = list()
 	_g1 = 0
 	_g = nblk * 16
 	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g1
+		_g1 = _g1 + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(blks,i, 0)
 	
 	
 	_g11 = 0
-	_g2 = __builtin__.len(s)
+	_g2 = _hx_builtin.len(s)
 	while _g11 < _g2:
-		_hx_local_7 = None
-		def _hx_local_6():
-			nonlocal _g11
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = _g11
-			_hx_local_5 = _hx_local_4
-			_g11 = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
+		i1 = _g11
+		_g11 = _g11 + 1
 		
-		i1 = _hx_local_6()
 		p = i1 >> 2
 		_hx_array_set(blks,p, _hx_array_get(blks,p) | _hx_c.python_internal_StringImpl.charCodeAt(s, i1) << 24 - ((i1 & 3) << 3))
 	
 	
-	i2 = __builtin__.len(s)
+	i2 = _hx_builtin.len(s)
 	p1 = i2 >> 2
 	_hx_array_set(blks,p1, _hx_array_get(blks,p1) | 128 << 24 - ((i2 & 3) << 3))
-	_hx_array_set(blks,nblk * 16 - 1, __builtin__.len(s) * 8)
+	_hx_array_set(blks,nblk * 16 - 1, _hx_builtin.len(s) * 8)
 	return blks
 	
 haxe_crypto_Sha1.str2blks = Sha1_statics_str2blks
@@ -29757,42 +26541,18 @@ def Sha1_statics_bytes2blks(b):
 	_g1 = 0
 	_g = nblk * 16
 	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g1
+		_g1 = _g1 + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(blks,i, 0)
 	
 	
 	_g11 = 0
 	_g2 = b.length
 	while _g11 < _g2:
-		_hx_local_7 = None
-		def _hx_local_6():
-			nonlocal _g11
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = _g11
-			_hx_local_5 = _hx_local_4
-			_g11 = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
+		i1 = _g11
+		_g11 = _g11 + 1
 		
-		i1 = _hx_local_6()
 		p = i1 >> 2
 		_hx_array_set(blks,p, _hx_array_get(blks,p) | _hx_array_get(b.b,i1) << 24 - ((i1 & 3) << 3))
 	
@@ -29806,7 +26566,7 @@ def Sha1_statics_bytes2blks(b):
 haxe_crypto_Sha1.bytes2blks = Sha1_statics_bytes2blks
 
 def ArraySort_statics_sort(a,cmp):
-	_hx_c.haxe_ds_ArraySort.rec(a, cmp, 0, __builtin__.len(a))
+	_hx_c.haxe_ds_ArraySort.rec(a, cmp, 0, _hx_builtin.len(a))
 haxe_ds_ArraySort.sort = ArraySort_statics_sort
 def ArraySort_statics_rec(a,cmp,_hx_from,to):
 	middle = _hx_from + to >> 1
@@ -29816,31 +26576,16 @@ def ArraySort_statics_rec(a,cmp,_hx_from,to):
 		
 		_g = _hx_from + 1
 		while _g < to:
-			_hx_local_3 = None
-			def _hx_local_2():
-				nonlocal _g
-				nonlocal _hx_local_3
-				if _hx_local_3 is not None:
-					return _hx_local_3
-				
-				_hx_local_0 = _g
-				_hx_local_1 = _hx_local_0
-				_g = _hx_local_0 + 1
-				_hx_local_3 = _hx_local_1
-				return _hx_local_1
-				
+			i = _g
+			_g = _g + 1
 			
-			i = _hx_local_2()
 			j = i
 			while j > _hx_from:
 				if cmp(_hx_array_get(a,j), _hx_array_get(a,j - 1)) < 0:
 					_hx_c.haxe_ds_ArraySort.swap(a, j - 1, j)
 				else:
 					break
-				_hx_local_4 = j
 				j = j - 1
-				_hx_local_4
-				
 			
 		
 		
@@ -30012,21 +26757,9 @@ def Vector_Impl__statics__new(length):
 	this1 = list()
 	_g = 0
 	while _g < length:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(this1,i, None)
 	
 	
@@ -30037,38 +26770,26 @@ def Vector_Impl__statics_get(this1,index):
 	return _hx_array_get(this1,index)
 haxe_ds_Vector_Vector_Impl_.get = Vector_Impl__statics_get
 def Vector_Impl__statics_set(this1,index,val):
-	def _hx_local_2():
+	def _hx_local_1():
 		def _hx_local_0():
 			_hx_array_set(this1,index, val)
 			return _hx_array_get(this1,index)
 		
 		return _hx_local_0()
 	
-	return _hx_local_2()
+	return _hx_local_1()
 	
 haxe_ds_Vector_Vector_Impl_.set = Vector_Impl__statics_set
 haxe_ds_Vector_Vector_Impl_.length = None;
 def Vector_Impl__statics_get_length(this1):
-	return __builtin__.len(this1)
+	return _hx_builtin.len(this1)
 haxe_ds_Vector_Vector_Impl_.get_length = Vector_Impl__statics_get_length
 def Vector_Impl__statics_blit(src,srcPos,dest,destPos,len):
 	_g = 0
 	while _g < len:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(dest,destPos + i, _hx_array_get(src,srcPos + i))
 	
 	
@@ -30081,49 +26802,25 @@ def Vector_Impl__statics_fromData(data):
 haxe_ds_Vector_Vector_Impl_.fromData = Vector_Impl__statics_fromData
 def Vector_Impl__statics_fromArrayCopy(array):
 	vec = None
-	length = __builtin__.len(array)
+	length = _hx_builtin.len(array)
 	this1 = None
 	this1 = list()
 	_g = 0
 	while _g < length:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		_hx_array_set(this1,i, None)
 	
 	
 	vec = this1
 	
 	_g1 = 0
-	_g2 = __builtin__.len(array)
+	_g2 = _hx_builtin.len(array)
 	while _g1 < _g2:
-		_hx_local_7 = None
-		def _hx_local_6():
-			nonlocal _g1
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = _g1
-			_hx_local_5 = _hx_local_4
-			_g1 = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
-			
+		i1 = _g1
+		_g1 = _g1 + 1
 		
-		i1 = _hx_local_6()
 		_hx_array_set(vec,i1, _hx_array_get(array,i1))
 	
 	
@@ -30174,27 +26871,27 @@ def Path_statics_withExtension(path,ext):
 	
 haxe_io_Path.withExtension = Path_statics_withExtension
 def Path_statics_addTrailingSlash(path):
-	if __builtin__.len(path) == 0:
+	if _hx_builtin.len(path) == 0:
 		return "/"
 	
 	c1 = None
 	if None is None:
-		c1 = path.rfind("/", 0, __builtin__.len(path))
+		c1 = path.rfind("/", 0, _hx_builtin.len(path))
 	else:
 		i = path.rfind("/", 0, None + 1)
 		startLeft = None
 		if i == -1:
-			b = None + 1 - __builtin__.len("/")
+			b = None + 1 - _hx_builtin.len("/")
 			if _hx_math.isnan(0):
 				startLeft = 0
 			elif _hx_math.isnan(b):
 				startLeft = b
 			else:
-				startLeft = __builtin__.max(0, b)
+				startLeft = _hx_builtin.max(0, b)
 		
 		else:
 			startLeft = i + 1
-		check = path.find("/", startLeft, __builtin__.len(path))
+		check = path.find("/", startLeft, _hx_builtin.len(path))
 		if check > i and check <= None:
 			c1 = check
 		else:
@@ -30202,33 +26899,33 @@ def Path_statics_addTrailingSlash(path):
 	
 	c2 = None
 	if None is None:
-		c2 = path.rfind("\\", 0, __builtin__.len(path))
+		c2 = path.rfind("\\", 0, _hx_builtin.len(path))
 	else:
 		i1 = path.rfind("\\", 0, None + 1)
 		startLeft1 = None
 		if i1 == -1:
-			b1 = None + 1 - __builtin__.len("\\")
+			b1 = None + 1 - _hx_builtin.len("\\")
 			if _hx_math.isnan(0):
 				startLeft1 = 0
 			elif _hx_math.isnan(b1):
 				startLeft1 = b1
 			else:
-				startLeft1 = __builtin__.max(0, b1)
+				startLeft1 = _hx_builtin.max(0, b1)
 		
 		else:
 			startLeft1 = i1 + 1
-		check1 = path.find("\\", startLeft1, __builtin__.len(path))
+		check1 = path.find("\\", startLeft1, _hx_builtin.len(path))
 		if check1 > i1 and check1 <= None:
 			c2 = check1
 		else:
 			c2 = i1
 	
 	if c1 < c2:
-		if c2 != __builtin__.len(path) - 1:
+		if c2 != _hx_builtin.len(path) - 1:
 			return Std.string(path) + "\\"
 		else:
 			return path
-	elif c1 != __builtin__.len(path) - 1:
+	elif c1 != _hx_builtin.len(path) - 1:
 		return Std.string(path) + "/"
 	else:
 		return path
@@ -30236,7 +26933,7 @@ def Path_statics_addTrailingSlash(path):
 haxe_io_Path.addTrailingSlash = Path_statics_addTrailingSlash
 def Path_statics_removeTrailingSlash(path):
 	_g = None
-	index = __builtin__.len(path) - 1
+	index = _hx_builtin.len(path) - 1
 	_g = _hx_c.python_internal_StringImpl.charCodeAt(path, index)
 	
 	if (_g) == 92 or (_g) == 47:
@@ -30253,80 +26950,80 @@ def ExprTools_statics_toString(e):
 haxe_macro_ExprTools.toString = ExprTools_statics_toString
 def ExprTools_statics_iter(e,f):
 	_g = e.expr
-	if (_hx_c.Type.enumIndex(_g)) == 26 or (_hx_c.Type.enumIndex(_g)) == 20 or (_hx_c.Type.enumIndex(_g)) == 21 or (_hx_c.Type.enumIndex(_g)) == 0:
+	if (_g.index) == 26 or (_g.index) == 20 or (_g.index) == 21 or (_g.index) == 0:
 		None
-	elif (_hx_c.Type.enumIndex(_g)) == 3:
+	elif (_g.index) == 3:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 4:
+	elif (_g.index) == 4:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 22:
+	elif (_g.index) == 22:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 23:
+	elif (_g.index) == 23:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 25:
+	elif (_g.index) == 25:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 28:
+	elif (_g.index) == 28:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 9:
+	elif (_g.index) == 9:
 		e1 = _g.params[2]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 24:
+	elif (_g.index) == 24:
 		e1 = _g.params[0]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 29:
+	elif (_g.index) == 29:
 		e1 = _g.params[1]
 		f(e1)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 1:
+	elif (_g.index) == 1:
 		e2 = _g.params[1]
 		e11 = _g.params[0]
 		f(e11)
 		f(e2)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 16:
+	elif (_g.index) == 16:
 		e2 = _g.params[1]
 		e11 = _g.params[0]
 		f(e11)
 		f(e2)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 2:
+	elif (_g.index) == 2:
 		e2 = _g.params[2]
 		e11 = _g.params[1]
 		f(e11)
 		f(e2)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 13:
+	elif (_g.index) == 13:
 		e2 = _g.params[1]
 		e11 = _g.params[0]
 		f(e11)
 		f(e2)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 14:
+	elif (_g.index) == 14:
 		e2 = _g.params[1]
 		e11 = _g.params[0]
 		f(e11)
 		f(e2)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 10:
+	elif (_g.index) == 10:
 		vl = _g.params[0]
 		_g1 = 0
 		while _g1 < _hx_builtin.len(vl):
@@ -30339,7 +27036,7 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 18:
+	elif (_g.index) == 18:
 		cl = _g.params[1]
 		e4 = _g.params[0]
 		f(e4)
@@ -30352,7 +27049,7 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 27:
+	elif (_g.index) == 27:
 		e31 = _g.params[2]
 		e21 = _g.params[1]
 		e12 = _g.params[0]
@@ -30363,7 +27060,7 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 15:
+	elif (_g.index) == 15:
 		e31 = _g.params[2]
 		e21 = _g.params[1]
 		e12 = _g.params[0]
@@ -30374,19 +27071,19 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 6:
+	elif (_g.index) == 6:
 		el = _g.params[0]
 		_hx_c.haxe_macro_ExprArrayTools.iter(el, f)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 8:
+	elif (_g.index) == 8:
 		el = _g.params[1]
 		_hx_c.haxe_macro_ExprArrayTools.iter(el, f)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 12:
+	elif (_g.index) == 12:
 		el = _g.params[0]
 		_hx_c.haxe_macro_ExprArrayTools.iter(el, f)
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 5:
+	elif (_g.index) == 5:
 		fl = _g.params[0]
 		_g12 = 0
 		while _g12 < _hx_builtin.len(fl):
@@ -30396,20 +27093,20 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 7:
+	elif (_g.index) == 7:
 		el1 = _g.params[1]
 		e5 = _g.params[0]
 		f(e5)
 		_hx_c.haxe_macro_ExprArrayTools.iter(el1, f)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 19:
+	elif (_g.index) == 19:
 		e6 = _g.params[0]
 		if e6 is not None:
 			f(e6)
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 11:
+	elif (_g.index) == 11:
 		func = _g.params[1]
 		_g13 = 0
 		_g2 = func.args
@@ -30429,7 +27126,7 @@ def ExprTools_statics_iter(e,f):
 		
 		
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 17:
+	elif (_g.index) == 17:
 		edef = _g.params[2]
 		cl1 = _g.params[1]
 		e9 = _g.params[0]
@@ -30460,102 +27157,102 @@ def ExprTools_statics_iter(e,f):
 	
 haxe_macro_ExprTools.iter = ExprTools_statics_iter
 def ExprTools_statics_map(e,f):
-	def _hx_local_185():
+	def _hx_local_125():
 		def _hx_local_0():
 			_g = e.expr
-			def _hx_local_183():
-				def _hx_local_57():
-					def _hx_local_61():
-						def _hx_local_59():
-							def _hx_local_58():
+			def _hx_local_124():
+				def _hx_local_29():
+					def _hx_local_32():
+						def _hx_local_31():
+							def _hx_local_30():
 								e24 = _g.params[1]
 								m = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EMeta(m, f(e24))
 							
-							return _hx_local_58()
+							return _hx_local_30()
 						
-						return _hx_local_59()
+						return _hx_local_31()
 					
-					_hx_local_1 = _hx_local_61
-					def _hx_local_69():
-						def _hx_local_67():
-							def _hx_local_62():
+					_hx_local_1 = _hx_local_32
+					def _hx_local_38():
+						def _hx_local_37():
+							def _hx_local_33():
 								func = _g.params[1]
 								name = _g.params[0]
-								def _hx_local_65():
-									def _hx_local_63():
+								def _hx_local_36():
+									def _hx_local_34():
 										ret4 = []
 										_g14 = 0
 										_g2 = func.args
 										while _g14 < _hx_builtin.len(_g2):
 											arg = _hx_array_get(_g2,_g14)
 											_g14 = _g14 + 1
-											def _hx_local_64():
+											def _hx_local_35():
 												e23 = arg.value
 												return None if (e23 is None) else f(e23)
 											
-											x4 = _hx_c._hx_AnonObject(name = arg.name ,opt = arg.opt ,type = arg.type ,value = _hx_local_64() )
+											x4 = _hx_c._hx_AnonObject(name = arg.name ,opt = arg.opt ,type = arg.type ,value = _hx_local_35() )
 											ret4.append(x4)
-											__builtin__.len(ret4)
+											_hx_builtin.len(ret4)
 											
 										
 										
 										return _hx_c.haxe_macro_ExprDef.EFunction(name, _hx_c._hx_AnonObject(args = ret4 ,ret = func.ret ,params = func.params ,expr = f(func.expr) ))
 									
-									return _hx_local_63()
+									return _hx_local_34()
 								
-								return _hx_local_65()
+								return _hx_local_36()
 							
-							return _hx_local_62()
+							return _hx_local_33()
 						
-						return _hx_local_67()
+						return _hx_local_37()
 					
-					_hx_local_3 = _hx_local_69
-					def _hx_local_78():
-						def _hx_local_76():
-							def _hx_local_70():
+					_hx_local_2 = _hx_local_38
+					def _hx_local_45():
+						def _hx_local_44():
+							def _hx_local_39():
 								edef = _g.params[2]
 								cases = _g.params[1]
 								e18 = _g.params[0]
-								def _hx_local_74():
-									def _hx_local_71():
+								def _hx_local_43():
+									def _hx_local_40():
 										ret3 = []
 										_g13 = 0
 										while _g13 < _hx_builtin.len(cases):
 											c1 = _hx_array_get(cases,_g13)
 											_g13 = _g13 + 1
-											def _hx_local_72():
+											def _hx_local_41():
 												e19 = c1.expr
 												return None if (e19 is None) else f(e19)
 											
-											def _hx_local_73():
+											def _hx_local_42():
 												e20 = c1.guard
 												return None if (e20 is None) else f(e20)
 											
-											x3 = _hx_c._hx_AnonObject(expr = _hx_local_72() ,guard = _hx_local_73() ,values = _hx_c.haxe_macro_ExprArrayTools.map(c1.values, f) )
+											x3 = _hx_c._hx_AnonObject(expr = _hx_local_41() ,guard = _hx_local_42() ,values = _hx_c.haxe_macro_ExprArrayTools.map(c1.values, f) )
 											ret3.append(x3)
-											__builtin__.len(ret3)
+											_hx_builtin.len(ret3)
 											
 										
 										
 										return _hx_c.haxe_macro_ExprDef.ESwitch(f(e18), ret3, edef if (edef is None or edef.expr is None) else f(edef))
 									
-									return _hx_local_71()
+									return _hx_local_40()
 								
-								return _hx_local_74()
+								return _hx_local_43()
 							
-							return _hx_local_70()
+							return _hx_local_39()
 						
-						return _hx_local_76()
+						return _hx_local_44()
 					
-					_hx_local_5 = _hx_local_78
-					def _hx_local_85():
-						def _hx_local_83():
-							def _hx_local_79():
+					_hx_local_3 = _hx_local_45
+					def _hx_local_50():
+						def _hx_local_49():
+							def _hx_local_46():
 								catches = _g.params[1]
 								e17 = _g.params[0]
-								def _hx_local_81():
-									def _hx_local_80():
+								def _hx_local_48():
+									def _hx_local_47():
 										ret2 = []
 										_g12 = 0
 										while _g12 < _hx_builtin.len(catches):
@@ -30563,253 +27260,253 @@ def ExprTools_statics_map(e,f):
 											_g12 = _g12 + 1
 											x2 = _hx_c._hx_AnonObject(name = c.name ,type = c.type ,expr = f(c.expr) )
 											ret2.append(x2)
-											__builtin__.len(ret2)
+											_hx_builtin.len(ret2)
 											
 										
 										
 										return _hx_c.haxe_macro_ExprDef.ETry(f(e17), ret2)
 									
-									return _hx_local_80()
+									return _hx_local_47()
 								
-								return _hx_local_81()
+								return _hx_local_48()
 							
-							return _hx_local_79()
+							return _hx_local_46()
 						
-						return _hx_local_83()
+						return _hx_local_49()
 					
-					_hx_local_7 = _hx_local_85
-					def _hx_local_86():
+					_hx_local_4 = _hx_local_50
+					def _hx_local_51():
 						return e.expr
-					_hx_local_9 = _hx_local_86
-					def _hx_local_90():
-						def _hx_local_88():
-							def _hx_local_87():
+					_hx_local_5 = _hx_local_51
+					def _hx_local_54():
+						def _hx_local_53():
+							def _hx_local_52():
 								t1 = _g.params[1]
 								e16 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.ECheckType(f(e16), t1)
 							
-							return _hx_local_87()
+							return _hx_local_52()
 						
-						return _hx_local_88()
+						return _hx_local_53()
 					
-					_hx_local_11 = _hx_local_90
-					def _hx_local_94():
-						def _hx_local_92():
-							def _hx_local_91():
+					_hx_local_6 = _hx_local_54
+					def _hx_local_57():
+						def _hx_local_56():
+							def _hx_local_55():
 								eelse1 = _g.params[2]
 								eif1 = _g.params[1]
 								econd2 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.ETernary(f(econd2), f(eif1), f(eelse1))
 							
-							return _hx_local_91()
+							return _hx_local_55()
 						
-						return _hx_local_92()
+						return _hx_local_56()
 					
-					_hx_local_13 = _hx_local_94
-					def _hx_local_98():
-						def _hx_local_96():
-							def _hx_local_95():
+					_hx_local_7 = _hx_local_57
+					def _hx_local_60():
+						def _hx_local_59():
+							def _hx_local_58():
 								isCall = _g.params[1]
 								e15 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EDisplay(f(e15), isCall)
 							
-							return _hx_local_95()
+							return _hx_local_58()
 						
-						return _hx_local_96()
+						return _hx_local_59()
 					
-					_hx_local_15 = _hx_local_98
-					def _hx_local_102():
-						def _hx_local_100():
-							def _hx_local_99():
+					_hx_local_8 = _hx_local_60
+					def _hx_local_63():
+						def _hx_local_62():
+							def _hx_local_61():
 								t = _g.params[1]
 								e14 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.ECast(f(e14), t)
 							
-							return _hx_local_99()
+							return _hx_local_61()
 						
-						return _hx_local_100()
+						return _hx_local_62()
 					
-					_hx_local_17 = _hx_local_102
-					def _hx_local_106():
-						def _hx_local_104():
-							def _hx_local_103():
+					_hx_local_9 = _hx_local_63
+					def _hx_local_66():
+						def _hx_local_65():
+							def _hx_local_64():
 								e13 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EThrow(f(e13))
 							
-							return _hx_local_103()
+							return _hx_local_64()
 						
-						return _hx_local_104()
+						return _hx_local_65()
 					
-					_hx_local_19 = _hx_local_106
-					def _hx_local_110():
-						def _hx_local_108():
-							def _hx_local_107():
+					_hx_local_10 = _hx_local_66
+					def _hx_local_69():
+						def _hx_local_68():
+							def _hx_local_67():
 								e10 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EUntyped(f(e10))
 							
-							return _hx_local_107()
+							return _hx_local_67()
 						
-						return _hx_local_108()
+						return _hx_local_68()
 					
-					_hx_local_21 = _hx_local_110
-					def _hx_local_114():
-						def _hx_local_112():
-							def _hx_local_111():
+					_hx_local_11 = _hx_local_69
+					def _hx_local_72():
+						def _hx_local_71():
+							def _hx_local_70():
 								e9 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EReturn(None if (e9 is None) else f(e9))
 							
-							return _hx_local_111()
+							return _hx_local_70()
 						
-						return _hx_local_112()
+						return _hx_local_71()
 					
-					_hx_local_23 = _hx_local_114
-					def _hx_local_118():
-						def _hx_local_116():
-							def _hx_local_115():
+					_hx_local_12 = _hx_local_72
+					def _hx_local_75():
+						def _hx_local_74():
+							def _hx_local_73():
 								normalWhile = _g.params[2]
 								e8 = _g.params[1]
 								econd1 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EWhile(f(econd1), f(e8), normalWhile)
 							
-							return _hx_local_115()
+							return _hx_local_73()
 						
-						return _hx_local_116()
+						return _hx_local_74()
 					
-					_hx_local_25 = _hx_local_118
-					def _hx_local_122():
-						def _hx_local_120():
-							def _hx_local_119():
+					_hx_local_13 = _hx_local_75
+					def _hx_local_78():
+						def _hx_local_77():
+							def _hx_local_76():
 								eelse = _g.params[2]
 								eif = _g.params[1]
 								econd = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EIf(f(econd), f(eif), None if (eelse is None) else f(eelse))
 							
-							return _hx_local_119()
+							return _hx_local_76()
 						
-						return _hx_local_120()
+						return _hx_local_77()
 					
-					_hx_local_27 = _hx_local_122
-					def _hx_local_126():
-						def _hx_local_124():
-							def _hx_local_123():
+					_hx_local_14 = _hx_local_78
+					def _hx_local_81():
+						def _hx_local_80():
+							def _hx_local_79():
 								e22 = _g.params[1]
 								e12 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EIn(f(e12), f(e22))
 							
-							return _hx_local_123()
+							return _hx_local_79()
 						
-						return _hx_local_124()
+						return _hx_local_80()
 					
-					_hx_local_29 = _hx_local_126
-					def _hx_local_130():
-						def _hx_local_128():
-							def _hx_local_127():
+					_hx_local_15 = _hx_local_81
+					def _hx_local_84():
+						def _hx_local_83():
+							def _hx_local_82():
 								expr = _g.params[1]
 								it = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EFor(f(it), f(expr))
 							
-							return _hx_local_127()
+							return _hx_local_82()
 						
-						return _hx_local_128()
+						return _hx_local_83()
 					
-					_hx_local_31 = _hx_local_130
-					def _hx_local_134():
-						def _hx_local_132():
-							def _hx_local_131():
+					_hx_local_16 = _hx_local_84
+					def _hx_local_87():
+						def _hx_local_86():
+							def _hx_local_85():
 								el1 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EBlock(_hx_c.haxe_macro_ExprArrayTools.map(el1, f))
 							
-							return _hx_local_131()
+							return _hx_local_85()
 						
-						return _hx_local_132()
+						return _hx_local_86()
 					
-					_hx_local_33 = _hx_local_134
-					def _hx_local_142():
-						def _hx_local_140():
-							def _hx_local_135():
+					_hx_local_17 = _hx_local_87
+					def _hx_local_93():
+						def _hx_local_92():
+							def _hx_local_88():
 								vars = _g.params[0]
-								def _hx_local_138():
-									def _hx_local_136():
+								def _hx_local_91():
+									def _hx_local_89():
 										ret1 = []
 										_g11 = 0
 										while _g11 < _hx_builtin.len(vars):
 											v = _hx_array_get(vars,_g11)
 											_g11 = _g11 + 1
-											def _hx_local_137():
+											def _hx_local_90():
 												e7 = v.expr
 												return None if (e7 is None) else f(e7)
 											
-											x1 = _hx_c._hx_AnonObject(name = v.name ,type = v.type ,expr = _hx_local_137() )
+											x1 = _hx_c._hx_AnonObject(name = v.name ,type = v.type ,expr = _hx_local_90() )
 											ret1.append(x1)
-											__builtin__.len(ret1)
+											_hx_builtin.len(ret1)
 											
 										
 										
 										return _hx_c.haxe_macro_ExprDef.EVars(ret1)
 									
-									return _hx_local_136()
+									return _hx_local_89()
 								
-								return _hx_local_138()
+								return _hx_local_91()
 							
-							return _hx_local_135()
+							return _hx_local_88()
 						
-						return _hx_local_140()
+						return _hx_local_92()
 					
-					_hx_local_35 = _hx_local_142
-					def _hx_local_146():
-						def _hx_local_144():
-							def _hx_local_143():
+					_hx_local_18 = _hx_local_93
+					def _hx_local_96():
+						def _hx_local_95():
+							def _hx_local_94():
 								e6 = _g.params[2]
 								postFix = _g.params[1]
 								op1 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EUnop(op1, postFix, f(e6))
 							
-							return _hx_local_143()
+							return _hx_local_94()
 						
-						return _hx_local_144()
+						return _hx_local_95()
 					
-					_hx_local_37 = _hx_local_146
-					def _hx_local_150():
-						def _hx_local_148():
-							def _hx_local_147():
+					_hx_local_19 = _hx_local_96
+					def _hx_local_99():
+						def _hx_local_98():
+							def _hx_local_97():
 								params1 = _g.params[1]
 								tp = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.ENew(tp, _hx_c.haxe_macro_ExprArrayTools.map(params1, f))
 							
-							return _hx_local_147()
+							return _hx_local_97()
 						
-						return _hx_local_148()
+						return _hx_local_98()
 					
-					_hx_local_39 = _hx_local_150
-					def _hx_local_154():
-						def _hx_local_152():
-							def _hx_local_151():
+					_hx_local_20 = _hx_local_99
+					def _hx_local_102():
+						def _hx_local_101():
+							def _hx_local_100():
 								params = _g.params[1]
 								e5 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.ECall(f(e5), _hx_c.haxe_macro_ExprArrayTools.map(params, f))
 							
-							return _hx_local_151()
+							return _hx_local_100()
 						
-						return _hx_local_152()
+						return _hx_local_101()
 					
-					_hx_local_41 = _hx_local_154
-					def _hx_local_158():
-						def _hx_local_156():
-							def _hx_local_155():
+					_hx_local_21 = _hx_local_102
+					def _hx_local_105():
+						def _hx_local_104():
+							def _hx_local_103():
 								el = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EArrayDecl(_hx_c.haxe_macro_ExprArrayTools.map(el, f))
 							
-							return _hx_local_155()
+							return _hx_local_103()
 						
-						return _hx_local_156()
+						return _hx_local_104()
 					
-					_hx_local_43 = _hx_local_158
-					def _hx_local_165():
-						def _hx_local_163():
-							def _hx_local_159():
+					_hx_local_22 = _hx_local_105
+					def _hx_local_110():
+						def _hx_local_109():
+							def _hx_local_106():
 								fields = _g.params[0]
-								def _hx_local_161():
-									def _hx_local_160():
+								def _hx_local_108():
+									def _hx_local_107():
 										ret = []
 										_g1 = 0
 										while _g1 < _hx_builtin.len(fields):
@@ -30817,81 +27514,81 @@ def ExprTools_statics_map(e,f):
 											_g1 = _g1 + 1
 											x = _hx_c._hx_AnonObject(field = field1.field ,expr = f(field1.expr) )
 											ret.append(x)
-											__builtin__.len(ret)
+											_hx_builtin.len(ret)
 											
 										
 										
 										return _hx_c.haxe_macro_ExprDef.EObjectDecl(ret)
 									
-									return _hx_local_160()
+									return _hx_local_107()
 								
-								return _hx_local_161()
+								return _hx_local_108()
 							
-							return _hx_local_159()
+							return _hx_local_106()
 						
-						return _hx_local_163()
+						return _hx_local_109()
 					
-					_hx_local_45 = _hx_local_165
-					def _hx_local_169():
-						def _hx_local_167():
-							def _hx_local_166():
+					_hx_local_23 = _hx_local_110
+					def _hx_local_113():
+						def _hx_local_112():
+							def _hx_local_111():
 								e4 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EParenthesis(f(e4))
 							
-							return _hx_local_166()
+							return _hx_local_111()
 						
-						return _hx_local_167()
+						return _hx_local_112()
 					
-					_hx_local_47 = _hx_local_169
-					def _hx_local_173():
-						def _hx_local_171():
-							def _hx_local_170():
+					_hx_local_24 = _hx_local_113
+					def _hx_local_116():
+						def _hx_local_115():
+							def _hx_local_114():
 								field = _g.params[1]
 								e3 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EField(f(e3), field)
 							
-							return _hx_local_170()
+							return _hx_local_114()
 						
-						return _hx_local_171()
+						return _hx_local_115()
 					
-					_hx_local_49 = _hx_local_173
-					def _hx_local_177():
-						def _hx_local_175():
-							def _hx_local_174():
+					_hx_local_25 = _hx_local_116
+					def _hx_local_119():
+						def _hx_local_118():
+							def _hx_local_117():
 								e21 = _g.params[2]
 								e11 = _g.params[1]
 								op = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EBinop(op, f(e11), f(e21))
 							
-							return _hx_local_174()
+							return _hx_local_117()
 						
-						return _hx_local_175()
+						return _hx_local_118()
 					
-					_hx_local_51 = _hx_local_177
-					def _hx_local_181():
-						def _hx_local_179():
-							def _hx_local_178():
+					_hx_local_26 = _hx_local_119
+					def _hx_local_122():
+						def _hx_local_121():
+							def _hx_local_120():
 								e2 = _g.params[1]
 								e1 = _g.params[0]
 								return _hx_c.haxe_macro_ExprDef.EArray(f(e1), f(e2))
 							
-							return _hx_local_178()
+							return _hx_local_120()
 						
-						return _hx_local_179()
+						return _hx_local_121()
 					
-					_hx_local_53 = _hx_local_181
-					def _hx_local_182():
+					_hx_local_27 = _hx_local_122
+					def _hx_local_123():
 						return e.expr
-					_hx_local_55 = _hx_local_182
-					return _hx_local_55() if (_hx_c.Type.enumIndex(_g)) == 0 else _hx_local_53() if (_hx_c.Type.enumIndex(_g)) == 1 else _hx_local_51() if (_hx_c.Type.enumIndex(_g)) == 2 else _hx_local_49() if (_hx_c.Type.enumIndex(_g)) == 3 else _hx_local_47() if (_hx_c.Type.enumIndex(_g)) == 4 else _hx_local_45() if (_hx_c.Type.enumIndex(_g)) == 5 else _hx_local_43() if (_hx_c.Type.enumIndex(_g)) == 6 else _hx_local_41() if (_hx_c.Type.enumIndex(_g)) == 7 else _hx_local_39() if (_hx_c.Type.enumIndex(_g)) == 8 else _hx_local_37() if (_hx_c.Type.enumIndex(_g)) == 9 else _hx_local_35() if (_hx_c.Type.enumIndex(_g)) == 10 else _hx_local_33() if (_hx_c.Type.enumIndex(_g)) == 12 else _hx_local_31() if (_hx_c.Type.enumIndex(_g)) == 13 else _hx_local_29() if (_hx_c.Type.enumIndex(_g)) == 14 else _hx_local_27() if (_hx_c.Type.enumIndex(_g)) == 15 else _hx_local_25() if (_hx_c.Type.enumIndex(_g)) == 16 else _hx_local_23() if (_hx_c.Type.enumIndex(_g)) == 19 else _hx_local_21() if (_hx_c.Type.enumIndex(_g)) == 22 else _hx_local_19() if (_hx_c.Type.enumIndex(_g)) == 23 else _hx_local_17() if (_hx_c.Type.enumIndex(_g)) == 24 else _hx_local_15() if (_hx_c.Type.enumIndex(_g)) == 25 else _hx_local_13() if (_hx_c.Type.enumIndex(_g)) == 27 else _hx_local_11() if (_hx_c.Type.enumIndex(_g)) == 28 else _hx_local_9() if (_hx_c.Type.enumIndex(_g)) == 20 or (_hx_c.Type.enumIndex(_g)) == 21 or (_hx_c.Type.enumIndex(_g)) == 26 else _hx_local_7() if (_hx_c.Type.enumIndex(_g)) == 18 else _hx_local_5() if (_hx_c.Type.enumIndex(_g)) == 17 else _hx_local_3() if (_hx_c.Type.enumIndex(_g)) == 11 else _hx_local_1() if (_hx_c.Type.enumIndex(_g)) == 29 else None
+					_hx_local_28 = _hx_local_123
+					return _hx_local_28() if (_g.index) == 0 else _hx_local_27() if (_g.index) == 1 else _hx_local_26() if (_g.index) == 2 else _hx_local_25() if (_g.index) == 3 else _hx_local_24() if (_g.index) == 4 else _hx_local_23() if (_g.index) == 5 else _hx_local_22() if (_g.index) == 6 else _hx_local_21() if (_g.index) == 7 else _hx_local_20() if (_g.index) == 8 else _hx_local_19() if (_g.index) == 9 else _hx_local_18() if (_g.index) == 10 else _hx_local_17() if (_g.index) == 12 else _hx_local_16() if (_g.index) == 13 else _hx_local_15() if (_g.index) == 14 else _hx_local_14() if (_g.index) == 15 else _hx_local_13() if (_g.index) == 16 else _hx_local_12() if (_g.index) == 19 else _hx_local_11() if (_g.index) == 22 else _hx_local_10() if (_g.index) == 23 else _hx_local_9() if (_g.index) == 24 else _hx_local_8() if (_g.index) == 25 else _hx_local_7() if (_g.index) == 27 else _hx_local_6() if (_g.index) == 28 else _hx_local_5() if (_g.index) == 20 or (_g.index) == 21 or (_g.index) == 26 else _hx_local_4() if (_g.index) == 18 else _hx_local_3() if (_g.index) == 17 else _hx_local_2() if (_g.index) == 11 else _hx_local_1() if (_g.index) == 29 else None
 				
-				return _hx_local_57()
+				return _hx_local_29()
 			
-			return _hx_local_183()
+			return _hx_local_124()
 		
 		return _hx_c._hx_AnonObject(pos = e.pos ,expr = _hx_local_0() )
 	
-	return _hx_local_185()
+	return _hx_local_125()
 	
 haxe_macro_ExprTools.map = ExprTools_statics_map
 def ExprTools_statics_opt(e,f):
@@ -30914,7 +27611,7 @@ def ExprArrayTools_statics_map(el,f):
 		_g = _g + 1
 		x = f(e)
 		ret.append(x)
-		__builtin__.len(ret)
+		_hx_builtin.len(ret)
 		
 	
 	
@@ -30967,7 +27664,7 @@ def _hx_init_haxe_xml_Parser_escapes():
 		h.set("apos", "'")
 		def _hx_local_1():
 			c = 160
-			return "".join(map(chr, [c]))
+			return "".join(_hx_builtin.map(_hx_builtin.chr, [c]))
 		
 		h.set("nbsp", _hx_local_1())
 		return h
@@ -30996,11 +27693,11 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 	nsubs = 0
 	nbrackets = 0
 	c = None
-	if p >= __builtin__.len(str):
+	if p >= _hx_builtin.len(str):
 		c = -1
 	else:
 		c = ord(_hx_array_get(str,p))
-	buf = _hx_StringIO()
+	buf = _hx_c.StringBuf()
 	while not (c == -1):
 		if (state) == 0:
 			if (c) == 32 or (c) == 9 or (c) == 13 or (c) == 10:
@@ -31021,28 +27718,10 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 		elif (state) == 13:
 			if c == 60:
-				child = _hx_c.Xml.createPCData(Std.string(buf.getvalue()) + Std.string(_hx_c.python_Tools.substr(str, start, p - start)))
-				buf = _hx_StringIO()
+				child = _hx_c.Xml.createPCData(Std.string(buf.b.getvalue()) + Std.string(_hx_c.python_Tools.substr(str, start, p - start)))
+				buf = _hx_c.StringBuf()
 				parent.addChild(child)
-				_hx_local_3 = None
-				def _hx_local_4():
-					nonlocal nsubs
-					nonlocal nsubs
-					nonlocal _hx_local_3
-					if _hx_local_3 is not None:
-						return _hx_local_3
-					
-					_hx_local_0 = nsubs
-					_hx_local_1 = _hx_local_0
-					nsubs = _hx_local_0 + 1
-					_hx_local_3 = _hx_local_1
-					return _hx_local_1
-					
-					
-				
-				_hx_local_2 = _hx_local_4
-				_hx_local_2()
-				
+				nsubs = nsubs + 1
 				state = 0
 				next = 2
 		
@@ -31053,7 +27732,7 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 					s = _hx_c.python_Tools.substr(str, start, None)
 				else:
 					s = _hx_c.python_Tools.substr(str, start, len)
-				buf.write(s)
+				buf.b.write(s)
 				
 				
 				state = 18
@@ -31062,36 +27741,18 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 			
 		elif (state) == 17:
-			def _hx_local_6():
+			def _hx_local_2():
 				index = p + 1
-				return -1 if (index >= __builtin__.len(str)) else ord(_hx_array_get(str,index))
+				return -1 if (index >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index))
 			
-			def _hx_local_5():
+			def _hx_local_1():
 				index1 = p + 2
-				return -1 if (index1 >= __builtin__.len(str)) else ord(_hx_array_get(str,index1))
+				return -1 if (index1 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index1))
 			
-			if c == 93 and _hx_local_6() == 93 and _hx_local_5() == 62:
+			if c == 93 and _hx_local_2() == 93 and _hx_local_1() == 62:
 				child1 = _hx_c.Xml.createCData(_hx_c.python_Tools.substr(str, start, p - start))
 				parent.addChild(child1)
-				_hx_local_10 = None
-				def _hx_local_11():
-					nonlocal nsubs
-					nonlocal nsubs
-					nonlocal _hx_local_10
-					if _hx_local_10 is not None:
-						return _hx_local_10
-					
-					_hx_local_7 = nsubs
-					_hx_local_8 = _hx_local_7
-					nsubs = _hx_local_7 + 1
-					_hx_local_10 = _hx_local_8
-					return _hx_local_8
-					
-					
-				
-				_hx_local_9 = _hx_local_11
-				_hx_local_9()
-				
+				nsubs = nsubs + 1
 				p = p + 2
 				state = 1
 			
@@ -31099,17 +27760,17 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 		elif (state) == 2:
 			if (c) == 33:
-				def _hx_local_12():
+				def _hx_local_5():
 					index2 = p + 1
-					return -1 if (index2 >= __builtin__.len(str)) else ord(_hx_array_get(str,index2))
+					return -1 if (index2 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index2))
 				
-				if _hx_local_12() == 91:
+				if _hx_local_5() == 91:
 					p = p + 2
-					def _hx_local_13():
+					def _hx_local_7():
 						_this = _hx_c.python_Tools.substr(str, p, 6)
 						return _this.upper()
 					
-					if _hx_local_13() != "CDATA[":
+					if _hx_local_7() != "CDATA[":
 						raise _HxException("Expected <![CDATA[")
 					
 					p = p + 5
@@ -31117,20 +27778,20 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 					start = p + 1
 				
 				else:
-					def _hx_local_15():
+					def _hx_local_10():
 						index3 = p + 1
-						return -1 if (index3 >= __builtin__.len(str)) else ord(_hx_array_get(str,index3))
+						return -1 if (index3 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index3))
 					
-					def _hx_local_14():
+					def _hx_local_9():
 						index4 = p + 1
-						return -1 if (index4 >= __builtin__.len(str)) else ord(_hx_array_get(str,index4))
+						return -1 if (index4 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index4))
 					
-					if _hx_local_15() == 68 or _hx_local_14() == 100:
-						def _hx_local_16():
+					if _hx_local_10() == 68 or _hx_local_9() == 100:
+						def _hx_local_11():
 							_this1 = _hx_c.python_Tools.substr(str, p + 2, 6)
 							return _this1.upper()
 						
-						if _hx_local_16() != "OCTYPE":
+						if _hx_local_11() != "OCTYPE":
 							raise _HxException("Expected <!DOCTYPE")
 						
 						p = p + 8
@@ -31138,15 +27799,15 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 						start = p + 1
 					
 					else:
-						def _hx_local_18():
+						def _hx_local_14():
 							index5 = p + 1
-							return -1 if (index5 >= __builtin__.len(str)) else ord(_hx_array_get(str,index5))
+							return -1 if (index5 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index5))
 						
-						def _hx_local_17():
+						def _hx_local_13():
 							index6 = p + 2
-							return -1 if (index6 >= __builtin__.len(str)) else ord(_hx_array_get(str,index6))
+							return -1 if (index6 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index6))
 						
-						if _hx_local_18() != 45 or _hx_local_17() != 45:
+						if _hx_local_14() != 45 or _hx_local_13() != 45:
 							raise _HxException("Expected <!--")
 						else:
 							p = p + 2
@@ -31188,47 +27849,11 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		elif (state) == 4:
 			if (c) == 47:
 				state = 11
-				_hx_local_22 = None
-				def _hx_local_23():
-					nonlocal nsubs
-					nonlocal nsubs
-					nonlocal _hx_local_22
-					if _hx_local_22 is not None:
-						return _hx_local_22
-					
-					_hx_local_19 = nsubs
-					_hx_local_20 = _hx_local_19
-					nsubs = _hx_local_19 + 1
-					_hx_local_22 = _hx_local_20
-					return _hx_local_20
-					
-					
-				
-				_hx_local_21 = _hx_local_23
-				_hx_local_21()
-				
+				nsubs = nsubs + 1
 		
 			elif (c) == 62:
 				state = 9
-				_hx_local_27 = None
-				def _hx_local_28():
-					nonlocal nsubs
-					nonlocal nsubs
-					nonlocal _hx_local_27
-					if _hx_local_27 is not None:
-						return _hx_local_27
-					
-					_hx_local_24 = nsubs
-					_hx_local_25 = _hx_local_24
-					nsubs = _hx_local_24 + 1
-					_hx_local_27 = _hx_local_25
-					return _hx_local_25
-					
-					
-				
-				_hx_local_26 = _hx_local_28
-				_hx_local_26()
-				
+				nsubs = nsubs + 1
 		
 			else:
 				state = 5
@@ -31266,7 +27891,7 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 			else:
 				raise _HxException("Expected \"")
 		elif (state) == 8:
-			if c == (-1 if (start >= __builtin__.len(str)) else ord(_hx_array_get(str,start))):
+			if c == (-1 if (start >= _hx_builtin.len(str)) else ord(_hx_array_get(str,start))):
 				val = _hx_c.python_Tools.substr(str, start + 1, p - start - 1)
 				xml.set(aname, val)
 				state = 0
@@ -31307,15 +27932,15 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 			
 		elif (state) == 15:
-			def _hx_local_30():
+			def _hx_local_19():
 				index7 = p + 1
-				return -1 if (index7 >= __builtin__.len(str)) else ord(_hx_array_get(str,index7))
+				return -1 if (index7 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index7))
 			
-			def _hx_local_29():
+			def _hx_local_18():
 				index8 = p + 2
-				return -1 if (index8 >= __builtin__.len(str)) else ord(_hx_array_get(str,index8))
+				return -1 if (index8 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index8))
 			
-			if c == 45 and _hx_local_30() == 45 and _hx_local_29() == 62:
+			if c == 45 and _hx_local_19() == 45 and _hx_local_18() == 62:
 				parent.addChild(_hx_c.Xml.createComment(_hx_c.python_Tools.substr(str, start, p - start)))
 				p = p + 2
 				state = 1
@@ -31324,60 +27949,21 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 		elif (state) == 16:
 			if c == 91:
-				_hx_local_34 = None
-				def _hx_local_35():
-					nonlocal nbrackets
-					nonlocal nbrackets
-					nonlocal _hx_local_34
-					if _hx_local_34 is not None:
-						return _hx_local_34
-					
-					_hx_local_31 = nbrackets
-					_hx_local_32 = _hx_local_31
-					nbrackets = _hx_local_31 + 1
-					_hx_local_34 = _hx_local_32
-					return _hx_local_32
-					
-					
-				
-				_hx_local_33 = _hx_local_35
-				_hx_local_33()
-		
+				nbrackets = nbrackets + 1
 			elif c == 93:
-				_hx_local_36 = nbrackets
 				nbrackets = nbrackets - 1
-				_hx_local_36
-		
 			elif c == 62 and nbrackets == 0:
 				parent.addChild(_hx_c.Xml.createDocType(_hx_c.python_Tools.substr(str, start, p - start)))
 				state = 1
 		
 			
 		elif (state) == 14:
-			def _hx_local_37():
+			def _hx_local_23():
 				index9 = p + 1
-				return -1 if (index9 >= __builtin__.len(str)) else ord(_hx_array_get(str,index9))
+				return -1 if (index9 >= _hx_builtin.len(str)) else ord(_hx_array_get(str,index9))
 			
-			if c == 63 and _hx_local_37() == 62:
-				_hx_local_41 = None
-				def _hx_local_42():
-					nonlocal p
-					nonlocal p
-					nonlocal _hx_local_41
-					if _hx_local_41 is not None:
-						return _hx_local_41
-					
-					_hx_local_38 = p
-					_hx_local_39 = _hx_local_38
-					p = _hx_local_38 + 1
-					_hx_local_41 = _hx_local_39
-					return _hx_local_39
-					
-					
-				
-				_hx_local_40 = _hx_local_42
-				_hx_local_40()
-				
+			if c == 63 and _hx_local_23() == 62:
+				p = p + 1
 				str1 = _hx_c.python_Tools.substr(str, start + 1, p - start - 2)
 				parent.addChild(_hx_c.Xml.createProcessingInstruction(str1))
 				state = 1
@@ -31387,39 +27973,39 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		elif (state) == 18:
 			if c == 59:
 				s1 = _hx_c.python_Tools.substr(str, start, p - start)
-				if (-1 if (0 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,0))) == 35:
+				if (-1 if (0 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,0))) == 35:
 					i = None
-					if (-1 if (1 >= __builtin__.len(s1)) else ord(_hx_array_get(s1,1))) == 120:
-						def _hx_local_43():
-							len1 = __builtin__.len(s1) - 1
+					if (-1 if (1 >= _hx_builtin.len(s1)) else ord(_hx_array_get(s1,1))) == 120:
+						def _hx_local_25():
+							len1 = _hx_builtin.len(s1) - 1
 							return _hx_c.python_Tools.substr(s1, 1, len1)
 						
-						i = _hx_c.Std.parseInt("0" + Std.string(_hx_local_43()))
+						i = _hx_c.Std.parseInt("0" + Std.string(_hx_local_25()))
 					
 					else:
-						def _hx_local_44():
-							len2 = __builtin__.len(s1) - 1
+						def _hx_local_26():
+							len2 = _hx_builtin.len(s1) - 1
 							return _hx_c.python_Tools.substr(s1, 1, len2)
 						
-						i = _hx_c.Std.parseInt(_hx_local_44())
+						i = _hx_c.Std.parseInt(_hx_local_26())
 					
 					x = None
 					c1 = i
-					x = "".join(map(chr, [c1]))
+					x = "".join(_hx_builtin.map(_hx_builtin.chr, [c1]))
 					
 					s2 = _hx_c.Std.string(x)
-					buf.write(s2)
+					buf.b.write(s2)
 					
 					
 				
 				elif not _hx_c.haxe_xml_Parser.escapes.exists(s1):
 					s3 = _hx_c.Std.string(Std.string("&" + Std.string(s1)) + ";")
-					buf.write(s3)
+					buf.b.write(s3)
 				
 				else:
 					x1 = _hx_c.haxe_xml_Parser.escapes.get(s1)
 					s4 = _hx_c.Std.string(x1)
-					buf.write(s4)
+					buf.b.write(s4)
 					
 				
 				start = p + 1
@@ -31427,14 +28013,10 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 		
 			
 		
-		def _hx_local_45():
-			nonlocal p
-			p = p + 1
-			return p
-			
+		p = p + 1
+		index10 = p
 		
-		index10 = _hx_local_45()
-		if index10 >= __builtin__.len(str):
+		if index10 >= _hx_builtin.len(str):
 			c = -1
 		else:
 			c = ord(_hx_array_get(str,index10))
@@ -31447,7 +28029,7 @@ def Parser_statics_doParse(str,p = 0,parent = None):
 	
 	if state == 13:
 		if p != start or nsubs == 0:
-			parent.addChild(_hx_c.Xml.createPCData(Std.string(buf.getvalue()) + Std.string(_hx_c.python_Tools.substr(str, start, p - start))))
+			parent.addChild(_hx_c.Xml.createPCData(Std.string(buf.b.getvalue()) + Std.string(_hx_c.python_Tools.substr(str, start, p - start))))
 		
 		return p
 	
@@ -31538,178 +28120,6 @@ def Tools_statics_substr(s,startIndex,len = None):
 	
 python_Tools.substr = Tools_statics_substr
 
-def ArrayImpl_statics_get_length(x):
-	return __builtin__.len(x)
-python_internal_ArrayImpl.get_length = ArrayImpl_statics_get_length
-def ArrayImpl_statics_concat(a1,a2):
-	return a1 + a2
-python_internal_ArrayImpl.concat = ArrayImpl_statics_concat
-def ArrayImpl_statics_copy(x):
-	return __builtin__.list(x)
-python_internal_ArrayImpl.copy = ArrayImpl_statics_copy
-def ArrayImpl_statics_iterator(x):
-	it = x.__iter__()
-	return _hx_c.python_HaxeIterator(it)
-	
-python_internal_ArrayImpl.iterator = ArrayImpl_statics_iterator
-def ArrayImpl_statics_indexOf(a,x,fromIndex = None):
-	if fromIndex is None:
-		fromIndex = None
-	
-	l = None
-	if fromIndex is None:
-		l = 0
-	elif fromIndex < 0:
-		l = __builtin__.len(a) + fromIndex
-	else:
-		l = fromIndex
-	if l < 0:
-		l = 0
-	
-	_g1 = l
-	_g = __builtin__.len(a)
-	while _g1 < _g:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g1
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g1
-			_hx_local_1 = _hx_local_0
-			_g1 = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
-		
-		i = _hx_local_2()
-		if _hx_array_get(a,i) == x:
-			return i
-		
-	
-	
-	return -1
-	
-python_internal_ArrayImpl.indexOf = ArrayImpl_statics_indexOf
-def ArrayImpl_statics_lastIndexOf(a,x,fromIndex = None):
-	if fromIndex is None:
-		fromIndex = None
-	
-	l = None
-	if fromIndex is None:
-		l = __builtin__.len(a)
-	elif fromIndex < 0:
-		l = __builtin__.len(a) + fromIndex + 1
-	else:
-		l = fromIndex + 1
-	if l > __builtin__.len(a):
-		l = __builtin__.len(a)
-	
-	def _hx_local_0():
-		nonlocal l
-		l = l - 1
-		return l
-		
-	
-	while _hx_local_0() > -1:
-		if _hx_array_get(a,l) == x:
-			return l
-		
-	return -1
-	
-python_internal_ArrayImpl.lastIndexOf = ArrayImpl_statics_lastIndexOf
-def ArrayImpl_statics_join(x,sep):
-	return sep.join(__builtin__.list(__builtin__.map(_hx_c.Std.string, x)))
-python_internal_ArrayImpl.join = ArrayImpl_statics_join
-def ArrayImpl_statics_toString(x):
-	return Std.string("[" + Std.string(",".join(__builtin__.list(__builtin__.map(_hx_c.Std.string, x))))) + "]"
-python_internal_ArrayImpl.toString = ArrayImpl_statics_toString
-def ArrayImpl_statics_pop(x):
-	if __builtin__.len(x) == 0:
-		return None
-	else:
-		return x.pop()
-python_internal_ArrayImpl.pop = ArrayImpl_statics_pop
-def ArrayImpl_statics_push(x,e):
-	x.append(e)
-	return __builtin__.len(x)
-	
-python_internal_ArrayImpl.push = ArrayImpl_statics_push
-def ArrayImpl_statics_unshift(x,e):
-	return x.insert(0, e)
-python_internal_ArrayImpl.unshift = ArrayImpl_statics_unshift
-def ArrayImpl_statics_remove(x,e):
-	try:
-		x.remove(e)
-		return True
-	
-	except Exception as _hx_e:
-		_hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
-		if True:
-			e1 = _hx_e1
-			return False
-		else:
-			raise _hx_e
-python_internal_ArrayImpl.remove = ArrayImpl_statics_remove
-def ArrayImpl_statics_shift(x):
-	if __builtin__.len(x) == 0:
-		return None
-	
-	return x.pop(0)
-	
-python_internal_ArrayImpl.shift = ArrayImpl_statics_shift
-def ArrayImpl_statics_slice(x,pos,end = None):
-	if end is None:
-		end = None
-	
-	return x[pos:end]
-	
-python_internal_ArrayImpl.slice = ArrayImpl_statics_slice
-def ArrayImpl_statics_sort(x,f):
-	return x.sort(key=_hx_c.python_lib_FuncTools.cmp_to_key(f))
-python_internal_ArrayImpl.sort = ArrayImpl_statics_sort
-def ArrayImpl_statics_splice(x,pos,len):
-	if pos < 0:
-		pos = __builtin__.len(x) + pos
-	
-	if pos < 0:
-		pos = 0
-	
-	res = x[pos:pos + len]
-	del x[pos:pos + len]
-	return res
-	
-python_internal_ArrayImpl.splice = ArrayImpl_statics_splice
-def ArrayImpl_statics_map(x,f):
-	return __builtin__.list(__builtin__.map(f, x))
-python_internal_ArrayImpl.map = ArrayImpl_statics_map
-def ArrayImpl_statics_filter(x,f):
-	return __builtin__.list(__builtin__.filter(f, x))
-python_internal_ArrayImpl.filter = ArrayImpl_statics_filter
-def ArrayImpl_statics___get(x,idx):
-	_hx_a = x
-	if idx >= __builtin__.len(_hx_a) or idx < 0:
-		return None
-	else:
-		return _hx_array_get(x,idx)
-	
-python_internal_ArrayImpl.__get = ArrayImpl_statics___get
-def ArrayImpl_statics___set(x,idx,v):
-	_hx_a = x
-	_hx_array_set(_hx_a,idx, v)
-	return v
-	
-python_internal_ArrayImpl.__set = ArrayImpl_statics___set
-def ArrayImpl_statics___unsafe_get(x,idx):
-	return _hx_array_get(x,idx)
-python_internal_ArrayImpl.__unsafe_get = ArrayImpl_statics___unsafe_get
-def ArrayImpl_statics___unsafe_set(x,idx,val):
-	_hx_array_set(x,idx, val)
-	return val
-	
-python_internal_ArrayImpl.__unsafe_set = ArrayImpl_statics___unsafe_set
-
 def _hx_init_python_internal_KeywordHandler_keywords():
 	def _hx_local_0():
 		_g = _hx_c.haxe_ds_StringMap()
@@ -31770,61 +28180,6 @@ def KeywordHandler_statics_unhandleKeywords(name):
 	
 python_internal_KeywordHandler.unhandleKeywords = KeywordHandler_statics_unhandleKeywords
 
-def StringImpl_statics_split(s,d):
-	if d == "":
-		return __builtin__.list(s)
-	else:
-		return s.split(d)
-python_internal_StringImpl.split = StringImpl_statics_split
-def StringImpl_statics_charCodeAt(s,index):
-	if s is None or __builtin__.len(s) == 0 or index < 0 or index >= __builtin__.len(s):
-		return None
-	else:
-		return ord(s[index])
-python_internal_StringImpl.charCodeAt = StringImpl_statics_charCodeAt
-def StringImpl_statics_charAt(s,index):
-	if index < 0 or index >= __builtin__.len(s):
-		return ""
-	else:
-		return s[index]
-python_internal_StringImpl.charAt = StringImpl_statics_charAt
-def StringImpl_statics_lastIndexOf(s,str,startIndex = None):
-	if startIndex is None:
-		startIndex = None
-	
-	if startIndex is None:
-		return s.rfind(str, 0, __builtin__.len(s))
-	else:
-		i = s.rfind(str, 0, startIndex + 1)
-		startLeft = None
-		if i == -1:
-			b = startIndex + 1 - __builtin__.len(str)
-			if _hx_math.isnan(0):
-				startLeft = 0
-			elif _hx_math.isnan(b):
-				startLeft = b
-			else:
-				startLeft = __builtin__.max(0, b)
-		
-		else:
-			startLeft = i + 1
-		check = s.find(str, startLeft, __builtin__.len(s))
-		if check > i and check <= startIndex:
-			return check
-		else:
-			return i
-	
-	
-python_internal_StringImpl.lastIndexOf = StringImpl_statics_lastIndexOf
-def StringImpl_statics_fromCharCode(code):
-	c = code
-	return "".join(map(chr, [c]))
-	
-python_internal_StringImpl.fromCharCode = StringImpl_statics_fromCharCode
-
-import functools as python_lib_FuncTools
-_hx_c.python_lib_FuncTools = python_lib_FuncTools
-	
 import inspect as python_lib_Inspect
 _hx_c.python_lib_Inspect = python_lib_Inspect
 	
@@ -31942,11 +28297,14 @@ _hx_c.python_lib_datetime_TzInfo = python_lib_datetime_TzInfo
 from datetime import timezone as python_lib_datetime_Timezone
 _hx_c.python_lib_datetime_Timezone = python_lib_datetime_Timezone
 	
+from io import StringIO as python_lib_io_StringIO
+_hx_c.python_lib_io_StringIO = python_lib_io_StringIO
+	
 def MyAbstract_Impl__statics__new(x):
 	return x
 unit_MyAbstract_MyAbstract_Impl_._new = MyAbstract_Impl__statics__new
 def MyAbstract_Impl__statics_incr(this1):
-	def _hx_local_2():
+	def _hx_local_1():
 		def _hx_local_0():
 			nonlocal this1
 			this1 = this1 + 1
@@ -31955,7 +28313,7 @@ def MyAbstract_Impl__statics_incr(this1):
 		
 		return _hx_local_0()
 	
-	return _hx_local_2()
+	return _hx_local_1()
 	
 unit_MyAbstract_MyAbstract_Impl_.incr = MyAbstract_Impl__statics_incr
 def MyAbstract_Impl__statics_toInt(this1):
@@ -32011,37 +28369,23 @@ unit_MyAbstract_MyHash_Impl_.toString = MyHash_Impl__statics_toString
 def MyHash_Impl__statics_fromStringArray(arr):
 	hash = _hx_c.haxe_ds_StringMap()
 	i = 0
-	while i < __builtin__.len(arr):
-		_hx_local_3 = None
-		def _hx_local_2():
+	while i < _hx_builtin.len(arr):
+		def _hx_local_1():
 			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			i = i + 1
+			return _hx_local_0
 			
 		
-		k = _hx_array_get(arr,_hx_local_2())
-		_hx_local_7 = None
-		def _hx_local_6():
+		k = _hx_array_get(arr,_hx_local_1())
+		def _hx_local_3():
 			nonlocal i
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = i
-			_hx_local_5 = _hx_local_4
-			i = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
+			_hx_local_2 = i
+			i = i + 1
+			return _hx_local_2
 			
 		
-		v = _hx_array_get(arr,_hx_local_6())
+		v = _hx_array_get(arr,_hx_local_3())
 		hash.set(k, v)
 	
 	return hash
@@ -32050,37 +28394,23 @@ unit_MyAbstract_MyHash_Impl_.fromStringArray = MyHash_Impl__statics_fromStringAr
 def MyHash_Impl__statics_fromArray(arr):
 	hash = _hx_c.haxe_ds_StringMap()
 	i = 0
-	while i < __builtin__.len(arr):
-		_hx_local_3 = None
-		def _hx_local_2():
+	while i < _hx_builtin.len(arr):
+		def _hx_local_1():
 			nonlocal i
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
 			_hx_local_0 = i
-			_hx_local_1 = _hx_local_0
-			i = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
+			i = i + 1
+			return _hx_local_0
 			
 		
-		k = _hx_array_get(arr,_hx_local_2())
-		_hx_local_7 = None
-		def _hx_local_6():
+		k = _hx_array_get(arr,_hx_local_1())
+		def _hx_local_3():
 			nonlocal i
-			nonlocal _hx_local_7
-			if _hx_local_7 is not None:
-				return _hx_local_7
-			
-			_hx_local_4 = i
-			_hx_local_5 = _hx_local_4
-			i = _hx_local_4 + 1
-			_hx_local_7 = _hx_local_5
-			return _hx_local_5
+			_hx_local_2 = i
+			i = i + 1
+			return _hx_local_2
 			
 		
-		v = _hx_array_get(arr,_hx_local_6())
+		v = _hx_array_get(arr,_hx_local_3())
 		k1 = _hx_c.Std.string("_s" + Std.string(_hx_c.Std.string(k)))
 		hash.set(k1, v)
 		
@@ -32111,36 +28441,36 @@ def MyVector_Impl__statics_get_z(this1):
 	return this1.z
 unit_MyAbstract_MyVector_Impl_.get_z = MyVector_Impl__statics_get_z
 def MyVector_Impl__statics_set_x(this1,x):
-	def _hx_local_2():
+	def _hx_local_1():
 		def _hx_local_0():
 			this1.x = x
 			return this1.x
 		
 		return _hx_local_0()
 	
-	return _hx_local_2()
+	return _hx_local_1()
 	
 unit_MyAbstract_MyVector_Impl_.set_x = MyVector_Impl__statics_set_x
 def MyVector_Impl__statics_set_y(this1,y):
-	def _hx_local_2():
+	def _hx_local_1():
 		def _hx_local_0():
 			this1.y = y
 			return this1.y
 		
 		return _hx_local_0()
 	
-	return _hx_local_2()
+	return _hx_local_1()
 	
 unit_MyAbstract_MyVector_Impl_.set_y = MyVector_Impl__statics_set_y
 def MyVector_Impl__statics_set_z(this1,z):
-	def _hx_local_2():
+	def _hx_local_1():
 		def _hx_local_0():
 			this1.z = z
 			return this1.z
 		
 		return _hx_local_0()
 	
-	return _hx_local_2()
+	return _hx_local_1()
 	
 unit_MyAbstract_MyVector_Impl_.set_z = MyVector_Impl__statics_set_z
 def MyVector_Impl__statics_add(lhs,rhs):
@@ -32173,30 +28503,18 @@ def MyVector_Impl__statics_toString(this1):
 unit_MyAbstract_MyVector_Impl_.toString = MyVector_Impl__statics_toString
 
 def MyInt_Impl__statics_repeat(lhs,rhs):
-	s = _hx_StringIO()
+	s = _hx_c.StringBuf()
 	_g = 0
 	while _g < lhs:
-		_hx_local_3 = None
-		def _hx_local_2():
-			nonlocal _g
-			nonlocal _hx_local_3
-			if _hx_local_3 is not None:
-				return _hx_local_3
-			
-			_hx_local_0 = _g
-			_hx_local_1 = _hx_local_0
-			_g = _hx_local_0 + 1
-			_hx_local_3 = _hx_local_1
-			return _hx_local_1
-			
+		i = _g
+		_g = _g + 1
 		
-		i = _hx_local_2()
 		s1 = _hx_c.Std.string(rhs)
-		s.write(s1)
+		s.b.write(s1)
 		
 	
 	
-	return s.getvalue()
+	return s.b.getvalue()
 	
 unit_MyAbstract_MyInt_Impl_.repeat = MyInt_Impl__statics_repeat
 def MyInt_Impl__statics_cut(lhs,rhs):
@@ -32227,7 +28545,7 @@ def MyReflect_Impl__statics_arrayWrite(this1,key,value):
 		field = "_hx_" + Std.string(key)
 	else:
 		field = key
-	__builtin__.setattr(this1, field, value)
+	_hx_builtin.setattr(this1, field, value)
 	
 	return value
 	
@@ -32264,20 +28582,10 @@ unit_MyAbstract_MyAbstractCounter_Impl_.counter = 0
 def MyAbstractCounter_Impl__statics__new(v):
 	this1 = None
 	this1 = v
-	_hx_local_3 = None
-	def _hx_local_4():
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter
-		_hx_local_1 = _hx_local_0
-		_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-	
-	_hx_local_2 = _hx_local_4
-	_hx_local_2()
+	_hx_local_0 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_
+	_hx_local_1 = _hx_local_0.counter
+	_hx_local_0.counter = _hx_local_1 + 1
+	_hx_local_1
 	
 	return this1
 	
@@ -32285,20 +28593,10 @@ unit_MyAbstract_MyAbstractCounter_Impl_._new = MyAbstractCounter_Impl__statics__
 def MyAbstractCounter_Impl__statics_fromInt(v):
 	this1 = None
 	this1 = v
-	_hx_local_3 = None
-	def _hx_local_4():
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter
-		_hx_local_1 = _hx_local_0
-		_hx_c.unit_MyAbstract_MyAbstractCounter_Impl_.counter = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-	
-	_hx_local_2 = _hx_local_4
-	_hx_local_2()
+	_hx_local_0 = _hx_c.unit_MyAbstract_MyAbstractCounter_Impl_
+	_hx_local_1 = _hx_local_0.counter
+	_hx_local_0.counter = _hx_local_1 + 1
+	_hx_local_1
 	
 	return this1
 	
@@ -32310,48 +28608,12 @@ unit_MyAbstract_MyAbstractCounter_Impl_.getValue = MyAbstractCounter_Impl__stati
 def MyAbstractThatCallsAMember_Impl__statics__new(i):
 	this1 = None
 	this1 = i
-	_hx_local_3 = None
-	def _hx_local_4():
-		nonlocal this1
-		nonlocal this1
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = this1
-		_hx_local_1 = _hx_local_0
-		this1 = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-		
-		
-	
-	_hx_local_2 = _hx_local_4
-	_hx_local_2()
-	
+	this1 = this1 + 1
 	return this1
 	
 unit_MyAbstract_MyAbstractThatCallsAMember_Impl_._new = MyAbstractThatCallsAMember_Impl__statics__new
 def MyAbstractThatCallsAMember_Impl__statics_bar(this1):
-	_hx_local_3 = None
-	def _hx_local_4():
-		nonlocal this1
-		nonlocal this1
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = this1
-		_hx_local_1 = _hx_local_0
-		this1 = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-		
-		
-	
-	_hx_local_2 = _hx_local_4
-	_hx_local_2()
-	
+	this1 = this1 + 1
 unit_MyAbstract_MyAbstractThatCallsAMember_Impl_.bar = MyAbstractThatCallsAMember_Impl__statics_bar
 
 def MyDebugString_Impl__statics__new(s):
@@ -32521,44 +28783,34 @@ def Test_statics_report(msg,pos = None):
 	
 	
 	_hx_c.haxe_Log.trace(msg, pos)
-	_hx_local_3 = None
-	def _hx_local_4():
-		nonlocal _hx_local_3
-		if _hx_local_3 is not None:
-			return _hx_local_3
-		
-		_hx_local_0 = _hx_c.unit_Test.reportCount
-		_hx_local_1 = _hx_local_0
-		_hx_c.unit_Test.reportCount = _hx_local_0 + 1
-		_hx_local_3 = _hx_local_1
-		return _hx_local_1
-	
-	_hx_local_2 = _hx_local_4
-	_hx_local_2()
+	_hx_local_1 = _hx_c.unit_Test
+	_hx_local_2 = _hx_local_1.reportCount
+	_hx_local_1.reportCount = _hx_local_2 + 1
+	_hx_local_2
 	
 	
 unit_Test.report = Test_statics_report
 def Test_statics_checkDone():
-	if __builtin__.len(_hx_c.unit_Test.asyncWaits) != 0:
+	if _hx_builtin.len(_hx_c.unit_Test.asyncWaits) != 0:
 		return
 	
-	if __builtin__.len(_hx_c.unit_Test.asyncCache) == 0:
+	if _hx_builtin.len(_hx_c.unit_Test.asyncCache) == 0:
 		_hx_c.unit_Test.report(Std.string("DONE [" + Std.string(_hx_c.unit_Test.count)) + " tests]", _hx_c._hx_AnonObject(fileName = "Test.hx" ,lineNumber = 189 ,className = "unit.Test" ,methodName = "checkDone" ))
 		return
 	
 	
 	_hx_c.unit_Test.resetTimer()
-	while __builtin__.len(_hx_c.unit_Test.asyncCache) > 0 and __builtin__.len(_hx_c.unit_Test.asyncWaits) < _hx_c.unit_Test.AMAX:
+	while _hx_builtin.len(_hx_c.unit_Test.asyncCache) > 0 and _hx_builtin.len(_hx_c.unit_Test.asyncWaits) < _hx_c.unit_Test.AMAX:
 		def _hx_local_0():
 			_this = _hx_c.unit_Test.asyncCache
-			return None if (__builtin__.len(_this) == 0) else _this.pop(0)
+			return None if (_hx_builtin.len(_this) == 0) else _this.pop(0)
 		
 		(_hx_local_0())()
 	
 	
 unit_Test.checkDone = Test_statics_checkDone
 def Test_statics_asyncTimeout():
-	if __builtin__.len(_hx_c.unit_Test.asyncWaits) == 0:
+	if _hx_builtin.len(_hx_c.unit_Test.asyncWaits) == 0:
 		return
 	
 	_g = 0
@@ -32598,14 +28850,14 @@ def Test_statics_onError(e,msg,context):
 unit_Test.onError = Test_statics_onError
 def Test_statics_main():
 	_hx_c.unit_Test.resetTimer()
-	_hx_c.haxe_Log.trace("Generated at: " + "2014-01-26 22:58:30", _hx_c._hx_AnonObject(fileName = "Test.hx" ,lineNumber = 242 ,className = "unit.Test" ,methodName = "main" ))
+	_hx_c.haxe_Log.trace("Generated at: " + "2014-01-28 22:30:06", _hx_c._hx_AnonObject(fileName = "Test.hx" ,lineNumber = 242 ,className = "unit.Test" ,methodName = "main" ))
 	_hx_c.haxe_Log.trace("START", _hx_c._hx_AnonObject(fileName = "Test.hx" ,lineNumber = 244 ,className = "unit.Test" ,methodName = "main" ))
 	_hx_c.haxe_Unserializer.run(_hx_c.haxe_Serializer.run(1))
 	classes = [_hx_c.unit_TestOps(), _hx_c.unit_TestBytes(), _hx_c.unit_TestEReg(), _hx_c.unit_TestSerialize(), _hx_c.unit_TestLocals(), _hx_c.unit_TestGADT(), _hx_c.unit_TestOrder(), _hx_c.unit_TestGeneric(), _hx_c.unit_TestXML(), _hx_c.unit_TestMisc(), _hx_c.unit_TestBasetypes(), _hx_c.unit_TestReflect(), _hx_c.unit_TestMatch(), _hx_c.unit_TestIO(), _hx_c.unit_TestInt64(), _hx_c.unit_TestType(), _hx_c.unit_TestResource(), _hx_c.unit_TestMeta(), _hx_c.unit_TestSpecification()]
 	current = None
 	_this = _hx_c.unit_Test.asyncWaits
 	_this.append(None)
-	__builtin__.len(_this)
+	_hx_builtin.len(_this)
 	
 	
 	_g = 0
@@ -32638,33 +28890,33 @@ unit_Test.main = Test_statics_main
 
 
 def TestGADT_statics_evalConst(c):
-	if (_hx_c.Type.enumIndex(c)) == 0:
+	if (c.index) == 0:
 		s = c.params[0]
 		return s
 	
-	elif (_hx_c.Type.enumIndex(c)) == 1:
+	elif (c.index) == 1:
 		i = c.params[0]
 		return _hx_c.Std.parseInt(i)
 	
-	elif (_hx_c.Type.enumIndex(c)) == 2:
+	elif (c.index) == 2:
 		f = c.params[0]
 		return _hx_c.Std.parseFloat(f)
 	
 	
 unit_TestGADT.evalConst = TestGADT_statics_evalConst
 def TestGADT_statics_evalBinop(op,e1,e2):
-	if (_hx_c.Type.enumIndex(op)) == 0:
+	if (op.index) == 0:
 		return _hx_c.unit_TestGADT.eval(e1) + _hx_c.unit_TestGADT.eval(e2)
-	elif (_hx_c.Type.enumIndex(op)) == 1:
+	elif (op.index) == 1:
 		return _hx_c.unit_TestGADT.eval(e1) == _hx_c.unit_TestGADT.eval(e2)
 	
 unit_TestGADT.evalBinop = TestGADT_statics_evalBinop
 def TestGADT_statics_eval(e):
-	if (_hx_c.Type.enumIndex(e)) == 0:
+	if (e.index) == 0:
 		c = e.params[0]
 		return _hx_c.unit_TestGADT.evalConst(c)
 	
-	elif (_hx_c.Type.enumIndex(e)) == 1:
+	elif (e.index) == 1:
 		_e2 = e.params[2]
 		_e1 = e.params[1]
 		_op = e.params[0]
@@ -32687,16 +28939,16 @@ unit_TestGADT.eval = TestGADT_statics_eval
 
 def TestMatch_statics_switchNormal(e):
 	_g = e.expr
-	if (_hx_c.Type.enumIndex(_g)) == 0:
-		if (_hx_c.Type.enumIndex(_g.params[0])) == 2:
+	if (_g.index) == 0:
+		if (_g.params[0].index) == 2:
 			s = _g.params[0].params[0]
 			return s
 	
 		else:
 			return "not_found"
-	elif (_hx_c.Type.enumIndex(_g)) == 4:
-		if (_hx_c.Type.enumIndex(_g.params[0].expr)) == 0:
-			if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0])) == 2:
+	elif (_g.index) == 4:
+		if (_g.params[0].expr.index) == 0:
+			if (_g.params[0].expr.params[0].index) == 2:
 				s1 = _g.params[0].expr.params[0].params[0]
 				return s1
 	
@@ -32704,9 +28956,9 @@ def TestMatch_statics_switchNormal(e):
 				return "not_found"
 		else:
 			return "not_found"
-	elif (_hx_c.Type.enumIndex(_g)) == 22:
-		if (_hx_c.Type.enumIndex(_g.params[0].expr)) == 0:
-			if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0])) == 2:
+	elif (_g.index) == 22:
+		if (_g.params[0].expr.index) == 0:
+			if (_g.params[0].expr.params[0].index) == 2:
 				s1 = _g.params[0].expr.params[0].params[0]
 				return s1
 	
@@ -32714,17 +28966,17 @@ def TestMatch_statics_switchNormal(e):
 				return "not_found"
 		else:
 			return "not_found"
-	elif (_hx_c.Type.enumIndex(_g)) == 3:
+	elif (_g.index) == 3:
 		s2 = _g.params[1]
 		return s2
 	
-	elif (_hx_c.Type.enumIndex(_g)) == 1:
-		if (_hx_c.Type.enumIndex(_g.params[1].expr)) == 0:
-			if (_hx_c.Type.enumIndex(_g.params[1].expr.params[0])) == 0:
+	elif (_g.index) == 1:
+		if (_g.params[1].expr.index) == 0:
+			if (_g.params[1].expr.params[0].index) == 0:
 				i = _g.params[1].expr.params[0].params[0]
 				return _hx_c.Std.string(i)
 	
-			elif (_hx_c.Type.enumIndex(_g.params[1].expr.params[0])) == 1:
+			elif (_g.params[1].expr.params[0].index) == 1:
 				i = _g.params[1].expr.params[0].params[0]
 				return _hx_c.Std.string(i)
 	
@@ -32732,7 +28984,7 @@ def TestMatch_statics_switchNormal(e):
 				return "not_found"
 		else:
 			return "not_found"
-	elif (_hx_c.Type.enumIndex(_g)) == 14:
+	elif (_g.index) == 14:
 		e1 = _g.params[1].expr
 		return _hx_c.Std.string(e1)
 	
@@ -32741,14 +28993,14 @@ def TestMatch_statics_switchNormal(e):
 	
 unit_TestMatch.switchNormal = TestMatch_statics_switchNormal
 def TestMatch_statics_switchCapture(e):
-	if (_hx_c.Type.enumIndex(e.expr)) == 0:
+	if (e.expr.index) == 0:
 		const = e.expr.params[0]
-		if (_hx_c.Type.enumIndex(e.expr.params[0])) == 2:
+		if (e.expr.params[0].index) == 2:
 			if (e.expr.params[0].params[0]) == "foobar":
 				return const
 			else:
 				return None
-		elif (_hx_c.Type.enumIndex(e.expr.params[0])) == 0:
+		elif (e.expr.params[0].index) == 0:
 			if (e.expr.params[0].params[0]) == "9":
 				return const
 			else:
@@ -32761,7 +29013,7 @@ def TestMatch_statics_switchCapture(e):
 unit_TestMatch.switchCapture = TestMatch_statics_switchCapture
 def TestMatch_statics_switchArray(e):
 	_g = e.expr
-	if (_hx_c.Type.enumIndex(_g)) == 6:
+	if (_g.index) == 6:
 		if (_hx_builtin.len(_g.params[0])) == 0:
 			return "[]"
 		elif (_hx_builtin.len(_g.params[0])) == 1:
@@ -32805,12 +29057,12 @@ def TestMatch_statics_switchArray2(a):
 			return "3:" + Std.string(a3)
 	
 	elif (_hx_builtin.len(a)) == 0:
-		if __builtin__.len(a1) == 3:
-			return "5:" + Std.string(__builtin__.len(a1))
+		if _hx_builtin.len(a1) == 3:
+			return "5:" + Std.string(_hx_builtin.len(a1))
 		else:
 			return "6"
-	elif __builtin__.len(a1) == 3:
-		return "5:" + Std.string(__builtin__.len(a1))
+	elif _hx_builtin.len(a1) == 3:
+		return "5:" + Std.string(_hx_builtin.len(a1))
 	else:
 		return "7"
 	
@@ -32833,14 +29085,14 @@ def TestMatch_statics_switchStructure(a):
 unit_TestMatch.switchStructure = TestMatch_statics_switchStructure
 def TestMatch_statics_switchCrazy(e):
 	_g = e.expr
-	if (_hx_c.Type.enumIndex(_g)) == 22:
-		if (_hx_c.Type.enumIndex(_g.params[0].expr)) == 4:
-			if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0].expr)) == 1:
+	if (_g.index) == 22:
+		if (_g.params[0].expr.index) == 4:
+			if (_g.params[0].expr.params[0].expr.index) == 1:
 				a = _g.params[0].expr.params[0].expr.params[0].expr
-				if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0].expr.params[0].expr)) == 0:
-					if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0].expr.params[0].expr.params[0])) == 2:
-						if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0].expr.params[1].expr)) == 0:
-							if (_hx_c.Type.enumIndex(_g.params[0].expr.params[0].expr.params[1].expr.params[0])) == 0:
+				if (_g.params[0].expr.params[0].expr.params[0].expr.index) == 0:
+					if (_g.params[0].expr.params[0].expr.params[0].expr.params[0].index) == 2:
+						if (_g.params[0].expr.params[0].expr.params[1].expr.index) == 0:
+							if (_g.params[0].expr.params[0].expr.params[1].expr.params[0].index) == 0:
 								b = _g.params[0].expr.params[0].expr.params[1].expr.params[0].params[0]
 								return Std.string(Std.string(_hx_c.Std.string(a)) + ":") + Std.string(b)
 				
@@ -32863,8 +29115,8 @@ def TestMatch_statics_switchCrazy(e):
 unit_TestMatch.switchCrazy = TestMatch_statics_switchCrazy
 def TestMatch_statics_switchGuard(e):
 	_g = e.expr
-	if (_hx_c.Type.enumIndex(_g)) == 0:
-		if (_hx_c.Type.enumIndex(_g.params[0])) == 2:
+	if (_g.index) == 0:
+		if (_g.params[0].index) == 2:
 			s = _g.params[0].params[0]
 			if _hx_c.StringTools.startsWith(s, "foo"):
 				return "1"
@@ -32876,20 +29128,20 @@ def TestMatch_statics_switchGuard(e):
 					return "4"
 			
 	
-		elif (_hx_c.Type.enumIndex(_g.params[0])) == 0:
+		elif (_g.params[0].index) == 0:
 			i = _g.params[0].params[0]
 			def _hx_local_0():
 				_g1 = _hx_c.Std.parseInt(i) * 2
-				def _hx_local_5():
-					def _hx_local_3():
-						def _hx_local_4():
+				def _hx_local_4():
+					def _hx_local_2():
+						def _hx_local_3():
 							return True
-						_hx_local_1 = _hx_local_4
+						_hx_local_1 = _hx_local_3
 						return _hx_local_1() if (_g1) == 4 else False
 					
-					return _hx_local_3()
+					return _hx_local_2()
 				
-				return _hx_local_5()
+				return _hx_local_4()
 			
 			if _hx_local_0():
 				return "3"
@@ -32913,7 +29165,7 @@ def TestMatch_statics_switchClass(cl):
 	
 unit_TestMatch.switchClass = TestMatch_statics_switchClass
 def TestMatch_statics_toStringX(x1):
-	if (_hx_c.Type.enumIndex(x1)) == 0:
+	if (x1.index) == 0:
 		x = x1.params[0]
 		if x > 1:
 			return ">1"
@@ -32925,22 +29177,22 @@ def TestMatch_statics_toStringX(x1):
 				raise _HxException("this is impossible to reach actually")
 		
 	
-	elif (_hx_c.Type.enumIndex(x1)) == 1:
+	elif (x1.index) == 1:
 		return "U2"
 	
 unit_TestMatch.toStringX = TestMatch_statics_toStringX
 def TestMatch_statics_orMatch(e1,e2):
 	_g = e1.expr
 	_g1 = e2.expr
-	if (_hx_c.Type.enumIndex(_g)) == 0:
-		if (_hx_c.Type.enumIndex(_g.params[0])) == 1:
-			if (_hx_c.Type.enumIndex(_g1)) == 0:
-				if (_hx_c.Type.enumIndex(_g1.params[0])) == 1:
+	if (_g.index) == 0:
+		if (_g.params[0].index) == 1:
+			if (_g1.index) == 0:
+				if (_g1.params[0].index) == 1:
 					a = _g.params[0].params[0]
 					b = _g1.params[0].params[0]
 					return Std.string(a) + Std.string(b)
 	
-				elif (_hx_c.Type.enumIndex(_g1.params[0])) == 0:
+				elif (_g1.params[0].index) == 0:
 					a = _g.params[0].params[0]
 					b = _g1.params[0].params[0]
 					return Std.string(a) + Std.string(b)
@@ -32949,14 +29201,14 @@ def TestMatch_statics_orMatch(e1,e2):
 					return None
 			else:
 				return None
-		elif (_hx_c.Type.enumIndex(_g.params[0])) == 0:
-			if (_hx_c.Type.enumIndex(_g1)) == 0:
-				if (_hx_c.Type.enumIndex(_g1.params[0])) == 1:
+		elif (_g.params[0].index) == 0:
+			if (_g1.index) == 0:
+				if (_g1.params[0].index) == 1:
 					a = _g.params[0].params[0]
 					b = _g1.params[0].params[0]
 					return Std.string(a) + Std.string(b)
 	
-				elif (_hx_c.Type.enumIndex(_g1.params[0])) == 0:
+				elif (_g1.params[0].index) == 0:
 					a = _g.params[0].params[0]
 					b = _g1.params[0].params[0]
 					return Std.string(a) + Std.string(b)
@@ -32972,7 +29224,7 @@ def TestMatch_statics_orMatch(e1,e2):
 	
 unit_TestMatch.orMatch = TestMatch_statics_orMatch
 def TestMatch_statics_isPair(t):
-	if __builtin__.len(t) == 2:
+	if _hx_builtin.len(t) == 2:
 		return _hx_c.haxe_ds_Option.Some(_hx_c._hx_AnonObject(a = _hx_array_get(t,0) ,b = _hx_array_get(t,1) ))
 	else:
 		return _hx_c.haxe_ds_Option._hx_None
@@ -33078,7 +29330,7 @@ unit_TestType.overloadFake_Int = TestType_statics_overloadFake_Int
 def TestType_statics_gf3_haxe_Template_Array(a,b):
 	clone = _hx_c.haxe_Template("foo")
 	b.append(clone)
-	__builtin__.len(b)
+	_hx_builtin.len(b)
 	
 	return b
 	
@@ -33086,7 +29338,7 @@ unit_TestType.gf3_haxe_Template_Array = TestType_statics_gf3_haxe_Template_Array
 def TestType_statics_gf3_String_Array(a,b):
 	clone = _hx_c.String("foo")
 	b.append(clone)
-	__builtin__.len(b)
+	_hx_builtin.len(b)
 	
 	return b
 	
