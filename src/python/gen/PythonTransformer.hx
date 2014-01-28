@@ -397,16 +397,15 @@ class PythonTransformer {
 			case [_, TVar(v, e1)]:
 				transformVarExpr(e, e1, v);
 				
-
 			case [_, TFor(v, e1, e2)]:
 
-				var e1New = transformExpr(e1, true, e.nextId, []);
+				var e1 = transformExpr(e1, true, e.nextId, []);
 				
-				var e2New = toExpr(transformExpr(e2, false, e.nextId, []));
+				var e2 = toExpr(transformExpr(e2, false, e.nextId, []));
 
-				var newExpr = toTExpr(TFor(v, e1New.expr, e2New), e.expr.t, e.expr.pos);
+				var newExpr = toTExpr(TFor(v, e1.expr, e2), e.expr.t, e.expr.pos);
 
-				liftExpr(newExpr, e1New.blocks);
+				liftExpr(newExpr, e1.blocks);
 
 			case [_,TReturn(x)] if (x == null): 
 				e;
@@ -604,7 +603,7 @@ class PythonTransformer {
 			case [isValue, TUnop(OpIncrement, true, e1)]:
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
 				
-				mkOpAssignOp(e, e1, OpAdd, one, isValue, true);
+				transformOpAssignOp(e, e1, OpAdd, one, isValue, true);
 
 			case [_, TUnop(OpDecrement,false, e1)]:
 				var plus = { expr : TBinop(Binop.OpSub, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
@@ -614,7 +613,7 @@ class PythonTransformer {
 			case [isValue, TUnop(OpDecrement,true, e1)]:
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
 				
-				mkOpAssignOp(e, e1, OpSub, one, isValue, true);
+				transformOpAssignOp(e, e1, OpSub, one, isValue, true);
 			
 			case [_, TUnop(op,false, e1)]:
 				var e2 = transformExpr(e1, true, e.nextId);
@@ -646,7 +645,7 @@ class PythonTransformer {
 				var right1 = transformExpr(right, true, e.nextId);
 				var one = right1.expr;
 				
-				var res = mkOpAssignOp(e, left, x, one, isValue, false);
+				var res = transformOpAssignOp(e, left, x, one, isValue, false);
 				
 				liftExpr(res.expr, true, e.nextId, right1.blocks.concat(res.blocks));
 
@@ -747,7 +746,7 @@ class PythonTransformer {
 				var tempLocal = { expr : TLocal(tempVar), pos : e.expr.pos, t : e.expr.t };
 
 				function mkTempVarAssign (right:TypedExpr) {
-					return { expr : TBinop(OpAssign, tempLocal, right), t : e.expr.t, pos : e.expr.pos};
+					return e.expr.withExpr( TBinop(OpAssign, tempLocal, right) );
 				}
 
 				var etry1 = mkTempVarAssign(etry);
@@ -808,7 +807,7 @@ class PythonTransformer {
 		}
 	}
 
-	static function mkOpAssignOp(e:AdjustedExpr, e1:TypedExpr, op:Binop, one:TypedExpr, isValue:Bool, post:Bool) 
+	static function transformOpAssignOp(e:AdjustedExpr, e1:TypedExpr, op:Binop, one:TypedExpr, isValue:Bool, post:Bool) 
 	{
 		var e1_ = transformExpr(e1, true, e.nextId);
 
