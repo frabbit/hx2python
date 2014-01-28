@@ -24,7 +24,6 @@ typedef AdjustedExpr = {
 	isValue:Bool
 }
 
-
 class PythonTransformer {
 
 	// Public Interface, takes an Expression, adjust it, so that it can be easily generated to valid python code.
@@ -99,7 +98,7 @@ class PythonTransformer {
 		}
 		return liftExpr({ expr : TBlock(res), t : blockType, pos : pos});
 	}
-
+	// quite dirty at the moment
 	static function addNonLocalsToFunc (e:TypedExpr) 
 	{
 		return switch (e.expr) {
@@ -108,8 +107,7 @@ class PythonTransformer {
 							
 				var first = true;
 				var localVars = f.args.map(function (x) return x.v.name);
-				var localAssigns = [];
-				var nonLocals = [];
+				var nonLocals = new Map();
 
 				function it(e:TypedExpr, lv:Array<String>) {
 
@@ -130,14 +128,14 @@ class PythonTransformer {
 
 							case TBinop(OpAssign,{ expr : TLocal({ name : a})}, e2): 
 								if (!Lambda.has(lv, a)) {
-									localAssigns.push(a); 
+									nonLocals.set(a, true);
 								}
 								maybeContinue(e2);
 								
 								
 							case TBinop(OpAssignOp(_),{ expr : TLocal({ name : a})},e2): 
 								if (!Lambda.has(lv, a)) {
-									localAssigns.push(a); 
+									nonLocals.set(a, true);
 								}
 								maybeContinue(e2);
 							case TUnop(OpIncrement, _, _):
@@ -155,20 +153,11 @@ class PythonTransformer {
 				}
 				f.expr.iter(it.bind(_, localVars));
 
-				for (a in localAssigns) 
+				var keys = nonLocals.keys();
+				if (keys.hasNext()) 
 				{
-					nonLocals.push(a);
-				}
-				if (nonLocals.length > 0) {
-					var nonLocalMap = [for (n in nonLocals) n => true];
-					var newFunctionExprs = [for( n in nonLocalMap.keys()) {
-						var s = "nonlocal " + n; 
-						var id = { expr : TLocal({ id : 0, name : "__python__", t : TDynamic(null), extra : null, capture : false }), pos : f.expr.pos, t : TDynamic(null)};
-						var id2 = { expr : TLocal({ id : 0, name : s, t : TDynamic(null), extra : null, capture : false }), pos : f.expr.pos, t : TDynamic(null)};
-						var e = { expr : TCall(id, [id2]), pos : f.expr.pos, t : TDynamic(null)};
-						e;
-					}].concat([f.expr]);
-
+					var nonLocalExprs = [for(k in keys) createNonLocal(k, f.expr.pos)];
+					var newFunctionExprs = nonLocalExprs.concat([f.expr]);
 					f.expr = { expr : TBlock(newFunctionExprs), t : f.expr.t, pos : f.expr.pos };
 				}
 				e;
@@ -209,20 +198,8 @@ class PythonTransformer {
 		return toTExpr(TCall(id, []), retType, pos);
 	}
 
-	static function exprsToFunc (exprs:Array<TypedExpr>, name:String, base:AdjustedExpr, cacheCall:Bool = false) 
+	static function exprsToFunc (exprs:Array<TypedExpr>, name:String, base:AdjustedExpr) 
 	{
-		var ex1 = exprs[exprs.length-1];
-		var cacheVarName = base.nextId();
-		var cacheVar = toTVar(cacheVarName, ex1.t, false);
-		var cacheVarLocal = ex1.withExpr(TLocal(cacheVar));
-		var cNull = ex1.withExpr(TConst(TNull));
-		var cacheVarInit = ex1.withExpr(TVar(cacheVar, cNull));
-		var cacheVarRet = ex1.withExpr(TReturn(cacheVarLocal));
-		var cacheVarCheckNull = toTExpr(TBinop(OpNotEq, cacheVarLocal, cNull), ex1.t, ex1.pos);
-
-		var cacheVarNonLocal = createNonLocal(cacheVarName, ex1.pos);
-		var cacheVarCheckAndRet = ex1.withExpr(TIf(cacheVarCheckNull, cacheVarRet, null));
-
 		if (exprs.length == 1) 
 		{
 			switch (exprs[0].expr) {
@@ -242,23 +219,22 @@ class PythonTransformer {
 					var ret = varToTReturnExpr(name, f.t, f.expr.pos);
 					[expr, ret];
 				case TBinop(OpAssign,l,r): 
-					var cacheVarSet = toTExpr(TVar(cacheVar, l), l.t, l.pos);
+					
 					var r = toTExpr(TReturn(l), l.t, l.pos);
 
-					if (cacheCall) [expr, cacheVarSet, r] else [expr, r];
+					[expr, r];
 				
 				case x: 
-					var cacheVarSet = toTExpr(TVar(cacheVar, expr), expr.t, expr.pos);
+					
 					var retExpr = toTExpr(TReturn(expr), expr.t, expr.pos);
-					if (cacheCall) [cacheVarSet, retExpr] else [retExpr];
+					[retExpr];
 			}
 		}
 
 		var ex = if (exprs.length == 1) {
 			var exs = convertReturnExpr(exprs[0]);
 			if (exs.length > 1) {
-				var u = if (cacheCall) [cacheVarNonLocal, cacheVarCheckAndRet] else [];
-				toTExpr(TBlock( u.concat(exs) ), exs[exs.length-1].t, base.expr.pos);
+				toTExpr(TBlock( exs ), exs[exs.length-1].t, base.expr.pos);
 			} else {
 				exs[0];
 			}
@@ -267,8 +243,8 @@ class PythonTransformer {
 			exprs = exprs.copy();
 
 			var ret = exprs.pop();
-			var u = if (cacheCall) [cacheVarNonLocal, cacheVarCheckAndRet] else [];
-			var block = u.concat(exprs).concat(convertReturnExpr(ret));
+			
+			var block = exprs.concat(convertReturnExpr(ret));
 
 			toTExpr(TBlock(block), block[block.length-1].t, base.expr.pos);
 		}
@@ -282,8 +258,7 @@ class PythonTransformer {
 
 		var substitute = toTExpr(TCall(toTExpr(TLocal(fVar),fExpr.t, ex.pos), []), ex.t, ex.pos);
 
-		return if (cacheCall) liftExpr(substitute,  [cacheVarInit, assign])
-			else liftExpr(substitute,  [assign]);
+		return liftExpr(substitute, [assign]);
 	}
 	
 	static var boolType = Context.typeof(macro true);
@@ -939,7 +914,6 @@ class PythonTransformer {
 		}
 	}
 	
-	// is value true
 	static function transformSwitch (e:AdjustedExpr, isValue:Bool, e1:TypedExpr, cases:Array<{values:Array<TypedExpr>, expr:TypedExpr}>,edef:Null<TypedExpr>) 
 	{
 		var caseFunctions = [];
