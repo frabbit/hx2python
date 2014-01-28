@@ -65,7 +65,7 @@ class PythonTransformer {
 
 	static function liftExpr (e:TypedExpr,?isValue:Bool = false, ?nextId:Void->String, ?blocks:Array<TypedExpr>):AdjustedExpr 
 	{
-		blocks = if (blocks == null) [] else blocks;
+		var blocks = if (blocks == null) [] else blocks;
 
 		var next = if (nextId == null) newCounter() else nextId;
 
@@ -384,7 +384,8 @@ class PythonTransformer {
 			case [_, TVar(v, e1)] if (e1 == null):
 				transformVarExpr(e, e1, v);
 
-			case [false, TVar(v, e1 = { expr : TUnop(unop = OpIncrement | OpDecrement, postFix, ve = { expr : TLocal(_) }) })]:
+
+			case [false, TVar(v, e1 = { expr : TUnop(unop = OpIncrement | OpDecrement, postFix, ve = { expr : TLocal(_) | TField({expr:TConst(TThis)},_) }) })]:
 				var one = e1.withExpr(TConst(TInt(1)));
 				var op = unop.match(OpIncrement) ? OpAdd : OpSub;
 				var inc = e1.withExpr(TBinop(op, ve, one));
@@ -682,35 +683,36 @@ class PythonTransformer {
 
 			case [_, TNew(c, tp,params)]:
 				
-				var params1 = [for (p in params) transformExpr(p, true, e.nextId)];
+				var params = [for (p in params) transformExpr(p, true, e.nextId)];
 
-				var blocks = [for (p in params1) for (b in p.blocks) b];
+				var blocks = [for (p in params) for (b in p.blocks) b];
 
-				var params2 = [for (p in params1) p.expr];
+				var params = [for (p in params) p.expr];
 
-				var ex = e.expr.withExpr( TNew(c, tp, params2) );
+				var ex = e.expr.withExpr( TNew(c, tp, params) );
 				liftExpr(ex, false, e.nextId, blocks);
 			
-			case [_, TCall(x = { expr : TLocal({ name : "__python_for__"})},params)]:
+			case [_, TCall(x = { expr : TLocal({ name : "__python_for__"})}, [param])]:
 			 	
-			 	var e1 = transformExpr(params[0], false, e.nextId, []);
+			 	var param = transformExpr(param, false, e.nextId, []);
 			 	
-			 	var newCall = e.expr.withExpr( TCall(x, [e1.expr]) );
+			 	var newCall = e.expr.withExpr( TCall(x, [param.expr]) );
 
 			 	liftExpr(newCall, []);
 			
 			case [_, TCall(e1,params)]:
-
 				var e1 = transformExpr(e1, true, e.nextId);
+
 				
-				var params1 = [for (p in params) transformExpr(p, true, e.nextId)];
+				var params = [for (p in params) transformExpr(p, true, e.nextId)];
 
-				var blocks = e1.blocks.concat([for (p in params1) for (b in p.blocks) b]);
+				var blocks = e1.blocks.concat([for (p in params) for (b in p.blocks) b]);
 
-				var params2 = [for (p in params1) p.expr];
+				var params = [for (p in params) p.expr];
 
-				var ex = e.expr.withExpr( TCall(e1.expr, params2) );
-				liftExpr(ex, false, e.nextId, blocks);
+				var ex = e.expr.withExpr( TCall(e1.expr, params) );
+				
+				liftExpr(ex, blocks);
 			
 			case [true, TArray( e1, e2)]:
 				var e1 = transformExpr(e1, true, e.nextId);
@@ -792,9 +794,9 @@ class PythonTransformer {
 				liftExpr({ expr : TCast(ex1.expr, t), t : e.expr.t, pos : e.expr.pos}, ex1.blocks);
 
 			case [_, TField( ex, f)]:
-				var ex1 = transformExpr(ex, true, e.nextId, []);
-	
-				liftExpr({ expr : TField(ex1.expr, f), pos : e.expr.pos, t : e.expr.t}, ex1.blocks);
+				var ex = transformExpr(ex, true, e.nextId, []);
+				
+				liftExpr({ expr : TField(ex.expr, f), pos : e.expr.pos, t : e.expr.t}, ex.blocks);
 				
 			case [flag, TMeta(m, e1)]:
 				
@@ -842,6 +844,7 @@ class PythonTransformer {
 		{
 			case TArray({ expr : TLocal(_)},{ expr : TLocal(_)})
 			| TField({ expr : TLocal(_)},_)
+			| TField({ expr : TConst(TThis)},_)
 			| TLocal(_):
 				handleAsLocal(e1_.expr);
 			case TArray(e1,e2):
