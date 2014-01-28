@@ -298,29 +298,16 @@ enum ValueType {
 		return true;
 	}
 
-	public static function enumConstructor( e : EnumValue ) : String {
-		try {
-			return untyped e.tag;
-		} catch (e:Dynamic) {
-			return null;
-		}
+	public static inline function enumConstructor( e : EnumValue ) : String {
+		return untyped e.tag;
 	}
 
-	public static function enumParameters( e : EnumValue ) : Array<Dynamic> {
-		try {
-			return untyped e.params;
-		} catch (e:Dynamic) {
-			return null;
-		}
+	public static inline function enumParameters( e : EnumValue ) : Array<Dynamic> {
+		return untyped e.params;
 	}
 
-	public static function enumIndex( e : EnumValue ) : Int {
-		try {
-			return untyped e.index;
-		} catch (e:Dynamic) {
-			return null;
-		}
-
+	public static inline function enumIndex( e : EnumValue ) : Int {
+		return untyped e.index;
 	}
 
 	public static function allEnums<T>( e : Enum<T> ) : Array<T>
