@@ -583,96 +583,9 @@ class PythonTransformer {
 				var f = exprsToFunc(econd1.blocks.concat([newWhile, newRet]), e.nextId(), e);
 				liftExpr(f.expr, true, e.nextId, f.blocks);
 
-			case [true, TSwitch(e1, cases,edef)]:
-				
-				var caseFunctions = [];
+			case [isValue, TSwitch(e1, cases,edef)]:
+				transformSwitch(e, isValue, e1, cases, edef);
 
-				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
-
-					var valReversed = c.values.copy();
-					valReversed.reverse();
-
-					var cond = null;
-
-					for (v in valReversed) {
-						var cond1 = toTExpr(TBinop(OpEq, e1, v), boolType, v.pos);
-						if (cond == null) {
-							cond =  cond1;
-						} else {
-							cond = toTExpr(TBinop(OpBoolOr, cond, cond1), boolType, v.pos);
-						}
-					}
-
-					var name = e.nextId();
-					var func = exprsToFunc([c.expr], name,e);
-					caseFunctions = caseFunctions.concat(func.blocks);
-					var call = func.expr;
-
-					var eif = toTExpr(TIf(cond, call, eelse), e.expr.t, c.expr.pos);
-					
-					return eif;
-				}
-				
-				var edef = if (edef != null && edef.expr == null) toTExpr(TBlock([]), e.expr.t, edef.pos) else edef;
-
-				var res = null;
-				var revCases = cases.copy();
-				revCases.reverse();
-				for (c in revCases) {
-					if (res == null) {
-						res = caseToIf(c, edef);
-					} else {
-						res = caseToIf(c, res);
-					}
-				}
-				
-				var res = if (res == null || res.expr == null) edef else res;
-
-				var res = toTExpr(TBlock(caseFunctions.concat([res])), res.t, res.pos);
-
-				forwardTransform(res, e);
-				
-			case [false, TSwitch(e1, cases,edef)]:
-				
-				function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) 
-				{
-					var valReversed = c.values.copy();
-					valReversed.reverse();
-
-					var cond = null;
-
-					for (v in valReversed) {
-						var cond1 = toTExpr(TBinop(OpEq, e1, v), boolType, v.pos);
-						if (cond == null) {
-							cond =  cond1;
-						} else {
-							cond = toTExpr(TBinop(OpBoolOr, cond, cond1), boolType, v.pos);
-						}
-					}
-					var eif = { expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
-					
-					return eif;
-				}
-
-				
-				var revCases = cases.copy();
-				revCases.reverse();
-
-				var edef = if (edef != null && edef.expr == null) toTExpr(TBlock([]), e.expr.t, edef.pos) else edef;
-
-				var res = null;
-				for (c in revCases) {
-					if (res == null) {
-						res = caseToIf(c, edef);
-					} else {
-						res = caseToIf(c, res);
-					}
-				}
-				
-				var res = if (res == null || res.expr == null) edef else res;
-
-				forwardTransform(res, e);
-			
 			case [_, TWhile(econd, e1, false)]:
 				
 				var notExpr = { expr : TUnop(OpNot, false, econd), pos : econd.pos, t : econd.t};
@@ -727,20 +640,6 @@ class PythonTransformer {
 				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
 				
 				mkOpAssignOp(e, e1, OpSub, one, isValue, true);
-
-				// var id = e.nextId();
-				// var resVar = { name : id, id : 0, extra : null, capture : false, t : e.expr.t };
-				// var resLocal = { expr : TLocal(resVar), pos : e.expr.pos, t : e.expr.t};
-				// var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
-				// var minus = { expr : TBinop(OpSub, e1, one), pos : e.expr.pos, t: e.expr.t}
-
-				// var varExpr = { expr : TVar(resVar, e1), pos : e.expr.pos, t : e.expr.t};
-				// var assignExpr = { expr : TBinop(OpAssign,e1, minus), pos : e.expr.pos, t : e.expr.t};
-
-				// var block = [varExpr, assignExpr, resLocal];
-				// var blockExpr = { expr : TBlock(block), pos : e.expr.pos, t : e.expr.t};
-
-				// forwardTransform(blockExpr,e);
 			
 			case [_, TUnop(op,false, e1)]:
 				var e2 = transformExpr(e1, true, e.nextId);
@@ -965,8 +864,11 @@ class PythonTransformer {
 			}
 		}
 
-		return switch (e1_.expr.expr) {
-			case TArray({ expr : TLocal(_)},{ expr : TLocal(_)}):
+		return switch (e1_.expr.expr) 
+		{
+			case TArray({ expr : TLocal(_)},{ expr : TLocal(_)})
+			| TField({ expr : TLocal(_)},_)
+			| TLocal(_):
 				handleAsLocal(e1_.expr);
 			case TArray(e1,e2):
 				var id = e.nextId();
@@ -1003,8 +905,7 @@ class PythonTransformer {
 					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
 				}
 
-			case TField({ expr : TLocal(_)},fa):
-				handleAsLocal(e1_.expr);
+			
 
 			case TField(e1,fa):
 
@@ -1032,10 +933,67 @@ class PythonTransformer {
 				} else {
 					transformExprsToBlock(block, e.expr.t, false, e.expr.pos, e.nextId);
 				}
-			case TLocal(v):
-				handleAsLocal(e1_.expr);
+			
 			case _ : throw "assert";
 
 		}
+	}
+	
+	// is value true
+	static function transformSwitch (e:AdjustedExpr, isValue:Bool, e1:TypedExpr, cases:Array<{values:Array<TypedExpr>, expr:TypedExpr}>,edef:Null<TypedExpr>) 
+	{
+		var caseFunctions = [];
+
+		function caseToIf (c:{values:Array<TypedExpr>, expr:TypedExpr}, ?eelse:TypedExpr) {
+
+			var valReversed = c.values.copy();
+			valReversed.reverse();
+
+			var cond = null;
+
+			for (v in valReversed) {
+				var cond1 = toTExpr(TBinop(OpEq, e1, v), boolType, v.pos);
+				if (cond == null) {
+					cond =  cond1;
+				} else {
+					cond = toTExpr(TBinop(OpBoolOr, cond, cond1), boolType, v.pos);
+				}
+			}
+
+			var eif = if (isValue) {
+				var name = e.nextId();
+				var func = exprsToFunc([c.expr], name,e);
+				caseFunctions = caseFunctions.concat(func.blocks);
+				var call = func.expr;
+
+				toTExpr(TIf(cond, call, eelse), e.expr.t, c.expr.pos);	
+			} else {
+				{ expr : TIf(cond, c.expr, eelse), pos : c.expr.pos, t: e.expr.t };
+			}
+			
+			
+			return eif;
+		}
+		
+
+		var revCases = cases.copy();
+		revCases.reverse();
+
+		var edef = if (edef != null && edef.expr == null) toTExpr(TBlock([]), e.expr.t, edef.pos) else edef;
+
+		var res = null;
+		for (c in revCases) {
+			if (res == null) {
+				res = caseToIf(c, edef);
+			} else {
+				res = caseToIf(c, res);
+			}
+		}
+		
+		var res = if (res == null || res.expr == null) edef else res;
+
+		var res = if (isValue) toTExpr(TBlock(caseFunctions.concat([res])), res.t, res.pos) else res;
+
+		return forwardTransform(res, e);
 	}
 }
