@@ -22,6 +22,7 @@ package python.internal;
  * DEALINGS IN THE SOFTWARE.
  */
 
+import python.lib.FuncTools;
 import python.lib.Builtin;
 
 @:allow(Array)
@@ -95,7 +96,7 @@ class ArrayImpl {
 		return x.insert(0,e);
 	}
 
-	public static function remove<T>(x:Array<T>,e : T) : Bool {
+	@:keep public static function remove<T>(x:Array<T>,e : T) : Bool {
 		try {
 			untyped __field__(x, "remove")(e);
 			return true;
@@ -116,7 +117,7 @@ class ArrayImpl {
 	}
 
 	public static inline function sort<T>(x:Array<T>, f:T->T->Int) : Void {
-		return untyped __field__(x, "sort")(untyped __named_arg__("key", python.lib.FuncTools.cmp_to_key(f)));
+		return untyped __field__(x, "sort")( (untyped __named_arg__)("key", python.lib.FuncTools.cmp_to_key(f)));
 	}
 	/*
 	b = [i0, i1, i3, i0, i2];
@@ -170,8 +171,5 @@ class ArrayImpl {
 		x[idx] = val;
 		return val;
 	}
-
-	//@:noCompletion public function __iter__ ():PyIterator<T>;
-
 	
 }

@@ -97,7 +97,7 @@ extern class Builtin {
 	//public static function locals():Void;
 	//public static function reduce():Void;
 	//public static function unicode():Void;
-	//public static function chr():Void;
+	public static function chr(c:Int):String;
 	//public static function frozenset():Void;
 	//public static function long():Void;
 	//public static function reload():Void;

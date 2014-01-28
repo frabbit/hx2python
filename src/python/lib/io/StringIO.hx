@@ -6,8 +6,9 @@ import python.Macros;
 
 extern class StringIO extends TextIOBase 
 {
-	public function new (s:String):Void;
+	public function new (?s:String):Void;
 	public function getvalue():String;
+
 
 
 	static function __init__ ():Void {

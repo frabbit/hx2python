@@ -1,4 +1,5 @@
 import python.lib.Builtin;
+import python.lib.io.StringIO;
 
 /*
  * Copyright (C)2005-2012 Haxe Foundation
@@ -32,21 +33,27 @@ import python.lib.Builtin;
 	it can be passed as argument to functions which modify it by appending more
 	values. However, the internal buffer cannot be modified.
 **/
-@:native("_hx_StringIO")
-extern class StringBuf {
 
-/**
+@:coreApi
+class StringBuf {
+
+	/**
 		Creates a new StringBuf instance.
 		
 		This may involve initialization of the internal buffer.
 	**/
-    function new():Void;
 
-    public var length(get, null):Int;
+	private var b : StringIO;
+
+    public function new():Void {
+    	this.b = new StringIO();
+    }
+
+    public var length(get, never):Int;
 
     public inline function get_length ():Int {
-    	// TODO better implementation
-    	return this.toString().length;
+    	// TODO improve implementation
+    	return toString().length;
     }
 
 	/**
@@ -63,7 +70,7 @@ extern class StringBuf {
     }
 
     inline function add1(s:String):Void {
-    	untyped this.write(s);	
+    	untyped b.write(s);	
     }
 
 /**
@@ -97,11 +104,7 @@ extern class StringBuf {
 		
 		The buffer is not emptied by this operation.
 	**/
-    inline function toString() : String {
-    	return untyped this.getvalue();
-    }
-
-    static function __init__():Void {
-    	untyped __python__("from io import StringIO as _hx_StringIO");
+    public inline function toString() : String {
+    	return untyped b.getvalue();
     }
 }

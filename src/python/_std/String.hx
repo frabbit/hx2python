@@ -34,8 +34,8 @@ package;
 import python.internal.StringImpl;
 import python.lib.Builtin;
 
+extern class String extends StringImpl {
 
-extern class String {
 
 	/**
 		The number of characters in [this] String.

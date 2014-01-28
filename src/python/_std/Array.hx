@@ -25,9 +25,7 @@ import python.internal.ArrayImpl;
 import python.lib.Types;
 
 @:native("list")
-extern class Array<T> implements ArrayAccess<T> {
-
-	
+extern class Array<T> implements ArrayAccess<T> extends ArrayImpl {
 
 	public var length(get,null) : Int;
 
