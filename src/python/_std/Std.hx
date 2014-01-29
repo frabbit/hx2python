@@ -29,13 +29,13 @@ import python.Boot;
 @:keepInit
 @:coreApi /*extern*/ class Std {
 
-    public static inline function instance<T>( v : { }, c : Class<T> ) : T {
+    public static inline function instance<T:{}, S:T>( value : T, c : Class<S> ) : S {
         try {
-            return Builtin.isinstance(v,c) ? cast v : null;
+            return Builtin.isinstance(value,c) ? cast value : null;
         } catch (e:Dynamic) {
             return null;
         }
-        
+
 
     }
     public static function is( v : Dynamic, t : Dynamic ) : Bool {
@@ -51,7 +51,7 @@ import python.Boot;
             return true;
         }
         var isBool = Builtin.isinstance(v, (untyped __python__("bool")));
-        
+
         if (t == (untyped __python__("Bool")) && isBool) {
             return true;
         }
@@ -89,10 +89,10 @@ import python.Boot;
 
         if (try Builtin.isinstance(v, t) catch (e:Dynamic) false) {
             return true;
-        } 
+        }
         if (Inspect.isclass(t)) {
-            
-            function loop (intf) 
+
+            function loop (intf)
             {
                 var f:Array<Dynamic> = Reflect.field(intf, "_hx_interfaces");
                 if (f != null) {
@@ -112,8 +112,8 @@ import python.Boot;
                 }
             }
             return loop(untyped v.__class__);
-                
-            
+
+
         } else {
             return false;
         }
@@ -124,15 +124,15 @@ import python.Boot;
 //        return untyped __as__(v, c);
 //    }
 
-    @:access(python.Boot) 
-    @:keep 
-    public static function string( s : Dynamic ) : String 
+    @:access(python.Boot)
+    @:keep
+    public static function string( s : Dynamic ) : String
     {
-        
+
         return python.Boot.__string_rec(s, "");
     }
 
-    public static inline function int( x : Float ) : Int 
+    public static inline function int( x : Float ) : Int
     {
         try {
             return (untyped __python__("int"))(x);
@@ -148,16 +148,16 @@ import python.Boot;
         } catch (e:Dynamic) {
             try {
                 var prefix = x.substr(0,2).toLowerCase();
-                
+
                 if (prefix == "0x") {
                     return (untyped __python__("int"))(x,16);
-                } 
+                }
                 throw "fail";
             } catch (e:Dynamic) {
-                
+
 
                 var r = int(parseFloat(x));
-                
+
                 if (r == null) {
                     var r1 = shortenPossibleNumber(x);
                     if (r1 != x) {
@@ -170,10 +170,10 @@ import python.Boot;
             }
         }
 
-        
+
     }
 
-    static function shortenPossibleNumber (x:String):String 
+    static function shortenPossibleNumber (x:String):String
     {
         var r = "";
         for (i in 0...x.length) {
@@ -196,10 +196,10 @@ import python.Boot;
         return r;
     }
 
-    public static function parseFloat( x : String ) : Float 
+    public static function parseFloat( x : String ) : Float
     {
         try {
-            return untyped __python__("float")(x);    
+            return untyped __python__("float")(x);
         } catch (e:Dynamic) {
 
             if (x != null) {
@@ -209,9 +209,9 @@ import python.Boot;
                 }
             }
             return Math.NaN;
-            
+
         }
-        
+
     }
 
 
