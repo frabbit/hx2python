@@ -395,14 +395,11 @@ class PythonPrinterTyped {
 
     function printField(e1:TypedExpr, fa:FieldAccess, context:PrintContext, isAssign:Bool = false)
     {
-        
 
     	var obj = switch (e1.expr) {
     		case TConst(TSuper): "super()";
     		case _: '${printExpr(e1, context)}';
     	}
-
-
 
         var name = switch (fa) {
             case FInstance(_, cf): cf.get().name;
@@ -417,24 +414,6 @@ class PythonPrinterTyped {
             return '$obj.${handleKeywords(name)}';
         }
 
-        /*function doReplace () {
-            return switch (name) {
-                case "iterator":
-                    '_hx_functools.partial(HxOverrides_iterator, $obj)';
-                case "map":
-                    '_hx_functools.partial(HxOverrides_map, $obj)';
-                case "filter":
-                    '_hx_functools.partial(HxOverrides_filter, $obj)';
-                case _ : 
-                    '$obj.${handleKeywords(name)}';
-            }
-        }*/
-        /*
-        if (name == "iterator") {
-            trace(fa + " => " + e1.pos);
-        }
-        */
-
         return switch (fa) {
             case FInstance(isType("", "list") => true, cf) if (cf.get().name == "length" || cf.get().name == "get_length"):
                 "_hx_builtin.len(" + printExpr(e1, context) + ")";
@@ -442,10 +421,14 @@ class PythonPrinterTyped {
                 printExpr(e1, context) + ".toupper";
             case FInstance(isType("", "String") => true, cf) if (cf.get().name == "toLowerCase"):
                 printExpr(e1, context) + ".tolower";
+            
+
             case FInstance(ct, cf): 
                 //var ct = ct.get();
                 doDefault();
-            case FStatic(_,cf): doDefault();
+            case FStatic(x,cf): 
+            
+                doDefault();
             case FAnon(cf) if (name == "iterator" && !isAssign):
                 switch (cf.get().type) {
                     case TFun(args,_) if (args.length == 0): 

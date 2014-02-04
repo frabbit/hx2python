@@ -26,10 +26,10 @@ typedef AdjustedExpr = {
 
 class PythonTransformer {
 
-	// Public Interface, takes an Expression, adjust it, so that it can be easily generated to valid python code.
+	// Public Interface, takes an Expression and transforms it, so that it can be generated to valid python code.
 
-	public static function transform (e:TypedExpr):TypedExpr {
-		
+	public static function transform (e:TypedExpr):TypedExpr 
+	{
 		return toExpr(transform1(liftExpr(e)));
 	}
 
@@ -220,13 +220,13 @@ class PythonTransformer {
 					[expr, ret];
 				case TBinop(OpAssign,l,r): 
 					
-					var r = toTExpr(TReturn(l), l.t, l.pos);
+					var r = l.withExpr(TReturn(l));
 
 					[expr, r];
 				
 				case x: 
 					
-					var retExpr = toTExpr(TReturn(expr), expr.t, expr.pos);
+					var retExpr = expr.withExpr(TReturn(expr));
 					[retExpr];
 			}
 		}
@@ -254,7 +254,7 @@ class PythonTransformer {
 		
 		var f = addNonLocalsToFunc(fExpr);
 		
-		var assign = toTExpr(TVar(fVar, f), ex.t, ex.pos);
+		var assign = ex.withExpr(TVar(fVar, f));
 
 		var substitute = toTExpr(TCall(toTExpr(TLocal(fVar),fExpr.t, ex.pos), []), ex.t, ex.pos);
 
@@ -264,53 +264,55 @@ class PythonTransformer {
 	static var boolType = Context.typeof(macro true);
 	static var voidType = Context.typeof(macro while (true) {});
 	
-	static function transformFunction (f:TFunc, e :AdjustedExpr, isValue:Bool) {
-		
-		var newExpr = f.expr;
+	static function transformFunction (f:TFunc, e :AdjustedExpr, isValue:Bool) 
+	{
 		
 		var assigns = [];
+
+		var fpos = f.expr.pos;
 
 		for (a in f.args) {
 			if (a.value != null) {
 
-				var aLocal = toTExpr(TLocal(a.v), a.v.t, f.expr.pos);
+				var t = a.v.t;
 
-				var aNull= toTExpr(TConst(TNull), a.v.t, f.expr.pos);
+				var aLocal = toTExpr(TLocal(a.v), t, fpos);
 
-				var aCmp = toTExpr(TBinop(Binop.OpEq, aLocal, aNull), boolType, f.expr.pos);
+				var aNull= toTExpr(TConst(TNull), t, fpos);
 
-				var aAssign = toTExpr(TBinop(Binop.OpAssign, aLocal, toTExpr(TConst(a.value), a.v.t, f.expr.pos)), a.v.t, f.expr.pos);
+				var aCmp = toTExpr(TBinop(Binop.OpEq, aLocal, aNull), boolType, fpos);
 
-				var aIf = toTExpr(TIf(aCmp, aAssign, null), voidType, f.expr.pos);
+				var aAssign = toTExpr(TBinop(Binop.OpAssign, aLocal, toTExpr(TConst(a.value), t, fpos)), t, fpos);
+
+				var aIf = toTExpr(TIf(aCmp, aAssign, null), voidType, fpos);
 
 				assigns.push(aIf);
 			}
 		}
 		
-		var body = switch [newExpr.expr, assigns] {
+		var body = switch [f.expr.expr, assigns] {
 			case [TBlock([]),[]]:
 				f.expr;
-			case [TBlock([]),_]:
-				toTExpr(TBlock(assigns), assigns[assigns.length-1].t, f.expr.pos);
 			case [TBlock(exprs),_]:
-				toTExpr(TBlock(assigns.concat(exprs)), exprs[exprs.length-1].t, f.expr.pos);
+				var exprs = assigns.concat(exprs);
+				toTExpr(TBlock(exprs), exprs[exprs.length-1].t, fpos);
 			case [_, []]:
 				f.expr;
 			case [_, _]:
-				toTExpr(TBlock(assigns.concat([f.expr])), f.expr.t, f.expr.pos);
+				f.expr.withExpr(TBlock(assigns.concat([f.expr])));
 		}
 
 		var e1 = toExpr(transformExpr(body, false, e.nextId));
 		
-		var fn = toTExpr(TFunction({ expr : e1, args : f.args, t : f.t}), e.expr.t, e.expr.pos);
+		var fn = e.expr.withExpr(TFunction({ expr : e1, args : f.args, t : f.t}));
 		
 		var fn = addNonLocalsToFunc(fn);
 
 		return if (isValue) {
 			var newName = e.nextId();
 			var newVar = { id : 0, name : newName, t : f.t, capture : false, extra : null };
-			var newLocal = toTExpr(TLocal(newVar), fn.t,fn.pos);
-			var def = toTExpr(TVar(newVar,fn), fn.t, fn.pos);
+			var newLocal = fn.withExpr(TLocal(newVar));
+			var def = fn.withExpr(TVar(newVar,fn));
 			liftExpr( newLocal, false, e.nextId, [def]);
 		} else {
 			liftExpr(fn);
@@ -342,7 +344,7 @@ class PythonTransformer {
 				transformExpr(x,isValue, e.nextId);
 
 			case [_, x = TBlock([])]:
-				liftExpr(toTExpr(TConst(TNull), e.expr.t, e.expr.pos));
+				liftExpr(e.expr.withExpr(TConst(TNull)));
 
 			case [false, TBlock(exprs)]: 
 				transformExprsToBlock(exprs, e.expr.t, false, e.expr.pos, e.nextId);
@@ -355,21 +357,21 @@ class PythonTransformer {
 
 				var ret = exprs.pop();
 
-				var retEx = toTExpr(TReturn(ret), e.expr.t, e.expr.pos);
+				var retEx = e.expr.withExpr(TReturn(ret));
 
 				var block = exprs.concat([retEx]);
 
 				var myBlock = transformExprsToBlock(block, retEx.t, false, e.expr.pos, e.nextId);
 
-				var fn = toTExpr(TFunction({ args:[], t: retEx.t, expr : myBlock.expr}), e.expr.t, e.expr.pos);
+				var fn = e.expr.withExpr(TFunction({ args:[], t: retEx.t, expr : myBlock.expr}));
 
 				var tVar = {id:0, name : name, t : retEx.t, capture : false, extra : null};
 
 				var f = addNonLocalsToFunc(fn);
 
-				var fnAssign = toTExpr(TVar(tVar, f), e.expr.t, e.expr.pos);
+				var fnAssign = e.expr.withExpr(TVar(tVar, f));
 
-				var substitute = toTExpr(TCall(toTExpr(TLocal(tVar), e.expr.t, e.expr.pos), []), e.expr.t, e.expr.pos);
+				var substitute = e.expr.withExpr(TCall(e.expr.withExpr(TLocal(tVar)), []));
 
 				liftExpr(substitute, [fnAssign]);
 
@@ -404,7 +406,7 @@ class PythonTransformer {
 				
 				var e2 = toExpr(transformExpr(e2, false, e.nextId, []));
 
-				var newExpr = toTExpr(TFor(v, e1.expr, e2), e.expr.t, e.expr.pos);
+				var newExpr = e.expr.withExpr(TFor(v, e1.expr, e2));
 
 				liftExpr(newExpr, e1.blocks);
 
@@ -422,9 +424,9 @@ class PythonTransformer {
 
 				var varN = { name : n, capture : false, extra : null, t : f1.t, id : 0};
 
-				var f1Assign = toTExpr(TVar(varN, f1), f1.t, f1.pos);
+				var f1Assign = f1.withExpr(TVar(varN, f1));
 
-				var varLocal = toTExpr(TLocal(varN), f1.t, f1.pos);
+				var varLocal = f1.withExpr(TLocal(varN));
 
 				liftExpr(toTExpr(TReturn(varLocal), varLocal.t, e.expr.pos), true, e.nextId, [f1Assign]);
 			
@@ -433,17 +435,16 @@ class PythonTransformer {
 
 				var res = if (x1.blocks.length > 0) {
 					var f = exprsToFunc(x1.blocks.concat([x1.expr]), e.nextId(), e);
-					liftExpr({ expr : TReturn(f.expr), pos : e.expr.pos, t : e.expr.t}, true, e.nextId, f.blocks);
+					liftExpr(e.expr.withExpr(TReturn(f.expr)), true, e.nextId, f.blocks);
 				} else {
-					liftExpr({ expr : TReturn(x1.expr), pos : e.expr.pos, t : e.expr.t}, true, e.nextId, []);
+					liftExpr(e.expr.withExpr(TReturn(x1.expr)), true, e.nextId, []);
 				}
 				res;
 			
 			case [_,TParenthesis(e1)]:
 				var newE1 = transformExpr(e1,true,e.nextId);
-				var newP = { expr : TParenthesis(newE1.expr), pos : e.expr.pos, t : e.expr.t};
+				var newP = e.expr.withExpr(TParenthesis(newE1.expr));
 				liftExpr(newP, true, e.nextId, newE1.blocks);
-
 			case [true, TIf(econd, eif, eelse)]:
 
 				var econd1 = transformExpr(econd, true, e.nextId);
@@ -507,18 +508,17 @@ class PythonTransformer {
 
 				var blocks = econd1.blocks.concat(blocks);
 				if (blocks.length == 0) {
-					var newIf = toTExpr(TIf(econd1.expr, eif2, eelse2), e.expr.t, e.expr.pos);
+					var newIf = e.expr.withExpr(TIf(econd1.expr, eif2, eelse2));
 
 					var meta = { name : ":ternaryIf", pos : e.expr.pos, params:null};
-					var ternary = toTExpr(TMeta(meta, newIf), e.expr.t, e.expr.pos);
+					var ternary = e.expr.withExpr(TMeta(meta, newIf));
 
 					liftExpr(ternary, blocks);		
 				} else {
-					var newIf = toTExpr(TIf(econd1.expr, eif2, eelse2), e.expr.t, e.expr.pos);
+					var newIf = e.expr.withExpr(TIf(econd1.expr, eif2, eelse2));
 					var f = exprsToFunc(blocks.concat([newIf]), e.nextId(), e);
-					liftExpr(f.expr, f.blocks);		
+					liftExpr(f.expr, f.blocks);
 				}
-			
 			case [false, TIf(econd, eif, eelse)]:
 
 				var econd1 = transformExpr(econd, true, e.nextId);
@@ -530,117 +530,92 @@ class PythonTransformer {
 					null;
 				}
 
-				var newIf = toTExpr(TIf(econd1.expr, eif1, eelse1), e.expr.t, e.expr.pos);
+				var newIf = e.expr.withExpr(TIf(econd1.expr, eif1, eelse1));
 				liftExpr(newIf, false, e.nextId, econd1.blocks);
 			
 			case [_,TWhile({ expr : TParenthesis(u), t : t}, e1, flag)]:
 				var newE = toTExpr(TWhile(u, e1, flag), t, e.expr.pos);
 				forwardTransform(newE, e);
 			
-			case [false, TWhile(econd, e1, true)]:
+			case [false, TWhile(econd, ebody, true)]:
 
-				var econd1 = transformExpr(econd, true, e.nextId);
-				var e11 = toExpr(transformExpr(e1, false, e.nextId));
-				var newWhile = toTExpr(TWhile(econd1.expr, e11, true), e.expr.t, e.expr.pos);
+				var econd = transformExpr(econd, true, e.nextId);
+				var ebody = toExpr(transformExpr(ebody, false, e.nextId));
+				var ewhile = e.expr.withExpr(TWhile(econd.expr, ebody, true));
+
 				
-				liftExpr(newWhile, false, e.nextId, econd1.blocks);
+				liftExpr(ewhile, false, e.nextId, econd.blocks);
 			
-			case [true, TWhile(econd, e1, true)]:
+			case [true, TWhile(econd, ebody, true)]:
 
-				var econd1 = transformExpr(econd, true, e.nextId);
+				var econd = transformExpr(econd, true, e.nextId);
 
-				var e11 = toExpr(transformExpr(e1, false, e.nextId));
+				var ebody = toExpr(transformExpr(ebody, false, e.nextId));
 
-				var newWhile = toTExpr(TWhile(econd1.expr, e11, true), e.expr.t, e.expr.pos);
+				var ewhile = e.expr.withExpr( TWhile(econd.expr, ebody, true) );
 
-				var newRet = toTExpr(TConst(TNull), e.expr.t, e.expr.pos);
+				var eval = e.expr.withExpr(TConst(TNull));
 
-				var f = exprsToFunc(econd1.blocks.concat([newWhile, newRet]), e.nextId(), e);
+				var f = exprsToFunc(econd.blocks.concat([ewhile, eval]), e.nextId(), e);
 				liftExpr(f.expr, true, e.nextId, f.blocks);
 
 			case [isValue, TSwitch(e1, cases,edef)]:
 				transformSwitch(e, isValue, e1, cases, edef);
 
 			case [_, TWhile(econd, e1, false)]:
+				// convert do to while expression and forward the transformation
+				var notExpr = econd.withExpr( TUnop(OpNot, false, econd) );
 				
-				var notExpr = { expr : TUnop(OpNot, false, econd), pos : econd.pos, t : econd.t};
-				var breakExpr = { expr : TBreak, pos : econd.pos, t : voidType}
-				var ifExpr = { expr : TIf(notExpr, breakExpr, null), pos : econd.pos, t : voidType};
+				var breakExpr = toTExpr(TBreak, voidType, econd.pos);
+
+				var ifExpr = toTExpr( TIf(notExpr, breakExpr, null), voidType, econd.pos);
 
 				var newE1 = switch (e1.expr) {
 					case TBlock(exprs):
-						{ expr : TBlock(exprs.concat([ifExpr])), pos : e.expr.pos, t : e.expr.t};
+						econd.withExpr( TBlock(exprs.concat([ifExpr])) );
 					case _: 
-						{ expr : TBlock([e1].concat([ifExpr])), pos : e.expr.pos, t : e.expr.t};
+						econd.withExpr( TBlock([e1].concat([ifExpr])) );
 				}
-				var trueExpr = { expr : TConst(TBool(true)), pos : e.expr.pos, t: econd.t};
-				var newExpr = { expr : TWhile(trueExpr, newE1, true), pos : e.expr.pos, t : e.expr.t};
+				var trueExpr = toTExpr( TConst(TBool(true)), econd.t, e.expr.pos);
+				var newExpr = e.expr.withExpr( TWhile(trueExpr, newE1, true) );
+
 				forwardTransform(newExpr, e);
 
-			case [true, y = TUnop(OpIncrement, false, e1)]:
-				
-				var e1_ = transformExpr(e1, true, e.nextId);
+			case [isValue, TUnop(OpIncrement, postfix, e1)]:
+				var one = e.expr.withExpr(TConst(TInt(1)));
+				transformOpAssignOp(e, e1, OpAdd, one, isValue, postfix);
 
-				var plus = { expr : TBinop(OpAdd, e1_.expr, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
-				var assign = { expr : TBinop(OpAssign, e1_.expr, plus), pos : e1.pos, t : e1.t};
-				
-				if (true || e1_.blocks.length > 0) {
-					var blocks = e1_.blocks.concat([assign]);
-					var f = exprsToFunc(blocks, e.nextId(),e);
-					liftExpr(f.expr, true, e.nextId, f.blocks);
-				} else {
-					liftExpr(assign, e1_.blocks);
-				}
-			
-			case [false, TUnop(OpIncrement, false, e1)]:
-				
-				var e1_ = transformExpr(e1, true, e.nextId);
+			case [isValue, TUnop(OpDecrement,postfix, e1)]:
+				var one = e.expr.withExpr(TConst(TInt(1)));
+				transformOpAssignOp(e, e1, OpSub, one, isValue, postfix);
 
-				var plus = { expr : TBinop(OpAdd, e1_.expr, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
-				var assign = { expr : TBinop(OpAssign, e1_.expr, plus), pos : e1.pos, t : e1.t};
-				
-				liftExpr(assign, e1_.blocks);
-			
-			case [isValue, TUnop(OpIncrement, true, e1)]:
-				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
-				
-				transformOpAssignOp(e, e1, OpAdd, one, isValue, true);
-
-			case [_, TUnop(OpDecrement,false, e1)]:
-				var plus = { expr : TBinop(Binop.OpSub, e1, { expr : TConst(TInt(1)), t : e1.t, pos : e1.pos}), t : e1.t, pos : e1.pos};
-				var assign = { expr : TBinop(OpAssign, e1, plus), pos : e1.pos, t : e1.t};
-				
-				forwardTransform(assign,e);
-			case [isValue, TUnop(OpDecrement,true, e1)]:
-				var one = { expr : TConst(TInt(1)), pos : e.expr.pos, t : e.expr.t };
-				
-				transformOpAssignOp(e, e1, OpSub, one, isValue, true);
-			
 			case [_, TUnop(op,false, e1)]:
-				var e2 = transformExpr(e1, true, e.nextId);
+				// can only be OpNot, right?
+				var e1 = transformExpr(e1, true, e.nextId);
 
-				var newE = { expr : TUnop(op, false, e2.expr), pos : e.expr.pos, t : e.expr.t };
-				liftExpr(newE,e2.blocks);
+				var r = e.expr.withExpr( TUnop(op, false, e1.expr) );
+				liftExpr(r, e1.blocks);
 			
 			case [true, TBinop(OpAssign,left,right)]:
 				var ex = e.expr;
-				var right1 = transformExpr(right, true, e.nextId);
-				var left1 = transformExpr(left, true, e.nextId);
 
-				var newEx = { expr : TBinop(OpAssign, left1.expr, right1.expr), t : e.expr.t, pos : e.expr.pos};
+				var right = transformExpr(right, true, e.nextId);
+				var left = transformExpr(left, true, e.nextId);
 
-				var blocks = left1.blocks.concat(right1.blocks).concat([newEx]);
+				var r = e.expr.withExpr( TBinop(OpAssign, left.expr, right.expr) );
+
+				var blocks = left.blocks.concat(right.blocks).concat([r]);
 
 				var f = exprsToFunc(blocks, e.nextId(),e);
 				liftExpr(f.expr, true, e.nextId, f.blocks);
 
 			case [false, TBinop(OpAssign,left,right)]:
-				var left1 = transformExpr(left, true, e.nextId);
-				var right1 = transformExpr(right, true, e.nextId);
+				var left = transformExpr(left, true, e.nextId);
+				var right = transformExpr(right, true, e.nextId);
 
-				var newEx = { expr : TBinop(OpAssign, left1.expr, right1.expr), pos : e.expr.pos, t : e.expr.t };
+				var r = e.expr.withExpr( TBinop(OpAssign, left.expr, right.expr) );
 
-				liftExpr(newEx, false, e.nextId, left1.blocks.concat(right1.blocks));
+				liftExpr(r, false, e.nextId, left.blocks.concat(right.blocks));
 
 			case [isValue, TBinop( OpAssignOp(x),left,right)]:
 				var right1 = transformExpr(right, true, e.nextId);
@@ -650,36 +625,27 @@ class PythonTransformer {
 				
 				liftExpr(res.expr, true, e.nextId, right1.blocks.concat(res.blocks));
 
-			case [true, TBinop(op,left,right)]:
-				var ex = e.expr;
-				var right1 = transformExpr(right, true, e.nextId);
-				var left1 = transformExpr(left, true, e.nextId);
+			case [_, TBinop(op,left,right)]:
+				
+				var right = transformExpr(right, true, e.nextId);
+				var left = transformExpr(left, true, e.nextId);
 
-				var newEx = e.expr.withExpr( TBinop(op, left1.expr, right1.expr) );
+				var r = e.expr.withExpr( TBinop(op, left.expr, right.expr) );
 
-				if (left1.blocks.length > 0 || right1.blocks.length > 0) {
-					var blocks = left1.blocks.concat(right1.blocks);
-					liftExpr(newEx, false, e.nextId, blocks);
-				} else {
-					liftExpr(newEx, false, e.nextId,[]);
-				}
-			
-			case [_, TBinop( op,left,right)]:
-				var right1 = transformExpr(right, true, e.nextId);
-				var left1 = transformExpr(left, true, e.nextId);
-
-				var ex = e.expr.withExpr( TBinop(op, left1.expr, right1.expr) );
-				liftExpr(ex, false, e.nextId, left1.blocks.concat(right1.blocks));
+				liftExpr(r, false, e.nextId, left.blocks.concat(right.blocks));
 			
 			case [true, TThrow(x)]:
+				
 				var block = TBlock([e.expr, e.expr.withExpr( TConst(TNull) )]);
 
-				var blockExpr = e.expr.withExpr( block );
-				forwardTransform(blockExpr, e);				
+				var r = e.expr.withExpr( block );
+
+				forwardTransform(r, e);
+
 			case [false, TThrow(x)]:
 				var x = transformExpr(x, true, e.nextId);
-				var ex = e.expr.withExpr( TThrow(x.expr) );
-				liftExpr(ex, false, e.nextId, x.blocks);
+				var r = e.expr.withExpr( TThrow(x.expr) );
+				liftExpr(r, false, e.nextId, x.blocks);
 
 			case [_, TNew(c, tp,params)]:
 				
@@ -718,22 +684,23 @@ class PythonTransformer {
 				var e1 = transformExpr(e1, true, e.nextId);
 				var e2 = transformExpr(e2, true, e.nextId);
 
-				var ex = e.expr.withExpr( TArray(e1.expr, e2.expr) );
+				var r = e.expr.withExpr( TArray(e1.expr, e2.expr) );
 
-				liftExpr(ex, e1.blocks.concat(e2.blocks));
+				liftExpr(r, e1.blocks.concat(e2.blocks));
 			
 			case [false, TTry( etry,catches)]:
 
-				var try1 = transformExpr(etry, false, e.nextId);
-				var catches1 = [for (c in catches) transformExpr(c.expr, false, e.nextId)];
+				var etry = transformExpr(etry, false, e.nextId);
 
-				var blocks = try1.blocks.concat([for (c in catches1) for (b in c.blocks) b]);
+				var catches = [for (c in catches) { e : transformExpr(c.expr, false, e.nextId), v : c.v}];
 
-				var newCatches = [for (i in 0...catches.length) { expr : catches1[i].expr, v : catches[i].v }];
+				var blocks = etry.blocks.concat([for (c in catches) for (b in c.e.blocks) b]);
 
-				var ex = { expr : TTry(try1.expr, newCatches), pos : e.expr.pos, t : e.expr.t};
+				var catches = [for (c in catches) { expr : c.e.expr, v : c.v }];
+
+				var r = e.expr.withExpr( TTry(etry.expr, catches) );
 				
-				liftExpr(ex, false, e.nextId, try1.blocks.concat(blocks));
+				liftExpr(r, false, e.nextId, etry.blocks.concat(blocks));
 
 			case [true, TTry( etry,catches)]:
 				
@@ -743,66 +710,64 @@ class PythonTransformer {
 
 				var tempVar = { name : id, capture : false, extra : null, id : 0, t : e.expr.t };
 
-				var tempVarDef = { expr : TVar(tempVar, null), pos : e.expr.pos, t : e.expr.t};
+				var tempVarDef = e.expr.withExpr( TVar(tempVar, null) );
 
-				var tempLocal = { expr : TLocal(tempVar), pos : e.expr.pos, t : e.expr.t };
+				var tempLocal = e.expr.withExpr( TLocal(tempVar) );
 
 				function mkTempVarAssign (right:TypedExpr) {
 					return e.expr.withExpr( TBinop(OpAssign, tempLocal, right) );
 				}
 
-				var etry1 = mkTempVarAssign(etry);
+				var etry = mkTempVarAssign(etry);
 
-				var catches1 = [for (c in catches) { v : c.v, expr : mkTempVarAssign(c.expr) }];
+				var catches = [for (c in catches) { v : c.v, expr : mkTempVarAssign(c.expr) }];
 
-				var newTry = { expr : TTry(etry1, catches1), pos : pos,t : e.expr.t };
+				var newTry = e.expr.withExpr( TTry(etry, catches) );
 
 				var block = [tempVarDef, newTry, tempLocal];
 
-				var newBlock = { expr : TBlock(block) , t : e.expr.t, pos : e.expr.pos };
+				var newBlock = e.expr.withExpr( TBlock(block) );
 
 				forwardTransform(newBlock, e);			
 			
 			case [_, TObjectDecl( fields)]:
-				var newFields = [for (f in fields) { name : f.name, ex: transformExpr(f.expr, true, e.nextId, [])}];
+				var fields = [for (f in fields) { name : f.name, ex: transformExpr(f.expr, true, e.nextId, [])}];
 
-				var newFields1 = [for (f in newFields) { name : f.name, expr : f.ex.expr}];
+				var blocks = [for (f in fields) for (b in f.ex.blocks) b];
+				
+				var fields = [for (f in fields) { name : f.name, expr : f.ex.expr}];
 
-				var blocks = [];
-				for (f in newFields) {
-					blocks = blocks.concat(f.ex.blocks);
-				}
+				var r = e.expr.withExpr( TObjectDecl(fields) );
 
-				var ex = { expr : TObjectDecl(newFields1), pos : e.expr.pos, t : e.expr.t };
-
-				liftExpr(ex, blocks);
+				liftExpr(r, blocks);
 
 			case [_, TArrayDecl(values)]:
-				var newExprs = [for (v in values) transformExpr(v, true, e.nextId, [])];
 
-				var blocks = [for (v in newExprs) for (b in v.blocks) b];
+				var values = [for (v in values) transformExpr(v, true, e.nextId, [])];
 
-				var vals = [for (v in newExprs) v.expr];
+				var blocks = [for (v in values) for (b in v.blocks) b];
 
-				var newE = { expr : TArrayDecl(vals), pos : e.expr.pos, t : e.expr.t};
+				var exprs = [for (v in values) v.expr];
 
-				liftExpr(newE, blocks);
+				var r = e.expr.withExpr( TArrayDecl(exprs) );
+
+				liftExpr(r, blocks);
 			
 			case [_, TCast(ex, t)]:
 				var ex1 = transformExpr(ex, true, e.nextId, []);
 
-				liftExpr({ expr : TCast(ex1.expr, t), t : e.expr.t, pos : e.expr.pos}, ex1.blocks);
+				liftExpr(e.expr.withExpr( TCast(ex1.expr, t) ), ex1.blocks);
 
 			case [_, TField( ex, f)]:
 				var ex = transformExpr(ex, true, e.nextId, []);
 				
-				liftExpr({ expr : TField(ex.expr, f), pos : e.expr.pos, t : e.expr.t}, ex.blocks);
+				liftExpr( e.expr.withExpr( TField(ex.expr, f) ), ex.blocks);
 				
 			case [flag, TMeta(m, e1)]:
 				
 				var ex1 = transformExpr(e1, flag, e.nextId, []);
 
-				liftExpr({ expr : TMeta(m, ex1.expr), pos : e.expr.pos, t : e.expr.t}, ex1.blocks);
+				liftExpr( e.expr.withExpr( TMeta(m, ex1.expr) ), ex1.blocks);
 
 			case _ : 
 				liftExpr(e.expr);
