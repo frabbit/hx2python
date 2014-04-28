@@ -1,3 +1,8 @@
+#Important
+
+This project is obsolete since the python target was integrated into the haxe compiler: 
+use https://github.com/HaxeFoundation/haxe instead!
+
 #[hx2python] [1]
 #####A proof of concept [python][2] target for [haxe][3].
 
