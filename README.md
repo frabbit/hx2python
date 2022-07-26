@@ -1,10 +1,10 @@
-#Important
+# Important
 
 This project is obsolete since the python target was integrated into the haxe compiler: 
 use https://github.com/HaxeFoundation/haxe instead!
 
-#[hx2python] [1]
-#####A proof of concept [python][2] target for [haxe][3].
+# [hx2python][1]
+##### A proof of concept [python][2] target for [haxe][3].
 
 First of all thank to Andrew Vernon who created the [dart target][4] for haxe using the same technique as i'm using now for the python target.
 
@@ -18,7 +18,7 @@ First of all thank to Andrew Vernon who created the [dart target][4] for haxe us
 
 ## More Info
 
-###Folder Structure
+### Folder Structure
 
 **src/**
 
@@ -44,11 +44,11 @@ Contains the demo application code.
 
 Where the generated python file will be once the project is compiled.
 
-####Why does the generated python code look weird?
+#### Why does the generated python code look weird?
 
 This is just a proof of concept and at the moment the only thing I'm really concerned with is getting python code generated in haxe to run by the python interpreter. 
 
-######Why is there only one .py file?
+###### Why is there only one .py file?
 Python has a slightly different system for handling importing code from different modules or libraries while avoiding namespace clashes. The current implementation which joins the parts of a path using "_" ensures there are no namespace classes for Classes, Enums or Interfaces of the same name without having to worry about importing from multiple modules.
 
 
